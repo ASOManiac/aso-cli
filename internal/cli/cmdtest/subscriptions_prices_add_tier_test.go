@@ -43,6 +43,13 @@ func TestSubscriptionsPricesAdd_TierUsesSubscriptionPricePoints(t *testing.T) {
 	var resolvedPricePointID string
 	http.DefaultTransport = roundTripFunc(func(req *http.Request) (*http.Response, error) {
 		switch {
+		case req.Method == http.MethodGet && strings.HasSuffix(req.URL.Path, "/relationships/prices"):
+			body := `{"data":[{"type":"subscriptionPrices","id":"existing-price-1"}],"links":{}}`
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       io.NopCloser(strings.NewReader(body)),
+				Header:     http.Header{"Content-Type": []string{"application/json"}},
+			}, nil
 		case req.Method == http.MethodGet && strings.Contains(req.URL.Path, "/subscriptions/SUB_ID/pricePoints"):
 			body := `{
 				"data":[
