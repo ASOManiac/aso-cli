@@ -441,6 +441,17 @@ func TestWorkflowSectionSummaries(t *testing.T) {
 		}
 	}
 
+	startArray := json.RawMessage(`[{"type":"branch"},{"type":"pull_request"}]`)
+	startArraySummary := summarizeStartConditions(startArray)
+	if !strings.Contains(startArraySummary, "2 (") {
+		t.Fatalf("expected trigger count in array summary, got %q", startArraySummary)
+	}
+	for _, token := range []string{"Branch", "Pull Request"} {
+		if !strings.Contains(startArraySummary, token) {
+			t.Fatalf("expected array trigger summary to contain %q, got %q", token, startArraySummary)
+		}
+	}
+
 	actions := json.RawMessage(`[
 		{"default_name":"Archive - iOS","action_type":"archive"},
 		{"default_name":"Archive - macOS","action_type":"archive"},

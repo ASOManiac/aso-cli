@@ -509,19 +509,66 @@ func summarizeStartConditions(raw json.RawMessage) string {
 	}
 
 	var obj map[string]json.RawMessage
-	if err := json.Unmarshal(raw, &obj); err != nil {
+	if err := json.Unmarshal(raw, &obj); err == nil {
+		if len(obj) == 0 {
+			return "0"
+		}
+
+		names := make([]string, 0, len(obj))
+		for key := range obj {
+			names = append(names, humanizeIdentifier(key))
+		}
+		sort.Strings(names)
+		return summarizeNameList(names)
+	}
+
+	var items []json.RawMessage
+	if err := json.Unmarshal(raw, &items); err != nil {
 		return fmt.Sprintf("%d", countJSONCollection(raw))
 	}
-	if len(obj) == 0 {
+	if len(items) == 0 {
 		return "0"
 	}
 
-	names := make([]string, 0, len(obj))
-	for key := range obj {
-		names = append(names, humanizeIdentifier(key))
+	names := make([]string, 0, len(items))
+	for _, item := range items {
+		name := summarizeStartConditionItem(item)
+		if strings.TrimSpace(name) == "" {
+			name = "Unnamed"
+		}
+		names = append(names, name)
 	}
-	sort.Strings(names)
 	return summarizeNameList(names)
+}
+
+func summarizeStartConditionItem(raw json.RawMessage) string {
+	trimmed := strings.TrimSpace(string(raw))
+	if trimmed == "" || trimmed == "null" {
+		return ""
+	}
+
+	var item map[string]json.RawMessage
+	if err := json.Unmarshal(raw, &item); err != nil || len(item) == 0 {
+		var value string
+		if err := json.Unmarshal(raw, &value); err == nil {
+			return humanizeIdentifier(value)
+		}
+		return ""
+	}
+
+	name := firstNonEmptyJSONField(item, "name", "default_name", "display_name", "title")
+	if strings.TrimSpace(name) == "" {
+		name = humanizeIdentifier(firstNonEmptyJSONField(item, "type", "kind", "trigger_type", "start_condition_type"))
+	}
+	if strings.TrimSpace(name) != "" {
+		return name
+	}
+	if len(item) == 1 {
+		for key := range item {
+			return humanizeIdentifier(key)
+		}
+	}
+	return ""
 }
 
 func summarizeActionList(raw json.RawMessage) string {
