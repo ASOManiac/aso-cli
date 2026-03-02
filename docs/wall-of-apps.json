@@ -76,6 +76,13 @@
     "platform": ["iOS"]
   },
   {
+    "app": "Finny",
+    "link": "https://apps.apple.com/vn/app/finny-finance-tracker-app/id6736472735",
+    "creator": "dmeows",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/8d/26/50/8d26504f-b393-b855-7c14-205f556b29fe/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg",
+    "platform": ["iOS"]
+  },
+  {
     "app": "Foundation Lab",
     "link": "https://testflight.apple.com/join/JWR9FpP3",
     "creator": "rudrankriyam",
