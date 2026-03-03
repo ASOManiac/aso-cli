@@ -1,5 +1,12 @@
 [
   {
+    "app": "Audio Horoscope · Astrologica",
+    "link": "https://apps.apple.com/app/id6754387408",
+    "creator": "supnim",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/de/bd/7c/debd7c60-6be9-a231-d7c0-aa54a776dc3c/astrologica-0-0-1x_U007ephone-0-1-sRGB-85-220.png/512x512bb.jpg",
+    "platform": ["iOS"]
+  },
+  {
     "app": "bijou.fm",
     "link": "https://apps.apple.com/us/app/bijou-fm-for-last-fm/id6450460066",
     "creator": "zchwyng",
@@ -159,6 +166,13 @@
     "platform": ["iOS"]
   },
   {
+    "app": "minute cryptic • wordplay",
+    "link": "https://apps.apple.com/app/id6748607228",
+    "creator": "supnim",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/95/51/28/955128eb-6041-160a-464c-41795f7d0f12/wordplay-0-0-1x_U007ephone-0-1-sRGB-85-220.png/512x512bb.jpg",
+    "platform": ["iOS"]
+  },
+  {
     "app": "Mixtape",
     "link": "https://apps.apple.com/us/app/mixtape-personal-music-gift/id6756442910",
     "creator": "jimripple",
@@ -281,6 +295,13 @@
     "link": "https://apps.apple.com/il/app/tamloot/id6758220887",
     "creator": "shalomma",
     "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/26/a3/f7/26a3f7f9-3cb6-dc8e-fcbd-0fc93630dd4c/AppIcon-0-0-1x_U007ephone-0-1-85-220.png/512x512bb.jpg",
+    "platform": ["iOS"]
+  },
+  {
+    "app": "text to speech · speakeasy",
+    "link": "https://apps.apple.com/app/id6758816495",
+    "creator": "supnim",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/58/b7/a3/58b7a3e5-c045-888b-2c83-5561b920841c/speakeasy-icon-0-0-1x_U007ephone-0-1-sRGB-85-220.png/512x512bb.jpg",
     "platform": ["iOS"]
   },
   {
