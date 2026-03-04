@@ -86,7 +86,7 @@
     "app": "Fisherman SMS Filtering",
     "link": "https://apps.apple.com/app/id6449192504",
     "creator": "MGidnian",
-    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/f1/f9/ea/f1f9ea55-8410-9a4e-4316-eee4553386df/AppIcon-0-0-1x_U007epad-0-11-0-85-220.png/512x512bb.jpg",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/8d/e5/c9/8de5c9bd-5ad9-3371-378a-b30f074a671a/AppIcon-0-0-1x_U007epad-0-11-0-85-220.png/512x512bb.jpg",
     "platform": ["iOS"]
   },
   {
@@ -249,6 +249,13 @@
     "platform": ["iOS", "watchOS"]
   },
   {
+    "app": "Quietude",
+    "link": "https://apps.apple.com/app/id6758955377",
+    "creator": "vatrueshka",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/57/73/ae/5773ae23-b9f6-362c-893f-c2d85e59e916/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg",
+    "platform": ["iOS", "macOS"]
+  },
+  {
     "app": "Reloop - AI Transcribe & Speak",
     "link": "https://apps.apple.com/us/app/reloop-ai-transcribe-speak/id6752853818",
     "creator": "wuqinqiang",
@@ -343,14 +350,14 @@
     "app": "ToMe: Save to Self",
     "link": "https://apps.apple.com/app/id6755589008",
     "creator": "framara",
-    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/fe/ad/91/fead91ef-1204-d746-c0ba-fee77a3fbcb8/ToMe_Liquid-0-0-1x_U007epad-0-1-sRGB-85-220.png/512x512bb.jpg",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/2e/96/7b/2e967b9e-e7a3-c9aa-03b3-4ffb69f435af/ToMe_Liquid-0-0-1x_U007epad-0-1-sRGB-85-220.png/512x512bb.jpg",
     "platform": ["iOS", "macOS"]
   },
   {
     "app": "Torqs",
     "link": "https://apps.apple.com/us/app/torqs/id6754500631",
     "creator": "jathadon",
-    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/bd/14/24/bd1424c2-2e5d-3607-e4dc-50b293d196d0/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/1d/b0/ea/1db0eaa8-4504-cbe3-b472-5eab73d634c9/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg",
     "platform": ["iOS"]
   },
   {
@@ -378,7 +385,7 @@
     "app": "Voice Do",
     "link": "https://apps.apple.com/us/app/voice-do-task-manager/id6746357453",
     "creator": "maail",
-    "icon": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/db/38/3a/db383add-39de-00cd-d079-319f7245b43c/Placeholder.mill/512x512bb.jpg",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/27/ed/a2/27eda257-5dd2-5150-7b0e-977f35636552/AppIcon-0-0-1x_U007emarketing-0-11-0-85-220.png/512x512bb.jpg",
     "platform": ["iOS"]
   },
   {
