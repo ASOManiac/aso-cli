@@ -1,8 +1,11 @@
 package validate
 
 import (
+	"context"
+
 	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
 	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
 )
 
 // SetClientFactory replaces the ASC client factory for tests.
@@ -16,5 +19,19 @@ func SetClientFactory(fn func() (*asc.Client, error)) func() {
 	}
 	return func() {
 		clientFactory = previous
+	}
+}
+
+// SetFetchSubscriptionsFunc replaces the subscription fetcher for tests.
+// It returns a restore function to reset the previous handler.
+func SetFetchSubscriptionsFunc(fn func(context.Context, *asc.Client, string) ([]validation.Subscription, error)) func() {
+	previous := fetchSubscriptionsFn
+	if fn == nil {
+		fetchSubscriptionsFn = fetchSubscriptions
+	} else {
+		fetchSubscriptionsFn = fn
+	}
+	return func() {
+		fetchSubscriptionsFn = previous
 	}
 }

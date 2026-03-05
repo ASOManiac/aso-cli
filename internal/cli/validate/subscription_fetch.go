@@ -17,6 +17,8 @@ type subscriptionImageStatus struct {
 	SkipReason string
 }
 
+var fetchSubscriptionsFn = fetchSubscriptions
+
 func fetchSubscriptions(ctx context.Context, client *asc.Client, appID string) ([]validation.Subscription, error) {
 	groupsCtx, groupsCancel := shared.ContextWithTimeout(ctx)
 	groupsResp, err := client.GetSubscriptionGroups(groupsCtx, appID, asc.WithSubscriptionGroupsLimit(200))

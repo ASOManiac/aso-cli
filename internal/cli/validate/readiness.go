@@ -207,7 +207,7 @@ func BuildReadinessReport(ctx context.Context, opts ReadinessOptions) (validatio
 		return validation.Report{}, err
 	}
 
-	subscriptions, err := fetchSubscriptions(requestCtx, client, opts.AppID)
+	subscriptions, err := fetchSubscriptionsFn(ctx, client, opts.AppID)
 	if err != nil {
 		return validation.Report{}, fmt.Errorf("failed to fetch subscriptions: %w", err)
 	}

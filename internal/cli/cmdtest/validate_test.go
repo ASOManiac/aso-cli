@@ -470,6 +470,46 @@ func TestValidateSkipsImageWarningWhenImageEndpointForbidden(t *testing.T) {
 	}
 }
 
+func TestValidateUsesParentContextForSubscriptionFetch(t *testing.T) {
+	fixture := validValidateFixture()
+	client := newValidateTestClient(t, fixture)
+	restore := validate.SetClientFactory(func() (*asc.Client, error) {
+		return client, nil
+	})
+	defer restore()
+
+	var sawDeadline bool
+	restoreFetch := validate.SetFetchSubscriptionsFunc(func(ctx context.Context, _ *asc.Client, appID string) ([]validation.Subscription, error) {
+		if _, ok := ctx.Deadline(); ok {
+			sawDeadline = true
+		}
+		if appID != "app-1" {
+			t.Fatalf("expected app-1, got %q", appID)
+		}
+		return nil, nil
+	})
+	defer restoreFetch()
+
+	root := RootCommand("1.2.3")
+	stdout, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"validate", "--app", "app-1", "--version-id", "ver-1"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		if err := root.Run(context.Background()); err != nil {
+			t.Fatalf("expected validate to succeed, got %v", err)
+		}
+	})
+	if stdout == "" {
+		t.Fatal("expected JSON output")
+	}
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
+	}
+	if sawDeadline {
+		t.Fatal("expected subscription fetch to receive the parent context, not the pre-budgeted request timeout context")
+	}
+}
+
 func TestValidateSupportsVersionLookup(t *testing.T) {
 	fixture := validValidateFixture()
 	client := newValidateTestClient(t, fixture)

@@ -67,7 +67,7 @@ func runValidateSubscriptions(ctx context.Context, opts validateSubscriptionsOpt
 		return fmt.Errorf("validate subscriptions: %w", err)
 	}
 
-	subs, err := fetchSubscriptions(ctx, client, opts.AppID)
+	subs, err := fetchSubscriptionsFn(ctx, client, opts.AppID)
 	if err != nil {
 		return fmt.Errorf("validate subscriptions: %w", err)
 	}
