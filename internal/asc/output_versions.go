@@ -34,13 +34,24 @@ type AppStoreVersionSubmissionCancelResult struct {
 
 // AppStoreVersionDetailResult represents CLI output for version details.
 type AppStoreVersionDetailResult struct {
-	ID            string `json:"id"`
-	VersionString string `json:"versionString,omitempty"`
-	Platform      string `json:"platform,omitempty"`
-	State         string `json:"state,omitempty"`
-	BuildID       string `json:"buildId,omitempty"`
-	BuildVersion  string `json:"buildVersion,omitempty"`
-	SubmissionID  string `json:"submissionId,omitempty"`
+	ID            string                              `json:"id"`
+	VersionString string                              `json:"versionString,omitempty"`
+	Platform      string                              `json:"platform,omitempty"`
+	State         string                              `json:"state,omitempty"`
+	BuildID       string                              `json:"buildId,omitempty"`
+	BuildVersion  string                              `json:"buildVersion,omitempty"`
+	SubmissionID  string                              `json:"submissionId,omitempty"`
+	MetadataCopy  *AppStoreVersionMetadataCopySummary `json:"metadataCopy,omitempty"`
+}
+
+// AppStoreVersionMetadataCopySummary represents metadata carry-forward details during version creation.
+type AppStoreVersionMetadataCopySummary struct {
+	SourceVersion      string   `json:"sourceVersion"`
+	SourceVersionID    string   `json:"sourceVersionId,omitempty"`
+	SelectedFields     []string `json:"selectedFields,omitempty"`
+	CopiedLocales      int      `json:"copiedLocales"`
+	CopiedFieldUpdates int      `json:"copiedFieldUpdates"`
+	SkippedLocales     []string `json:"skippedLocales,omitempty"`
 }
 
 // AppStoreVersionAttachBuildResult represents CLI output for build attachment.
