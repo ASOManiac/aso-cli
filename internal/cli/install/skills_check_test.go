@@ -199,6 +199,41 @@ func TestMaybeCheckForSkillUpdates_DoesNotPersistWhenCheckCanceled(t *testing.T)
 	}
 }
 
+func TestMaybeCheckForSkillUpdates_DoesNotPersistWhenCheckerUnavailable(t *testing.T) {
+	origLoad := loadConfigForSkillsCheck
+	origPersist := persistSkillsCheckedAtForCheck
+	origNow := nowForSkillsCheck
+	origRun := runSkillsCheckCommand
+	origProgress := progressEnabledForCheck
+	t.Cleanup(func() {
+		loadConfigForSkillsCheck = origLoad
+		persistSkillsCheckedAtForCheck = origPersist
+		nowForSkillsCheck = origNow
+		runSkillsCheckCommand = origRun
+		progressEnabledForCheck = origProgress
+	})
+
+	t.Setenv(skillsAutoCheckEnvVar, "true")
+	t.Setenv("CI", "")
+	loadConfigForSkillsCheck = func() (*config.Config, error) { return &config.Config{}, nil }
+	nowForSkillsCheck = func() time.Time { return time.Date(2026, 3, 5, 16, 30, 0, 0, time.UTC) }
+	progressEnabledForCheck = func() bool { return true }
+	runSkillsCheckCommand = func(ctx context.Context) (string, error) {
+		return "", errSkillsCheckUnavailable
+	}
+
+	persistCalled := false
+	persistSkillsCheckedAtForCheck = func(value string) error {
+		persistCalled = true
+		return nil
+	}
+
+	MaybeCheckForSkillUpdates(context.Background())
+	if persistCalled {
+		t.Fatal("expected unavailable checker not to persist timestamp")
+	}
+}
+
 func TestMaybeCheckForSkillUpdates_PersistsOnNonContextFailure(t *testing.T) {
 	origLoad := loadConfigForSkillsCheck
 	origPersist := persistSkillsCheckedAtForCheck
@@ -335,8 +370,8 @@ func TestDefaultRunSkillsCheckCommand_MissingSkillsCLIIsNoop(t *testing.T) {
 	}
 
 	output, err := defaultRunSkillsCheckCommand(context.Background())
-	if err != nil {
-		t.Fatalf("expected nil error when skills is unavailable, got %v", err)
+	if !errors.Is(err, errSkillsCheckUnavailable) {
+		t.Fatalf("expected errSkillsCheckUnavailable when check command is unavailable, got %v", err)
 	}
 	if output != "" {
 		t.Fatalf("expected empty output when skills is unavailable, got %q", output)
@@ -373,11 +408,44 @@ func TestDefaultRunSkillsCheckCommand_FallsBackToNpxOffline(t *testing.T) {
 	if err != nil {
 		t.Fatalf("defaultRunSkillsCheckCommand() error: %v", err)
 	}
-	if !strings.Contains(output, "--no skills check") {
-		t.Fatalf("expected --no skills check invocation, got %q", output)
+	if !strings.Contains(output, "--offline --yes skills check") {
+		t.Fatalf("expected --offline --yes skills check invocation, got %q", output)
 	}
 	if !strings.Contains(output, "\ntrue\n") && !strings.HasSuffix(output, "\ntrue") {
 		t.Fatalf("expected npm_config_offline=true in fallback environment, got %q", output)
+	}
+}
+
+func TestDefaultRunSkillsCheckCommand_OfflineCacheMissIsUnavailable(t *testing.T) {
+	origLookup := lookupSkillsCheckCLI
+	origLookupNpx := lookupNpx
+	t.Cleanup(func() {
+		lookupSkillsCheckCLI = origLookup
+		lookupNpx = origLookupNpx
+	})
+
+	mockNpx := filepath.Join(t.TempDir(), "npx-mock.sh")
+	script := "#!/bin/sh\necho \"npm ERR! code ENOTCACHED\" 1>&2\nexit 1\n"
+	if err := os.WriteFile(mockNpx, []byte(script), 0o755); err != nil {
+		t.Fatalf("WriteFile() error: %v", err)
+	}
+	if err := os.Chmod(mockNpx, 0o755); err != nil {
+		t.Fatalf("Chmod() error: %v", err)
+	}
+
+	lookupSkillsCheckCLI = func(file string) (string, error) {
+		return "", errors.New("not found")
+	}
+	lookupNpx = func(file string) (string, error) {
+		return mockNpx, nil
+	}
+
+	output, err := defaultRunSkillsCheckCommand(context.Background())
+	if !errors.Is(err, errSkillsCheckUnavailable) {
+		t.Fatalf("expected errSkillsCheckUnavailable for ENOTCACHED fallback, got %v", err)
+	}
+	if !strings.Contains(strings.ToLower(output), "enotcached") {
+		t.Fatalf("expected ENOTCACHED output, got %q", output)
 	}
 }
 
@@ -486,8 +554,8 @@ func TestDefaultRunSkillsCheckCommand_SkipsProjectLocalSkillsBinary(t *testing.T
 	}
 
 	output, err := defaultRunSkillsCheckCommand(context.Background())
-	if err != nil {
-		t.Fatalf("defaultRunSkillsCheckCommand() error: %v", err)
+	if !errors.Is(err, errSkillsCheckUnavailable) {
+		t.Fatalf("expected errSkillsCheckUnavailable for skipped local binary fallback failure, got %v", err)
 	}
 	if output != "" {
 		t.Fatalf("expected project-local skills binary to be skipped, got %q", output)
@@ -536,6 +604,40 @@ func TestDefaultPersistSkillsCheckedAt_PreservesUnknownFields(t *testing.T) {
 	}
 	if _, ok := doc["custom_nested"]; !ok {
 		t.Fatal("expected custom_nested to be preserved")
+	}
+}
+
+func TestDefaultPersistSkillsCheckedAt_PreservesTopLevelKeyOrder(t *testing.T) {
+	cfgPath := filepath.Join(t.TempDir(), "config.json")
+	t.Setenv("ASC_CONFIG_PATH", cfgPath)
+
+	initial := `{
+  "z_key": "z",
+  "skills_checked_at": "2026-03-01T00:00:00Z",
+  "a_key": "a"
+}`
+	if err := os.WriteFile(cfgPath, []byte(initial), 0o600); err != nil {
+		t.Fatalf("WriteFile() error: %v", err)
+	}
+
+	if err := defaultPersistSkillsCheckedAt("2026-03-05T18:00:00Z"); err != nil {
+		t.Fatalf("defaultPersistSkillsCheckedAt() error: %v", err)
+	}
+
+	data, err := os.ReadFile(cfgPath)
+	if err != nil {
+		t.Fatalf("ReadFile() error: %v", err)
+	}
+
+	content := string(data)
+	zIndex := strings.Index(content, `"z_key"`)
+	skillsIndex := strings.Index(content, `"skills_checked_at"`)
+	aIndex := strings.Index(content, `"a_key"`)
+	if zIndex == -1 || skillsIndex == -1 || aIndex == -1 {
+		t.Fatalf("expected keys in output, got %q", content)
+	}
+	if !(zIndex < skillsIndex && skillsIndex < aIndex) {
+		t.Fatalf("expected top-level key order to be preserved, got %q", content)
 	}
 }
 

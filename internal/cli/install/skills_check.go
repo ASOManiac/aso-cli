@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 
@@ -31,6 +32,7 @@ var (
 	runSkillsCheckCommand          = defaultRunSkillsCheckCommand
 	progressEnabledForCheck        = shared.ProgressEnabled
 	lookupSkillsCheckCLI           = exec.LookPath
+	errSkillsCheckUnavailable      = errors.New("skills check command unavailable")
 )
 
 // MaybeCheckForSkillUpdates checks for skill updates once per interval and prints
@@ -67,7 +69,9 @@ func MaybeCheckForSkillUpdates(ctx context.Context) {
 	if runErr != nil {
 		// Avoid suppressing future checks when the command never actually ran due
 		// to cancellation or timeout in the parent context.
-		if !errors.Is(runErr, context.Canceled) && !errors.Is(runErr, context.DeadlineExceeded) {
+		if !errors.Is(runErr, context.Canceled) &&
+			!errors.Is(runErr, context.DeadlineExceeded) &&
+			!errors.Is(runErr, errSkillsCheckUnavailable) {
 			_ = persistSkillsCheckedAtForCheck(now.Format(skillsCheckedAtLayout))
 		}
 		return
@@ -147,11 +151,11 @@ func defaultRunSkillsCheckCommand(ctx context.Context) (string, error) {
 
 	npxPath, err := lookupNpx("npx")
 	if err != nil {
-		return "", nil
+		return "", errSkillsCheckUnavailable
 	}
 
-	// Fall back to the install-skills execution path while avoiding network fetches.
-	cmd := exec.CommandContext(ctx, npxPath, "--no", "skills", "check")
+	// Fall back to the install-skills execution path while forcing offline mode.
+	cmd := exec.CommandContext(ctx, npxPath, "--offline", "--yes", "skills", "check")
 	// Avoid resolving project-local node_modules in the current repository.
 	cmd.Dir = skillsCheckWorkingDirectory()
 	// Avoid contacting npm registries during passive background checks.
@@ -161,9 +165,19 @@ func defaultRunSkillsCheckCommand(ctx context.Context) (string, error) {
 	cmd.Stderr = &combined
 
 	if err := cmd.Run(); err != nil {
+		if isUnavailableSkillsCheckOutput(combined.String()) {
+			return combined.String(), errSkillsCheckUnavailable
+		}
 		return combined.String(), err
 	}
 	return combined.String(), nil
+}
+
+func isUnavailableSkillsCheckOutput(output string) bool {
+	normalized := strings.ToLower(output)
+	return strings.Contains(normalized, "enotcached") ||
+		strings.Contains(normalized, "could not determine executable to run") ||
+		strings.Contains(normalized, "command not found")
 }
 
 func skillsCheckWorkingDirectory() string {
@@ -234,8 +248,8 @@ func defaultPersistSkillsCheckedAt(timestamp string) error {
 		return err
 	}
 
-	var doc map[string]json.RawMessage
-	if err := json.Unmarshal(data, &doc); err != nil {
+	order, doc, err := decodeConfigObjectPreservingOrder(data)
+	if err != nil {
 		return err
 	}
 	if doc == nil {
@@ -247,11 +261,132 @@ func defaultPersistSkillsCheckedAt(timestamp string) error {
 		return err
 	}
 	doc["skills_checked_at"] = encoded
+	if !containsKey(order, "skills_checked_at") {
+		order = append(order, "skills_checked_at")
+	}
 
-	updated, err := json.MarshalIndent(doc, "", "  ")
+	updated, err := marshalConfigObjectPreservingOrder(order, doc)
 	if err != nil {
 		return err
 	}
 
 	return os.WriteFile(path, updated, 0o600)
+}
+
+func decodeConfigObjectPreservingOrder(data []byte) ([]string, map[string]json.RawMessage, error) {
+	trimmed := bytes.TrimSpace(data)
+	if bytes.Equal(trimmed, []byte("null")) {
+		return []string{}, map[string]json.RawMessage{}, nil
+	}
+
+	decoder := json.NewDecoder(bytes.NewReader(trimmed))
+	firstToken, err := decoder.Token()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	delim, ok := firstToken.(json.Delim)
+	if !ok || delim != '{' {
+		return nil, nil, fmt.Errorf("config must be a JSON object")
+	}
+
+	order := make([]string, 0)
+	fields := make(map[string]json.RawMessage)
+	seen := make(map[string]struct{})
+	for decoder.More() {
+		keyToken, err := decoder.Token()
+		if err != nil {
+			return nil, nil, err
+		}
+		key, ok := keyToken.(string)
+		if !ok {
+			return nil, nil, fmt.Errorf("config key must be a string")
+		}
+
+		var rawValue json.RawMessage
+		if err := decoder.Decode(&rawValue); err != nil {
+			return nil, nil, err
+		}
+
+		if _, alreadySeen := seen[key]; !alreadySeen {
+			order = append(order, key)
+			seen[key] = struct{}{}
+		}
+		fields[key] = append(json.RawMessage(nil), rawValue...)
+	}
+
+	endToken, err := decoder.Token()
+	if err != nil {
+		return nil, nil, err
+	}
+	endDelim, ok := endToken.(json.Delim)
+	if !ok || endDelim != '}' {
+		return nil, nil, fmt.Errorf("config must end with object delimiter")
+	}
+
+	return order, fields, nil
+}
+
+func marshalConfigObjectPreservingOrder(order []string, fields map[string]json.RawMessage) ([]byte, error) {
+	if fields == nil {
+		fields = map[string]json.RawMessage{}
+	}
+
+	keys := make([]string, 0, len(fields))
+	seen := make(map[string]struct{}, len(fields))
+	for _, key := range order {
+		if _, ok := fields[key]; ok {
+			keys = append(keys, key)
+			seen[key] = struct{}{}
+		}
+	}
+
+	extraKeys := make([]string, 0)
+	for key := range fields {
+		if _, ok := seen[key]; !ok {
+			extraKeys = append(extraKeys, key)
+		}
+	}
+	sort.Strings(extraKeys)
+	keys = append(keys, extraKeys...)
+
+	var buffer bytes.Buffer
+	buffer.WriteString("{")
+	if len(keys) > 0 {
+		buffer.WriteString("\n")
+	}
+
+	for index, key := range keys {
+		keyJSON, err := json.Marshal(key)
+		if err != nil {
+			return nil, err
+		}
+
+		buffer.WriteString("  ")
+		buffer.Write(keyJSON)
+		buffer.WriteString(": ")
+
+		value := fields[key]
+		if len(value) == 0 {
+			value = []byte("null")
+		}
+		buffer.Write(value)
+
+		if index < len(keys)-1 {
+			buffer.WriteString(",")
+		}
+		buffer.WriteString("\n")
+	}
+
+	buffer.WriteString("}")
+	return buffer.Bytes(), nil
+}
+
+func containsKey(values []string, want string) bool {
+	for _, value := range values {
+		if value == want {
+			return true
+		}
+	}
+	return false
 }
