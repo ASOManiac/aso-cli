@@ -21,6 +21,7 @@ type validateSubscriptionsFixture struct {
 	subscriptionsByGroup      map[string]string
 	imagesBySubscription      map[string]string
 	imageStatusBySubscription map[string]int
+	subscriptionGroupsStatus  int
 }
 
 func newValidateSubscriptionsClient(t *testing.T, fixture validateSubscriptionsFixture) *asc.Client {
@@ -40,6 +41,9 @@ func newValidateSubscriptionsClient(t *testing.T, fixture validateSubscriptionsF
 		path := req.URL.Path
 		switch {
 		case path == "/v1/apps/app-1/subscriptionGroups":
+			if fixture.subscriptionGroupsStatus != 0 {
+				return jsonResponse(fixture.subscriptionGroupsStatus, apiErrorJSONForStatus(fixture.subscriptionGroupsStatus))
+			}
 			return jsonResponse(http.StatusOK, fixture.groups)
 		case strings.HasPrefix(path, "/v1/subscriptionGroups/") && strings.HasSuffix(path, "/subscriptions"):
 			groupID := strings.TrimSuffix(strings.TrimPrefix(path, "/v1/subscriptionGroups/"), "/subscriptions")
@@ -310,5 +314,31 @@ func TestValidateSubscriptionsSkipsImageWarningWhenImageEndpointForbidden(t *tes
 	}
 	if !hasCheckWithID(report.Checks, "subscriptions.images.unverified") {
 		t.Fatalf("expected subscriptions.images.unverified check, got %+v", report.Checks)
+	}
+}
+
+func TestValidateSubscriptionsFailsWhenSubscriptionGroupsForbidden(t *testing.T) {
+	fixture := validValidateSubscriptionsFixture()
+	fixture.subscriptionGroupsStatus = http.StatusForbidden
+
+	client := newValidateSubscriptionsClient(t, fixture)
+	restore := validate.SetClientFactory(func() (*asc.Client, error) {
+		return client, nil
+	})
+	defer restore()
+
+	root := RootCommand("1.2.3")
+	var runErr error
+	_, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"validate", "subscriptions", "--app", "app-1"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		runErr = root.Run(context.Background())
+	})
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
+	}
+	if runErr == nil {
+		t.Fatal("expected validate subscriptions to fail when subscription groups cannot be read")
 	}
 }

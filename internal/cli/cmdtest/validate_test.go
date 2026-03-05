@@ -38,6 +38,7 @@ type validateFixture struct {
 	subscriptionsByGroup      map[string]string
 	imagesBySubscription      map[string]string
 	imageStatusBySubscription map[string]int
+	subscriptionGroupsStatus  int
 }
 
 func newValidateTestClient(t *testing.T, fixture validateFixture) *asc.Client {
@@ -115,6 +116,9 @@ func newValidateTestClient(t *testing.T, fixture validateFixture) *asc.Client {
 				return jsonResponse(http.StatusOK, body)
 			}
 		case path == "/v1/apps/app-1/subscriptionGroups":
+			if fixture.subscriptionGroupsStatus != 0 {
+				return jsonResponse(fixture.subscriptionGroupsStatus, apiErrorJSONForStatus(fixture.subscriptionGroupsStatus))
+			}
 			if fixture.subscriptionGroups != "" {
 				return jsonResponse(http.StatusOK, fixture.subscriptionGroups)
 			}
@@ -507,6 +511,44 @@ func TestValidateUsesParentContextForSubscriptionFetch(t *testing.T) {
 	}
 	if sawDeadline {
 		t.Fatal("expected subscription fetch to receive the parent context, not the pre-budgeted request timeout context")
+	}
+}
+
+func TestValidateSkipsSubscriptionReadinessWhenSubscriptionGroupsForbidden(t *testing.T) {
+	fixture := validValidateFixture()
+	fixture.subscriptionGroupsStatus = http.StatusForbidden
+
+	client := newValidateTestClient(t, fixture)
+	restore := validate.SetClientFactory(func() (*asc.Client, error) {
+		return client, nil
+	})
+	defer restore()
+
+	root := RootCommand("1.2.3")
+	stdout, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"validate", "--app", "app-1", "--version-id", "ver-1"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		if err := root.Run(context.Background()); err != nil {
+			t.Fatalf("expected validate to stay non-blocking when subscription groups cannot be read, got %v", err)
+		}
+	})
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
+	}
+
+	var report validation.Report
+	if err := json.Unmarshal([]byte(stdout), &report); err != nil {
+		t.Fatalf("failed to parse JSON output: %v", err)
+	}
+	if report.Summary.Errors != 0 || report.Summary.Warnings != 0 || report.Summary.Infos == 0 {
+		t.Fatalf("expected informational subscription readiness skip only, got %+v", report.Summary)
+	}
+	if hasCheckWithID(report.Checks, "subscriptions.images.recommended") || hasCheckWithID(report.Checks, "subscriptions.review_readiness.needs_attention") {
+		t.Fatalf("expected subscription checks to be skipped after permission failure, got %+v", report.Checks)
+	}
+	if !hasCheckWithID(report.Checks, "subscriptions.readiness.unverified") {
+		t.Fatalf("expected subscriptions.readiness.unverified check, got %+v", report.Checks)
 	}
 }
 

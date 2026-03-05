@@ -48,6 +48,21 @@ func ValidateSubscriptions(input SubscriptionsInput, strict bool) SubscriptionsR
 	}
 }
 
+func subscriptionFetchChecks(reason string) []CheckResult {
+	reason = strings.TrimSpace(reason)
+	if reason == "" {
+		return nil
+	}
+
+	return []CheckResult{{
+		ID:          "subscriptions.readiness.unverified",
+		Severity:    SeverityInfo,
+		Field:       "subscriptions",
+		Message:     "Could not verify subscription readiness for this app",
+		Remediation: reason,
+	}}
+}
+
 func subscriptionImageChecks(subs []Subscription) []CheckResult {
 	var checks []CheckResult
 	for _, sub := range subs {

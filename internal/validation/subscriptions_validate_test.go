@@ -57,6 +57,16 @@ func TestSubscriptionImageChecks_WarnsWhenImageMissing(t *testing.T) {
 	}
 }
 
+func TestSubscriptionFetchChecks_AddsInfoWhenSkipped(t *testing.T) {
+	checks := subscriptionFetchChecks("subscription permissions unavailable")
+	if !hasCheckID(checks, "subscriptions.readiness.unverified") {
+		t.Fatalf("expected readiness skip check, got %v", checks)
+	}
+	if checks[0].Severity != SeverityInfo {
+		t.Fatalf("expected info severity, got %s", checks[0].Severity)
+	}
+}
+
 func TestSubscriptionImageChecks_AllowsSubscriptionsWithImages(t *testing.T) {
 	checks := subscriptionImageChecks([]Subscription{
 		{ID: "sub-1", HasImage: true},
