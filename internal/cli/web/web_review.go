@@ -837,12 +837,14 @@ Selection:
 				return shared.PrintOutput(payload, *output.Output, *output.Pretty)
 			}
 
-			payload := reviewShowOutput{
-				AppID:     trimmedAppID,
-				Selection: selection,
-			}
+			var (
+				items              []webcore.ReviewSubmissionItem
+				threadDetails      []reviewThreadDetails
+				attachmentsWithURL []webcore.ReviewAttachment
+			)
 			err = withWebSpinner("Loading review details and attachments", func() error {
-				items, err := client.ListReviewSubmissionItems(requestCtx, selectedSubmission.ID)
+				var err error
+				items, err = client.ListReviewSubmissionItems(requestCtx, selectedSubmission.ID)
 				if err != nil {
 					return err
 				}
@@ -850,12 +852,21 @@ Selection:
 				if err != nil {
 					return err
 				}
-				threadDetails, attachmentsWithURL, err := buildThreadDetails(requestCtx, client, threads, *plainText)
-				if err != nil {
-					return err
-				}
-				outDirResolved := resolveShowOutDir(trimmedAppID, selectedSubmission.ID, *outDir)
-				downloads, downloadFailures, err := downloadAttachmentsForShow(
+				threadDetails, attachmentsWithURL, err = buildThreadDetails(requestCtx, client, threads, *plainText)
+				return err
+			})
+			if err != nil {
+				return withWebAuthHint(err, "web review show")
+			}
+
+			outDirResolved := resolveShowOutDir(trimmedAppID, selectedSubmission.ID, *outDir)
+			var (
+				downloads        []reviewAttachmentDownloadResult
+				downloadFailures []string
+			)
+			err = withWebSpinner("Downloading review attachments", func() error {
+				var err error
+				downloads, downloadFailures, err = downloadAttachmentsForShow(
 					requestCtx,
 					client,
 					attachmentsWithURL,
@@ -864,25 +875,22 @@ Selection:
 					trimmedPattern,
 					*overwrite,
 				)
-				if err != nil {
-					return err
-				}
-
-				payload = reviewShowOutput{
-					AppID:            trimmedAppID,
-					Selection:        selection,
-					Submission:       selectedSubmission,
-					SubmissionItems:  items,
-					Threads:          threadDetails,
-					Attachments:      redactAttachmentURLs(attachmentsWithURL),
-					OutputDirectory:  outDirResolved,
-					Downloads:        downloads,
-					DownloadFailures: downloadFailures,
-				}
-				return nil
+				return err
 			})
 			if err != nil {
-				return withWebAuthHint(err, "web review show")
+				return err
+			}
+
+			payload := reviewShowOutput{
+				AppID:            trimmedAppID,
+				Selection:        selection,
+				Submission:       selectedSubmission,
+				SubmissionItems:  items,
+				Threads:          threadDetails,
+				Attachments:      redactAttachmentURLs(attachmentsWithURL),
+				OutputDirectory:  outDirResolved,
+				Downloads:        downloads,
+				DownloadFailures: downloadFailures,
 			}
 			if len(payload.Downloads) == 0 {
 				payload.OutputDirectory = ""

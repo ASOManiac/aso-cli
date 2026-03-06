@@ -335,24 +335,32 @@ Examples:
 			}
 
 			client := newCIClientFn(session)
-			result := &CISharedEnvVarsDeleteResult{}
-			err = withWebSpinner("Deleting shared Xcode Cloud environment variable", func() error {
-				existing, err := client.ListCIProductEnvVars(requestCtx, teamID, pid)
+			var existing []webcore.CIProductEnvironmentVariable
+			err = withWebSpinner("Loading shared Xcode Cloud environment variables", func() error {
+				var err error
+				existing, err = client.ListCIProductEnvVars(requestCtx, teamID, pid)
 				if err != nil {
 					return err
 				}
+				return nil
+			})
+			if err != nil {
+				return withWebAuthHint(err, "xcode-cloud env-vars shared delete")
+			}
 
-				varID := ""
-				for _, v := range existing {
-					if strings.EqualFold(v.Name, varName) {
-						varID = v.ID
-						break
-					}
+			varID := ""
+			for _, v := range existing {
+				if strings.EqualFold(v.Name, varName) {
+					varID = v.ID
+					break
 				}
-				if varID == "" {
-					return fmt.Errorf("shared environment variable %q not found in product %s", varName, pid)
-				}
+			}
+			if varID == "" {
+				return fmt.Errorf("shared environment variable %q not found in product %s", varName, pid)
+			}
 
+			result := &CISharedEnvVarsDeleteResult{}
+			err = withWebSpinner("Deleting shared Xcode Cloud environment variable", func() error {
 				if err := client.DeleteCIProductEnvVar(requestCtx, teamID, pid, varID); err != nil {
 					return err
 				}

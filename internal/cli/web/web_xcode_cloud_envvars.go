@@ -359,30 +359,41 @@ Examples:
 			}
 
 			client := newCIClientFn(session)
-			result := &CIEnvVarsDeleteResult{}
-			err = withWebSpinner("Deleting Xcode Cloud workflow environment variable", func() error {
-				workflow, err := client.GetCIWorkflow(requestCtx, teamID, pid, wfID)
+			var (
+				workflow *webcore.CIWorkflowFull
+				vars     []webcore.CIEnvironmentVariable
+			)
+			err = withWebSpinner("Loading Xcode Cloud workflow environment variables", func() error {
+				var err error
+				workflow, err = client.GetCIWorkflow(requestCtx, teamID, pid, wfID)
 				if err != nil {
 					return err
 				}
-				vars, err := webcore.ExtractEnvVars(workflow.Content)
+				vars, err = webcore.ExtractEnvVars(workflow.Content)
 				if err != nil {
 					return fmt.Errorf("xcode-cloud env-vars delete failed: %w", err)
 				}
+				return nil
+			})
+			if err != nil {
+				return withWebAuthHint(err, "xcode-cloud env-vars delete")
+			}
 
-				found := false
-				filtered := make([]webcore.CIEnvironmentVariable, 0, len(vars))
-				for _, v := range vars {
-					if strings.EqualFold(v.Name, varName) {
-						found = true
-						continue
-					}
-					filtered = append(filtered, v)
+			found := false
+			filtered := make([]webcore.CIEnvironmentVariable, 0, len(vars))
+			for _, v := range vars {
+				if strings.EqualFold(v.Name, varName) {
+					found = true
+					continue
 				}
-				if !found {
-					return fmt.Errorf("environment variable %q not found in workflow %s", varName, wfID)
-				}
+				filtered = append(filtered, v)
+			}
+			if !found {
+				return fmt.Errorf("environment variable %q not found in workflow %s", varName, wfID)
+			}
 
+			result := &CIEnvVarsDeleteResult{}
+			err = withWebSpinner("Deleting Xcode Cloud workflow environment variable", func() error {
 				newContent, err := webcore.SetEnvVars(workflow.Content, filtered)
 				if err != nil {
 					return fmt.Errorf("xcode-cloud env-vars delete failed: %w", err)
