@@ -145,7 +145,7 @@ def render(usage: str, flags: list[tuple[str, str]], groups: list[tuple[str, lis
             "",
             "# Validate and submit an App Store version",
             "asc validate --app \"123456789\" --version \"1.2.3\"",
-            "asc submit --app \"123456789\" --version \"1.2.3\"",
+            "asc submit create --app \"123456789\" --version \"1.2.3\" --build \"BUILD_ID\" --confirm",
             "",
             "# Run a local automation workflow",
             "asc workflow run release",

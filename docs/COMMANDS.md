@@ -172,7 +172,7 @@ asc builds upload --app "123456789" --ipa "/path/to/MyApp.ipa"
 
 # Validate and submit an App Store version
 asc validate --app "123456789" --version "1.2.3"
-asc submit --app "123456789" --version "1.2.3"
+asc submit create --app "123456789" --version "1.2.3" --build "BUILD_ID" --confirm
 
 # Run a local automation workflow
 asc workflow run release

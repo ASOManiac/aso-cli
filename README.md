@@ -119,7 +119,7 @@ asc testflight builds list --app "123456789" --output table
 
 ```bash
 asc validate --app "123456789" --version "1.2.3"
-asc submit --app "123456789" --version "1.2.3"
+asc submit create --app "123456789" --version "1.2.3" --build "BUILD_ID" --confirm
 ```
 
 ### Metadata and localization

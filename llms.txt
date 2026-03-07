@@ -51,7 +51,7 @@ https://appstoreconnect.apple.com/access/integrations/api
   - `asc testflight builds list --app "123456789" --output table`
 - Validate and submit:
   - `asc validate --app "123456789" --version "1.2.3"`
-  - `asc submit --app "123456789" --version "1.2.3"`
+  - `asc submit create --app "123456789" --version "1.2.3" --build "BUILD_ID" --confirm`
 - Metadata/localization:
   - `asc localizations list --app "123456789"`
   - `asc app-info get --app "123456789" --output json --pretty`
