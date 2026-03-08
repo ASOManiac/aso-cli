@@ -52,8 +52,6 @@ asc <subcommand> [flags]
 - `insights` - Generate weekly and daily insights from App Store data sources.
 - `finance` - Download payments and financial reports.
 - `performance` - Access performance metrics and diagnostic logs.
-- `feedback` - List TestFlight feedback from beta testers.
-- `crashes` - List and export TestFlight crash reports.
 
 ### App Management
 
@@ -86,7 +84,7 @@ asc <subcommand> [flags]
 
 ### TestFlight and Builds
 
-- `testflight` - Manage TestFlight resources.
+- `testflight` - Manage TestFlight workflows.
 - `builds` - Manage builds in App Store Connect.
 - `build-bundles` - Manage build bundles and App Clip data.
 - `pre-release-versions` - Manage TestFlight pre-release versions.

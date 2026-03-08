@@ -43,9 +43,8 @@ Do not memorize flags. Always use `--help` for the current interface.
 | Generate ASC.md | `asc init` |
 | List apps | `asc apps` |
 | List builds | `asc builds list --app "APP_ID"` |
-| List TestFlight apps | `asc testflight apps list` |
-| List beta groups | `asc testflight beta-groups list --app "APP_ID"` |
-| List internal beta groups | `asc testflight beta-groups list --app "APP_ID" --internal` |
+| List TestFlight groups | `asc testflight groups list --app "APP_ID"` |
+| List internal TestFlight groups | `asc testflight groups list --app "APP_ID" --internal` |
 | Release (full pipeline) | `asc release run --app "APP_ID" --version "VERSION" --build "BUILD_ID" --metadata-dir "./metadata/version/VERSION" --dry-run` |
 | Submit for review (low-level) | `asc submit create --app "APP_ID" --version "VERSION" --build "BUILD_ID" --confirm` |
 | Weekly insights summary | `asc insights weekly --app "APP_ID" --source analytics --week "YYYY-MM-DD"` |
@@ -85,8 +84,8 @@ asc submit create --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --confirm
 ### Distribute to TestFlight Group
 
 ```bash
-asc testflight beta-groups list --app "APP_ID"
-asc testflight beta-groups list --app "APP_ID" --internal
+asc testflight groups list --app "APP_ID"
+asc testflight groups list --app "APP_ID" --internal
 asc builds add-groups --build "BUILD_ID" --group "GROUP_ID"
 ```
 
@@ -113,8 +112,6 @@ Use `asc <command> --help` for subcommands and flags.
 - `status` - Show a release pipeline dashboard for an app.
 - `insights` - Generate weekly insights from App Store data sources.
 - `release-notes` - Generate and manage App Store release notes.
-- `feedback` - List TestFlight feedback from beta testers.
-- `crashes` - List and export TestFlight crash reports.
 - `reviews` - List and manage App Store customer reviews.
 - `review` - Manage App Store review details, attachments, and submissions.
 - `analytics` - Request and download analytics and sales reports.
@@ -139,7 +136,7 @@ Use `asc <command> --help` for subcommands and flags.
 - `users` - Manage users and invitations in App Store Connect.
 - `actors` - Lookup actors (users, API keys) by ID.
 - `devices` - Manage devices in App Store Connect.
-- `testflight` - Manage TestFlight resources.
+- `testflight` - Manage TestFlight workflows.
 - `builds` - Manage builds (TestFlight/App Store).
 - `build-bundles` - Manage build bundles and App Clip data.
 - `publish` - End-to-end publish workflows for TestFlight and App Store.

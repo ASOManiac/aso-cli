@@ -104,15 +104,17 @@ This updates `docs/wall-of-apps.json` and re-syncs the Wall snippet in `README.m
 ### TestFlight feedback and crashes
 
 ```bash
-asc feedback --app "123456789" --paginate
-asc crashes --app "123456789" --sort -createdDate --limit 10
+asc testflight feedback list --app "123456789" --paginate
+asc testflight crashes list --app "123456789" --sort -createdDate --limit 10
+asc testflight crashes log --submission-id "SUBMISSION_ID"
 ```
 
 ### Builds and distribution
 
 ```bash
 asc builds upload --app "123456789" --ipa "/path/to/MyApp.ipa"
-asc testflight builds list --app "123456789" --output table
+asc builds list --app "123456789" --output table
+asc testflight groups list --app "123456789" --output table
 ```
 
 ### Release (high-level: validate + attach + submit)
