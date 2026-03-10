@@ -91,6 +91,11 @@ Examples:
 			if err != nil {
 				return fmt.Errorf("equalize: %w", err)
 			}
+			equalizations = append([]equalization{{
+				Territory:    territory,
+				Price:        price,
+				PricePointID: pricePointID,
+			}}, equalizations...)
 			fmt.Fprintf(os.Stderr, "Got %d territory equalizations\n", len(equalizations))
 
 			if *dryRun {
@@ -303,11 +308,23 @@ func fetchEqualizations(ctx context.Context, client *asc.Client, pricePointID, b
 
 func decodePricePointTerritory(id string) string {
 	// Price point IDs are base64-encoded JSON: {"s":"...","t":"USA","p":"..."}
-	// Try with and without padding
-	for _, candidate := range []string{id, id + "=", id + "=="} {
-		decoded, err := base64.StdEncoding.DecodeString(candidate)
+	for _, encoding := range []*base64.Encoding{
+		base64.RawStdEncoding,
+		base64.StdEncoding,
+		base64.RawURLEncoding,
+		base64.URLEncoding,
+	} {
+		decoded, err := encoding.DecodeString(id)
 		if err != nil {
-			continue
+			for _, candidate := range []string{id + "=", id + "=="} {
+				decoded, err = encoding.DecodeString(candidate)
+				if err == nil {
+					break
+				}
+			}
+			if err != nil {
+				continue
+			}
 		}
 		var payload pricePointIDPayload
 		if err := json.Unmarshal(decoded, &payload); err != nil {

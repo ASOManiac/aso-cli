@@ -18,10 +18,14 @@ type Subscription struct {
 	ImageCheckSkipReason string
 
 	// Deep diagnostics (populated when State is MISSING_METADATA).
-	Localizations      []SubscriptionLocalizationInfo
-	GroupLocalizations []SubscriptionGroupLocalizationInfo
-	PriceCount         int
-	PriceCheckSkipped  bool
+	Localizations                 []SubscriptionLocalizationInfo
+	LocalizationCheckSkipped      bool
+	LocalizationCheckSkipReason   string
+	GroupLocalizations            []SubscriptionGroupLocalizationInfo
+	GroupLocalizationCheckSkipped bool
+	GroupLocalizationCheckReason  string
+	PriceCount                    int
+	PriceCheckSkipped             bool
 }
 
 // SubscriptionLocalizationInfo holds per-locale metadata for a subscription.
@@ -222,11 +226,25 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 		groupID := strings.TrimSpace(sub.GroupID)
 		if groupID != "" && !checkedGroups[groupID] {
 			checkedGroups[groupID] = true
-			if len(sub.GroupLocalizations) == 0 {
-				groupLabel := groupID
-				if strings.TrimSpace(sub.GroupName) != "" {
-					groupLabel = fmt.Sprintf("%q (%s)", sub.GroupName, groupID)
+			groupLabel := groupID
+			if strings.TrimSpace(sub.GroupName) != "" {
+				groupLabel = fmt.Sprintf("%q (%s)", sub.GroupName, groupID)
+			}
+			if sub.GroupLocalizationCheckSkipped {
+				remediation := strings.TrimSpace(sub.GroupLocalizationCheckReason)
+				if remediation == "" {
+					remediation = "Review this subscription group's localizations in App Store Connect; validation could not verify them automatically"
 				}
+				checks = append(checks, CheckResult{
+					ID:           "subscriptions.diagnostics.group_localization_unverified",
+					Severity:     SeverityInfo,
+					Field:        "groupLocalizations",
+					ResourceType: "subscriptionGroup",
+					ResourceID:   groupID,
+					Message:      fmt.Sprintf("Could not verify whether subscription group %s has localizations", groupLabel),
+					Remediation:  remediation,
+				})
+			} else if len(sub.GroupLocalizations) == 0 {
 				checks = append(checks, CheckResult{
 					ID:           "subscriptions.diagnostics.group_localization_missing",
 					Severity:     SeverityError,
@@ -234,10 +252,14 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 					ResourceType: "subscriptionGroup",
 					ResourceID:   groupID,
 					Message:      fmt.Sprintf("Subscription group %s has no localizations", groupLabel),
-					Remediation:  "Create at least one subscription group localization (with group display name) via App Store Connect or `asc subscriptions group-localizations create`; this is a common cause of MISSING_METADATA",
+					Remediation:  "Create at least one subscription group localization (with group display name) via App Store Connect or `asc subscriptions groups localizations create`; this is a common cause of MISSING_METADATA",
 				})
 			} else {
 				for _, loc := range sub.GroupLocalizations {
+					locale := strings.TrimSpace(loc.Locale)
+					if locale == "" {
+						locale = "(unknown locale)"
+					}
 					if strings.TrimSpace(loc.Name) == "" {
 						checks = append(checks, CheckResult{
 							ID:           "subscriptions.diagnostics.group_localization_name_empty",
@@ -245,8 +267,8 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 							Field:        "groupLocalizations",
 							ResourceType: "subscriptionGroup",
 							ResourceID:   groupID,
-							Locale:       loc.Locale,
-							Message:      fmt.Sprintf("Subscription group %s localization for %s has an empty display name", groupID, loc.Locale),
+							Locale:       locale,
+							Message:      fmt.Sprintf("Subscription group %s localization for %s has an empty display name", groupID, locale),
 							Remediation:  "Set a display name for this group localization",
 						})
 					}
@@ -255,7 +277,21 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 		}
 
 		// Check subscription localizations.
-		if len(sub.Localizations) == 0 {
+		if sub.LocalizationCheckSkipped {
+			remediation := strings.TrimSpace(sub.LocalizationCheckSkipReason)
+			if remediation == "" {
+				remediation = "Review this subscription's localizations in App Store Connect; validation could not verify them automatically"
+			}
+			checks = append(checks, CheckResult{
+				ID:           "subscriptions.diagnostics.localization_unverified",
+				Severity:     SeverityInfo,
+				Field:        "localizations",
+				ResourceType: "subscription",
+				ResourceID:   strings.TrimSpace(sub.ID),
+				Message:      fmt.Sprintf("Could not verify whether %s has localizations", label),
+				Remediation:  remediation,
+			})
+		} else if len(sub.Localizations) == 0 {
 			checks = append(checks, CheckResult{
 				ID:           "subscriptions.diagnostics.localization_missing",
 				Severity:     SeverityError,
@@ -268,6 +304,10 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 		} else {
 			for _, loc := range sub.Localizations {
 				var missing []string
+				locale := strings.TrimSpace(loc.Locale)
+				if locale == "" {
+					locale = "(unknown locale)"
+				}
 				if strings.TrimSpace(loc.Name) == "" {
 					missing = append(missing, "display name")
 				}
@@ -281,8 +321,8 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 						Field:        "localizations",
 						ResourceType: "subscription",
 						ResourceID:   strings.TrimSpace(sub.ID),
-						Locale:       loc.Locale,
-						Message:      fmt.Sprintf("%s localization for %s is missing: %s", label, loc.Locale, strings.Join(missing, ", ")),
+						Locale:       locale,
+						Message:      fmt.Sprintf("%s localization for %s is missing: %s", label, locale, strings.Join(missing, ", ")),
 						Remediation:  "Complete the missing fields for this subscription localization",
 					})
 				}

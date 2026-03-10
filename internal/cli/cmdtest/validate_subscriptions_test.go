@@ -19,12 +19,18 @@ import (
 )
 
 type validateSubscriptionsFixture struct {
-	groups                    string
-	subscriptionsByGroup      map[string]string
-	imagesBySubscription      map[string]string
-	imageStatusBySubscription map[string]int
-	imageErrorBySubscription  map[string]error
-	subscriptionGroupsStatus  int
+	groups                     string
+	subscriptionsByGroup       map[string]string
+	groupLocalizationsByGroup  map[string]string
+	groupLocalizationStatus    map[string]int
+	imagesBySubscription       map[string]string
+	imageStatusBySubscription  map[string]int
+	imageErrorBySubscription   map[string]error
+	localizationsBySub         map[string]string
+	localizationsStatusBySub   map[string]int
+	pricesBySubscription       map[string]string
+	pricesStatusBySubscription map[string]int
+	subscriptionGroupsStatus   int
 }
 
 func newValidateSubscriptionsClient(t *testing.T, fixture validateSubscriptionsFixture) *asc.Client {
@@ -48,9 +54,36 @@ func newValidateSubscriptionsClient(t *testing.T, fixture validateSubscriptionsF
 				return jsonResponse(fixture.subscriptionGroupsStatus, apiErrorJSONForStatus(fixture.subscriptionGroupsStatus))
 			}
 			return jsonResponse(http.StatusOK, fixture.groups)
+		case strings.HasPrefix(path, "/v1/subscriptionGroups/") && strings.HasSuffix(path, "/subscriptionGroupLocalizations"):
+			groupID := strings.TrimSuffix(strings.TrimPrefix(path, "/v1/subscriptionGroups/"), "/subscriptionGroupLocalizations")
+			if status, ok := fixture.groupLocalizationStatus[groupID]; ok {
+				return jsonResponse(status, apiErrorJSONForStatus(status))
+			}
+			if body, ok := fixture.groupLocalizationsByGroup[groupID]; ok {
+				return jsonResponse(http.StatusOK, body)
+			}
+			return jsonResponse(http.StatusOK, `{"data":[]}`)
 		case strings.HasPrefix(path, "/v1/subscriptionGroups/") && strings.HasSuffix(path, "/subscriptions"):
 			groupID := strings.TrimSuffix(strings.TrimPrefix(path, "/v1/subscriptionGroups/"), "/subscriptions")
 			if body, ok := fixture.subscriptionsByGroup[groupID]; ok {
+				return jsonResponse(http.StatusOK, body)
+			}
+			return jsonResponse(http.StatusOK, `{"data":[]}`)
+		case strings.HasPrefix(path, "/v1/subscriptions/") && strings.HasSuffix(path, "/subscriptionLocalizations"):
+			subscriptionID := strings.TrimSuffix(strings.TrimPrefix(path, "/v1/subscriptions/"), "/subscriptionLocalizations")
+			if status, ok := fixture.localizationsStatusBySub[subscriptionID]; ok {
+				return jsonResponse(status, apiErrorJSONForStatus(status))
+			}
+			if body, ok := fixture.localizationsBySub[subscriptionID]; ok {
+				return jsonResponse(http.StatusOK, body)
+			}
+			return jsonResponse(http.StatusOK, `{"data":[]}`)
+		case strings.HasPrefix(path, "/v1/subscriptions/") && strings.HasSuffix(path, "/prices"):
+			subscriptionID := strings.TrimSuffix(strings.TrimPrefix(path, "/v1/subscriptions/"), "/prices")
+			if status, ok := fixture.pricesStatusBySubscription[subscriptionID]; ok {
+				return jsonResponse(status, apiErrorJSONForStatus(status))
+			}
+			if body, ok := fixture.pricesBySubscription[subscriptionID]; ok {
 				return jsonResponse(http.StatusOK, body)
 			}
 			return jsonResponse(http.StatusOK, `{"data":[]}`)
@@ -463,6 +496,56 @@ func TestValidateSubscriptionsSkipsImageWarningWhenImageEndpointTransportFails(t
 	}
 	if !foundUnverified {
 		t.Fatalf("expected subscriptions.images.unverified check, got %+v", report.Checks)
+	}
+}
+
+func TestValidateSubscriptionsTreatsMetadataProbeFailuresAsInformational(t *testing.T) {
+	fixture := validValidateSubscriptionsFixture()
+	fixture.subscriptionsByGroup["group-1"] = `{"data":[{"type":"subscriptions","id":"sub-1","attributes":{"name":"Monthly","productId":"com.example.monthly","state":"MISSING_METADATA"}}]}`
+	fixture.groupLocalizationStatus = map[string]int{
+		"group-1": http.StatusForbidden,
+	}
+	fixture.localizationsStatusBySub = map[string]int{
+		"sub-1": http.StatusForbidden,
+	}
+	fixture.pricesStatusBySubscription = map[string]int{
+		"sub-1": http.StatusForbidden,
+	}
+
+	client := newValidateSubscriptionsClient(t, fixture)
+	restore := validate.SetClientFactory(func() (*asc.Client, error) {
+		return client, nil
+	})
+	defer restore()
+
+	root := RootCommand("1.2.3")
+	stdout, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"validate", "subscriptions", "--app", "app-1"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		if err := root.Run(context.Background()); err != nil {
+			t.Fatalf("expected metadata probe failures to stay non-blocking, got %v", err)
+		}
+	})
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
+	}
+
+	var report validation.SubscriptionsReport
+	if err := json.Unmarshal([]byte(stdout), &report); err != nil {
+		t.Fatalf("failed to parse JSON output: %v", err)
+	}
+	if report.Summary.Errors != 0 {
+		t.Fatalf("expected no blocking errors, got %+v", report.Summary)
+	}
+	if !hasCheckWithID(report.Checks, "subscriptions.diagnostics.group_localization_unverified") {
+		t.Fatalf("expected group localization unverified check, got %+v", report.Checks)
+	}
+	if !hasCheckWithID(report.Checks, "subscriptions.diagnostics.localization_unverified") {
+		t.Fatalf("expected localization unverified check, got %+v", report.Checks)
+	}
+	if hasCheckWithID(report.Checks, "subscriptions.diagnostics.group_localization_missing") || hasCheckWithID(report.Checks, "subscriptions.diagnostics.localization_missing") {
+		t.Fatalf("expected no false missing-metadata checks, got %+v", report.Checks)
 	}
 }
 

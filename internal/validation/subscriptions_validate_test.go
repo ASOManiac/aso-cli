@@ -1,6 +1,9 @@
 package validation
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestSubscriptionReviewReadinessChecks_Empty(t *testing.T) {
 	checks := subscriptionReviewReadinessChecks(nil)
@@ -101,5 +104,75 @@ func TestSubscriptionImageChecks_AddsInfoWhenImageCheckSkipped(t *testing.T) {
 	}
 	if checks[0].Severity != SeverityInfo {
 		t.Fatalf("expected info severity, got %s", checks[0].Severity)
+	}
+}
+
+func TestSubscriptionMetadataDiagnostics_ReportsConcreteMissingItems(t *testing.T) {
+	checks := subscriptionMetadataDiagnostics([]Subscription{
+		{
+			ID:        "sub-1",
+			Name:      "Monthly",
+			ProductID: "com.example.monthly",
+			State:     "MISSING_METADATA",
+			GroupID:   "group-1",
+			GroupName: "Premium",
+		},
+	})
+
+	if !hasCheckID(checks, "subscriptions.diagnostics.group_localization_missing") {
+		t.Fatalf("expected group localization missing check, got %v", checks)
+	}
+	if !hasCheckID(checks, "subscriptions.diagnostics.localization_missing") {
+		t.Fatalf("expected localization missing check, got %v", checks)
+	}
+	if !hasCheckID(checks, "subscriptions.diagnostics.pricing_missing") {
+		t.Fatalf("expected pricing missing check, got %v", checks)
+	}
+
+	for _, check := range checks {
+		if check.ID == "subscriptions.diagnostics.group_localization_missing" && check.Remediation != "" &&
+			check.Remediation != "Create at least one subscription group localization (with group display name) via App Store Connect or `asc subscriptions groups localizations create`; this is a common cause of MISSING_METADATA" {
+			t.Fatalf("expected corrected group localization remediation, got %+v", check)
+		}
+	}
+}
+
+func TestSubscriptionMetadataDiagnostics_UsesInfoChecksWhenLocalizationVerificationSkipped(t *testing.T) {
+	checks := subscriptionMetadataDiagnostics([]Subscription{
+		{
+			ID:                            "sub-1",
+			Name:                          "Monthly",
+			ProductID:                     "com.example.monthly",
+			State:                         "MISSING_METADATA",
+			GroupID:                       "group-1",
+			GroupName:                     "Premium",
+			GroupLocalizationCheckSkipped: true,
+			GroupLocalizationCheckReason:  "permission denied",
+			LocalizationCheckSkipped:      true,
+			LocalizationCheckSkipReason:   "timed out",
+			PriceCheckSkipped:             true,
+		},
+	})
+
+	if !hasCheckID(checks, "subscriptions.diagnostics.group_localization_unverified") {
+		t.Fatalf("expected group localization unverified check, got %v", checks)
+	}
+	if !hasCheckID(checks, "subscriptions.diagnostics.localization_unverified") {
+		t.Fatalf("expected localization unverified check, got %v", checks)
+	}
+	if hasCheckID(checks, "subscriptions.diagnostics.group_localization_missing") {
+		t.Fatalf("did not expect false group-localization missing check, got %v", checks)
+	}
+	if hasCheckID(checks, "subscriptions.diagnostics.localization_missing") {
+		t.Fatalf("did not expect false localization missing check, got %v", checks)
+	}
+	if hasCheckID(checks, "subscriptions.diagnostics.pricing_missing") {
+		t.Fatalf("did not expect pricing missing when price verification skipped, got %v", checks)
+	}
+
+	for _, check := range checks {
+		if strings.HasSuffix(check.ID, "_unverified") && check.Severity != SeverityInfo {
+			t.Fatalf("expected unverified checks to be informational, got %+v", check)
+		}
 	}
 }
