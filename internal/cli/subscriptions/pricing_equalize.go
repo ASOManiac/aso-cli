@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -154,7 +155,15 @@ Examples:
 
 			fmt.Fprintf(os.Stderr, "Done: %d succeeded, %d failed\n", result.Succeeded, result.Failed)
 
-			return printEqualizeResult(result, *output.Output, *output.Pretty)
+			if err := printEqualizeResult(result, *output.Output, *output.Pretty); err != nil {
+				return err
+			}
+
+			if result.Failed > 0 {
+				return fmt.Errorf("equalize: %d of %d territory price updates failed", result.Failed, result.Total)
+			}
+
+			return nil
 		},
 	}
 }
@@ -191,6 +200,9 @@ type pricePointIDPayload struct {
 }
 
 func findPricePoint(ctx context.Context, client *asc.Client, subID, territory, targetPrice string) (string, error) {
+	// Parse target price as a float for numeric comparison (e.g., "3.5" matches "3.50").
+	targetFloat, targetErr := strconv.ParseFloat(targetPrice, 64)
+
 	// List price points filtered by the base territory, paginating to find the matching price
 	var pricePointID string
 
@@ -206,7 +218,7 @@ func findPricePoint(ctx context.Context, client *asc.Client, subID, territory, t
 
 	// Check first page
 	for _, pp := range firstPage.Data {
-		if strings.TrimSpace(pp.Attributes.CustomerPrice) == targetPrice {
+		if pricesMatch(pp.Attributes.CustomerPrice, targetPrice, targetFloat, targetErr) {
 			pricePointID = pp.ID
 			return pricePointID, nil
 		}
@@ -227,7 +239,7 @@ func findPricePoint(ctx context.Context, client *asc.Client, subID, territory, t
 				return nil
 			}
 			for _, pp := range typed.Data {
-				if strings.TrimSpace(pp.Attributes.CustomerPrice) == targetPrice {
+				if pricesMatch(pp.Attributes.CustomerPrice, targetPrice, targetFloat, targetErr) {
 					pricePointID = pp.ID
 					return fmt.Errorf("found") // break pagination
 				}
@@ -344,6 +356,24 @@ func printEqualizeTable(result *equalizeResult) error {
 	}
 
 	return nil
+}
+
+// pricesMatch compares a candidate price string against the target using numeric
+// comparison when possible, falling back to exact string match. This handles cases
+// like "3.5" matching "3.50".
+func pricesMatch(candidate, targetStr string, targetFloat float64, targetErr error) bool {
+	candidate = strings.TrimSpace(candidate)
+	if candidate == targetStr {
+		return true
+	}
+	if targetErr != nil {
+		return false
+	}
+	candidateFloat, err := strconv.ParseFloat(candidate, 64)
+	if err != nil {
+		return false
+	}
+	return candidateFloat == targetFloat
 }
 
 func printEqualizeMarkdown(result *equalizeResult) error {
