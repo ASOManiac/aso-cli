@@ -86,7 +86,7 @@ func newValidateTestClient(t *testing.T, fixture validateFixture) *asc.Client {
 			return jsonResponse(http.StatusOK, `{"data":null}`)
 		case path == "/v1/appStoreVersions/ver-1/appStoreVersionLocalizations":
 			return jsonResponse(http.StatusOK, fixture.versionLocs)
-		case path == "/v1/appStoreVersions/ver-1/ageRatingDeclaration":
+		case path == "/v1/appInfos/info-1/ageRatingDeclaration":
 			return jsonResponse(http.StatusOK, fixture.ageRating)
 		case path == "/v1/appStoreVersions/ver-1/appStoreReviewDetail":
 			if fixture.reviewDetails != "" {
@@ -240,7 +240,7 @@ func validValidateFixture() validateFixture {
 	return validateFixture{
 		app:             `{"data":{"type":"apps","id":"app-1","attributes":{"primaryLocale":"en-US"}}}`,
 		versions:        `{"data":[{"type":"appStoreVersions","id":"ver-1","attributes":{"platform":"IOS","versionString":"1.0"}}]}`,
-		version:         `{"data":{"type":"appStoreVersions","id":"ver-1","attributes":{"platform":"IOS","versionString":"1.0","appVersionState":"PREPARE_FOR_SUBMISSION"}}}`,
+		version:         `{"data":{"type":"appStoreVersions","id":"ver-1","attributes":{"platform":"IOS","versionString":"1.0","appVersionState":"PREPARE_FOR_SUBMISSION"},"relationships":{"app":{"data":{"type":"apps","id":"app-1"}}}}}`,
 		appInfos:        `{"data":[{"type":"appInfos","id":"info-1","attributes":{"state":"PREPARE_FOR_SUBMISSION"}}]}`,
 		appInfoLocs:     `{"data":[{"type":"appInfoLocalizations","id":"info-loc-1","attributes":{"locale":"en-US","name":"My App","subtitle":"Subtitle","privacyPolicyUrl":"https://example.com/privacy"}}]}`,
 		versionLocs:     `{"data":[{"type":"appStoreVersionLocalizations","id":"ver-loc-1","attributes":{"locale":"en-US","description":"Description","keywords":"keyword","whatsNew":"Notes","promotionalText":"Promo","supportUrl":"https://support.example.com","marketingUrl":"https://marketing.example.com"}}]}`,
@@ -923,7 +923,7 @@ func TestValidateWarnsWhenPrivacyPolicyURLMissing(t *testing.T) {
 
 func TestValidateFailsForNonEditableVersionState(t *testing.T) {
 	fixture := validValidateFixture()
-	fixture.version = `{"data":{"type":"appStoreVersions","id":"ver-1","attributes":{"platform":"IOS","versionString":"1.0","appVersionState":"WAITING_FOR_REVIEW"}}}`
+	fixture.version = `{"data":{"type":"appStoreVersions","id":"ver-1","attributes":{"platform":"IOS","versionString":"1.0","appVersionState":"WAITING_FOR_REVIEW"},"relationships":{"app":{"data":{"type":"apps","id":"app-1"}}}}}`
 
 	client := newValidateTestClient(t, fixture)
 	restore := validate.SetClientFactory(func() (*asc.Client, error) {

@@ -2111,13 +2111,25 @@ func TestAgeRatingValidationErrors(t *testing.T) {
 		wantHelp bool
 	}{
 		{
-			name:     "age-rating get missing app",
+			name:     "age-rating view missing app",
+			args:     []string{"age-rating", "view"},
+			wantErr:  "--app is required",
+			wantHelp: true,
+		},
+		{
+			name:     "age-rating view conflicting targets",
+			args:     []string{"age-rating", "view", "--app-info-id", "INFO_ID", "--version-id", "VERSION_ID"},
+			wantErr:  "only one of --app-info-id or --version-id is allowed",
+			wantHelp: false,
+		},
+		{
+			name:     "age-rating get alias missing app",
 			args:     []string{"age-rating", "get"},
 			wantErr:  "--app is required",
 			wantHelp: true,
 		},
 		{
-			name:     "age-rating get conflicting targets",
+			name:     "age-rating get alias conflicting targets",
 			args:     []string{"age-rating", "get", "--app-info-id", "INFO_ID", "--version-id", "VERSION_ID"},
 			wantErr:  "only one of --app-info-id or --version-id is allowed",
 			wantHelp: false,
