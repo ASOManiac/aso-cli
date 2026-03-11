@@ -47,6 +47,8 @@ Examples:
   asc apps wall
   asc apps wall submit --app "1234567890" --platform "iOS,macOS" --confirm
   asc apps get --id "APP_ID"
+  asc apps info view --app "APP_ID"
+  asc apps info edit --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"
   asc apps ci-product get --id "APP_ID"
   asc apps update --id "APP_ID" --bundle-id "com.example.app"
   asc apps update --id "APP_ID" --primary-locale "en-US"
@@ -63,6 +65,7 @@ Examples:
 			AppsCreateCommand(),
 			AppsWallCommand(),
 			AppsGetCommand(),
+			AppsInfoCommand(),
 			AppsCIProductCommand(),
 			AppsUpdateCommand(),
 			AppsRemoveBetaTestersCommand(),

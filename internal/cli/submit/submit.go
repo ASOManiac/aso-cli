@@ -173,7 +173,7 @@ func runSubmitCreateLocalizationPreflight(ctx context.Context, client *asc.Clien
 	for _, issue := range issues {
 		fmt.Fprintf(os.Stderr, "  - %s: %s\n", issue.Locale, strings.Join(issue.MissingFields, ", "))
 	}
-	fmt.Fprintln(os.Stderr, "Fix these with `asc app-info set` (optionally using --copy-from-locale) before retrying submit create.")
+	fmt.Fprintln(os.Stderr, "Fix these with `asc apps info edit` (optionally using --copy-from-locale) before retrying submit create.")
 	return fmt.Errorf("submit create: submit preflight failed")
 }
 

@@ -388,17 +388,17 @@ func TestAppInfoIncludeValidationErrors(t *testing.T) {
 	}{
 		{
 			name:    "app-info id without include",
-			args:    []string{"app-info", "get", "--app-info", "info-1"},
-			wantErr: "--app-info requires --include",
+			args:    []string{"apps", "info", "view", "--info-id", "info-1"},
+			wantErr: "--info-id requires --include",
 		},
 		{
 			name:    "app-info include missing app",
-			args:    []string{"app-info", "get", "--include", "ageRatingDeclaration"},
-			wantErr: "--app or --app-info is required",
+			args:    []string{"apps", "info", "view", "--include", "ageRatingDeclaration"},
+			wantErr: "--app or --info-id is required",
 		},
 		{
 			name:    "app-info include with version flags",
-			args:    []string{"app-info", "get", "--include", "ageRatingDeclaration", "--app", "123", "--version", "1.2.3", "--platform", "IOS"},
+			args:    []string{"apps", "info", "view", "--include", "ageRatingDeclaration", "--app", "123", "--version", "1.2.3", "--platform", "IOS"},
 			wantErr: "--include cannot be used with version localization flags",
 		},
 	}

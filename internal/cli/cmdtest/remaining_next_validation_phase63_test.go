@@ -162,7 +162,7 @@ func TestAppInfoGetRejectsInvalidNextURLPhase63(t *testing.T) {
 			root.FlagSet.SetOutput(io.Discard)
 
 			stdout, stderr := captureOutput(t, func() {
-				if err := root.Parse([]string{"app-info", "get", "--next", test.next}); err != nil {
+				if err := root.Parse([]string{"apps", "info", "view", "--next", test.next}); err != nil {
 					t.Fatalf("parse error: %v", err)
 				}
 				err := root.Run(context.Background())

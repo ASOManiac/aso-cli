@@ -148,7 +148,7 @@ asc submit create --app "123456789" --version "1.2.3" --build "BUILD_ID" --confi
 
 ```bash
 asc localizations list --app "123456789"
-asc app-info get --app "123456789" --output json --pretty
+asc apps info view --app "123456789" --output json --pretty
 ```
 
 ### Screenshots and media

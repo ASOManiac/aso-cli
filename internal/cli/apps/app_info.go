@@ -19,27 +19,29 @@ import (
 	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
 )
 
-// AppInfoCommand returns the app-info command with subcommands.
-func AppInfoCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("app-info", flag.ExitOnError)
+// AppsInfoCommand returns the apps info command with subcommands.
+func AppsInfoCommand() *ffcli.Command {
+	fs := flag.NewFlagSet("apps info", flag.ExitOnError)
 
 	return &ffcli.Command{
-		Name:       "app-info",
-		ShortUsage: "asc app-info <subcommand> [flags]",
+		Name:       "info",
+		ShortUsage: "asc apps info <subcommand> [flags]",
 		ShortHelp:  "Manage App Store version metadata.",
 		LongHelp: `Manage App Store version metadata like description, keywords, and what's new.
 
 Examples:
-  asc app-info get --app "APP_ID"
-  asc app-info get --app "APP_ID" --version "1.2.3" --platform IOS
-  asc app-info set --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"`,
+  asc apps info list --app "APP_ID"
+  asc apps info view --app "APP_ID"
+  asc apps info view --app "APP_ID" --version "1.2.3" --platform IOS
+  asc apps info edit --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
-			AppInfoGetCommand(),
-			AppInfoSetCommand(),
-			AppInfoRelationshipsCommand(),
-			AppInfoTerritoryAgeRatingsCommand(),
+			AppsInfoListCommand(),
+			AppsInfoViewCommand(),
+			AppsInfoEditCommand(),
+			AppsInfoRelationshipsCommand(),
+			AppsInfoTerritoryAgeRatingsCommand(),
 		},
 		Exec: func(ctx context.Context, args []string) error {
 			return flag.ErrHelp
@@ -47,12 +49,12 @@ Examples:
 	}
 }
 
-// AppInfoGetCommand returns the get subcommand.
-func AppInfoGetCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("app-info get", flag.ExitOnError)
+// AppsInfoViewCommand returns the view subcommand.
+func AppsInfoViewCommand() *ffcli.Command {
+	fs := flag.NewFlagSet("apps info view", flag.ExitOnError)
 
 	appID := fs.String("app", "", "App Store Connect app ID (or ASC_APP_ID env)")
-	appInfoID := fs.String("app-info", "", "App Info ID (optional override)")
+	infoID := fs.String("info-id", "", "App Info ID (optional override)")
 	versionID := fs.String("version-id", "", "App Store version ID (optional override)")
 	version := fs.String("version", "", "App Store version string (optional)")
 	platform := fs.String("platform", "", "Platform: IOS, MAC_OS, TV_OS, VISION_OS (required with --version)")
@@ -65,21 +67,21 @@ func AppInfoGetCommand() *ffcli.Command {
 	output := shared.BindOutputFlags(fs)
 
 	return &ffcli.Command{
-		Name:       "get",
-		ShortUsage: "asc app-info get [flags]",
-		ShortHelp:  "Get app store version localization metadata.",
+		Name:       "view",
+		ShortUsage: "asc apps info view [flags]",
+		ShortHelp:  "View app store version localization metadata.",
 		LongHelp: `Get App Store version localization metadata.
 
 If multiple versions exist and no --version-id/--version is provided, the most
 recently created version is used.
 
 Examples:
-  asc app-info get --app "APP_ID"
-  asc app-info get --app "APP_ID" --version "1.2.3" --platform IOS
-  asc app-info get --version-id "VERSION_ID"
-  asc app-info get --app-info "APP_INFO_ID" --include "ageRatingDeclaration"
-  asc app-info get --app "APP_ID" --include "ageRatingDeclaration,territoryAgeRatings"
-  asc app-info get --app "APP_ID" --locale "en-US" --output table`,
+  asc apps info view --app "APP_ID"
+  asc apps info view --app "APP_ID" --version "1.2.3" --platform IOS
+  asc apps info view --version-id "VERSION_ID"
+  asc apps info view --info-id "APP_INFO_ID" --include "ageRatingDeclaration"
+  asc apps info view --app "APP_ID" --include "ageRatingDeclaration,territoryAgeRatings"
+  asc apps info view --app "APP_ID" --locale "en-US" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -94,8 +96,8 @@ Examples:
 			}
 
 			resolvedAppID := shared.ResolveAppID(*appID)
-			if strings.TrimSpace(*versionID) == "" && resolvedAppID == "" && strings.TrimSpace(*appInfoID) == "" {
-				fmt.Fprintln(os.Stderr, "Error: --app or --app-info is required (or set ASC_APP_ID)")
+			if strings.TrimSpace(*versionID) == "" && resolvedAppID == "" && strings.TrimSpace(*infoID) == "" {
+				fmt.Fprintln(os.Stderr, "Error: --app or --info-id is required (or set ASC_APP_ID)")
 				return flag.ErrHelp
 			}
 
@@ -103,8 +105,8 @@ Examples:
 			if err != nil {
 				return shared.UsageError(err.Error())
 			}
-			if strings.TrimSpace(*appInfoID) != "" && len(includeValues) == 0 {
-				fmt.Fprintln(os.Stderr, "Error: --app-info requires --include")
+			if strings.TrimSpace(*infoID) != "" && len(includeValues) == 0 {
+				fmt.Fprintln(os.Stderr, "Error: --info-id requires --include")
 				return flag.ErrHelp
 			}
 
@@ -137,21 +139,21 @@ Examples:
 
 			client, err := shared.GetASCClient()
 			if err != nil {
-				return fmt.Errorf("app-info get: %w", err)
+				return fmt.Errorf("apps info view: %w", err)
 			}
 
 			requestCtx, cancel := shared.ContextWithTimeout(ctx)
 			defer cancel()
 
 			if len(includeValues) > 0 {
-				appInfoIDValue, err := shared.ResolveAppInfoID(requestCtx, client, resolvedAppID, strings.TrimSpace(*appInfoID))
+				appInfoIDValue, err := resolveAppsInfoID(requestCtx, client, resolvedAppID, strings.TrimSpace(*infoID))
 				if err != nil {
-					return fmt.Errorf("app-info get: %w", err)
+					return fmt.Errorf("apps info view: %w", err)
 				}
 
 				resp, err := client.GetAppInfo(requestCtx, appInfoIDValue, asc.WithAppInfoInclude(includeValues))
 				if err != nil {
-					return fmt.Errorf("app-info get: %w", err)
+					return fmt.Errorf("apps info view: %w", err)
 				}
 
 				return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -167,7 +169,7 @@ Examples:
 				states,
 			)
 			if err != nil {
-				return fmt.Errorf("app-info get: %w", err)
+				return fmt.Errorf("apps info view: %w", err)
 			}
 
 			opts := []asc.AppStoreVersionLocalizationsOption{
@@ -183,21 +185,21 @@ Examples:
 				paginateOpts := append(opts, asc.WithAppStoreVersionLocalizationsLimit(200))
 				firstPage, err := client.GetAppStoreVersionLocalizations(requestCtx, versionResource.ID, paginateOpts...)
 				if err != nil {
-					return fmt.Errorf("app-info get: failed to fetch: %w", err)
+					return fmt.Errorf("apps info view: failed to fetch: %w", err)
 				}
 
 				resp, err := asc.PaginateAll(requestCtx, firstPage, func(ctx context.Context, nextURL string) (asc.PaginatedResponse, error) {
 					return client.GetAppStoreVersionLocalizations(ctx, versionResource.ID, asc.WithAppStoreVersionLocalizationsNextURL(nextURL))
 				})
 				if err != nil {
-					return fmt.Errorf("app-info get: %w", err)
+					return fmt.Errorf("apps info view: %w", err)
 				}
 				return shared.PrintOutput(resp, *output.Output, *output.Pretty)
 			}
 
 			resp, err := client.GetAppStoreVersionLocalizations(requestCtx, versionResource.ID, opts...)
 			if err != nil {
-				return fmt.Errorf("app-info get: failed to fetch: %w", err)
+				return fmt.Errorf("apps info view: failed to fetch: %w", err)
 			}
 
 			return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -205,9 +207,9 @@ Examples:
 	}
 }
 
-// AppInfoSetCommand returns the set subcommand.
-func AppInfoSetCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("app-info set", flag.ExitOnError)
+// AppsInfoEditCommand returns the edit subcommand.
+func AppsInfoEditCommand() *ffcli.Command {
+	fs := flag.NewFlagSet("apps info edit", flag.ExitOnError)
 
 	appID := fs.String("app", "", "App Store Connect app ID (or ASC_APP_ID env)")
 	versionID := fs.String("version-id", "", "App Store version ID (optional override)")
@@ -228,18 +230,18 @@ func AppInfoSetCommand() *ffcli.Command {
 	output := shared.BindOutputFlags(fs)
 
 	return &ffcli.Command{
-		Name:       "set",
-		ShortUsage: "asc app-info set [flags]",
+		Name:       "edit",
+		ShortUsage: "asc apps info edit [flags]",
 		ShortHelp:  "Create or update app store version metadata.",
 		LongHelp: `Create or update App Store version metadata.
 
 Examples:
-  asc app-info set --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"
-  asc app-info set --app "APP_ID" --locale "fr-FR" --copy-from-locale "en-US" --whats-new "Corrections"
-  asc app-info set --app "APP_ID" --version "1.2.3" --platform IOS --locale "en-US" --description "New release"
-  asc app-info set --app "APP_ID" --version "1.2.3" --platform IOS --locales "en-US,de-DE" --whats-new "Bug fixes"
-  asc app-info set --app "APP_ID" --version "1.2.3" --platform IOS --from-dir "./metadata/version/1.2.3"
-  asc app-info set --app "APP_ID" --locales "en-US,de-DE" --whats-new "Bug fixes" --dry-run`,
+  asc apps info edit --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"
+  asc apps info edit --app "APP_ID" --locale "fr-FR" --copy-from-locale "en-US" --whats-new "Corrections"
+  asc apps info edit --app "APP_ID" --version "1.2.3" --platform IOS --locale "en-US" --description "New release"
+  asc apps info edit --app "APP_ID" --version "1.2.3" --platform IOS --locales "en-US,de-DE" --whats-new "Bug fixes"
+  asc apps info edit --app "APP_ID" --version "1.2.3" --platform IOS --from-dir "./metadata/version/1.2.3"
+  asc apps info edit --app "APP_ID" --locales "en-US,de-DE" --whats-new "Bug fixes" --dry-run`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -323,7 +325,7 @@ Examples:
 
 			client, err := shared.GetASCClient()
 			if err != nil {
-				return fmt.Errorf("app-info set: %w", err)
+				return fmt.Errorf("apps info edit: %w", err)
 			}
 
 			requestCtx, cancel := shared.ContextWithTimeout(ctx)
@@ -339,7 +341,7 @@ Examples:
 				states,
 			)
 			if err != nil {
-				return fmt.Errorf("app-info set: %w", err)
+				return fmt.Errorf("apps info edit: %w", err)
 			}
 
 			// Keep existing single-locale output compatibility unless batch planning is explicitly requested.
@@ -382,13 +384,13 @@ Examples:
 				*dryRun,
 			)
 			if err != nil {
-				return fmt.Errorf("app-info set: %w", err)
+				return fmt.Errorf("apps info edit: %w", err)
 			}
 			if err := shared.PrintOutput(batchResult, *output.Output, *output.Pretty); err != nil {
 				return err
 			}
 			if batchResult.Failed > 0 {
-				summaryErr := fmt.Errorf("app-info set: %d locale(s) failed", batchResult.Failed)
+				summaryErr := fmt.Errorf("apps info edit: %d locale(s) failed", batchResult.Failed)
 				fmt.Fprintf(os.Stderr, "Error: %s\n", summaryErr.Error())
 				return shared.NewReportedError(summaryErr)
 			}
@@ -412,7 +414,7 @@ func runAppInfoSetSingleLocale(
 	}
 	localizations, err := client.GetAppStoreVersionLocalizations(ctx, versionID, localizationOpts...)
 	if err != nil {
-		return fmt.Errorf("app-info set: failed to fetch localizations: %w", err)
+		return fmt.Errorf("apps info edit: failed to fetch localizations: %w", err)
 	}
 
 	targetLocalization, targetExists := findAppInfoSetLocalizationByLocale(localizations.Data, locale)
@@ -427,7 +429,7 @@ func runAppInfoSetSingleLocale(
 	if copyFromLocale != "" {
 		sourceLocalization, found := findAppInfoSetLocalizationByLocale(localizations.Data, copyFromLocale)
 		if !found {
-			return fmt.Errorf("app-info set: --copy-from-locale %q was not found for this app version", copyFromLocale)
+			return fmt.Errorf("apps info edit: --copy-from-locale %q was not found for this app version", copyFromLocale)
 		}
 		if shouldBackfillAppInfoSetField(descriptionValue, targetExists, targetLocalization.Attributes.Description) {
 			descriptionValue = strings.TrimSpace(sourceLocalization.Attributes.Description)
@@ -469,7 +471,7 @@ func runAppInfoSetSingleLocale(
 		updateAttrs.Locale = locale
 		resp, createErr := client.CreateAppStoreVersionLocalization(ctx, versionID, updateAttrs)
 		if createErr != nil {
-			return fmt.Errorf("app-info set: %w", createErr)
+			return fmt.Errorf("apps info edit: %w", createErr)
 		}
 		warnAppInfoSetSubmitIncompleteLocale(locale, effectiveAttrs)
 		return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -477,11 +479,11 @@ func runAppInfoSetSingleLocale(
 
 	localizationID := strings.TrimSpace(targetLocalization.ID)
 	if localizationID == "" {
-		return fmt.Errorf("app-info set: localization id is empty")
+		return fmt.Errorf("apps info edit: localization id is empty")
 	}
 	resp, updateErr := client.UpdateAppStoreVersionLocalization(ctx, localizationID, updateAttrs)
 	if updateErr != nil {
-		return fmt.Errorf("app-info set: %w", updateErr)
+		return fmt.Errorf("apps info edit: %w", updateErr)
 	}
 	warnAppInfoSetSubmitIncompleteLocale(locale, effectiveAttrs)
 	return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -817,6 +819,27 @@ func warnAppInfoSetSubmitIncompleteLocale(locale string, attrs asc.AppStoreVersi
 		locale,
 		strings.Join(missing, ", "),
 	)
+}
+
+func resolveAppsInfoID(ctx context.Context, client *asc.Client, appID, infoID string) (string, error) {
+	if strings.TrimSpace(infoID) != "" {
+		return strings.TrimSpace(infoID), nil
+	}
+	if strings.TrimSpace(appID) == "" {
+		return "", fmt.Errorf("app id is required")
+	}
+
+	resp, err := client.GetAppInfos(ctx, appID)
+	if err != nil {
+		return "", err
+	}
+	if len(resp.Data) == 0 {
+		return "", fmt.Errorf("no app info found for app %q", appID)
+	}
+	if len(resp.Data) > 1 {
+		return "", fmt.Errorf("multiple app infos found for app %q; run `asc apps info list --app %q` or pass --info-id", appID, appID)
+	}
+	return resp.Data[0].ID, nil
 }
 
 func resolveAppStoreVersionForAppInfo(
