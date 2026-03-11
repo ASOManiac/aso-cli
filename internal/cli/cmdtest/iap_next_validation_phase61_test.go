@@ -195,7 +195,7 @@ func TestIAPPriceSchedulesAutomaticPricesRejectsInvalidNextURLPhase61(t *testing
 	runGameCenterAchievementsInvalidNextURLCases(
 		t,
 		[]string{"iap", "pricing", "schedules", "automatic-prices"},
-		"iap price-schedules automatic-prices: --next",
+		"iap pricing schedules automatic-prices: --next",
 	)
 }
 
@@ -222,7 +222,7 @@ func TestIAPPriceSchedulesManualPricesRejectsInvalidNextURLPhase61(t *testing.T)
 	runGameCenterAchievementsInvalidNextURLCases(
 		t,
 		[]string{"iap", "pricing", "schedules", "manual-prices"},
-		"iap price-schedules manual-prices: --next",
+		"iap pricing schedules manual-prices: --next",
 	)
 }
 

@@ -96,7 +96,7 @@ Examples:
 
 			client, err := shared.GetASCClient()
 			if err != nil {
-				return fmt.Errorf("iap price-schedules get: %w", err)
+				return fmt.Errorf("iap pricing schedules get: %w", err)
 			}
 
 			requestCtx, cancel := shared.ContextWithTimeout(ctx)
@@ -125,7 +125,7 @@ Examples:
 			if scheduleValue != "" {
 				resp, err := client.GetInAppPurchasePriceScheduleByID(requestCtx, scheduleValue, opts...)
 				if err != nil {
-					return fmt.Errorf("iap price-schedules get: failed to fetch: %w", err)
+					return fmt.Errorf("iap pricing schedules get: failed to fetch: %w", err)
 				}
 
 				return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -133,7 +133,7 @@ Examples:
 
 			resp, err := client.GetInAppPurchasePriceSchedule(requestCtx, iapValue, opts...)
 			if err != nil {
-				return fmt.Errorf("iap price-schedules get: failed to fetch: %w", err)
+				return fmt.Errorf("iap pricing schedules get: failed to fetch: %w", err)
 			}
 
 			return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -194,7 +194,7 @@ Examples:
 
 			client, err := shared.GetASCClient()
 			if err != nil {
-				return fmt.Errorf("iap price-schedules base-territory: %w", err)
+				return fmt.Errorf("iap pricing schedules base-territory: %w", err)
 			}
 
 			requestCtx, cancel := shared.ContextWithTimeout(ctx)
@@ -202,7 +202,7 @@ Examples:
 
 			resp, err := client.GetInAppPurchasePriceScheduleBaseTerritory(requestCtx, id)
 			if err != nil {
-				return fmt.Errorf("iap price-schedules base-territory: failed to fetch: %w", err)
+				return fmt.Errorf("iap pricing schedules base-territory: failed to fetch: %w", err)
 			}
 
 			return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -286,7 +286,7 @@ Examples:
 
 				client, err := shared.GetASCClient()
 				if err != nil {
-					return fmt.Errorf("iap price-schedules create: %w", err)
+					return fmt.Errorf("iap pricing schedules create: %w", err)
 				}
 
 				requestCtx, cancel := shared.ContextWithTimeout(ctx)
@@ -294,7 +294,7 @@ Examples:
 
 				tiers, err := shared.ResolveIAPTiers(requestCtx, client, iapValue, baseTerritoryValue, *refresh)
 				if err != nil {
-					return fmt.Errorf("iap price-schedules create: resolve tiers: %w", err)
+					return fmt.Errorf("iap pricing schedules create: resolve tiers: %w", err)
 				}
 
 				var resolvedID string
@@ -304,7 +304,7 @@ Examples:
 					resolvedID, err = shared.ResolvePricePointByPrice(tiers, priceValue)
 				}
 				if err != nil {
-					return fmt.Errorf("iap price-schedules create: %w", err)
+					return fmt.Errorf("iap pricing schedules create: %w", err)
 				}
 
 				priceEntries = []asc.InAppPurchasePriceSchedulePrice{
@@ -325,7 +325,7 @@ Examples:
 
 			client, err := shared.GetASCClient()
 			if err != nil {
-				return fmt.Errorf("iap price-schedules create: %w", err)
+				return fmt.Errorf("iap pricing schedules create: %w", err)
 			}
 
 			requestCtx, cancel := shared.ContextWithTimeout(ctx)
@@ -336,7 +336,7 @@ Examples:
 				Prices:          priceEntries,
 			})
 			if err != nil {
-				return fmt.Errorf("iap price-schedules create: failed to create: %w", err)
+				return fmt.Errorf("iap pricing schedules create: failed to create: %w", err)
 			}
 
 			return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -367,10 +367,10 @@ Examples:
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
 			if *limit != 0 && (*limit < 1 || *limit > 200) {
-				return fmt.Errorf("iap price-schedules manual-prices: --limit must be between 1 and 200")
+				return fmt.Errorf("iap pricing schedules manual-prices: --limit must be between 1 and 200")
 			}
 			if err := shared.ValidateNextURL(*next); err != nil {
-				return fmt.Errorf("iap price-schedules manual-prices: %w", err)
+				return fmt.Errorf("iap pricing schedules manual-prices: %w", err)
 			}
 
 			id := strings.TrimSpace(*scheduleID)
@@ -381,7 +381,7 @@ Examples:
 
 			client, err := shared.GetASCClient()
 			if err != nil {
-				return fmt.Errorf("iap price-schedules manual-prices: %w", err)
+				return fmt.Errorf("iap pricing schedules manual-prices: %w", err)
 			}
 
 			requestCtx, cancel := shared.ContextWithTimeout(ctx)
@@ -396,14 +396,14 @@ Examples:
 				paginateOpts := append(opts, asc.WithIAPPriceSchedulePricesLimit(200))
 				firstPage, err := client.GetInAppPurchasePriceScheduleManualPrices(requestCtx, id, paginateOpts...)
 				if err != nil {
-					return fmt.Errorf("iap price-schedules manual-prices: failed to fetch: %w", err)
+					return fmt.Errorf("iap pricing schedules manual-prices: failed to fetch: %w", err)
 				}
 
 				resp, err := asc.PaginateAll(requestCtx, firstPage, func(ctx context.Context, nextURL string) (asc.PaginatedResponse, error) {
 					return client.GetInAppPurchasePriceScheduleManualPrices(ctx, id, asc.WithIAPPriceSchedulePricesNextURL(nextURL))
 				})
 				if err != nil {
-					return fmt.Errorf("iap price-schedules manual-prices: %w", err)
+					return fmt.Errorf("iap pricing schedules manual-prices: %w", err)
 				}
 
 				return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -411,7 +411,7 @@ Examples:
 
 			resp, err := client.GetInAppPurchasePriceScheduleManualPrices(requestCtx, id, opts...)
 			if err != nil {
-				return fmt.Errorf("iap price-schedules manual-prices: failed to fetch: %w", err)
+				return fmt.Errorf("iap pricing schedules manual-prices: failed to fetch: %w", err)
 			}
 
 			return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -442,10 +442,10 @@ Examples:
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
 			if *limit != 0 && (*limit < 1 || *limit > 200) {
-				return fmt.Errorf("iap price-schedules automatic-prices: --limit must be between 1 and 200")
+				return fmt.Errorf("iap pricing schedules automatic-prices: --limit must be between 1 and 200")
 			}
 			if err := shared.ValidateNextURL(*next); err != nil {
-				return fmt.Errorf("iap price-schedules automatic-prices: %w", err)
+				return fmt.Errorf("iap pricing schedules automatic-prices: %w", err)
 			}
 
 			id := strings.TrimSpace(*scheduleID)
@@ -456,7 +456,7 @@ Examples:
 
 			client, err := shared.GetASCClient()
 			if err != nil {
-				return fmt.Errorf("iap price-schedules automatic-prices: %w", err)
+				return fmt.Errorf("iap pricing schedules automatic-prices: %w", err)
 			}
 
 			requestCtx, cancel := shared.ContextWithTimeout(ctx)
@@ -471,14 +471,14 @@ Examples:
 				paginateOpts := append(opts, asc.WithIAPPriceSchedulePricesLimit(200))
 				firstPage, err := client.GetInAppPurchasePriceScheduleAutomaticPrices(requestCtx, id, paginateOpts...)
 				if err != nil {
-					return fmt.Errorf("iap price-schedules automatic-prices: failed to fetch: %w", err)
+					return fmt.Errorf("iap pricing schedules automatic-prices: failed to fetch: %w", err)
 				}
 
 				resp, err := asc.PaginateAll(requestCtx, firstPage, func(ctx context.Context, nextURL string) (asc.PaginatedResponse, error) {
 					return client.GetInAppPurchasePriceScheduleAutomaticPrices(ctx, id, asc.WithIAPPriceSchedulePricesNextURL(nextURL))
 				})
 				if err != nil {
-					return fmt.Errorf("iap price-schedules automatic-prices: %w", err)
+					return fmt.Errorf("iap pricing schedules automatic-prices: %w", err)
 				}
 
 				return shared.PrintOutput(resp, *output.Output, *output.Pretty)
@@ -486,7 +486,7 @@ Examples:
 
 			resp, err := client.GetInAppPurchasePriceScheduleAutomaticPrices(requestCtx, id, opts...)
 			if err != nil {
-				return fmt.Errorf("iap price-schedules automatic-prices: failed to fetch: %w", err)
+				return fmt.Errorf("iap pricing schedules automatic-prices: failed to fetch: %w", err)
 			}
 
 			return shared.PrintOutput(resp, *output.Output, *output.Pretty)

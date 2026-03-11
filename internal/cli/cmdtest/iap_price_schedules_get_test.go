@@ -108,3 +108,41 @@ func TestIAPPriceSchedulesGetByIDWithIncludeOptions(t *testing.T) {
 		t.Fatalf("expected schedule id in output, got %q", stdout)
 	}
 }
+
+func TestIAPPriceSchedulesGetUsesCanonicalErrorPrefix(t *testing.T) {
+	setupAuth(t)
+
+	originalTransport := http.DefaultTransport
+	t.Cleanup(func() {
+		http.DefaultTransport = originalTransport
+	})
+
+	http.DefaultTransport = roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		return &http.Response{
+			StatusCode: http.StatusInternalServerError,
+			Body:       io.NopCloser(strings.NewReader(`{"errors":[{"status":"500","code":"INTERNAL_ERROR","title":"boom"}]}`)),
+			Header:     http.Header{"Content-Type": []string{"application/json"}},
+		}, nil
+	})
+
+	root := RootCommand("1.2.3")
+	root.FlagSet.SetOutput(io.Discard)
+
+	if err := root.Parse([]string{
+		"iap", "pricing", "schedules", "get",
+		"--iap-id", "iap-1",
+	}); err != nil {
+		t.Fatalf("parse error: %v", err)
+	}
+
+	err := root.Run(context.Background())
+	if err == nil {
+		t.Fatal("expected fetch error")
+	}
+	if !strings.Contains(err.Error(), "iap pricing schedules get: failed to fetch:") {
+		t.Fatalf("expected canonical error prefix, got %q", err.Error())
+	}
+	if strings.Contains(err.Error(), "iap price-schedules get:") {
+		t.Fatalf("expected legacy error prefix to be removed, got %q", err.Error())
+	}
+}
