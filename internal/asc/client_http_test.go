@@ -3307,7 +3307,10 @@ func TestGetEndpoints_ReturnsParseError(t *testing.T) {
 
 func TestIsNotFoundAndUnauthorized(t *testing.T) {
 	if !IsNotFound(&APIError{Code: "NOT_FOUND", Title: "The specified resource does not exist"}) {
-		t.Fatal("expected IsNotFound to return true")
+		t.Fatal("expected IsNotFound to return true for NOT_FOUND code")
+	}
+	if !IsNotFound(&APIError{Code: "SOME_OTHER_CODE", StatusCode: 404}) {
+		t.Fatal("expected IsNotFound to return true for HTTP 404 status")
 	}
 	if IsNotFound(fmt.Errorf("something else")) {
 		t.Fatal("expected IsNotFound to return false")

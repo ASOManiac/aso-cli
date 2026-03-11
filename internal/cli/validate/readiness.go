@@ -224,6 +224,22 @@ func BuildReadinessReport(ctx context.Context, opts ReadinessOptions) (validatio
 		subscriptions = fetchedSubscriptions
 	}
 
+	iaps := make([]validation.IAP, 0)
+	iapFetchSkipReason := ""
+	fetchedIAPs, err := fetchIAPsFn(ctx, client, opts.AppID)
+	if err != nil {
+		switch {
+		case errors.Is(err, asc.ErrForbidden) || asc.IsUnauthorized(err):
+			iapFetchSkipReason = "IAP readiness checks were skipped because this App Store Connect account cannot read in-app purchase resources"
+		case asc.IsRetryable(err):
+			iapFetchSkipReason = "IAP readiness checks were skipped because the App Store Connect IAP endpoints were temporarily unavailable or rate limited"
+		default:
+			return validation.Report{}, fmt.Errorf("failed to fetch in-app purchases: %w", err)
+		}
+	} else {
+		iaps = fetchedIAPs
+	}
+
 	platform := strings.TrimSpace(opts.Platform)
 	if platform == "" {
 		platform = string(versionResp.Data.Attributes.Platform)
@@ -248,6 +264,8 @@ func BuildReadinessReport(ctx context.Context, opts ReadinessOptions) (validatio
 		ScreenshotSets:              screenshotSets,
 		Subscriptions:               subscriptions,
 		SubscriptionFetchSkipReason: subscriptionFetchSkipReason,
+		IAPs:                        iaps,
+		IAPFetchSkipReason:          iapFetchSkipReason,
 		AgeRatingDeclaration:        ageRatingDecl,
 	}, opts.Strict)
 

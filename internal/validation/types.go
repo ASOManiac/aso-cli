@@ -60,6 +60,8 @@ type Input struct {
 	ScreenshotSets              []ScreenshotSet
 	Subscriptions               []Subscription
 	SubscriptionFetchSkipReason string
+	IAPs                        []IAP
+	IAPFetchSkipReason          string
 	AgeRatingDeclaration        *AgeRatingDeclaration
 }
 

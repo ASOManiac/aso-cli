@@ -43,6 +43,21 @@ func ValidateIAP(input IAPInput, strict bool) IAPReport {
 	}
 }
 
+func iapFetchChecks(reason string) []CheckResult {
+	reason = strings.TrimSpace(reason)
+	if reason == "" {
+		return nil
+	}
+
+	return []CheckResult{{
+		ID:          "iap.readiness.unverified",
+		Severity:    SeverityInfo,
+		Field:       "inAppPurchases",
+		Message:     "Could not verify in-app purchase readiness for this app",
+		Remediation: reason,
+	}}
+}
+
 func iapReviewReadinessChecks(iaps []IAP) []CheckResult {
 	// These checks are warnings by default. Many apps have legacy IAPs that
 	// aren't relevant to a given release. Use --strict to gate in CI.

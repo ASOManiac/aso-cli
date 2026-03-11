@@ -48,6 +48,8 @@ type validateFixture struct {
 	pricesStatusBySubscription map[string]int
 	priceErrorBySubscription   map[string]error
 	subscriptionGroupsStatus   int
+	iaps                       string
+	iapsStatus                 int
 }
 
 func newValidateTestClient(t *testing.T, fixture validateFixture) *asc.Client {
@@ -178,6 +180,14 @@ func newValidateTestClient(t *testing.T, fixture validateFixture) *asc.Client {
 			}
 			if body, ok := fixture.imagesBySubscription[subscriptionID]; ok {
 				return jsonResponse(http.StatusOK, body)
+			}
+			return jsonResponse(http.StatusOK, `{"data":[]}`)
+		case path == "/v1/apps/app-1/inAppPurchasesV2":
+			if fixture.iapsStatus != 0 {
+				return jsonResponse(fixture.iapsStatus, apiErrorJSONForStatus(fixture.iapsStatus))
+			}
+			if fixture.iaps != "" {
+				return jsonResponse(http.StatusOK, fixture.iaps)
 			}
 			return jsonResponse(http.StatusOK, `{"data":[]}`)
 		}
@@ -1488,5 +1498,188 @@ func TestValidateFailsWhenNoTerritoriesAvailable(t *testing.T) {
 	}
 	if !found {
 		t.Fatalf("expected availability.territories.none check, got %+v", report.Checks)
+	}
+}
+
+func TestValidateIncludesIAPChecks(t *testing.T) {
+	fixture := validValidateFixture()
+	fixture.iaps = `{"data":[
+		{"type":"inAppPurchases","id":"iap-1","attributes":{"name":"Coins","productId":"com.example.coins","inAppPurchaseType":"CONSUMABLE","state":"MISSING_METADATA"}},
+		{"type":"inAppPurchases","id":"iap-2","attributes":{"name":"Premium","productId":"com.example.premium","inAppPurchaseType":"NON_CONSUMABLE","state":"APPROVED"}}
+	]}`
+
+	client := newValidateTestClient(t, fixture)
+	restore := validate.SetClientFactory(func() (*asc.Client, error) {
+		return client, nil
+	})
+	defer restore()
+
+	root := RootCommand("1.2.3")
+	stdout, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"validate", "--app", "app-1", "--version-id", "ver-1"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		// May return error due to IAP warning in strict mode, ignore for this test.
+		_ = root.Run(context.Background())
+	})
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
+	}
+
+	var report validation.Report
+	if err := json.Unmarshal([]byte(stdout), &report); err != nil {
+		t.Fatalf("failed to parse JSON output: %v", err)
+	}
+	if !hasCheckWithID(report.Checks, "iap.review_readiness.needs_attention") {
+		t.Fatalf("expected iap.review_readiness.needs_attention check for MISSING_METADATA IAP, got %+v", report.Checks)
+	}
+	// Verify only the MISSING_METADATA one triggered, not the APPROVED one.
+	count := 0
+	for _, check := range report.Checks {
+		if check.ID == "iap.review_readiness.needs_attention" {
+			count++
+		}
+	}
+	if count != 1 {
+		t.Fatalf("expected exactly 1 IAP warning, got %d", count)
+	}
+}
+
+func TestValidateSkipsIAPGracefullyWhenForbidden(t *testing.T) {
+	fixture := validValidateFixture()
+	fixture.iapsStatus = http.StatusForbidden
+
+	client := newValidateTestClient(t, fixture)
+	restore := validate.SetClientFactory(func() (*asc.Client, error) {
+		return client, nil
+	})
+	defer restore()
+
+	root := RootCommand("1.2.3")
+	stdout, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"validate", "--app", "app-1", "--version-id", "ver-1"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		if err := root.Run(context.Background()); err != nil {
+			t.Fatalf("expected IAP forbidden to be non-blocking, got %v", err)
+		}
+	})
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
+	}
+
+	var report validation.Report
+	if err := json.Unmarshal([]byte(stdout), &report); err != nil {
+		t.Fatalf("failed to parse JSON output: %v", err)
+	}
+	if !hasCheckWithID(report.Checks, "iap.readiness.unverified") {
+		t.Fatalf("expected iap.readiness.unverified info check, got %+v", report.Checks)
+	}
+	if report.Summary.Errors != 0 {
+		t.Fatalf("expected no blocking errors when IAP is forbidden, got %+v", report.Summary)
+	}
+}
+
+func TestValidateSkipsIAPGracefullyWhenUnauthorized(t *testing.T) {
+	fixture := validValidateFixture()
+	fixture.iapsStatus = http.StatusUnauthorized
+
+	client := newValidateTestClient(t, fixture)
+	restore := validate.SetClientFactory(func() (*asc.Client, error) {
+		return client, nil
+	})
+	defer restore()
+
+	root := RootCommand("1.2.3")
+	stdout, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"validate", "--app", "app-1", "--version-id", "ver-1"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		if err := root.Run(context.Background()); err != nil {
+			t.Fatalf("expected IAP unauthorized to be non-blocking, got %v", err)
+		}
+	})
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
+	}
+
+	var report validation.Report
+	if err := json.Unmarshal([]byte(stdout), &report); err != nil {
+		t.Fatalf("failed to parse JSON output: %v", err)
+	}
+	if !hasCheckWithID(report.Checks, "iap.readiness.unverified") {
+		t.Fatalf("expected iap.readiness.unverified info check, got %+v", report.Checks)
+	}
+	if report.Summary.Errors != 0 {
+		t.Fatalf("expected no blocking errors when IAP is unauthorized, got %+v", report.Summary)
+	}
+}
+
+func TestValidateSkipsIAPGracefullyWhenRateLimited(t *testing.T) {
+	fixture := validValidateFixture()
+	fixture.iapsStatus = http.StatusTooManyRequests
+
+	client := newValidateTestClient(t, fixture)
+	restore := validate.SetClientFactory(func() (*asc.Client, error) {
+		return client, nil
+	})
+	defer restore()
+
+	root := RootCommand("1.2.3")
+	stdout, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"validate", "--app", "app-1", "--version-id", "ver-1"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		if err := root.Run(context.Background()); err != nil {
+			t.Fatalf("expected IAP rate limiting to be non-blocking, got %v", err)
+		}
+	})
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
+	}
+
+	var report validation.Report
+	if err := json.Unmarshal([]byte(stdout), &report); err != nil {
+		t.Fatalf("failed to parse JSON output: %v", err)
+	}
+	if !hasCheckWithID(report.Checks, "iap.readiness.unverified") {
+		t.Fatalf("expected iap.readiness.unverified info check, got %+v", report.Checks)
+	}
+	if report.Summary.Errors != 0 {
+		t.Fatalf("expected no blocking errors when IAP is rate limited, got %+v", report.Summary)
+	}
+}
+
+func TestValidateNoIAPChecksWhenAppHasNoIAPs(t *testing.T) {
+	fixture := validValidateFixture()
+	// No IAPs set (default empty)
+
+	client := newValidateTestClient(t, fixture)
+	restore := validate.SetClientFactory(func() (*asc.Client, error) {
+		return client, nil
+	})
+	defer restore()
+
+	root := RootCommand("1.2.3")
+	stdout, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"validate", "--app", "app-1", "--version-id", "ver-1"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		if err := root.Run(context.Background()); err != nil {
+			t.Fatalf("run error: %v", err)
+		}
+	})
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
+	}
+
+	var report validation.Report
+	if err := json.Unmarshal([]byte(stdout), &report); err != nil {
+		t.Fatalf("failed to parse JSON output: %v", err)
+	}
+	for _, check := range report.Checks {
+		if strings.HasPrefix(check.ID, "iap.") {
+			t.Fatalf("expected no IAP checks when app has no IAPs, got %+v", check)
+		}
 	}
 }
