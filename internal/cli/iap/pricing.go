@@ -53,7 +53,7 @@ func deprecatedIAPPricingGroupAlias(name, shortUsage, canonicalCommand string, s
 		ShortHelp:   fmt.Sprintf("DEPRECATED: use `%s ...`.", canonicalCommand),
 		LongHelp:    fmt.Sprintf("Compatibility alias: use `%s ...`.", canonicalCommand),
 		FlagSet:     fs,
-		UsageFunc:   shared.DefaultUsageFunc,
+		UsageFunc:   shared.DeprecatedUsageFunc,
 		Subcommands: subcommands,
 		Exec: func(ctx context.Context, args []string) error {
 			return flag.ErrHelp
