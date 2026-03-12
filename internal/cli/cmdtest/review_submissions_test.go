@@ -166,14 +166,39 @@ func TestReviewCommandItemsInvalidItemType(t *testing.T) {
 	root := RootCommand("1.2.3")
 	root.FlagSet.SetOutput(io.Discard)
 
-	if err := root.Parse([]string{"review", "items-add", "--submission", "SUBMISSION_ID", "--item-type", "nope", "--item-id", "ITEM_ID"}); err != nil {
-		t.Fatalf("parse error: %v", err)
+	stdout, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"review", "items-add", "--submission", "SUBMISSION_ID", "--item-type", "nope", "--item-id", "ITEM_ID"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		err := root.Run(context.Background())
+		if !errors.Is(err, flag.ErrHelp) {
+			t.Fatalf("expected ErrHelp, got %v", err)
+		}
+	})
+
+	if stdout != "" {
+		t.Fatalf("expected empty stdout, got %q", stdout)
 	}
-	err := root.Run(context.Background())
-	if err == nil {
-		t.Fatal("expected error, got nil")
+	if !strings.Contains(stderr, "--item-type must be one of:") {
+		t.Fatalf("expected invalid item type guidance, got %q", stderr)
 	}
-	t.Logf("got expected error: %v", err)
+
+	wantSupportedTypes := []string{
+		"backgroundAssetVersions",
+		"gameCenterAchievementVersions",
+		"gameCenterActivityVersions",
+		"gameCenterChallengeVersions",
+		"gameCenterLeaderboardSetVersions",
+		"gameCenterLeaderboardVersions",
+	}
+	for _, supportedType := range wantSupportedTypes {
+		if !strings.Contains(stderr, supportedType) {
+			t.Fatalf("expected stderr to list %s, got %q", supportedType, stderr)
+		}
+	}
+	if strings.Contains(stderr, "gameCenterLeaderboardReleases") {
+		t.Fatalf("did not expect undocumented leaderboard release type in stderr, got %q", stderr)
+	}
 }
 
 func TestReviewCommandItemsInvalidState(t *testing.T) {

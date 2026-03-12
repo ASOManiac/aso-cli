@@ -16,6 +16,12 @@ const (
 	ReviewSubmissionItemTypeAppEvent                           ReviewSubmissionItemType = "appEvents"
 	ReviewSubmissionItemTypeAppStoreVersionExperiment          ReviewSubmissionItemType = "appStoreVersionExperiments"
 	ReviewSubmissionItemTypeAppStoreVersionExperimentTreatment ReviewSubmissionItemType = "appStoreVersionExperimentTreatments"
+	ReviewSubmissionItemTypeBackgroundAssetVersion             ReviewSubmissionItemType = "backgroundAssetVersions"
+	ReviewSubmissionItemTypeGameCenterAchievementVersion       ReviewSubmissionItemType = "gameCenterAchievementVersions"
+	ReviewSubmissionItemTypeGameCenterActivityVersion          ReviewSubmissionItemType = "gameCenterActivityVersions"
+	ReviewSubmissionItemTypeGameCenterChallengeVersion         ReviewSubmissionItemType = "gameCenterChallengeVersions"
+	ReviewSubmissionItemTypeGameCenterLeaderboardSetVersion    ReviewSubmissionItemType = "gameCenterLeaderboardSetVersions"
+	ReviewSubmissionItemTypeGameCenterLeaderboardVersion       ReviewSubmissionItemType = "gameCenterLeaderboardVersions"
 )
 
 // ReviewSubmissionItemAttributes describes review submission item attributes.
@@ -79,6 +85,12 @@ type ReviewSubmissionItemCreateRelationships struct {
 	AppEvent                           *Relationship `json:"appEvent,omitempty"`
 	AppStoreVersionExperiment          *Relationship `json:"appStoreVersionExperiment,omitempty"`
 	AppStoreVersionExperimentTreatment *Relationship `json:"appStoreVersionExperimentTreatment,omitempty"`
+	BackgroundAssetVersion             *Relationship `json:"backgroundAssetVersion,omitempty"`
+	GameCenterAchievementVersion       *Relationship `json:"gameCenterAchievementVersion,omitempty"`
+	GameCenterActivityVersion          *Relationship `json:"gameCenterActivityVersion,omitempty"`
+	GameCenterChallengeVersion         *Relationship `json:"gameCenterChallengeVersion,omitempty"`
+	GameCenterLeaderboardSetVersion    *Relationship `json:"gameCenterLeaderboardSetVersion,omitempty"`
+	GameCenterLeaderboardVersion       *Relationship `json:"gameCenterLeaderboardVersion,omitempty"`
 }
 
 // ReviewSubmissionItemCreateData is the data portion of a review submission item create request.
@@ -218,6 +230,30 @@ func (c *Client) CreateReviewSubmissionItem(ctx context.Context, submissionID st
 	case ReviewSubmissionItemTypeAppStoreVersionExperimentTreatment:
 		relationships.AppStoreVersionExperimentTreatment = &Relationship{
 			Data: ResourceData{Type: ResourceTypeAppStoreVersionExperimentTreatments, ID: itemID},
+		}
+	case ReviewSubmissionItemTypeBackgroundAssetVersion:
+		relationships.BackgroundAssetVersion = &Relationship{
+			Data: ResourceData{Type: ResourceTypeBackgroundAssetVersions, ID: itemID},
+		}
+	case ReviewSubmissionItemTypeGameCenterAchievementVersion:
+		relationships.GameCenterAchievementVersion = &Relationship{
+			Data: ResourceData{Type: ResourceTypeGameCenterAchievementVersions, ID: itemID},
+		}
+	case ReviewSubmissionItemTypeGameCenterActivityVersion:
+		relationships.GameCenterActivityVersion = &Relationship{
+			Data: ResourceData{Type: ResourceTypeGameCenterActivityVersions, ID: itemID},
+		}
+	case ReviewSubmissionItemTypeGameCenterChallengeVersion:
+		relationships.GameCenterChallengeVersion = &Relationship{
+			Data: ResourceData{Type: ResourceTypeGameCenterChallengeVersions, ID: itemID},
+		}
+	case ReviewSubmissionItemTypeGameCenterLeaderboardSetVersion:
+		relationships.GameCenterLeaderboardSetVersion = &Relationship{
+			Data: ResourceData{Type: ResourceTypeGameCenterLeaderboardSetVersions, ID: itemID},
+		}
+	case ReviewSubmissionItemTypeGameCenterLeaderboardVersion:
+		relationships.GameCenterLeaderboardVersion = &Relationship{
+			Data: ResourceData{Type: ResourceTypeGameCenterLeaderboardVersions, ID: itemID},
 		}
 	default:
 		return nil, fmt.Errorf("unsupported itemType: %s", itemType)

@@ -244,6 +244,138 @@ func TestCreateReviewSubmissionItem(t *testing.T) {
 	}
 }
 
+func TestCreateReviewSubmissionItemDocumentedAdditionalTypes(t *testing.T) {
+	tests := []struct {
+		name                 string
+		itemType             string
+		expectedRelationship string
+		expectedResourceType string
+	}{
+		{
+			name:                 "background asset version",
+			itemType:             "backgroundAssetVersions",
+			expectedRelationship: "backgroundAssetVersion",
+			expectedResourceType: "backgroundAssetVersions",
+		},
+		{
+			name:                 "game center achievement version",
+			itemType:             "gameCenterAchievementVersions",
+			expectedRelationship: "gameCenterAchievementVersion",
+			expectedResourceType: "gameCenterAchievementVersions",
+		},
+		{
+			name:                 "game center activity version",
+			itemType:             "gameCenterActivityVersions",
+			expectedRelationship: "gameCenterActivityVersion",
+			expectedResourceType: "gameCenterActivityVersions",
+		},
+		{
+			name:                 "game center challenge version",
+			itemType:             "gameCenterChallengeVersions",
+			expectedRelationship: "gameCenterChallengeVersion",
+			expectedResourceType: "gameCenterChallengeVersions",
+		},
+		{
+			name:                 "game center leaderboard set version",
+			itemType:             "gameCenterLeaderboardSetVersions",
+			expectedRelationship: "gameCenterLeaderboardSetVersion",
+			expectedResourceType: "gameCenterLeaderboardSetVersions",
+		},
+		{
+			name:                 "game center leaderboard version",
+			itemType:             "gameCenterLeaderboardVersions",
+			expectedRelationship: "gameCenterLeaderboardVersion",
+			expectedResourceType: "gameCenterLeaderboardVersions",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			response := reviewSubmissionsJSONResponse(http.StatusCreated, `{
+				"data": {
+					"type": "reviewSubmissionItems",
+					"id": "item-123",
+					"attributes": {
+						"state": "READY_FOR_REVIEW"
+					}
+				}
+			}`)
+
+			client := newTestClient(t, func(req *http.Request) {
+				if req.Method != http.MethodPost {
+					t.Fatalf("expected POST, got %s", req.Method)
+				}
+				if req.URL.Path != "/v1/reviewSubmissionItems" {
+					t.Fatalf("expected path /v1/reviewSubmissionItems, got %s", req.URL.Path)
+				}
+
+				body, err := io.ReadAll(req.Body)
+				if err != nil {
+					t.Fatalf("failed to read request body: %v", err)
+				}
+
+				var payload struct {
+					Data struct {
+						Type          string `json:"type"`
+						Relationships map[string]struct {
+							Data struct {
+								Type string `json:"type"`
+								ID   string `json:"id"`
+							} `json:"data"`
+						} `json:"relationships"`
+					} `json:"data"`
+				}
+				if err := json.Unmarshal(body, &payload); err != nil {
+					t.Fatalf("failed to unmarshal request body: %v", err)
+				}
+
+				if payload.Data.Type != string(ResourceTypeReviewSubmissionItems) {
+					t.Fatalf("expected type reviewSubmissionItems, got %s", payload.Data.Type)
+				}
+
+				reviewSubmission, ok := payload.Data.Relationships["reviewSubmission"]
+				if !ok {
+					t.Fatal("expected reviewSubmission relationship to be set")
+				}
+				if reviewSubmission.Data.Type != string(ResourceTypeReviewSubmissions) {
+					t.Fatalf("expected review submission type reviewSubmissions, got %s", reviewSubmission.Data.Type)
+				}
+				if reviewSubmission.Data.ID != "submission-123" {
+					t.Fatalf("expected submission ID submission-123, got %s", reviewSubmission.Data.ID)
+				}
+
+				relationship, ok := payload.Data.Relationships[test.expectedRelationship]
+				if !ok {
+					t.Fatalf("expected %s relationship to be set", test.expectedRelationship)
+				}
+				if relationship.Data.Type != test.expectedResourceType {
+					t.Fatalf("expected %s type %s, got %s", test.expectedRelationship, test.expectedResourceType, relationship.Data.Type)
+				}
+				if relationship.Data.ID != "resource-123" {
+					t.Fatalf("expected %s ID resource-123, got %s", test.expectedRelationship, relationship.Data.ID)
+				}
+			}, response)
+
+			resp, err := client.CreateReviewSubmissionItem(
+				context.Background(),
+				"submission-123",
+				ReviewSubmissionItemType(test.itemType),
+				"resource-123",
+			)
+			if err != nil {
+				t.Fatalf("CreateReviewSubmissionItem() error: %v", err)
+			}
+
+			if resp.Data.ID != "item-123" {
+				t.Fatalf("expected ID item-123, got %s", resp.Data.ID)
+			}
+			if resp.Data.Attributes.State != "READY_FOR_REVIEW" {
+				t.Fatalf("expected state READY_FOR_REVIEW, got %s", resp.Data.Attributes.State)
+			}
+		})
+	}
+}
+
 func TestUpdateReviewSubmissionItem(t *testing.T) {
 	response := reviewSubmissionsJSONResponse(http.StatusOK, `{
 		"data": {

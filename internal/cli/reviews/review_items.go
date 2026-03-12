@@ -133,7 +133,7 @@ func ReviewItemsAddCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("items-add", flag.ExitOnError)
 
 	submissionID := fs.String("submission", "", "Review submission ID (required)")
-	itemType := fs.String("item-type", "", "Item type: appStoreVersions, appCustomProductPages, appEvents, appStoreVersionExperiments, appStoreVersionExperimentTreatments (required)")
+	itemType := fs.String("item-type", "", fmt.Sprintf("Item type: %s (required)", strings.Join(reviewSubmissionItemTypeList(), ", ")))
 	itemID := fs.String("item-id", "", "Item ID (required)")
 	output := shared.BindOutputFlags(fs)
 
@@ -163,7 +163,7 @@ Examples:
 
 			normalizedType, err := normalizeReviewSubmissionItemType(*itemType)
 			if err != nil {
-				return fmt.Errorf("review items-add: %w", err)
+				return shared.UsageError(err.Error())
 			}
 
 			client, err := shared.GetASCClient()
@@ -307,6 +307,12 @@ func reviewSubmissionItemTypeList() []string {
 		"appEvents",
 		"appStoreVersionExperiments",
 		"appStoreVersionExperimentTreatments",
+		"backgroundAssetVersions",
+		"gameCenterAchievementVersions",
+		"gameCenterActivityVersions",
+		"gameCenterChallengeVersions",
+		"gameCenterLeaderboardSetVersions",
+		"gameCenterLeaderboardVersions",
 	}
 }
 
@@ -337,6 +343,12 @@ var reviewSubmissionItemTypes = map[string]asc.ReviewSubmissionItemType{
 	"appEvents":                           asc.ReviewSubmissionItemTypeAppEvent,
 	"appStoreVersionExperiments":          asc.ReviewSubmissionItemTypeAppStoreVersionExperiment,
 	"appStoreVersionExperimentTreatments": asc.ReviewSubmissionItemTypeAppStoreVersionExperimentTreatment,
+	"backgroundAssetVersions":             asc.ReviewSubmissionItemTypeBackgroundAssetVersion,
+	"gameCenterAchievementVersions":       asc.ReviewSubmissionItemTypeGameCenterAchievementVersion,
+	"gameCenterActivityVersions":          asc.ReviewSubmissionItemTypeGameCenterActivityVersion,
+	"gameCenterChallengeVersions":         asc.ReviewSubmissionItemTypeGameCenterChallengeVersion,
+	"gameCenterLeaderboardSetVersions":    asc.ReviewSubmissionItemTypeGameCenterLeaderboardSetVersion,
+	"gameCenterLeaderboardVersions":       asc.ReviewSubmissionItemTypeGameCenterLeaderboardVersion,
 }
 
 var reviewSubmissionItemStates = map[string]struct{}{
