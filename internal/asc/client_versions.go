@@ -13,6 +13,7 @@ type AppStoreVersionAttributes struct {
 	VersionString       string   `json:"versionString,omitempty"`
 	AppStoreState       string   `json:"appStoreState,omitempty"`
 	AppVersionState     string   `json:"appVersionState,omitempty"`
+	Copyright           string   `json:"copyright,omitempty"`
 	CreatedDate         string   `json:"createdDate,omitempty"`
 	ReleaseType         string   `json:"releaseType,omitempty"`
 	EarliestReleaseDate string   `json:"earliestReleaseDate,omitempty"`
