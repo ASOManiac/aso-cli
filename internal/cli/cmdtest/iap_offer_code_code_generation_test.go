@@ -443,6 +443,77 @@ func TestIAPOfferCodesOneTimeCodesCreateInvalidEnvironment(t *testing.T) {
 	}
 }
 
+func TestIAPOfferCodesOneTimeCodesCreateSandboxEnvironmentSuccess(t *testing.T) {
+	setupAuth(t)
+	t.Setenv("ASC_CONFIG_PATH", filepath.Join(t.TempDir(), "nonexistent.json"))
+
+	originalTransport := http.DefaultTransport
+	t.Cleanup(func() {
+		http.DefaultTransport = originalTransport
+	})
+
+	http.DefaultTransport = roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		rawBody, err := io.ReadAll(req.Body)
+		if err != nil {
+			t.Fatalf("read body error: %v", err)
+		}
+
+		var payload map[string]any
+		if err := json.Unmarshal(rawBody, &payload); err != nil {
+			t.Fatalf("decode request body: %v\nbody=%s", err, string(rawBody))
+		}
+
+		data := payload["data"].(map[string]any)
+		attrs := data["attributes"].(map[string]any)
+		if attrs["environment"] != "SANDBOX" {
+			t.Fatalf("expected environment SANDBOX, got %v", attrs["environment"])
+		}
+
+		body := `{"data":{"type":"inAppPurchaseOfferCodeOneTimeUseCodes","id":"otuc-2","attributes":{"numberOfCodes":100,"expirationDate":"2026-12-31","active":true,"environment":"SANDBOX"}}}`
+		return &http.Response{
+			StatusCode: http.StatusCreated,
+			Body:       io.NopCloser(strings.NewReader(body)),
+			Header:     http.Header{"Content-Type": []string{"application/json"}},
+		}, nil
+	})
+
+	root := RootCommand("1.2.3")
+	root.FlagSet.SetOutput(io.Discard)
+
+	stdout, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{
+			"iap", "offer-codes", "one-time-codes", "create",
+			"--offer-code-id", "offer-1",
+			"--quantity", "100",
+			"--expiration-date", "2026-12-31",
+			"--environment", "sandbox",
+		}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		if err := root.Run(context.Background()); err != nil {
+			t.Fatalf("run error: %v", err)
+		}
+	})
+
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
+	}
+
+	var out struct {
+		Data struct {
+			Attributes struct {
+				Environment string `json:"environment"`
+			} `json:"attributes"`
+		} `json:"data"`
+	}
+	if err := json.Unmarshal([]byte(stdout), &out); err != nil {
+		t.Fatalf("unmarshal output: %v\nstdout: %s", err, stdout)
+	}
+	if out.Data.Attributes.Environment != "SANDBOX" {
+		t.Fatalf("expected response environment SANDBOX, got %q", out.Data.Attributes.Environment)
+	}
+}
+
 func TestIAPOfferCodesOneTimeCodesCreateSuccess(t *testing.T) {
 	setupAuth(t)
 	t.Setenv("ASC_CONFIG_PATH", filepath.Join(t.TempDir(), "nonexistent.json"))
