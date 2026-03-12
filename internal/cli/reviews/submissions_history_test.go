@@ -336,6 +336,128 @@ func TestSubmissionVersionContexts_FromIncluded(t *testing.T) {
 	}
 }
 
+func TestFetchReviewSubmissions_PaginateDetectsRepeatedNextURL(t *testing.T) {
+	transport := testRoundTripper(func(req *http.Request) (*http.Response, error) {
+		if req.URL.Path != "/v1/apps/app-1/reviewSubmissions" {
+			return testJSONResponse(404, `{"errors":[{"status":"404"}]}`), nil
+		}
+		if req.URL.Query().Get("cursor") == "same" {
+			return testJSONResponse(200, `{
+				"data": [{
+					"type": "reviewSubmissions",
+					"id": "sub-2",
+					"attributes": {
+						"state": "COMPLETE",
+						"platform": "IOS",
+						"submittedDate": "2026-03-01T13:00:00Z"
+					}
+				}],
+				"links": {
+					"self": "/v1/apps/app-1/reviewSubmissions?cursor=same",
+					"next": "https://api.appstoreconnect.apple.com/v1/apps/app-1/reviewSubmissions?cursor=same"
+				}
+			}`), nil
+		}
+		return testJSONResponse(200, `{
+			"data": [{
+				"type": "reviewSubmissions",
+				"id": "sub-1",
+				"attributes": {
+					"state": "COMPLETE",
+					"platform": "IOS",
+					"submittedDate": "2026-03-01T12:00:00Z"
+				}
+			}],
+			"links": {
+				"self": "/v1/apps/app-1/reviewSubmissions?limit=200",
+				"next": "https://api.appstoreconnect.apple.com/v1/apps/app-1/reviewSubmissions?cursor=same"
+			}
+		}`), nil
+	})
+
+	client := newTestHistoryClient(t, transport)
+	_, _, err := fetchReviewSubmissions(
+		context.Background(),
+		client,
+		"app-1",
+		[]asc.ReviewSubmissionsOption{
+			asc.WithReviewSubmissionsLimit(200),
+			asc.WithReviewSubmissionsInclude([]string{"appStoreVersionForReview"}),
+		},
+		true,
+	)
+	if err == nil {
+		t.Fatal("expected repeated pagination URL error, got nil")
+	}
+	if !errors.Is(err, asc.ErrRepeatedPaginationURL) {
+		t.Fatalf("expected ErrRepeatedPaginationURL, got: %v", err)
+	}
+}
+
+func TestFetchReviewSubmissions_PaginateAnnotatesIncludedParseErrorWithPage(t *testing.T) {
+	transport := testRoundTripper(func(req *http.Request) (*http.Response, error) {
+		if req.URL.Path != "/v1/apps/app-1/reviewSubmissions" {
+			return testJSONResponse(404, `{"errors":[{"status":"404"}]}`), nil
+		}
+		if req.URL.Query().Get("cursor") == "2" {
+			return testJSONResponse(200, `{
+				"data": [{
+					"type": "reviewSubmissions",
+					"id": "sub-2",
+					"attributes": {
+						"state": "COMPLETE",
+						"platform": "IOS",
+						"submittedDate": "2026-03-01T13:00:00Z"
+					},
+					"relationships": {
+						"appStoreVersionForReview": {
+							"data": {"type": "appStoreVersions", "id": "ver-2"}
+						}
+					}
+				}],
+				"included": {"type": "appStoreVersions", "id": "ver-2"},
+				"links": {"self": "/v1/apps/app-1/reviewSubmissions?cursor=2"}
+			}`), nil
+		}
+		return testJSONResponse(200, `{
+			"data": [{
+				"type": "reviewSubmissions",
+				"id": "sub-1",
+				"attributes": {
+					"state": "COMPLETE",
+					"platform": "IOS",
+					"submittedDate": "2026-03-01T12:00:00Z"
+				}
+			}],
+			"links": {
+				"self": "/v1/apps/app-1/reviewSubmissions?limit=200",
+				"next": "https://api.appstoreconnect.apple.com/v1/apps/app-1/reviewSubmissions?cursor=2"
+			}
+		}`), nil
+	})
+
+	client := newTestHistoryClient(t, transport)
+	_, _, err := fetchReviewSubmissions(
+		context.Background(),
+		client,
+		"app-1",
+		[]asc.ReviewSubmissionsOption{
+			asc.WithReviewSubmissionsLimit(200),
+			asc.WithReviewSubmissionsInclude([]string{"appStoreVersionForReview"}),
+		},
+		true,
+	)
+	if err == nil {
+		t.Fatal("expected included parse error, got nil")
+	}
+	if !strings.Contains(err.Error(), "page 2:") {
+		t.Fatalf("expected page context in error, got: %v", err)
+	}
+	if !strings.Contains(err.Error(), "failed to parse included review submission versions") {
+		t.Fatalf("expected included parsing error, got: %v", err)
+	}
+}
+
 func TestEnrichSubmissions_VersionFilter(t *testing.T) {
 	transport := testRoundTripper(func(req *http.Request) (*http.Response, error) {
 		path := req.URL.Path
