@@ -514,6 +514,22 @@ func TestIAPOfferCodesOneTimeCodesCreateSandboxEnvironmentSuccess(t *testing.T) 
 	}
 }
 
+func TestIAPOfferCodesOneTimeCodesCreateHelpShowsEnvironmentFlag(t *testing.T) {
+	root := RootCommand("1.2.3")
+	cmd := findSubcommand(root, "iap", "offer-codes", "one-time-codes", "create")
+	if cmd == nil {
+		t.Fatal("expected iap offer-codes one-time-codes create command")
+	}
+
+	usage := cmd.UsageFunc(cmd)
+	if !strings.Contains(usage, "--environment") {
+		t.Fatalf("expected usage to mention --environment, got %q", usage)
+	}
+	if !strings.Contains(usage, "SANDBOX") {
+		t.Fatalf("expected usage to mention SANDBOX, got %q", usage)
+	}
+}
+
 func TestIAPOfferCodesOneTimeCodesCreateSuccess(t *testing.T) {
 	setupAuth(t)
 	t.Setenv("ASC_CONFIG_PATH", filepath.Join(t.TempDir(), "nonexistent.json"))
