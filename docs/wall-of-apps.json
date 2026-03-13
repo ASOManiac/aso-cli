@@ -187,6 +187,13 @@
     "platform": ["iOS"]
   },
   {
+    "app": "Fermento Fermentation Journal",
+    "link": "https://apps.apple.com/us/app/fermento-fermentation-journal/id6470132496?uo=4",
+    "creator": "valzevul",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e4/e3/59/e4e3593b-0e71-922d-2313-b31c35cde061/AppIcon-0-0-1x_U007epad-0-1-85-220.jpeg/512x512bb.jpg",
+    "platform": ["iOS"]
+  },
+  {
     "app": "Finny: AI Money Tracker",
     "link": "https://apps.apple.com/vn/app/finny-finance-tracker-app/id6736472735",
     "creator": "dmeows",
