@@ -254,11 +254,6 @@ func loadLocalMetadata(dir, version string) (localMetadataBundle, error) {
 	}, nil
 }
 
-type appInfoCandidate struct {
-	id    string
-	state string
-}
-
 type exampleBuilderFunc func(appID, version, platform, dir, appInfoID string) string
 
 func resolveMetadataPushAppInfoID(
@@ -302,25 +297,16 @@ func resolveMetadataAppInfoID(
 		return strings.TrimSpace(resp.Data[0].ID), nil
 	}
 
-	candidates := make([]appInfoCandidate, 0, len(resp.Data))
-	for _, item := range resp.Data {
-		candidates = append(candidates, appInfoCandidate{
-			id:    strings.TrimSpace(item.ID),
-			state: appInfoState(item.Attributes),
-		})
-	}
-	sort.Slice(candidates, func(i, j int) bool {
-		return candidates[i].id < candidates[j].id
-	})
+	candidates := asc.AppInfoCandidates(resp.Data)
 
-	if resolvedID, ok := autoResolveAppInfoIDByVersionState(candidates, versionState); ok {
+	if resolvedID, ok := asc.AutoResolveAppInfoIDByVersionState(candidates, versionState); ok {
 		return resolvedID, nil
 	}
 
 	exampleAppInfoID := "<APP_INFO_ID>"
 	for _, candidate := range candidates {
-		if candidate.id != "" {
-			exampleAppInfoID = candidate.id
+		if candidate.ID != "" {
+			exampleAppInfoID = candidate.ID
 			break
 		}
 	}
@@ -328,90 +314,10 @@ func resolveMetadataAppInfoID(
 	return "", shared.UsageErrorf(
 		"multiple app infos found for app %q (%s). Run `asc apps info list --app %q` to inspect candidates, then re-run with --app-info. Example: %s",
 		appID,
-		formatAppInfoCandidates(candidates),
+		asc.FormatAppInfoCandidates(candidates),
 		appID,
 		exampleCommand,
 	)
-}
-
-func autoResolveAppInfoIDByVersionState(candidates []appInfoCandidate, versionState string) (string, bool) {
-	resolvedVersionState := strings.TrimSpace(versionState)
-	if resolvedVersionState == "" {
-		return "", false
-	}
-
-	acceptableStates := acceptableAppInfoStatesForVersionState(resolvedVersionState)
-	matches := make([]string, 0, len(candidates))
-	for _, candidate := range candidates {
-		if candidate.id == "" || !matchesAppInfoState(candidate.state, acceptableStates) {
-			continue
-		}
-		matches = append(matches, candidate.id)
-	}
-	if len(matches) != 1 {
-		return "", false
-	}
-	return matches[0], true
-}
-
-func acceptableAppInfoStatesForVersionState(versionState string) []string {
-	switch strings.TrimSpace(versionState) {
-	case "PENDING_DEVELOPER_RELEASE", "PENDING_APPLE_RELEASE":
-		return []string{versionState, "PENDING_RELEASE"}
-	case "REPLACED_WITH_NEW_VERSION":
-		return []string{versionState, "REPLACED_WITH_NEW_INFO"}
-	case "READY_FOR_SALE":
-		return []string{versionState, "READY_FOR_DISTRIBUTION"}
-	default:
-		return []string{versionState}
-	}
-}
-
-func matchesAppInfoState(candidateState string, acceptableStates []string) bool {
-	resolved := strings.TrimSpace(candidateState)
-	if resolved == "" {
-		return false
-	}
-	for _, acceptable := range acceptableStates {
-		if strings.EqualFold(resolved, strings.TrimSpace(acceptable)) {
-			return true
-		}
-	}
-	return false
-}
-
-func appInfoState(attributes asc.AppInfoAttributes) string {
-	for _, key := range []string{"state", "appStoreState"} {
-		rawValue, exists := attributes[key]
-		if !exists || rawValue == nil {
-			continue
-		}
-		value, ok := rawValue.(string)
-		if !ok {
-			continue
-		}
-		trimmed := strings.TrimSpace(value)
-		if trimmed != "" {
-			return trimmed
-		}
-	}
-	return ""
-}
-
-func formatAppInfoCandidates(candidates []appInfoCandidate) string {
-	if len(candidates) == 0 {
-		return "none"
-	}
-
-	parts := make([]string, 0, len(candidates))
-	for _, candidate := range candidates {
-		state := candidate.state
-		if state == "" {
-			state = "unknown"
-		}
-		parts = append(parts, fmt.Sprintf("%s[state=%s]", candidate.id, state))
-	}
-	return strings.Join(parts, ", ")
 }
 
 func buildMetadataAppInfoExample(command, appID, version, platform, dir, appInfoID string) string {
