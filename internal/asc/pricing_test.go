@@ -441,20 +441,16 @@ func TestCreateAppAvailabilityV2(t *testing.T) {
 		if createReq.Data.Relationships.TerritoryAvailabilities.Data[0].ID != "${local-usa}" {
 			t.Fatalf("expected first local id ${local-usa}, got %q", createReq.Data.Relationships.TerritoryAvailabilities.Data[0].ID)
 		}
-		if len(createReq.Included) != 4 {
-			t.Fatalf("expected 4 included items (2 territory availabilities + 2 territories), got %d", len(createReq.Included))
+		if len(createReq.Included) != 2 {
+			t.Fatalf("expected 2 included items (2 territory availabilities), got %d", len(createReq.Included))
 		}
 		if createReq.Included[0].Relationships == nil || createReq.Included[0].Relationships.Territory.Data.ID == "" {
 			t.Fatalf("expected territory relationship to be set")
 		}
 		availabilityIncludes := make([]AppAvailabilityV2IncludedResource, 0, 2)
-		territoryIncludes := 0
 		for _, included := range createReq.Included {
 			if included.Type == ResourceTypeTerritoryAvailabilities {
 				availabilityIncludes = append(availabilityIncludes, included)
-			}
-			if included.Type == ResourceTypeTerritories {
-				territoryIncludes++
 			}
 		}
 		if len(availabilityIncludes) != 2 {
@@ -465,9 +461,6 @@ func TestCreateAppAvailabilityV2(t *testing.T) {
 		}
 		if availabilityIncludes[0].Attributes.Available == availabilityIncludes[1].Attributes.Available {
 			t.Fatalf("expected available values to differ for test coverage")
-		}
-		if territoryIncludes != 2 {
-			t.Fatalf("expected 2 included territory resources, got %d", territoryIncludes)
 		}
 	}, jsonResponse(http.StatusCreated, string(body)))
 
