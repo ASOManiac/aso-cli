@@ -17,6 +17,7 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
 )
@@ -413,4 +414,122 @@ func TestExtractExistingSubmissionID(t *testing.T) {
 			t.Fatalf("got %q, want %q", got, want)
 		}
 	})
+}
+
+func TestAddVersionToSubmissionOrRecover_ExhaustsRetriesForRecentlyCanceledSubmission(t *testing.T) {
+	const staleSubmissionID = "stale-1"
+
+	attempts := 0
+	client := newSubmitTestClient(t, submitRoundTripFunc(func(req *http.Request) (*http.Response, error) {
+		if req.Method != http.MethodPost || req.URL.Path != "/v1/reviewSubmissionItems" {
+			return nil, fmt.Errorf("unexpected request: %s %s", req.Method, req.URL.Path)
+		}
+		attempts++
+		return submitJSONResponse(http.StatusConflict, submitAlreadyAddedConflictBody(staleSubmissionID))
+	}))
+
+	originalDelays := submitCreateRecentlyCanceledRetryDelays
+	submitCreateRecentlyCanceledRetryDelays = []time.Duration{time.Millisecond, time.Millisecond}
+	t.Cleanup(func() {
+		submitCreateRecentlyCanceledRetryDelays = originalDelays
+	})
+
+	resolvedID, err := addVersionToSubmissionOrRecover(
+		context.Background(),
+		client,
+		"new-sub-1",
+		"version-1",
+		map[string]struct{}{staleSubmissionID: {}},
+	)
+	if err == nil {
+		t.Fatal("expected retry exhaustion error")
+	}
+	if resolvedID != "" {
+		t.Fatalf("expected empty resolved submission ID on failure, got %q", resolvedID)
+	}
+	if !strings.Contains(err.Error(), "still attached to recently canceled review submission stale-1 after 2 retries") {
+		t.Fatalf("expected retry exhaustion message, got: %v", err)
+	}
+	if attempts != 3 {
+		t.Fatalf("expected 3 add-item attempts (initial + 2 retries), got %d", attempts)
+	}
+}
+
+func TestAddVersionToSubmissionOrRecover_ReturnsContextErrorWhileWaitingForDetach(t *testing.T) {
+	const staleSubmissionID = "stale-1"
+
+	attempts := 0
+	client := newSubmitTestClient(t, submitRoundTripFunc(func(req *http.Request) (*http.Response, error) {
+		if req.Method != http.MethodPost || req.URL.Path != "/v1/reviewSubmissionItems" {
+			return nil, fmt.Errorf("unexpected request: %s %s", req.Method, req.URL.Path)
+		}
+		attempts++
+		return submitJSONResponse(http.StatusConflict, submitAlreadyAddedConflictBody(staleSubmissionID))
+	}))
+
+	originalDelays := submitCreateRecentlyCanceledRetryDelays
+	submitCreateRecentlyCanceledRetryDelays = []time.Duration{100 * time.Millisecond}
+	t.Cleanup(func() {
+		submitCreateRecentlyCanceledRetryDelays = originalDelays
+	})
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
+	defer cancel()
+
+	resolvedID, err := addVersionToSubmissionOrRecover(
+		ctx,
+		client,
+		"new-sub-1",
+		"version-1",
+		map[string]struct{}{staleSubmissionID: {}},
+	)
+	if err == nil {
+		t.Fatal("expected context cancellation while waiting to retry")
+	}
+	if resolvedID != "" {
+		t.Fatalf("expected empty resolved submission ID on failure, got %q", resolvedID)
+	}
+	if !strings.Contains(err.Error(), "waiting for recently canceled review submission stale-1 to clear") {
+		t.Fatalf("expected wait/cancellation error message, got: %v", err)
+	}
+	if !errors.Is(err, context.DeadlineExceeded) {
+		t.Fatalf("expected wrapped context deadline exceeded error, got: %v", err)
+	}
+	if attempts != 1 {
+		t.Fatalf("expected one add-item attempt before context cancellation, got %d", attempts)
+	}
+}
+
+func newSubmitTestClient(t *testing.T, transport http.RoundTripper) *asc.Client {
+	t.Helper()
+
+	keyPath := filepath.Join(t.TempDir(), "AuthKey.p8")
+	writeSubmitECDSAPEM(t, keyPath)
+
+	client, err := asc.NewClientWithHTTPClient("TEST_KEY", "TEST_ISSUER", keyPath, &http.Client{
+		Transport: transport,
+	})
+	if err != nil {
+		t.Fatalf("NewClientWithHTTPClient() error: %v", err)
+	}
+	return client
+}
+
+func submitAlreadyAddedConflictBody(existingSubmissionID string) string {
+	return fmt.Sprintf(`{
+		"errors": [{
+			"status": "409",
+			"code": "ENTITY_ERROR",
+			"title": "The request entity is not valid.",
+			"detail": "An attribute value is not valid.",
+			"meta": {
+				"associatedErrors": {
+					"/v1/reviewSubmissionItems": [{
+						"code": "ENTITY_ERROR.RELATIONSHIP.INVALID",
+						"detail": "appStoreVersions with id version-1 was already added to another reviewSubmission with id %s"
+					}]
+				}
+			}
+		}]
+	}`, existingSubmissionID)
 }
