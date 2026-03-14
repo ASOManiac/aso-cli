@@ -5170,9 +5170,9 @@ func TestXcodeCloudValidationErrors(t *testing.T) {
 			wantErr: "--path is required",
 		},
 		{
-			name:    "xcode-cloud test-results list missing action-id",
+			name:    "xcode-cloud test-results list missing selector",
 			args:    []string{"xcode-cloud", "test-results", "list"},
-			wantErr: "--action-id is required",
+			wantErr: "--action-id or --run-id is required",
 		},
 		{
 			name:    "xcode-cloud test-results get missing id",
