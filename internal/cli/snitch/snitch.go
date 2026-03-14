@@ -131,13 +131,21 @@ Examples:
 				OS:          fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),
 			}
 
-			if *local && !*dryRun {
-				return writeLocalLog(entry)
-			}
-
 			token := resolveGitHubToken()
 			requestCtx, cancel := shared.ContextWithTimeout(ctx)
 			defer cancel()
+
+			if len(entry.Labels) > 0 && !(*local && !*dryRun) {
+				validatedLabels, err := validateRequestedLabels(requestCtx, token, entry.Labels)
+				if err != nil {
+					return err
+				}
+				entry.Labels = validatedLabels
+			}
+
+			if *local && !*dryRun {
+				return writeLocalLog(entry)
+			}
 
 			var duplicates []GitHubIssue
 			if token != "" {
