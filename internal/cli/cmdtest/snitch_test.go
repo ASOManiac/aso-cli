@@ -112,6 +112,67 @@ func TestSnitchDryRunWithValidLabels(t *testing.T) {
 	}
 }
 
+func TestSnitchDryRunContinuesWhenLabelValidationLookupFails(t *testing.T) {
+	t.Setenv("GITHUB_TOKEN", "test-token")
+	t.Setenv("GH_TOKEN", "")
+
+	originalTransport := http.DefaultTransport
+	t.Cleanup(func() {
+		http.DefaultTransport = originalTransport
+	})
+
+	callCount := 0
+	http.DefaultTransport = roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		callCount++
+		switch callCount {
+		case 1:
+			if req.Method != http.MethodGet || req.URL.Host != "api.github.com" || req.URL.Path != "/repos/rudrankriyam/App-Store-Connect-CLI/labels" {
+				t.Fatalf("unexpected first request: %s %s", req.Method, req.URL.String())
+			}
+			return &http.Response{
+				StatusCode: http.StatusServiceUnavailable,
+				Body:       io.NopCloser(strings.NewReader(`{"message":"try later"}`)),
+				Header:     http.Header{"Content-Type": []string{"application/json"}},
+			}, nil
+		case 2:
+			if req.Method != http.MethodGet || req.URL.Host != "api.github.com" || req.URL.Path != "/search/issues" {
+				t.Fatalf("unexpected second request: %s %s", req.Method, req.URL.String())
+			}
+			body := `{"items":[]}`
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       io.NopCloser(strings.NewReader(body)),
+				Header:     http.Header{"Content-Type": []string{"application/json"}},
+			}, nil
+		default:
+			t.Fatalf("unexpected request count %d", callCount)
+			return nil, nil
+		}
+	})
+
+	root := RootCommand("1.2.3")
+	root.FlagSet.SetOutput(io.Discard)
+
+	_, stderr := captureOutput(t, func() {
+		if err := root.Parse([]string{"snitch", "--dry-run", "--label", "enhancement", "label lookup degraded"}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		if err := root.Run(context.Background()); err != nil {
+			t.Fatalf("expected lookup failures to warn and continue, got %v", err)
+		}
+	})
+
+	if !strings.Contains(stderr, "continuing without preflight label validation") {
+		t.Fatalf("expected label validation warning, got %q", stderr)
+	}
+	if !strings.Contains(stderr, "Dry run: would create issue") {
+		t.Fatalf("expected dry-run output, got %q", stderr)
+	}
+	if !strings.Contains(stderr, "Labels: asc-snitch, bug, enhancement") {
+		t.Fatalf("expected preview labels, got %q", stderr)
+	}
+}
+
 func TestSnitchInvalidLabelReturnsUsage(t *testing.T) {
 	t.Setenv("GITHUB_TOKEN", "test-token")
 	t.Setenv("GH_TOKEN", "")

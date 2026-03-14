@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -138,9 +139,14 @@ Examples:
 			if len(entry.Labels) > 0 && !(*local && !*dryRun) {
 				validatedLabels, err := validateRequestedLabels(requestCtx, token, entry.Labels)
 				if err != nil {
-					return err
+					if errors.Is(err, flag.ErrHelp) {
+						return err
+					}
+					fmt.Fprintf(os.Stderr, "Warning: %v; continuing without preflight label validation.\n", err)
+					entry.Labels = dedupeLabels(entry.Labels)
+				} else {
+					entry.Labels = validatedLabels
 				}
-				entry.Labels = validatedLabels
 			}
 
 			if *local && !*dryRun {
@@ -511,7 +517,7 @@ func validateRequestedLabels(ctx context.Context, token string, requested []stri
 
 	repoLabels, err := listRepoLabels(ctx, token)
 	if err != nil {
-		return nil, shared.UsageErrorf("failed to validate --label values: %v", err)
+		return nil, fmt.Errorf("failed to validate --label values: %w", err)
 	}
 
 	labelIndex := make(map[string]string, len(repoLabels))
