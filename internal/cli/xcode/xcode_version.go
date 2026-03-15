@@ -61,6 +61,10 @@ func xcodeVersionGetCommand() *ffcli.Command {
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
+			if len(args) > 0 {
+				return shared.UsageErrorf("unexpected argument(s): %s", strings.Join(args, " "))
+			}
+
 			dir := strings.TrimSpace(*projectDir)
 			if dir == "" {
 				dir = "."
@@ -104,6 +108,10 @@ func xcodeVersionSetCommand() *ffcli.Command {
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
+			if len(args) > 0 {
+				return shared.UsageErrorf("unexpected argument(s): %s", strings.Join(args, " "))
+			}
+
 			v := strings.TrimSpace(*version)
 			b := strings.TrimSpace(*buildNumber)
 			if v == "" && b == "" {
@@ -155,6 +163,10 @@ Examples:
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
+			if len(args) > 0 {
+				return shared.UsageErrorf("unexpected argument(s): %s", strings.Join(args, " "))
+			}
+
 			parsed, err := localxcode.ParseBumpType(*bumpType)
 			if err != nil {
 				return shared.UsageError(err.Error())

@@ -265,7 +265,6 @@ func readBuildSettings(ctx context.Context, projectDir string) (map[string]strin
 	}
 
 	cmd := commandContextFn(ctx, "xcodebuild", "-showBuildSettings", "-project", xcodeproj)
-	cmd.Dir = projectDir
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
