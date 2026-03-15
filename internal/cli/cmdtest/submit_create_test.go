@@ -516,12 +516,12 @@ func TestSubmitCreateSilentlySkipsConflictOnStaleSubmissionCancel(t *testing.T) 
 		}
 	})
 
-	// 409 Conflict on stale cancel should be silently suppressed — no warning
+	// 409 Conflict should produce a clear info message, not the scary "Warning: failed to cancel" dump
 	if strings.Contains(stderr, "Warning: failed to cancel stale submission") {
 		t.Fatalf("expected no warning for 409 conflict on stale cancel, got: %q", stderr)
 	}
-	if strings.Contains(stderr, "stale-1") {
-		t.Fatalf("expected no mention of stale-1 in stderr, got: %q", stderr)
+	if !strings.Contains(stderr, "Skipped stale submission stale-1: already transitioned to a non-cancellable state") {
+		t.Fatalf("expected info message about skipped stale submission, got: %q", stderr)
 	}
 	if stdout == "" {
 		t.Fatal("expected JSON output on stdout")
