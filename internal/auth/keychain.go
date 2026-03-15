@@ -666,16 +666,10 @@ func maybeBackfillCredentialMetadata(cred Credential) {
 	if !cred.MetadataNeedsBackfill {
 		return
 	}
-	payload := credentialPayload{
-		KeyID:          cred.KeyID,
-		IssuerID:       cred.IssuerID,
-		PrivateKeyPath: cred.PrivateKeyPath,
-		PrivateKeyPEM:  cred.PrivateKeyPEM,
-	}
-	if strings.TrimSpace(payload.PrivateKeyPEM) == "" {
+	if strings.TrimSpace(cred.PrivateKeyPEM) == "" {
 		return
 	}
-	_ = storeInKeychain(cred.Name, payload)
+	persistKeychainMetadata(cred)
 }
 
 func configFromCredential(cred Credential) *config.Config {
@@ -754,6 +748,76 @@ func parseCredentialMetadataDescription(description string) credentialMetadata {
 		return credentialMetadata{}
 	}
 	return metadata
+}
+
+func hasCredentialMetadata(metadata credentialMetadata) bool {
+	return strings.TrimSpace(metadata.KeyID) != "" || strings.TrimSpace(metadata.IssuerID) != ""
+}
+
+func credentialMetadataMatchesPayload(metadata credentialMetadata, payload credentialPayload) bool {
+	return strings.TrimSpace(metadata.KeyID) == strings.TrimSpace(payload.KeyID) &&
+		strings.TrimSpace(metadata.IssuerID) == strings.TrimSpace(payload.IssuerID)
+}
+
+func loadStoredKeychainMetadata() map[string]credentialMetadata {
+	path, err := config.Path()
+	if err != nil {
+		return map[string]credentialMetadata{}
+	}
+	cfg, err := config.LoadAt(path)
+	if err != nil {
+		return map[string]credentialMetadata{}
+	}
+	stored := make(map[string]credentialMetadata, len(cfg.KeychainMetadata))
+	for _, entry := range cfg.KeychainMetadata {
+		name := strings.TrimSpace(entry.Name)
+		if name == "" {
+			continue
+		}
+		stored[name] = credentialMetadata{
+			KeyID:    strings.TrimSpace(entry.KeyID),
+			IssuerID: strings.TrimSpace(entry.IssuerID),
+		}
+	}
+	return stored
+}
+
+func persistKeychainMetadata(cred Credential) {
+	name := strings.TrimSpace(cred.Name)
+	if name == "" {
+		return
+	}
+	path, err := config.Path()
+	if err != nil {
+		return
+	}
+	cfg, err := config.LoadAt(path)
+	if err != nil && !errors.Is(err, config.ErrNotFound) {
+		return
+	}
+	if cfg == nil {
+		cfg = &config.Config{}
+	}
+	metadata := config.KeychainMetadata{
+		Name:     name,
+		KeyID:    strings.TrimSpace(cred.KeyID),
+		IssuerID: strings.TrimSpace(cred.IssuerID),
+	}
+	if metadata.KeyID == "" && metadata.IssuerID == "" {
+		return
+	}
+	updated := false
+	for i := range cfg.KeychainMetadata {
+		if strings.TrimSpace(cfg.KeychainMetadata[i].Name) == name {
+			cfg.KeychainMetadata[i] = metadata
+			updated = true
+			break
+		}
+	}
+	if !updated {
+		cfg.KeychainMetadata = append(cfg.KeychainMetadata, metadata)
+	}
+	_ = config.SaveAt(path, cfg)
 }
 
 func metadataRequiresSecretRead(err error) bool {
@@ -878,6 +942,7 @@ func listCredentialSummariesFromKeyring(kr keyring.Keyring) ([]Credential, error
 	}
 
 	defaultName, _ := defaultName()
+	storedMetadata := loadStoredKeychainMetadata()
 	credentials := []Credential{}
 	for _, key := range keys {
 		if !strings.HasPrefix(key, keyringItemPrefix) {
@@ -898,6 +963,11 @@ func listCredentialSummariesFromKeyring(kr keyring.Keyring) ([]Credential, error
 		}
 		name := strings.TrimPrefix(key, keyringItemPrefix)
 		summary := parseCredentialMetadataDescription(metadata.Item.Description)
+		if !hasCredentialMetadata(summary) {
+			if stored, ok := storedMetadata[name]; ok {
+				summary = stored
+			}
+		}
 		credentials = append(credentials, Credential{
 			Name:      name,
 			KeyID:     summary.KeyID,
@@ -917,6 +987,7 @@ func listFromKeyring(kr keyring.Keyring) ([]Credential, error) {
 	}
 
 	defaultName, _ := defaultName()
+	storedMetadata := loadStoredKeychainMetadata()
 	credentials := []Credential{}
 	for _, key := range keys {
 		if !strings.HasPrefix(key, keyringItemPrefix) {
@@ -934,12 +1005,19 @@ func listFromKeyring(kr keyring.Keyring) ([]Credential, error) {
 			return nil, fmt.Errorf("invalid keychain entry %q: %w", key, err)
 		}
 		name := strings.TrimPrefix(key, keyringItemPrefix)
-		metadataNeedsBackfill := strings.TrimSpace(item.Description) != credentialMetadataDescription(payload)
+		descriptionMetadata := parseCredentialMetadataDescription(item.Description)
+		metadataNeedsBackfill := !hasCredentialMetadata(descriptionMetadata)
+		if metadataNeedsBackfill {
+			if stored, ok := storedMetadata[name]; ok && credentialMetadataMatchesPayload(stored, payload) {
+				metadataNeedsBackfill = false
+			}
+		}
 		needsRewrite := false
 		if strings.TrimSpace(payload.PrivateKeyPEM) == "" {
 			if privateKeyPEM, err := loadPrivateKeyPEMForStorage(payload.PrivateKeyPath); err == nil && strings.TrimSpace(privateKeyPEM) != "" {
 				payload.PrivateKeyPEM = privateKeyPEM
 				needsRewrite = true
+				metadataNeedsBackfill = false
 			}
 		}
 		if needsRewrite {
