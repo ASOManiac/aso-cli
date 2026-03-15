@@ -80,9 +80,13 @@ func (g *GitStore) WriteEncryptedFile(relPath string, plaintext []byte, password
 }
 
 // ReadEncryptedFile reads and decrypts a file from the repo.
+// Rejects symlinks to prevent reading outside the clone directory.
 func (g *GitStore) ReadEncryptedFile(relPath string, password string) ([]byte, error) {
 	fullPath := filepath.Join(g.LocalDir, relPath+".enc")
 	if err := ensureInsideDir(g.LocalDir, fullPath); err != nil {
+		return nil, err
+	}
+	if err := rejectSymlink(fullPath); err != nil {
 		return nil, err
 	}
 
@@ -169,6 +173,18 @@ func ensureInsideDir(baseDir, target string) error {
 	}
 	if !strings.HasPrefix(absTarget, absBase+string(filepath.Separator)) && absTarget != absBase {
 		return fmt.Errorf("path %q escapes base directory %q", target, baseDir)
+	}
+	return nil
+}
+
+// rejectSymlink checks that path is not a symlink.
+func rejectSymlink(path string) error {
+	info, err := os.Lstat(path)
+	if err != nil {
+		return err
+	}
+	if info.Mode()&os.ModeSymlink != 0 {
+		return fmt.Errorf("refusing to read symlink %q (potential escape)", path)
 	}
 	return nil
 }
