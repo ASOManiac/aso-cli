@@ -2,6 +2,7 @@ package preorders
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -90,44 +91,53 @@ Examples:
 
 // PreOrdersListCommand returns the list subcommand.
 func PreOrdersListCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("pre-orders list", flag.ExitOnError)
-
-	availabilityID := fs.String("availability", "", "App availability ID")
-	output := shared.BindOutputFlags(fs)
-
-	return &ffcli.Command{
-		Name:       "list",
-		ShortUsage: "asc pre-orders list --availability AVAILABILITY_ID",
-		ShortHelp:  "List territory availabilities for pre-orders.",
+	cmd := shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
+		FlagSetName: "pre-orders list",
+		Name:        "list",
+		ShortUsage:  "asc pre-orders list --availability AVAILABILITY_ID [--limit N] [--next URL] [--paginate]",
+		ShortHelp:   "List territory availabilities for pre-orders.",
 		LongHelp: `List territory availabilities for pre-orders.
 
 Examples:
-  asc pre-orders list --availability "AVAILABILITY_ID"`,
-		FlagSet:   fs,
-		UsageFunc: shared.DefaultUsageFunc,
-		Exec: func(ctx context.Context, args []string) error {
-			trimmedAvailabilityID := strings.TrimSpace(*availabilityID)
-			if trimmedAvailabilityID == "" {
-				fmt.Fprintln(os.Stderr, "Error: --availability is required")
-				return flag.ErrHelp
+  asc pre-orders list --availability "AVAILABILITY_ID"
+  asc pre-orders list --availability "AVAILABILITY_ID" --limit 175
+  asc pre-orders list --availability "AVAILABILITY_ID" --paginate
+  asc pre-orders list --next "NEXT_URL"`,
+		ParentFlag:  "availability",
+		ParentUsage: "App availability ID",
+		LimitMax:    200,
+		ErrorPrefix: "pre-orders list",
+		FetchPage: func(ctx context.Context, client *asc.Client, availabilityID string, limit int, next string) (asc.PaginatedResponse, error) {
+			opts := make([]asc.TerritoryAvailabilitiesOption, 0, 2)
+			if limit > 0 {
+				opts = append(opts, asc.WithTerritoryAvailabilitiesLimit(limit))
 			}
-
-			client, err := shared.GetASCClient()
-			if err != nil {
-				return fmt.Errorf("pre-orders list: %w", err)
+			if strings.TrimSpace(next) != "" {
+				opts = append(opts, asc.WithTerritoryAvailabilitiesNextURL(next))
 			}
-
-			requestCtx, cancel := shared.ContextWithTimeout(ctx)
-			defer cancel()
-
-			resp, err := client.GetTerritoryAvailabilities(requestCtx, trimmedAvailabilityID)
-			if err != nil {
-				return fmt.Errorf("pre-orders list: %w", err)
-			}
-
-			return shared.PrintOutput(resp, *output.Output, *output.Pretty)
+			return client.GetTerritoryAvailabilities(ctx, availabilityID, opts...)
 		},
+	})
+
+	originalExec := cmd.Exec
+	cmd.Exec = func(ctx context.Context, args []string) error {
+		err := originalExec(ctx, args)
+		if err == nil || errors.Is(err, flag.ErrHelp) {
+			return err
+		}
+		if isPreOrdersListUsageError(err) {
+			return shared.UsageError(err.Error())
+		}
+		return err
 	}
+
+	return cmd
+}
+
+func isPreOrdersListUsageError(err error) bool {
+	message := err.Error()
+	return strings.HasPrefix(message, "pre-orders list: --limit must be between 1 and ") ||
+		strings.HasPrefix(message, "pre-orders list: --next ")
 }
 
 // PreOrdersEnableCommand returns the enable subcommand.
