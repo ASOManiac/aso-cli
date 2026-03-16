@@ -346,36 +346,48 @@ func findRecentBuildUploadID(ctx context.Context, client *asc.Client, appID, ver
 	bestID := ""
 	bestObservedAt := time.Time{}
 	bestHasObservedAt := false
-	for _, upload := range resp.Data {
-		observedAt, hasObservedAt := buildUploadObservedAt(upload.Attributes)
-		if !hasObservedAt && !exportStartedAt.IsZero() {
-			continue
+	consumePage := func(page asc.PaginatedResponse) error {
+		buildUploadsPage, ok := page.(*asc.BuildUploadsResponse)
+		if !ok {
+			return fmt.Errorf("unexpected build uploads page type %T", page)
 		}
-		if hasObservedAt && !exportStartedAt.IsZero() && observedAt.Before(exportStartedAt) {
-			continue
-		}
-		if bestID == "" {
-			bestID = strings.TrimSpace(upload.ID)
-			bestObservedAt = observedAt
-			bestHasObservedAt = hasObservedAt
-			continue
-		}
-		if !exportStartedAt.IsZero() {
-			// Once the export start time is known, bind to the first matching upload
-			// observed in this export window rather than a later retry with the same
-			// build metadata.
-			if observedAt.Before(bestObservedAt) {
+		for _, upload := range buildUploadsPage.Data {
+			observedAt, hasObservedAt := buildUploadObservedAt(upload.Attributes)
+			if !hasObservedAt && !exportStartedAt.IsZero() {
+				continue
+			}
+			if hasObservedAt && !exportStartedAt.IsZero() && observedAt.Before(exportStartedAt) {
+				continue
+			}
+			if bestID == "" {
+				bestID = strings.TrimSpace(upload.ID)
+				bestObservedAt = observedAt
+				bestHasObservedAt = hasObservedAt
+				continue
+			}
+			if !exportStartedAt.IsZero() {
+				// Once the export start time is known, bind to the first matching upload
+				// observed in this export window rather than a later retry with the same
+				// build metadata.
+				if observedAt.Before(bestObservedAt) {
+					bestID = strings.TrimSpace(upload.ID)
+					bestObservedAt = observedAt
+					bestHasObservedAt = hasObservedAt
+				}
+				continue
+			}
+			if isMoreRecentBuildUploadCandidate(observedAt, hasObservedAt, bestObservedAt, bestHasObservedAt) {
 				bestID = strings.TrimSpace(upload.ID)
 				bestObservedAt = observedAt
 				bestHasObservedAt = hasObservedAt
 			}
-			continue
 		}
-		if isMoreRecentBuildUploadCandidate(observedAt, hasObservedAt, bestObservedAt, bestHasObservedAt) {
-			bestID = strings.TrimSpace(upload.ID)
-			bestObservedAt = observedAt
-			bestHasObservedAt = hasObservedAt
-		}
+		return nil
+	}
+	if err := asc.PaginateEach(ctx, resp, func(ctx context.Context, nextURL string) (asc.PaginatedResponse, error) {
+		return client.GetBuildUploads(ctx, appID, asc.WithBuildUploadsNextURL(nextURL))
+	}, consumePage); err != nil {
+		return "", false, err
 	}
 	if strings.TrimSpace(bestID) == "" {
 		return "", false, nil

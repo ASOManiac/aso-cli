@@ -403,7 +403,7 @@ func TestFindRecentBuildUploadIDIgnoresUndatedUploadsAfterExportStarts(t *testin
 		if values.Get("limit") != "10" {
 			return nil, fmt.Errorf("unexpected limit: %q", values.Get("limit"))
 		}
-		return xcodeCommandJSONResponse(http.StatusOK, `{
+		return xcodeCommandJSONResponse(`{
 			"data": [
 				{
 					"type": "buildUploads",
@@ -446,7 +446,7 @@ func TestFindRecentBuildUploadIDPrefersEarliestUploadInCurrentExportWindow(t *te
 		if req.URL.Path != "/v1/apps/app-123/buildUploads" {
 			return nil, fmt.Errorf("unexpected path: %s", req.URL.Path)
 		}
-		return xcodeCommandJSONResponse(http.StatusOK, `{
+		return xcodeCommandJSONResponse(`{
 			"data": [
 				{
 					"type": "buildUploads",
@@ -494,6 +494,89 @@ func TestFindRecentBuildUploadIDPrefersEarliestUploadInCurrentExportWindow(t *te
 	}
 	if uploadID != "current-export" {
 		t.Fatalf("expected earliest upload in current export window, got %q", uploadID)
+	}
+}
+
+func TestFindRecentBuildUploadIDPaginatesAcrossCurrentExportWindow(t *testing.T) {
+	originalTransport := http.DefaultTransport
+	t.Cleanup(func() {
+		http.DefaultTransport = originalTransport
+	})
+
+	requests := 0
+	http.DefaultTransport = xcodeCommandRoundTripFunc(func(req *http.Request) (*http.Response, error) {
+		if req.Method != http.MethodGet {
+			return nil, fmt.Errorf("expected GET, got %s", req.Method)
+		}
+		if req.URL.Path != "/v1/apps/app-123/buildUploads" {
+			return nil, fmt.Errorf("unexpected path: %s", req.URL.Path)
+		}
+
+		requests++
+		switch req.URL.Query().Get("cursor") {
+		case "":
+			return xcodeCommandJSONResponse(`{
+				"data": [
+					{
+						"type": "buildUploads",
+						"id": "latest-retry",
+						"attributes": {
+							"cfBundleShortVersionString": "1.2.3",
+							"cfBundleVersion": "42",
+							"platform": "IOS",
+							"uploadedDate": "2026-03-16T12:00:45Z"
+						}
+					},
+					{
+						"type": "buildUploads",
+						"id": "earlier-retry",
+						"attributes": {
+							"cfBundleShortVersionString": "1.2.3",
+							"cfBundleVersion": "42",
+							"platform": "IOS",
+							"uploadedDate": "2026-03-16T12:00:20Z"
+						}
+					}
+				],
+				"links": {
+					"next": "https://api.appstoreconnect.apple.com/v1/apps/app-123/buildUploads?cursor=page-2"
+				}
+			}`)
+		case "page-2":
+			return xcodeCommandJSONResponse(`{
+				"data": [
+					{
+						"type": "buildUploads",
+						"id": "current-export",
+						"attributes": {
+							"cfBundleShortVersionString": "1.2.3",
+							"cfBundleVersion": "42",
+							"platform": "IOS",
+							"uploadedDate": "2026-03-16T12:00:05Z"
+						}
+					}
+				],
+				"links": {}
+			}`)
+		default:
+			return nil, fmt.Errorf("unexpected cursor: %q", req.URL.Query().Get("cursor"))
+		}
+	})
+
+	client := newXcodeCommandTestClient(t)
+	exportStartedAt := time.Date(2026, time.March, 16, 12, 0, 0, 0, time.UTC)
+	uploadID, found, err := findRecentBuildUploadID(context.Background(), client, "app-123", "1.2.3", "42", "IOS", exportStartedAt)
+	if err != nil {
+		t.Fatalf("findRecentBuildUploadID() error: %v", err)
+	}
+	if !found {
+		t.Fatal("expected to find a matching upload across paginated results")
+	}
+	if uploadID != "current-export" {
+		t.Fatalf("expected earliest upload across pages, got %q", uploadID)
+	}
+	if requests != 2 {
+		t.Fatalf("expected 2 paginated build upload requests, got %d", requests)
 	}
 }
 
@@ -587,10 +670,10 @@ func (fn xcodeCommandRoundTripFunc) RoundTrip(req *http.Request) (*http.Response
 	return fn(req)
 }
 
-func xcodeCommandJSONResponse(status int, body string) (*http.Response, error) {
+func xcodeCommandJSONResponse(body string) (*http.Response, error) {
 	return &http.Response{
-		Status:     fmt.Sprintf("%d %s", status, http.StatusText(status)),
-		StatusCode: status,
+		Status:     fmt.Sprintf("%d %s", http.StatusOK, http.StatusText(http.StatusOK)),
+		StatusCode: http.StatusOK,
 		Header:     http.Header{"Content-Type": []string{"application/json"}},
 		Body:       io.NopCloser(strings.NewReader(body)),
 	}, nil
