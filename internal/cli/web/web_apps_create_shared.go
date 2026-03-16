@@ -130,7 +130,7 @@ func promptAppsCreateFields(opts *AppsCreateRunOptions) error {
 		}
 		if err := appCreateAskOneFn(&survey.Input{
 			Message: "Primary locale:",
-			Default: appCreateDefaultPrimaryLocale,
+			Default: localeValue,
 			Help:    "The primary language for your app (for example, en-US, en-GB, de-DE)",
 		}, &localeValue); err != nil {
 			return err

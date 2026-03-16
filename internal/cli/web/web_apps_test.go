@@ -354,6 +354,87 @@ func TestWebAppsCreateInteractiveWizardPromptsForMissingFields(t *testing.T) {
 	}
 }
 
+func TestWebAppsCreateInteractiveWizardPreservesProvidedLocaleDefault(t *testing.T) {
+	origAskOne := appCreateAskOneFn
+	origResolveAppCreateSession := resolveAppCreateSessionFn
+	origNewWebClient := newWebClientFn
+	origEnsureBundleID := ensureBundleIDFn
+	origCreateWebApp := createWebAppFn
+	origCanPrompt := appCreateCanPromptInteractivelyFn
+	t.Cleanup(func() {
+		appCreateAskOneFn = origAskOne
+		resolveAppCreateSessionFn = origResolveAppCreateSession
+		newWebClientFn = origNewWebClient
+		ensureBundleIDFn = origEnsureBundleID
+		createWebAppFn = origCreateWebApp
+		appCreateCanPromptInteractivelyFn = origCanPrompt
+	})
+
+	appCreateCanPromptInteractivelyFn = func() bool { return true }
+	appCreateAskOneFn = func(p survey.Prompt, response interface{}, _ ...survey.AskOpt) error {
+		switch prompt := p.(type) {
+		case *survey.Input:
+			target, ok := response.(*string)
+			if !ok {
+				t.Fatalf("expected *string response for input prompt %q", prompt.Message)
+			}
+			switch prompt.Message {
+			case "App name:":
+				*target = "My App"
+			case "Bundle ID:":
+				*target = "com.example.app"
+			case "SKU:":
+				*target = "SKU123"
+			case "Primary locale:":
+				if prompt.Default != "de-DE" {
+					t.Fatalf("expected locale prompt default %q, got %q", "de-DE", prompt.Default)
+				}
+				*target = prompt.Default
+			default:
+				t.Fatalf("unexpected input prompt %q", prompt.Message)
+			}
+		case *survey.Select:
+			target, ok := response.(*string)
+			if !ok {
+				t.Fatalf("expected *string response for select prompt %q", prompt.Message)
+			}
+			if prompt.Message != "Platform:" {
+				t.Fatalf("unexpected select prompt %q", prompt.Message)
+			}
+			*target = "IOS"
+		default:
+			t.Fatalf("unexpected prompt type %T", p)
+		}
+		return nil
+	}
+	resolveAppCreateSessionFn = func(ctx context.Context, appleID, password, twoFactorCode string) (*webcore.AuthSession, string, error) {
+		return &webcore.AuthSession{}, "cache", nil
+	}
+	newWebClientFn = func(session *webcore.AuthSession) *webcore.Client {
+		return &webcore.Client{}
+	}
+	ensureBundleIDFn = func(ctx context.Context, bundleID, appName, platform string) (bool, error) {
+		return false, nil
+	}
+	createWebAppFn = func(ctx context.Context, client *webcore.Client, attrs webcore.AppCreateAttributes) (*webcore.AppResponse, error) {
+		if attrs.PrimaryLocale != "de-DE" {
+			t.Fatalf("expected preserved locale %q, got %q", "de-DE", attrs.PrimaryLocale)
+		}
+		resp := &webcore.AppResponse{}
+		resp.Data.ID = "app-123"
+		return resp, nil
+	}
+
+	cmd := WebAppsCreateCommand()
+	if err := cmd.FlagSet.Parse([]string{"--primary-locale", "de-DE", "--output", "json"}); err != nil {
+		t.Fatalf("parse error: %v", err)
+	}
+
+	if err := cmd.Exec(context.Background(), nil); err != nil {
+		t.Fatalf("expected success, got %v", err)
+	}
+}
+
 func TestWebAppsCreateSkipsBundleIDPreflightWhenOfficialAuthMissing(t *testing.T) {
 	origResolveAppCreateSession := resolveAppCreateSessionFn
 	origNewWebClient := newWebClientFn
