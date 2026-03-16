@@ -380,27 +380,32 @@ func (c *Client) LookupAPIKeyRoles(ctx context.Context, keyID string) (*APIKeyRo
 		return nil, fmt.Errorf("key id is required")
 	}
 
+	var teamErr error
 	keys, err := c.listTeamKeys(ctx)
 	if err != nil {
-		return nil, err
-	}
-	for _, item := range keys {
-		if item.KeyID != keyID {
-			continue
+		if !shouldFallbackToIndividualKeys(err) {
+			return nil, err
 		}
-		return &APIKeyRoleLookup{
-			KeyID:       item.KeyID,
-			Name:        item.Name,
-			Kind:        "team",
-			Roles:       append([]string(nil), item.Roles...),
-			RoleSource:  "key",
-			Active:      item.Active,
-			KeyType:     item.KeyType,
-			LastUsed:    item.LastUsed,
-			Lookup:      "team_keys",
-			GeneratedBy: item.GeneratedBy,
-			RevokedBy:   item.RevokedBy,
-		}, nil
+		teamErr = err
+	} else {
+		for _, item := range keys {
+			if item.KeyID != keyID {
+				continue
+			}
+			return &APIKeyRoleLookup{
+				KeyID:       item.KeyID,
+				Name:        item.Name,
+				Kind:        "team",
+				Roles:       append([]string(nil), item.Roles...),
+				RoleSource:  "key",
+				Active:      item.Active,
+				KeyType:     item.KeyType,
+				LastUsed:    item.LastUsed,
+				Lookup:      "team_keys",
+				GeneratedBy: item.GeneratedBy,
+				RevokedBy:   item.RevokedBy,
+			}, nil
+		}
 	}
 
 	individualKeys, err := c.listIndividualKeys(ctx)
@@ -450,7 +455,23 @@ func (c *Client) LookupAPIKeyRoles(ctx context.Context, keyID string) (*APIKeyRo
 		return result, nil
 	}
 
+	if teamErr != nil {
+		return nil, teamErr
+	}
 	return nil, fmt.Errorf("%w: %s", ErrAPIKeyNotFound, keyID)
+}
+
+func shouldFallbackToIndividualKeys(err error) bool {
+	var apiErr *APIError
+	if !errors.As(err, &apiErr) {
+		return false
+	}
+	switch apiErr.Status {
+	case http.StatusForbidden, http.StatusNotFound:
+		return true
+	default:
+		return false
+	}
 }
 
 func shouldFallbackToActorList(err error) bool {

@@ -217,6 +217,92 @@ func TestClientLookupAPIKeyRolesReturnsNotFound(t *testing.T) {
 	}
 }
 
+func TestClientLookupAPIKeyRolesFallsBackToIndividualKeysWhenTeamListForbidden(t *testing.T) {
+	client := &Client{
+		httpClient: &http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
+			switch r.URL.Path {
+			case "/iris/v1/apiKeys":
+				return &http.Response{
+					StatusCode: http.StatusForbidden,
+					Header:     http.Header{"Content-Type": []string{"application/json"}},
+					Body:       io.NopCloser(strings.NewReader(`{"errors":[{"status":"403"}]}`)),
+					Request:    r,
+				}, nil
+			case "/iris/v2/apiKeys":
+				return &http.Response{
+					StatusCode: http.StatusOK,
+					Header:     http.Header{"Content-Type": []string{"application/json"}},
+					Body: io.NopCloser(strings.NewReader(`{
+						"data":[
+							{
+								"id":"ind-1",
+								"attributes":{
+									"lastUsed":"2026-03-16T00:00:00Z",
+									"roles":["ADMIN"],
+									"nickname":"personal-key",
+									"isActive":true,
+									"keyType":"PUBLIC_API"
+								},
+								"relationships":{
+									"createdByActor":{"data":{"id":"actor-1"}},
+									"revokedByActor":{"data":null}
+								}
+							}
+						]
+					}`)),
+					Request: r,
+				}, nil
+			default:
+				t.Fatalf("unexpected path: %s", r.URL.Path)
+				return nil, nil
+			}
+		})},
+	}
+
+	got, err := client.LookupAPIKeyRoles(context.Background(), "ind-1")
+	if err != nil {
+		t.Fatalf("LookupAPIKeyRoles() error: %v", err)
+	}
+	if got.Kind != "individual" || got.Lookup != "individual_keys" || got.RoleSource != "key" {
+		t.Fatalf("unexpected lookup metadata: %#v", got)
+	}
+	if len(got.Roles) != 1 || got.Roles[0] != "ADMIN" {
+		t.Fatalf("unexpected roles: %#v", got.Roles)
+	}
+}
+
+func TestClientLookupAPIKeyRolesReturnsTeamListErrorWhenFallbackMisses(t *testing.T) {
+	client := &Client{
+		httpClient: &http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
+			switch r.URL.Path {
+			case "/iris/v1/apiKeys":
+				return &http.Response{
+					StatusCode: http.StatusForbidden,
+					Header:     http.Header{"Content-Type": []string{"application/json"}},
+					Body:       io.NopCloser(strings.NewReader(`{"errors":[{"status":"403"}]}`)),
+					Request:    r,
+				}, nil
+			case "/iris/v2/apiKeys":
+				return &http.Response{
+					StatusCode: http.StatusOK,
+					Header:     http.Header{"Content-Type": []string{"application/json"}},
+					Body:       io.NopCloser(strings.NewReader(`{"data":[]}`)),
+					Request:    r,
+				}, nil
+			default:
+				t.Fatalf("unexpected path: %s", r.URL.Path)
+				return nil, nil
+			}
+		})},
+	}
+
+	_, err := client.LookupAPIKeyRoles(context.Background(), "missing")
+	var apiErr *APIError
+	if !errors.As(err, &apiErr) || apiErr.Status != http.StatusForbidden {
+		t.Fatalf("expected team-list APIError 403, got %v", err)
+	}
+}
+
 func TestClientListIndividualKeysParsesActors(t *testing.T) {
 	client := &Client{
 		httpClient: &http.Client{Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
