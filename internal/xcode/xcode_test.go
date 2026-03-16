@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -318,6 +319,141 @@ func TestExportWritesIPAAtExactPathAndReturnsMetadata(t *testing.T) {
 	}
 }
 
+func TestExportDirectUploadPreservesExistingIPAAndReturnsArchiveMetadata(t *testing.T) {
+	tempDir := t.TempDir()
+	archivePath := filepath.Join(tempDir, "Demo.xcarchive")
+	if err := writeArchiveInfoPlist(archivePath); err != nil {
+		t.Fatalf("writeArchiveInfoPlist() error: %v", err)
+	}
+	exportOptionsPath := filepath.Join(tempDir, "ExportOptions.plist")
+	if err := writeExportOptionsPlist(exportOptionsPath, map[string]any{"destination": "upload"}); err != nil {
+		t.Fatalf("writeExportOptionsPlist() error: %v", err)
+	}
+	logPath := filepath.Join(tempDir, "commands.log")
+
+	restore := overrideTestEnvironment(t)
+	runtimeGOOS = "darwin"
+	lookPathFn = func(file string) (string, error) {
+		return "/usr/bin/xcodebuild", nil
+	}
+	commandContextFn = helperCommandContext(t, logPath)
+	t.Cleanup(restore)
+
+	ipaPath := filepath.Join(tempDir, "artifacts", "Demo.ipa")
+	if err := os.MkdirAll(filepath.Dir(ipaPath), 0o755); err != nil {
+		t.Fatalf("MkdirAll() error: %v", err)
+	}
+	if err := os.WriteFile(ipaPath, []byte("existing ipa"), 0o644); err != nil {
+		t.Fatalf("WriteFile() error: %v", err)
+	}
+
+	result, err := Export(context.Background(), ExportOptions{
+		ArchivePath:   archivePath,
+		ExportOptions: exportOptionsPath,
+		IPAPath:       ipaPath,
+		Overwrite:     true,
+	})
+	if err != nil {
+		t.Fatalf("Export() error: %v", err)
+	}
+	if result.ArchivePath != archivePath {
+		t.Fatalf("expected archive path %q, got %q", archivePath, result.ArchivePath)
+	}
+	if result.IPAPath != "" {
+		t.Fatalf("expected no local ipa path for direct upload, got %q", result.IPAPath)
+	}
+	if result.BundleID != "com.example.demo" {
+		t.Fatalf("expected bundle id %q, got %q", "com.example.demo", result.BundleID)
+	}
+	if result.Version != "1.2.3" {
+		t.Fatalf("expected version %q, got %q", "1.2.3", result.Version)
+	}
+	if result.BuildNumber != "42" {
+		t.Fatalf("expected build number %q, got %q", "42", result.BuildNumber)
+	}
+
+	data, err := os.ReadFile(ipaPath)
+	if err != nil {
+		t.Fatalf("ReadFile() error: %v", err)
+	}
+	if string(data) != "existing ipa" {
+		t.Fatalf("expected existing IPA to be preserved, got %q", string(data))
+	}
+}
+
+func TestExportDirectUploadCreatesIPAParentDirectory(t *testing.T) {
+	tempDir := t.TempDir()
+	archivePath := filepath.Join(tempDir, "Demo.xcarchive")
+	if err := writeArchiveInfoPlist(archivePath); err != nil {
+		t.Fatalf("writeArchiveInfoPlist() error: %v", err)
+	}
+	exportOptionsPath := filepath.Join(tempDir, "ExportOptions.plist")
+	if err := writeExportOptionsPlist(exportOptionsPath, map[string]any{"destination": "upload"}); err != nil {
+		t.Fatalf("writeExportOptionsPlist() error: %v", err)
+	}
+	logPath := filepath.Join(tempDir, "commands.log")
+
+	restore := overrideTestEnvironment(t)
+	runtimeGOOS = "darwin"
+	lookPathFn = func(file string) (string, error) {
+		return "/usr/bin/xcodebuild", nil
+	}
+	commandContextFn = helperCommandContext(t, logPath)
+	t.Cleanup(restore)
+
+	ipaPath := filepath.Join(tempDir, "nested", "output", "Demo.ipa")
+	result, err := Export(context.Background(), ExportOptions{
+		ArchivePath:   archivePath,
+		ExportOptions: exportOptionsPath,
+		IPAPath:       ipaPath,
+	})
+	if err != nil {
+		t.Fatalf("Export() error: %v", err)
+	}
+	if result.IPAPath != "" {
+		t.Fatalf("expected no local ipa path for direct upload, got %q", result.IPAPath)
+	}
+	if _, err := os.Stat(filepath.Dir(ipaPath)); err != nil {
+		t.Fatalf("expected IPA parent directory to exist, got %v", err)
+	}
+	if _, err := os.Stat(ipaPath); !errors.Is(err, os.ErrNotExist) {
+		t.Fatalf("expected no IPA artifact to be written, got %v", err)
+	}
+}
+
+func TestExportDirectUploadReturnsArchiveInfoErrors(t *testing.T) {
+	tempDir := t.TempDir()
+	archivePath := filepath.Join(tempDir, "Demo.xcarchive")
+	if err := os.MkdirAll(archivePath, 0o755); err != nil {
+		t.Fatalf("MkdirAll() error: %v", err)
+	}
+	exportOptionsPath := filepath.Join(tempDir, "ExportOptions.plist")
+	if err := writeExportOptionsPlist(exportOptionsPath, map[string]any{"destination": "upload"}); err != nil {
+		t.Fatalf("writeExportOptionsPlist() error: %v", err)
+	}
+	logPath := filepath.Join(tempDir, "commands.log")
+
+	restore := overrideTestEnvironment(t)
+	runtimeGOOS = "darwin"
+	lookPathFn = func(file string) (string, error) {
+		return "/usr/bin/xcodebuild", nil
+	}
+	commandContextFn = helperCommandContext(t, logPath)
+	t.Cleanup(restore)
+
+	_, err := Export(context.Background(), ExportOptions{
+		ArchivePath:   archivePath,
+		ExportOptions: exportOptionsPath,
+		IPAPath:       filepath.Join(tempDir, "Demo.ipa"),
+	})
+	if err == nil {
+		t.Fatal("expected archive metadata error, got nil")
+	}
+	if !strings.Contains(err.Error(), "read archive bundle info after direct upload") {
+		t.Fatalf("expected archive bundle info error, got %v", err)
+	}
+}
+
 func TestExportRejectsExistingIPAWithoutOverwrite(t *testing.T) {
 	tempDir := t.TempDir()
 	archivePath := filepath.Join(tempDir, "Demo.xcarchive")
@@ -463,9 +599,17 @@ func TestXcodeHelperProcess(t *testing.T) {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(2)
 		}
+		exportOptionsPath, err := valueAfter(commandArgs[1:], "-exportOptionsPlist")
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(2)
+		}
 		if err := os.MkdirAll(exportPath, 0o755); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(2)
+		}
+		if isDirectUploadMode(exportOptionsPath) {
+			os.Exit(0)
 		}
 		if err := writeTestIPA(filepath.Join(exportPath, "Exported.ipa")); err != nil {
 			fmt.Fprintln(os.Stderr, err)
@@ -530,6 +674,14 @@ func writeArchiveInfoPlist(archivePath string) error {
 		return err
 	}
 	return os.WriteFile(filepath.Join(archivePath, "Info.plist"), data, 0o644)
+}
+
+func writeExportOptionsPlist(path string, payload map[string]any) error {
+	data, err := plist.Marshal(payload, plist.XMLFormat)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, data, 0o644)
 }
 
 func writeTestIPA(path string) error {
