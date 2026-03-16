@@ -351,7 +351,24 @@ func findRecentBuildUploadID(ctx context.Context, client *asc.Client, appID, ver
 		if hasObservedAt && !exportStartedAt.IsZero() && observedAt.Before(exportStartedAt) {
 			continue
 		}
-		if bestID == "" || isMoreRecentBuildUploadCandidate(observedAt, hasObservedAt, bestObservedAt, bestHasObservedAt) {
+		if bestID == "" {
+			bestID = strings.TrimSpace(upload.ID)
+			bestObservedAt = observedAt
+			bestHasObservedAt = hasObservedAt
+			continue
+		}
+		if !exportStartedAt.IsZero() {
+			// Once the export start time is known, bind to the first matching upload
+			// observed in this export window rather than a later retry with the same
+			// build metadata.
+			if observedAt.Before(bestObservedAt) {
+				bestID = strings.TrimSpace(upload.ID)
+				bestObservedAt = observedAt
+				bestHasObservedAt = hasObservedAt
+			}
+			continue
+		}
+		if isMoreRecentBuildUploadCandidate(observedAt, hasObservedAt, bestObservedAt, bestHasObservedAt) {
 			bestID = strings.TrimSpace(upload.ID)
 			bestObservedAt = observedAt
 			bestHasObservedAt = hasObservedAt

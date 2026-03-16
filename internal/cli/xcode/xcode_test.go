@@ -433,6 +433,70 @@ func TestFindRecentBuildUploadIDIgnoresUndatedUploadsAfterExportStarts(t *testin
 	}
 }
 
+func TestFindRecentBuildUploadIDPrefersEarliestUploadInCurrentExportWindow(t *testing.T) {
+	originalTransport := http.DefaultTransport
+	t.Cleanup(func() {
+		http.DefaultTransport = originalTransport
+	})
+
+	http.DefaultTransport = xcodeCommandRoundTripFunc(func(req *http.Request) (*http.Response, error) {
+		if req.Method != http.MethodGet {
+			return nil, fmt.Errorf("expected GET, got %s", req.Method)
+		}
+		if req.URL.Path != "/v1/apps/app-123/buildUploads" {
+			return nil, fmt.Errorf("unexpected path: %s", req.URL.Path)
+		}
+		return xcodeCommandJSONResponse(http.StatusOK, `{
+			"data": [
+				{
+					"type": "buildUploads",
+					"id": "later-retry",
+					"attributes": {
+						"cfBundleShortVersionString": "1.2.3",
+						"cfBundleVersion": "42",
+						"platform": "IOS",
+						"uploadedDate": "2026-03-16T12:00:30Z"
+					}
+				},
+				{
+					"type": "buildUploads",
+					"id": "current-export",
+					"attributes": {
+						"cfBundleShortVersionString": "1.2.3",
+						"cfBundleVersion": "42",
+						"platform": "IOS",
+						"uploadedDate": "2026-03-16T12:00:05Z"
+					}
+				},
+				{
+					"type": "buildUploads",
+					"id": "older-upload",
+					"attributes": {
+						"cfBundleShortVersionString": "1.2.3",
+						"cfBundleVersion": "42",
+						"platform": "IOS",
+						"uploadedDate": "2026-03-16T11:59:40Z"
+					}
+				}
+			],
+			"links": {}
+		}`)
+	})
+
+	client := newXcodeCommandTestClient(t)
+	exportStartedAt := time.Date(2026, time.March, 16, 12, 0, 0, 0, time.UTC)
+	uploadID, found, err := findRecentBuildUploadID(context.Background(), client, "app-123", "1.2.3", "42", "IOS", exportStartedAt)
+	if err != nil {
+		t.Fatalf("findRecentBuildUploadID() error: %v", err)
+	}
+	if !found {
+		t.Fatal("expected to find a matching upload in the current export window")
+	}
+	if uploadID != "current-export" {
+		t.Fatalf("expected earliest upload in current export window, got %q", uploadID)
+	}
+}
+
 func overrideXcodeCommandTestHooks(t *testing.T) func() {
 	t.Helper()
 
