@@ -61,7 +61,6 @@ func trimAppsCreateRunOptions(opts AppsCreateRunOptions) AppsCreateRunOptions {
 	opts.Version = strings.TrimSpace(opts.Version)
 	opts.CompanyName = strings.TrimSpace(opts.CompanyName)
 	opts.AppleID = strings.TrimSpace(opts.AppleID)
-	opts.Password = strings.TrimSpace(opts.Password)
 	opts.TwoFactorCode = strings.TrimSpace(opts.TwoFactorCode)
 	opts.Output = strings.TrimSpace(opts.Output)
 	return opts
@@ -177,14 +176,14 @@ func promptAppsCreatePassword(password *string) error {
 	if password == nil {
 		return fmt.Errorf("password target is required")
 	}
-	value := strings.TrimSpace(*password)
+	value := *password
 	if err := appCreateAskOneFn(&survey.Password{
 		Message: "Apple ID password:",
 		Help:    "Your Apple ID password",
 	}, &value, survey.WithValidator(survey.Required)); err != nil {
 		return err
 	}
-	*password = strings.TrimSpace(value)
+	*password = value
 	return nil
 }
 
@@ -192,7 +191,6 @@ func resolveAppCreateSession(ctx context.Context, appleID, password, twoFactorCo
 	shared.ApplyRootLoggingOverrides()
 
 	appleID = strings.TrimSpace(appleID)
-	password = strings.TrimSpace(password)
 	twoFactorCode = strings.TrimSpace(twoFactorCode)
 
 	cacheExpired := false
@@ -223,7 +221,7 @@ func resolveAppCreateSession(ctx context.Context, appleID, password, twoFactorCo
 	}
 
 	if password == "" {
-		password = strings.TrimSpace(os.Getenv(webPasswordEnv))
+		password = os.Getenv(webPasswordEnv)
 		if password == "" {
 			if !appCreateCanPromptInteractivelyFn() {
 				return nil, "", shared.UsageError(fmt.Sprintf("password is required: run in a terminal for an interactive prompt or set %s", webPasswordEnvDisplay()))

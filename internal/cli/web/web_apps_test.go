@@ -52,7 +52,7 @@ func TestWebAppsCreatePassesPasswordCompatibilityFlagToSessionResolver(t *testin
 		"--bundle-id", "com.example.app",
 		"--sku", "SKU123",
 		"--apple-id", "user@example.com",
-		passwordFlag, "fixture-password",
+		passwordFlag, "  fixture-password  ",
 	}); err != nil {
 		t.Fatalf("parse error: %v", err)
 	}
@@ -63,8 +63,8 @@ func TestWebAppsCreatePassesPasswordCompatibilityFlagToSessionResolver(t *testin
 	if receivedID != "user@example.com" {
 		t.Fatalf("expected apple ID %q, got %q", "user@example.com", receivedID)
 	}
-	if receivedPass != "fixture-password" {
-		t.Fatalf("expected password %q, got %q", "fixture-password", receivedPass)
+	if receivedPass != "  fixture-password  " {
+		t.Fatalf("expected password %q, got %q", "  fixture-password  ", receivedPass)
 	}
 }
 
@@ -103,6 +103,77 @@ func TestResolveAppCreateSessionUsesCacheEvenWhenPasswordProvided(t *testing.T) 
 	}
 	if session != expected {
 		t.Fatal("expected cached session pointer to be returned")
+	}
+}
+
+func TestResolveAppCreateSessionUsesPasswordEnvWithoutTrimming(t *testing.T) {
+	origTryResume := tryResumeSessionFn
+	origTryResumeLast := tryResumeLastFn
+	origWebLogin := webLoginFn
+	t.Cleanup(func() {
+		tryResumeSessionFn = origTryResume
+		tryResumeLastFn = origTryResumeLast
+		webLoginFn = origWebLogin
+	})
+
+	tryResumeSessionFn = func(ctx context.Context, username string) (*webcore.AuthSession, bool, error) {
+		return nil, false, nil
+	}
+	tryResumeLastFn = func(ctx context.Context) (*webcore.AuthSession, bool, error) {
+		return nil, false, nil
+	}
+
+	var received webcore.LoginCredentials
+	webLoginFn = func(ctx context.Context, creds webcore.LoginCredentials) (*webcore.AuthSession, error) {
+		received = creds
+		return &webcore.AuthSession{UserEmail: creds.Username}, nil
+	}
+
+	t.Setenv(webPasswordEnv, "  env-password  ")
+
+	session, source, err := resolveAppCreateSession(context.Background(), "user@example.com", "", "")
+	if err != nil {
+		t.Fatalf("resolveAppCreateSession returned error: %v", err)
+	}
+	if source != "fresh" {
+		t.Fatalf("expected fresh source, got %q", source)
+	}
+	if session == nil {
+		t.Fatal("expected session")
+	}
+	if received.Password != "  env-password  " {
+		t.Fatalf("expected env password %q, got %q", "  env-password  ", received.Password)
+	}
+}
+
+func TestPromptAppsCreatePasswordPreservesWhitespace(t *testing.T) {
+	origAskOne := appCreateAskOneFn
+	t.Cleanup(func() {
+		appCreateAskOneFn = origAskOne
+	})
+
+	appCreateAskOneFn = func(p survey.Prompt, response interface{}, _ ...survey.AskOpt) error {
+		prompt, ok := p.(*survey.Password)
+		if !ok {
+			t.Fatalf("expected password prompt, got %T", p)
+		}
+		if prompt.Message != "Apple ID password:" {
+			t.Fatalf("unexpected prompt message %q", prompt.Message)
+		}
+		target, ok := response.(*string)
+		if !ok {
+			t.Fatalf("expected *string response, got %T", response)
+		}
+		*target = "  prompted-password  "
+		return nil
+	}
+
+	password := ""
+	if err := promptAppsCreatePassword(&password); err != nil {
+		t.Fatalf("promptAppsCreatePassword returned error: %v", err)
+	}
+	if password != "  prompted-password  " {
+		t.Fatalf("expected prompted password %q, got %q", "  prompted-password  ", password)
 	}
 }
 

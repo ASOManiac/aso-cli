@@ -43,17 +43,26 @@ func captureAppsCreateOutput(t *testing.T, fn func()) (string, string) {
 		stderrCh <- buf.String()
 	}()
 
+	closeWriters := func() {
+		if stdoutWriter != nil {
+			_ = stdoutWriter.Close()
+			stdoutWriter = nil
+		}
+		if stderrWriter != nil {
+			_ = stderrWriter.Close()
+			stderrWriter = nil
+		}
+	}
+
 	defer func() {
-		_ = stdoutWriter.Close()
-		_ = stderrWriter.Close()
+		closeWriters()
 		os.Stdout = origStdout
 		os.Stderr = origStderr
 	}()
 
 	fn()
 
-	_ = stdoutWriter.Close()
-	_ = stderrWriter.Close()
+	closeWriters()
 	os.Stdout = origStdout
 	os.Stderr = origStderr
 
