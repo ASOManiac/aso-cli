@@ -172,6 +172,13 @@
         "manage_all_team_and_individual_keys",
         "generate_individual_keys",
         "all_apps_access",
+        "app_pricing_and_store_info",
+        "app_development_and_delivery",
+        "marketing_and_promotional_artwork",
+        "customer_reviews",
+        "app_analytics",
+        "sales_and_trends",
+        "payments_financial_reports_and_tax",
         "certificates_identifiers_profiles_default"
       ],
       "notes": [

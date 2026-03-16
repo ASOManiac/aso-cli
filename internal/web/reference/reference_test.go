@@ -94,6 +94,32 @@ func TestResolveAccountHolderIncludesBroadAccess(t *testing.T) {
 	}
 }
 
+func TestResolveAdminIncludesBroadAccess(t *testing.T) {
+	view, err := Resolve("team", []string{"ADMIN"})
+	if err != nil {
+		t.Fatalf("Resolve() error = %v", err)
+	}
+
+	ids := make(map[string]struct{}, len(view.Capabilities))
+	for _, item := range view.Capabilities {
+		ids[item.ID] = struct{}{}
+	}
+	for _, want := range []string{
+		"all_apps_access",
+		"app_pricing_and_store_info",
+		"app_development_and_delivery",
+		"marketing_and_promotional_artwork",
+		"customer_reviews",
+		"app_analytics",
+		"sales_and_trends",
+		"payments_financial_reports_and_tax",
+	} {
+		if _, ok := ids[want]; !ok {
+			t.Fatalf("expected admin capabilities to include %q, got %#v", want, view.Capabilities)
+		}
+	}
+}
+
 func TestResolveUnknownRole(t *testing.T) {
 	view, err := Resolve("team", []string{"NOPE", "APP_MANAGER"})
 	if err != nil {
