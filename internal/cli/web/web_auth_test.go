@@ -167,6 +167,8 @@ func TestReadPasswordFromTerminalPropagatesCtrlCAsInterrupt(t *testing.T) {
 		t.Fatal("timed out waiting for password prompt")
 	}
 
+	time.Sleep(50 * time.Millisecond)
+
 	if _, err := ptmx.Write([]byte{3}); err != nil {
 		t.Fatalf("ptmx.Write() error: %v", err)
 	}

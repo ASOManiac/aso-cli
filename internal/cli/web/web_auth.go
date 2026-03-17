@@ -24,6 +24,7 @@ var (
 	promptPasswordFn                = promptPasswordInteractive
 	webLoginFn                      = webcore.Login
 	submitTwoFactorCodeFn           = webcore.SubmitTwoFactorCode
+	signalProcessInterruptFn        = signalProcessInterrupt
 	termReadPasswordFn              = term.ReadPassword
 	termIsTerminalFn                = term.IsTerminal
 	tryResumeSessionFn              = webcore.TryResumeSession
@@ -38,6 +39,14 @@ type webAuthStatus struct {
 	AppleID       string `json:"appleId,omitempty"`
 	TeamID        string `json:"teamId,omitempty"`
 	ProviderID    int64  `json:"providerId,omitempty"`
+}
+
+func signalProcessInterrupt() error {
+	process, err := os.FindProcess(os.Getpid())
+	if err != nil {
+		return err
+	}
+	return process.Signal(os.Interrupt)
 }
 
 func readPasswordFromInput(ctx context.Context) (string, error) {
@@ -116,6 +125,9 @@ func readPasswordFromTerminal(ctx context.Context, terminal *os.File, writer io.
 		case '\r', '\n':
 			return strings.TrimSpace(string(passwordBytes)), nil
 		case 3:
+			// Raw mode consumes VINTR as a byte, so re-emit SIGINT to preserve
+			// top-level cancellation behavior for the rest of the CLI lifecycle.
+			_ = signalProcessInterruptFn()
 			return "", fmt.Errorf("password prompt interrupted: %w", context.Canceled)
 		case 4:
 			if len(passwordBytes) == 0 {
