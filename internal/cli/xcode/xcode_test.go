@@ -53,6 +53,127 @@ func TestXcodeExportWaitRequiresDirectUpload(t *testing.T) {
 	}
 }
 
+func TestXcodeValidatePassesIPAAndAuthFlags(t *testing.T) {
+	restore := overrideXcodeCommandTestHooks(t)
+	defer restore()
+
+	var gotOpts localxcode.ValidateOptions
+	runValidate = func(_ context.Context, opts localxcode.ValidateOptions) (*localxcode.ValidateResult, error) {
+		gotOpts = opts
+		return &localxcode.ValidateResult{
+			IPAPath:   opts.IPAPath,
+			Validated: true,
+		}, nil
+	}
+
+	cmd := XcodeValidateCommand()
+	cmd.FlagSet.SetOutput(io.Discard)
+	if err := cmd.FlagSet.Parse([]string{
+		"--ipa", "Demo.ipa",
+		"--api-key", "KEY123ABC",
+		"--api-issuer", "issuer-123",
+		"--output", "json",
+	}); err != nil {
+		t.Fatalf("failed to parse flags: %v", err)
+	}
+
+	var runErr error
+	stdout, stderr := captureCommandOutput(t, func() error {
+		runErr = cmd.Exec(context.Background(), nil)
+		return runErr
+	})
+	if runErr != nil {
+		t.Fatalf("Exec() error: %v", runErr)
+	}
+	if strings.TrimSpace(stderr) != "" {
+		t.Fatalf("expected no stderr output, got %q", stderr)
+	}
+	if gotOpts.IPAPath != "Demo.ipa" {
+		t.Fatalf("expected ipa path Demo.ipa, got %q", gotOpts.IPAPath)
+	}
+	if gotOpts.APIKey != "KEY123ABC" {
+		t.Fatalf("expected api key KEY123ABC, got %q", gotOpts.APIKey)
+	}
+	if gotOpts.APIIssuer != "issuer-123" {
+		t.Fatalf("expected api issuer issuer-123, got %q", gotOpts.APIIssuer)
+	}
+
+	var payload struct {
+		IPAPath   string `json:"ipa_path"`
+		Validated bool   `json:"validated"`
+	}
+	if err := json.Unmarshal([]byte(stdout), &payload); err != nil {
+		t.Fatalf("json.Unmarshal() error: %v\nstdout=%s", err, stdout)
+	}
+	if payload.IPAPath != "Demo.ipa" || !payload.Validated {
+		t.Fatalf("unexpected validate payload: %+v", payload)
+	}
+}
+
+func TestXcodeValidateRejectsNonIPAPath(t *testing.T) {
+	restore := overrideXcodeCommandTestHooks(t)
+	defer restore()
+
+	cmd := XcodeValidateCommand()
+	cmd.FlagSet.SetOutput(io.Discard)
+	if err := cmd.FlagSet.Parse([]string{"--ipa", "Demo.txt"}); err != nil {
+		t.Fatalf("failed to parse flags: %v", err)
+	}
+
+	var runErr error
+	_, stderr := captureCommandOutput(t, func() error {
+		runErr = cmd.Exec(context.Background(), nil)
+		return runErr
+	})
+	if !errors.Is(runErr, flag.ErrHelp) {
+		t.Fatal("expected flag.ErrHelp for non-.ipa path")
+	}
+	if !strings.Contains(stderr, "Error: --ipa must end with .ipa") {
+		t.Fatalf("expected ipa extension usage error, got %q", stderr)
+	}
+}
+
+func TestXcodeValidateRequiresAPIKeyAndIssuerTogether(t *testing.T) {
+	restore := overrideXcodeCommandTestHooks(t)
+	defer restore()
+
+	testCases := []struct {
+		name string
+		args []string
+	}{
+		{
+			name: "api key only",
+			args: []string{"--ipa", "Demo.ipa", "--api-key", "KEY123ABC"},
+		},
+		{
+			name: "api issuer only",
+			args: []string{"--ipa", "Demo.ipa", "--api-issuer", "issuer-123"},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			cmd := XcodeValidateCommand()
+			cmd.FlagSet.SetOutput(io.Discard)
+			if err := cmd.FlagSet.Parse(tc.args); err != nil {
+				t.Fatalf("failed to parse flags: %v", err)
+			}
+
+			var runErr error
+			_, stderr := captureCommandOutput(t, func() error {
+				runErr = cmd.Exec(context.Background(), nil)
+				return runErr
+			})
+			if !errors.Is(runErr, flag.ErrHelp) {
+				t.Fatal("expected flag.ErrHelp for partial JWT auth flags")
+			}
+			if !strings.Contains(stderr, "Error: --api-key and --api-issuer must be provided together") {
+				t.Fatalf("expected auth pairing usage error, got %q", stderr)
+			}
+		})
+	}
+}
+
 func TestXcodeExportWaitRequiresPositivePollInterval(t *testing.T) {
 	restore := overrideXcodeCommandTestHooks(t)
 	defer restore()
@@ -743,6 +864,7 @@ func overrideXcodeCommandTestHooks(t *testing.T) func() {
 
 	originalRunArchive := runArchive
 	originalRunExport := runExport
+	originalRunValidate := runValidate
 	originalIsDirectUpload := isDirectUploadExportOptionsFn
 	originalInferArchivePlatform := inferArchivePlatformFn
 	originalGetASCClient := getASCClientFn
@@ -755,6 +877,7 @@ func overrideXcodeCommandTestHooks(t *testing.T) func() {
 	return func() {
 		runArchive = originalRunArchive
 		runExport = originalRunExport
+		runValidate = originalRunValidate
 		isDirectUploadExportOptionsFn = originalIsDirectUpload
 		inferArchivePlatformFn = originalInferArchivePlatform
 		getASCClientFn = originalGetASCClient

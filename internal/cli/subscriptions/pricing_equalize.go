@@ -372,7 +372,7 @@ func validateEqualizeAvailability(ctx context.Context, client *asc.Client, subID
 	getCancel()
 	if err != nil {
 		if errors.Is(err, asc.ErrNotFound) {
-			return 0, fmt.Errorf("subscription availability is not configured; equalize only updates prices and will not change sale availability. Configure territories first with `asc subscriptions pricing availability set`")
+			return 0, fmt.Errorf("subscription availability is not configured; equalize only updates prices and will not change sale availability. Configure territories first with `asc subscriptions pricing availability edit`")
 		}
 		return 0, fmt.Errorf("failed to fetch availability: %w", err)
 	}
@@ -406,7 +406,7 @@ func validateEqualizeAvailability(ctx context.Context, client *asc.Client, subID
 	}
 
 	sort.Strings(missing)
-	return 0, fmt.Errorf("subscription availability is missing %d equalized territor%s (%s); equalize only updates prices and will not change sale availability. Configure territories first with `asc subscriptions pricing availability set`", len(missing), pluralizeEqualizeTerritories(len(missing)), summarizeEqualizeTerritories(missing, 8))
+	return 0, fmt.Errorf("subscription availability is missing %d equalized territor%s (%s); equalize only updates prices and will not change sale availability. Configure territories first with `asc subscriptions pricing availability edit`", len(missing), pluralizeEqualizeTerritories(len(missing)), summarizeEqualizeTerritories(missing, 8))
 }
 
 func fetchPricingTerritories(ctx context.Context, client *asc.Client) ([]string, error) {
