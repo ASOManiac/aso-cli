@@ -7511,6 +7511,7 @@ func TestClientRenewsMutatingRequestTimeoutAfterLimiterWait(t *testing.T) {
 	release := make(chan struct{})
 	started := make(chan struct{}, 2)
 	var requests atomic.Int32
+	remainingBudget := make(chan time.Duration, 1)
 
 	client := &Client{
 		httpClient: &http.Client{
@@ -7521,6 +7522,12 @@ func TestClientRenewsMutatingRequestTimeoutAfterLimiterWait(t *testing.T) {
 				started <- struct{}{}
 				if attempt == 1 {
 					<-release
+				} else {
+					deadline, ok := req.Context().Deadline()
+					if !ok {
+						t.Fatal("expected queued mutating request to have a timeout")
+					}
+					remainingBudget <- time.Until(deadline)
 				}
 
 				return jsonResponse(http.StatusCreated, `{"data":{"type":"subscriptionAvailabilities","id":"avail-1","attributes":{"availableInNewTerritories":true}}}`), nil
@@ -7539,14 +7546,11 @@ func TestClientRenewsMutatingRequestTimeoutAfterLimiterWait(t *testing.T) {
 	}()
 	<-started
 
-	durationCh := make(chan time.Duration, 1)
 	go func() {
-		requestCtx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
+		requestCtx, cancel := context.WithTimeout(context.Background(), 80*time.Millisecond)
 		defer cancel()
 
-		start := time.Now()
 		_, err := client.CreateSubscriptionAvailability(requestCtx, "sub-2", []string{"CAN"}, SubscriptionAvailabilityAttributes{})
-		durationCh <- time.Since(start)
 		errCh <- err
 	}()
 
@@ -7564,8 +7568,8 @@ func TestClientRenewsMutatingRequestTimeoutAfterLimiterWait(t *testing.T) {
 		}
 	}
 
-	if duration := <-durationCh; duration < 20*time.Millisecond {
-		t.Fatalf("expected queued request to outlive its original timeout while waiting for limiter, got %s", duration)
+	if budget := <-remainingBudget; budget < 65*time.Millisecond {
+		t.Fatalf("expected queued request to receive a refreshed timeout budget, got %s remaining", budget)
 	}
 
 	if requests.Load() != 2 {
@@ -7630,6 +7634,76 @@ func TestClientCancelsMutatingRequestWhileWaitingForLimiter(t *testing.T) {
 	}
 	if !strings.Contains(err.Error(), "wait for mutating request slot: context canceled") {
 		t.Fatalf("expected limiter wait cancellation error, got %v", err)
+	}
+
+	close(release)
+
+	if err := <-errCh; err != nil {
+		t.Fatalf("CreateSubscriptionAvailability() error: %v", err)
+	}
+
+	if requests.Load() != 1 {
+		t.Fatalf("expected only the first mutating request to reach transport, got %d", requests.Load())
+	}
+}
+
+func TestClientDeadlineExpiresWhileWaitingForLimiter(t *testing.T) {
+	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		t.Fatalf("GenerateKey() error: %v", err)
+	}
+
+	release := make(chan struct{})
+	started := make(chan struct{}, 2)
+	var requests atomic.Int32
+
+	client := &Client{
+		httpClient: &http.Client{
+			Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+				assertAuthorized(t, req)
+
+				attempt := requests.Add(1)
+				started <- struct{}{}
+				if attempt == 1 {
+					<-release
+				}
+
+				return jsonResponse(http.StatusCreated, `{"data":{"type":"subscriptionAvailabilities","id":"avail-1","attributes":{"availableInNewTerritories":true}}}`), nil
+			}),
+		},
+		keyID:                  "KEY123",
+		issuerID:               "ISS456",
+		privateKey:             key,
+		mutatingRequestLimiter: make(chan struct{}, 1),
+	}
+
+	errCh := make(chan error, 2)
+	go func() {
+		_, err := client.CreateSubscriptionAvailability(context.Background(), "sub-1", []string{"USA"}, SubscriptionAvailabilityAttributes{})
+		errCh <- err
+	}()
+	<-started
+
+	go func() {
+		requestCtx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
+		defer cancel()
+
+		_, err := client.CreateSubscriptionAvailability(requestCtx, "sub-2", []string{"CAN"}, SubscriptionAvailabilityAttributes{})
+		errCh <- err
+	}()
+
+	select {
+	case <-started:
+		t.Fatal("expected second mutating request to wait for limiter")
+	case <-time.After(20 * time.Millisecond):
+	}
+
+	err = <-errCh
+	if err == nil {
+		t.Fatal("expected queued mutating request to fail when deadline expires")
+	}
+	if !strings.Contains(err.Error(), "wait for mutating request slot: context deadline exceeded") {
+		t.Fatalf("expected limiter wait deadline error, got %v", err)
 	}
 
 	close(release)

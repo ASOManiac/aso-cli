@@ -129,22 +129,15 @@ func (c *Client) doWithMutatingRequestLimiter(ctx context.Context, request func(
 
 	requestTimeout, hasDeadline := requestTimeoutBudget(ctx)
 	limiter := c.getMutatingRequestLimiter()
-	waitCtx, waitCancel := context.WithCancel(context.Background())
-	stopWaiting := context.AfterFunc(ctx, func() {
-		if errors.Is(ctx.Err(), context.Canceled) {
-			waitCancel()
-		}
-	})
-	defer func() {
-		stopWaiting()
-		waitCancel()
-	}()
 
 	select {
 	case limiter <- struct{}{}:
 		defer func() { <-limiter }()
-	case <-waitCtx.Done():
-		return nil, fmt.Errorf("wait for mutating request slot: %w", context.Canceled)
+		if err := ctx.Err(); err != nil {
+			return nil, fmt.Errorf("wait for mutating request slot: %w", err)
+		}
+	case <-ctx.Done():
+		return nil, fmt.Errorf("wait for mutating request slot: %w", ctx.Err())
 	}
 
 	requestCtx, cancel := deriveMutatingRequestContext(ctx, requestTimeout, hasDeadline)
