@@ -341,21 +341,22 @@ func TestSubscriptionsPricingEqualize_ApplyFailsWhenAvailabilityIsMissing(t *tes
 		http.DefaultTransport = originalTransport
 	})
 
-	basePricePointID := testSubscriptionPricePointID("USA")
-	canPricePointID := testSubscriptionPricePointID("CAN")
+	steps := make([]string, 0, 2)
 
 	http.DefaultTransport = roundTripFunc(func(req *http.Request) (*http.Response, error) {
 		switch {
-		case req.Method == http.MethodGet && req.URL.Path == "/v1/territories":
-			return jsonHTTPResponse(http.StatusOK, `{"data":[{"type":"territories","id":"USA"},{"type":"territories","id":"CAN"}],"links":{}}`), nil
-		case req.Method == http.MethodGet && req.URL.Path == "/v1/subscriptions/sub-1/pricePoints":
-			body := `{"data":[{"type":"subscriptionPricePoints","id":"` + basePricePointID + `","attributes":{"customerPrice":"0.99"}}],"links":{}}`
-			return jsonHTTPResponse(http.StatusOK, body), nil
-		case req.Method == http.MethodGet && req.URL.Path == "/v1/subscriptionPricePoints/"+basePricePointID+"/equalizations":
-			body := `{"data":[{"type":"subscriptionPricePoints","id":"` + canPricePointID + `","attributes":{"customerPrice":"1.29"},"relationships":{"territory":{"data":{"type":"territories","id":"CAN"}}}}],"links":{}}`
-			return jsonHTTPResponse(http.StatusOK, body), nil
 		case req.Method == http.MethodGet && req.URL.Path == "/v1/subscriptions/sub-1/subscriptionAvailability":
+			steps = append(steps, "availability")
 			return jsonHTTPResponse(http.StatusNotFound, `{"errors":[{"status":"404","code":"NOT_FOUND","title":"not found","detail":"missing"}]}`), nil
+		case req.Method == http.MethodGet && req.URL.Path == "/v1/subscriptions/sub-1":
+			steps = append(steps, "subscription")
+			return jsonHTTPResponse(http.StatusOK, `{"data":{"type":"subscriptions","id":"sub-1","attributes":{}}}`), nil
+		case req.Method == http.MethodGet && req.URL.Path == "/v1/subscriptions/sub-1/pricePoints":
+			t.Fatalf("unexpected price point fetch before availability preflight")
+			return nil, nil
+		case req.Method == http.MethodGet && strings.Contains(req.URL.Path, "/equalizations"):
+			t.Fatalf("unexpected equalization fetch before availability preflight")
+			return nil, nil
 		default:
 			t.Fatalf("unexpected request: %s %s", req.Method, req.URL.String())
 			return nil, nil
@@ -386,6 +387,72 @@ func TestSubscriptionsPricingEqualize_ApplyFailsWhenAvailabilityIsMissing(t *tes
 	}
 	if !strings.Contains(runErr.Error(), "equalize only updates prices and will not change sale availability") {
 		t.Fatalf("expected availability guidance in error, got %v", runErr)
+	}
+	if got := strings.Join(steps, ","); got != "availability,subscription" {
+		t.Fatalf("expected availability disambiguation before failing, got %v", steps)
+	}
+}
+
+func TestSubscriptionsPricingEqualize_DryRunFailsWhenSubscriptionDoesNotExist(t *testing.T) {
+	setupAuth(t)
+
+	originalTransport := http.DefaultTransport
+	t.Cleanup(func() {
+		http.DefaultTransport = originalTransport
+	})
+
+	steps := make([]string, 0, 2)
+
+	http.DefaultTransport = roundTripFunc(func(req *http.Request) (*http.Response, error) {
+		switch {
+		case req.Method == http.MethodGet && req.URL.Path == "/v1/subscriptions/sub-missing/subscriptionAvailability":
+			steps = append(steps, "availability")
+			return jsonHTTPResponse(http.StatusNotFound, `{"errors":[{"status":"404","code":"NOT_FOUND","title":"not found","detail":"missing"}]}`), nil
+		case req.Method == http.MethodGet && req.URL.Path == "/v1/subscriptions/sub-missing":
+			steps = append(steps, "subscription")
+			return jsonHTTPResponse(http.StatusNotFound, `{"errors":[{"status":"404","code":"NOT_FOUND","title":"not found","detail":"missing"}]}`), nil
+		case req.Method == http.MethodGet && req.URL.Path == "/v1/subscriptions/sub-missing/pricePoints":
+			t.Fatalf("unexpected price point fetch before missing subscription failure")
+			return nil, nil
+		case req.Method == http.MethodGet && strings.Contains(req.URL.Path, "/equalizations"):
+			t.Fatalf("unexpected equalization fetch before missing subscription failure")
+			return nil, nil
+		default:
+			t.Fatalf("unexpected request: %s %s", req.Method, req.URL.String())
+			return nil, nil
+		}
+	})
+
+	root := RootCommand("1.2.3")
+	root.FlagSet.SetOutput(io.Discard)
+
+	var runErr error
+	stdout, _ := captureOutput(t, func() {
+		if err := root.Parse([]string{
+			"subscriptions", "pricing", "equalize",
+			"--subscription-id", "sub-missing",
+			"--base-price", "0.99",
+			"--dry-run",
+		}); err != nil {
+			t.Fatalf("parse error: %v", err)
+		}
+		runErr = root.Run(context.Background())
+	})
+
+	if runErr == nil {
+		t.Fatal("expected missing subscription preflight to fail")
+	}
+	if stdout != "" {
+		t.Fatalf("expected no stdout on missing subscription failure, got %q", stdout)
+	}
+	if !strings.Contains(runErr.Error(), `subscription "sub-missing" was not found`) {
+		t.Fatalf("expected missing subscription error, got %v", runErr)
+	}
+	if strings.Contains(runErr.Error(), "availability is not configured") {
+		t.Fatalf("expected missing subscription error, got availability guidance: %v", runErr)
+	}
+	if got := strings.Join(steps, ","); got != "availability,subscription" {
+		t.Fatalf("expected availability disambiguation before failing, got %v", steps)
 	}
 }
 
