@@ -26,6 +26,7 @@ Examples:
   asc encryption declarations list --app "APP_ID"
   asc encryption declarations get --id "DECL_ID"
   asc encryption declarations create --app "APP_ID" --app-description "Uses TLS" --contains-proprietary-cryptography=false --contains-third-party-cryptography=true --available-on-french-store=true
+  asc encryption declarations exempt-declare --plist ./Info.plist
   asc encryption declarations assign-builds --id "DECL_ID" --build "BUILD_ID"
   asc encryption documents get --id "DOC_ID"
   asc encryption documents upload --declaration "DECL_ID" --file ./export.pdf`,
@@ -52,6 +53,7 @@ Examples:
   asc encryption declarations list --app "APP_ID"
   asc encryption declarations get --id "DECL_ID"
   asc encryption declarations create --app "APP_ID" --app-description "Uses TLS" --contains-proprietary-cryptography=false --contains-third-party-cryptography=true --available-on-french-store=true
+  asc encryption declarations exempt-declare --plist ./Info.plist
   asc encryption declarations assign-builds --id "DECL_ID" --build "BUILD_ID"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -60,6 +62,7 @@ Examples:
 			EncryptionDeclarationsAppCommand(),
 			EncryptionDeclarationsDeclarationDocumentCommand(),
 			EncryptionDeclarationsCreateCommand(),
+			EncryptionDeclarationsExemptDeclareCommand(),
 			EncryptionDeclarationsAssignBuildsCommand(),
 		},
 		Exec: func(ctx context.Context, args []string) error {
@@ -314,6 +317,97 @@ Examples:
 			return shared.PrintOutput(resp, *output.Output, *output.Pretty)
 		},
 	}
+}
+
+// EncryptionDeclarationsExemptDeclareCommand returns the exempt-declare subcommand.
+func EncryptionDeclarationsExemptDeclareCommand() *ffcli.Command {
+	fs := flag.NewFlagSet("encryption declarations exempt-declare", flag.ExitOnError)
+
+	plistPath := fs.String("plist", "", "Path to Info.plist to update with ITSAppUsesNonExemptEncryption=false")
+
+	return &ffcli.Command{
+		Name:       "exempt-declare",
+		ShortUsage: "asc encryption declarations exempt-declare [--plist ./Info.plist]",
+		ShortHelp:  "Declare that your app uses no non-exempt encryption.",
+		LongHelp: `Declare that your app uses no non-exempt encryption.
+
+The App Store Connect API does not support creating an encryption declaration
+with all cryptography flags set to false. For apps that use no encryption (or
+only exempt encryption like HTTPS/TLS), the correct approach is to set
+ITSAppUsesNonExemptEncryption to false in your Info.plist.
+
+This command can update your Info.plist automatically, or print the required
+entry for you to add manually.
+
+Examples:
+  asc encryption declarations exempt-declare
+  asc encryption declarations exempt-declare --plist ./MyApp/Info.plist`,
+		FlagSet:   fs,
+		UsageFunc: shared.DefaultUsageFunc,
+		Exec: func(ctx context.Context, args []string) error {
+			plistValue := strings.TrimSpace(*plistPath)
+
+			if plistValue != "" {
+				return updatePlistExemption(plistValue)
+			}
+
+			fmt.Fprintln(os.Stderr, `To declare encryption exemption, add the following to your Info.plist:
+
+  <key>ITSAppUsesNonExemptEncryption</key>
+  <false/>
+
+Or pass --plist to update it automatically:
+
+  asc encryption declarations exempt-declare --plist ./MyApp/Info.plist
+
+This eliminates the encryption compliance dialog on each TestFlight and
+App Store submission. Most apps that only use HTTPS/TLS qualify as exempt.
+
+For details, see:
+  https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption`)
+
+			return nil
+		},
+	}
+}
+
+func updatePlistExemption(plistPath string) error {
+	info, err := os.Lstat(plistPath)
+	if err != nil {
+		return fmt.Errorf("encryption declarations exempt-declare: %w", err)
+	}
+	if info.IsDir() {
+		return fmt.Errorf("encryption declarations exempt-declare: %q is a directory", plistPath)
+	}
+
+	data, err := os.ReadFile(plistPath)
+	if err != nil {
+		return fmt.Errorf("encryption declarations exempt-declare: failed to read: %w", err)
+	}
+
+	content := string(data)
+
+	if strings.Contains(content, "ITSAppUsesNonExemptEncryption") {
+		fmt.Fprintf(os.Stderr, "Info.plist already contains ITSAppUsesNonExemptEncryption: %s\n", plistPath)
+		return nil
+	}
+
+	// Insert before closing </dict> tag
+	closingDict := "</dict>"
+	idx := strings.LastIndex(content, closingDict)
+	if idx == -1 {
+		return fmt.Errorf("encryption declarations exempt-declare: no closing </dict> found in %q", plistPath)
+	}
+
+	entry := "\t<key>ITSAppUsesNonExemptEncryption</key>\n\t<false/>\n"
+	updated := content[:idx] + entry + content[idx:]
+
+	if err := os.WriteFile(plistPath, []byte(updated), info.Mode()); err != nil {
+		return fmt.Errorf("encryption declarations exempt-declare: failed to write: %w", err)
+	}
+
+	fmt.Fprintf(os.Stderr, "Added ITSAppUsesNonExemptEncryption=false to %s\n", plistPath)
+	return nil
 }
 
 // EncryptionDeclarationsAssignBuildsCommand returns the declarations assign-builds subcommand.

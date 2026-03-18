@@ -504,11 +504,13 @@ func PricingAvailabilityCommand() *ffcli.Command {
 Examples:
   asc pricing availability get --app "123456789"
   asc pricing availability get --id "AVAILABILITY_ID"
+  asc pricing availability create --app "123456789" --available-in-new-territories true
   asc pricing availability set --app "123456789" --territory "USA,GBR,DEU" --available true --available-in-new-territories true
   asc pricing availability territory-availabilities --availability "AVAILABILITY_ID"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			PricingAvailabilityGetCommand(),
+			PricingAvailabilityCreateCommand(),
 			PricingAvailabilityTerritoryAvailabilitiesCommand(),
 			PricingAvailabilitySetCommand(),
 		},
@@ -627,6 +629,84 @@ func isPricingAvailabilityTerritoryAvailabilitiesUsageError(err error) bool {
 	message := err.Error()
 	return strings.HasPrefix(message, "pricing availability territory-availabilities: --limit must be between 1 and ") ||
 		strings.HasPrefix(message, "pricing availability territory-availabilities: --next ")
+}
+
+// PricingAvailabilityCreateCommand returns the availability create subcommand.
+func PricingAvailabilityCreateCommand() *ffcli.Command {
+	fs := flag.NewFlagSet("pricing availability create", flag.ExitOnError)
+
+	appID := fs.String("app", "", "App Store Connect app ID (or ASC_APP_ID)")
+	var availableInNewTerritories shared.OptionalBool
+	fs.Var(&availableInNewTerritories, "available-in-new-territories", "Automatically make app available in new territories: true or false (required)")
+	territory := fs.String("territory", "", "Territory IDs (comma-separated, e.g., USA,GBR,DEU)")
+	var available shared.OptionalBool
+	fs.Var(&available, "available", "Set availability for specified territories: true or false")
+	output := shared.BindOutputFlags(fs)
+
+	return &ffcli.Command{
+		Name:       "create",
+		ShortUsage: "asc pricing availability create --app \"APP_ID\" --available-in-new-territories true [--territory \"USA,GBR\" --available true]",
+		ShortHelp:  "Initialize app availability for territories.",
+		LongHelp: `Initialize app availability for territories.
+
+Use this command to create the initial app availability record. Once created,
+use "asc pricing availability set" to update territory availability.
+
+Examples:
+  asc pricing availability create --app "123456789" --available-in-new-territories true
+  asc pricing availability create --app "123456789" --available-in-new-territories false --territory "USA,GBR,DEU" --available true`,
+		FlagSet:   fs,
+		UsageFunc: shared.DefaultUsageFunc,
+		Exec: func(ctx context.Context, args []string) error {
+			resolvedAppID := shared.ResolveAppID(*appID)
+			if resolvedAppID == "" {
+				fmt.Fprintln(os.Stderr, "Error: --app is required (or set ASC_APP_ID)")
+				return flag.ErrHelp
+			}
+			if !availableInNewTerritories.IsSet() {
+				fmt.Fprintln(os.Stderr, "Error: --available-in-new-territories is required (true or false)")
+				return flag.ErrHelp
+			}
+
+			territories := shared.SplitCSVUpper(*territory)
+			if len(territories) > 0 && !available.IsSet() {
+				fmt.Fprintln(os.Stderr, "Error: --available is required when --territory is specified")
+				return flag.ErrHelp
+			}
+
+			client, err := shared.GetASCClient()
+			if err != nil {
+				return fmt.Errorf("pricing availability create: %w", err)
+			}
+
+			requestCtx, cancel := shared.ContextWithTimeout(ctx)
+			defer cancel()
+
+			availableInNewTerritoriesValue := availableInNewTerritories.Value()
+			attrs := asc.AppAvailabilityV2CreateAttributes{
+				AvailableInNewTerritories: &availableInNewTerritoriesValue,
+			}
+
+			if len(territories) > 0 {
+				availableValue := available.Value()
+				territoryAvailabilities := make([]asc.TerritoryAvailabilityCreate, 0, len(territories))
+				for _, territoryID := range territories {
+					territoryAvailabilities = append(territoryAvailabilities, asc.TerritoryAvailabilityCreate{
+						TerritoryID: territoryID,
+						Available:   availableValue,
+					})
+				}
+				attrs.TerritoryAvailabilities = territoryAvailabilities
+			}
+
+			resp, err := client.CreateAppAvailabilityV2(requestCtx, resolvedAppID, attrs)
+			if err != nil {
+				return fmt.Errorf("pricing availability create: failed to create: %w", err)
+			}
+
+			return shared.PrintOutput(resp, *output.Output, *output.Pretty)
+		},
+	}
 }
 
 // PricingAvailabilitySetCommand returns the availability set subcommand.
