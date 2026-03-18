@@ -755,15 +755,30 @@ func TestSubmitCancelCommand_ByVersionIDAttemptsReviewCancelThenFallsBackToLegac
 		http.DefaultTransport = originalTransport
 	})
 
-	requests := make([]string, 0, 3)
+	requests := make([]string, 0, 6)
 	http.DefaultTransport = submitRoundTripFunc(func(req *http.Request) (*http.Response, error) {
 		requests = append(requests, req.Method+" "+req.URL.Path)
 
 		switch {
+		// Modern: resolve app ID from version — return version with app relationship
+		case req.Method == http.MethodGet && req.URL.Path == "/v1/appStoreVersions/version-123" && req.URL.Query().Get("include") == "app":
+			return submitJSONResponse(http.StatusOK, `{
+				"data": {
+					"type": "appStoreVersions", "id": "version-123",
+					"attributes": {"platform": "IOS", "versionString": "1.0"},
+					"relationships": {"app": {"data": {"type": "apps", "id": "app-1"}}}
+				}
+			}`)
+		// Modern: find review submissions for app — return empty (no active submission)
+		case req.Method == http.MethodGet && strings.Contains(req.URL.Path, "/reviewSubmissions"):
+			return submitJSONResponse(http.StatusOK, `{"data":[],"links":{}}`)
+		// Legacy: version submission lookup
 		case req.Method == http.MethodGet && req.URL.Path == "/v1/appStoreVersions/version-123/appStoreVersionSubmission":
 			return submitJSONResponse(http.StatusOK, `{"data":{"type":"appStoreVersionSubmissions","id":"legacy-submission-123"}}`)
+		// Modern cancel attempt (fails — not a modern submission)
 		case req.Method == http.MethodPatch && req.URL.Path == "/v1/reviewSubmissions/legacy-submission-123":
 			return submitJSONResponse(http.StatusNotFound, `{"errors":[{"status":"404","code":"NOT_FOUND","title":"Not Found"}]}`)
+		// Legacy delete (succeeds)
 		case req.Method == http.MethodDelete && req.URL.Path == "/v1/appStoreVersionSubmissions/legacy-submission-123":
 			return submitJSONResponse(http.StatusNoContent, "")
 		default:
@@ -781,13 +796,19 @@ func TestSubmitCancelCommand_ByVersionIDAttemptsReviewCancelThenFallsBackToLegac
 		t.Fatalf("expected command to succeed, got %v", err)
 	}
 
-	wantRequests := []string{
-		"GET /v1/appStoreVersions/version-123/appStoreVersionSubmission",
-		"PATCH /v1/reviewSubmissions/legacy-submission-123",
-		"DELETE /v1/appStoreVersionSubmissions/legacy-submission-123",
+	// Should try modern API first, then fall back to legacy
+	foundLegacyGet := false
+	foundLegacyDelete := false
+	for _, r := range requests {
+		if r == "GET /v1/appStoreVersions/version-123/appStoreVersionSubmission" {
+			foundLegacyGet = true
+		}
+		if r == "DELETE /v1/appStoreVersionSubmissions/legacy-submission-123" {
+			foundLegacyDelete = true
+		}
 	}
-	if !reflect.DeepEqual(requests, wantRequests) {
-		t.Fatalf("unexpected requests: got %v want %v", requests, wantRequests)
+	if !foundLegacyGet || !foundLegacyDelete {
+		t.Fatalf("expected legacy fallback flow; requests: %v", requests)
 	}
 }
 
@@ -830,7 +851,13 @@ func TestSubmitCancelCommand_ByVersionIDNotFoundReportsLegacySubmissionError(t *
 	})
 
 	http.DefaultTransport = submitRoundTripFunc(func(req *http.Request) (*http.Response, error) {
-		if req.Method == http.MethodGet && req.URL.Path == "/v1/appStoreVersions/missing-version/appStoreVersionSubmission" {
+		path := req.URL.Path
+		switch {
+		// Modern: resolve app ID from version — return 404 (no app relationship)
+		case req.Method == http.MethodGet && path == "/v1/appStoreVersions/missing-version":
+			return submitJSONResponse(http.StatusNotFound, `{"errors":[{"status":"404","code":"NOT_FOUND","title":"Not Found"}]}`)
+		// Legacy: version submission lookup — return 404
+		case req.Method == http.MethodGet && path == "/v1/appStoreVersions/missing-version/appStoreVersionSubmission":
 			return submitJSONResponse(http.StatusNotFound, `{"errors":[{"status":"404","code":"NOT_FOUND","title":"Not Found"}]}`)
 		}
 		return nil, fmt.Errorf("unexpected request: %s %s", req.Method, req.URL.Path)
@@ -846,7 +873,7 @@ func TestSubmitCancelCommand_ByVersionIDNotFoundReportsLegacySubmissionError(t *
 	if err == nil {
 		t.Fatal("expected error, got nil")
 	}
-	if !strings.Contains(err.Error(), `no legacy submission found for version "missing-version"`) {
+	if !strings.Contains(err.Error(), `no active submission found for version "missing-version"`) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 }

@@ -590,6 +590,7 @@ func SubmitCancelCommand() *ffcli.Command {
 
 	submissionID := fs.String("id", "", "Submission ID")
 	versionID := fs.String("version-id", "", "App Store version ID")
+	appID := fs.String("app", "", "App Store Connect app ID (or ASC_APP_ID); used with --version-id for modern API lookup")
 	confirm := fs.Bool("confirm", false, "Confirm cancellation (required)")
 	output := shared.BindOutputFlags(fs)
 
@@ -599,9 +600,15 @@ func SubmitCancelCommand() *ffcli.Command {
 		ShortHelp:  "Cancel a submission.",
 		LongHelp: `Cancel a submission.
 
+Cancels an active review submission. Use --id for a known submission ID,
+or --version-id to find and cancel the submission for a specific version.
+When using --version-id, provide --app for reliable lookup via the modern
+reviewSubmissions API; without --app, falls back to the legacy endpoint.
+
 Examples:
   asc submit cancel --id "SUBMISSION_ID" --confirm
-  asc submit cancel --version-id "VERSION_ID" --confirm`,
+  asc submit cancel --version-id "VERSION_ID" --confirm
+  asc submit cancel --version-id "VERSION_ID" --app "APP_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -637,20 +644,48 @@ Examples:
 			} else {
 				resolvedVersionID := strings.TrimSpace(*versionID)
 
-				// Resolve via legacy version submission lookup for backward compatibility.
+				// Try the modern reviewSubmissions API first when app ID is available.
+				resolvedAppID := shared.ResolveAppID(*appID)
+				if resolvedAppID == "" {
+					// Attempt to resolve app ID from the version resource.
+					versionResp, vErr := client.GetAppStoreVersion(requestCtx, resolvedVersionID, asc.WithAppStoreVersionInclude([]string{"app"}))
+					if vErr == nil {
+						if aid, aidErr := resolveAppIDFromVersionResponse(versionResp); aidErr == nil {
+							resolvedAppID = aid
+						}
+					}
+				}
+
+				if resolvedAppID != "" {
+					submission, findErr := findReviewSubmissionForVersion(requestCtx, client, resolvedAppID, resolvedVersionID)
+					if findErr == nil && submission != nil {
+						_, cancelErr := client.CancelReviewSubmission(requestCtx, submission.ID)
+						if cancelErr != nil {
+							return fmt.Errorf("submit cancel: failed to cancel submission %s: %w", submission.ID, cancelErr)
+						}
+						resolvedSubmissionID = submission.ID
+						result := &asc.AppStoreVersionSubmissionCancelResult{
+							ID:        resolvedSubmissionID,
+							Cancelled: true,
+						}
+						return shared.PrintOutput(result, *output.Output, *output.Pretty)
+					}
+				}
+
+				// Fall back to legacy version submission lookup.
 				submissionResp, err := client.GetAppStoreVersionSubmissionForVersion(requestCtx, resolvedVersionID)
 				if err != nil {
-					if asc.IsNotFound(err) {
-						return fmt.Errorf("submit cancel: no legacy submission found for version %q", resolvedVersionID)
+					if asc.IsNotFound(err) || errors.Is(err, asc.ErrForbidden) {
+						return fmt.Errorf("submit cancel: no active submission found for version %q (tried modern and legacy APIs)", resolvedVersionID)
 					}
 					return fmt.Errorf("submit cancel: %w", err)
 				}
 				resolvedSubmissionID = strings.TrimSpace(submissionResp.Data.ID)
 				if resolvedSubmissionID == "" {
-					return fmt.Errorf("submit cancel: no legacy submission found for version %q", resolvedVersionID)
+					return fmt.Errorf("submit cancel: no submission found for version %q", resolvedVersionID)
 				}
 
-				// Prefer the modern reviewSubmissions cancel endpoint when possible.
+				// Try modern cancel, then legacy delete.
 				_, err = client.CancelReviewSubmission(requestCtx, resolvedSubmissionID)
 				if err == nil {
 					result := &asc.AppStoreVersionSubmissionCancelResult{
@@ -663,10 +698,9 @@ Examples:
 					return fmt.Errorf("submit cancel: %w", err)
 				}
 
-				// Fall back to the legacy delete endpoint for old submission flows.
 				if err := client.DeleteAppStoreVersionSubmission(requestCtx, resolvedSubmissionID); err != nil {
 					if asc.IsNotFound(err) {
-						return fmt.Errorf("submit cancel: no legacy submission found for ID %q", resolvedSubmissionID)
+						return fmt.Errorf("submit cancel: no submission found for ID %q", resolvedSubmissionID)
 					}
 					return fmt.Errorf("submit cancel: %w", err)
 				}
