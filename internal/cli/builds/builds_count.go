@@ -96,34 +96,55 @@ Examples:
 				}
 			}
 
-			// Request only 1 item — we only need meta.paging.total, not the builds themselves.
-			opts := []asc.BuildsOption{
-				asc.WithBuildsLimit(1),
-			}
+			filterOpts := []asc.BuildsOption{}
 			if buildNumberValue != "" {
-				opts = append(opts, asc.WithBuildsBuildNumber(buildNumberValue))
+				filterOpts = append(filterOpts, asc.WithBuildsBuildNumber(buildNumberValue))
 			}
 			if platformValue != "" {
-				opts = append(opts, asc.WithBuildsPreReleaseVersionPlatforms([]string{platformValue}))
+				filterOpts = append(filterOpts, asc.WithBuildsPreReleaseVersionPlatforms([]string{platformValue}))
 			}
 			if len(processingStateValues) > 0 {
-				opts = append(opts, asc.WithBuildsProcessingStates(processingStateValues))
+				filterOpts = append(filterOpts, asc.WithBuildsProcessingStates(processingStateValues))
 			}
 			if len(preReleaseVersionIDs) > 0 {
-				opts = append(opts, asc.WithBuildsPreReleaseVersions(preReleaseVersionIDs))
+				filterOpts = append(filterOpts, asc.WithBuildsPreReleaseVersions(preReleaseVersionIDs))
 			}
 
-			resp, err := client.GetBuilds(requestCtx, resolvedAppID, opts...)
+			// Request only 1 item first — if ASC includes meta.paging.total, we can
+			// answer in a single fast request regardless of app size.
+			probeOpts := append([]asc.BuildsOption{asc.WithBuildsLimit(1)}, filterOpts...)
+			resp, err := client.GetBuilds(requestCtx, resolvedAppID, probeOpts...)
 			if err != nil {
 				return fmt.Errorf("builds count: failed to fetch: %w", err)
 			}
 
 			total, ok := asc.ParsePagingTotalOK(resp.Meta)
-			if !ok {
-				return fmt.Errorf("builds count: App Store Connect did not return a total count in this response; try 'asc builds list --paginate' to count manually")
+			if ok {
+				result := &asc.BuildsCountResult{AppID: resolvedAppID, Total: total}
+				return shared.PrintOutput(result, *output.Output, *output.Pretty)
 			}
 
-			result := &asc.BuildsCountResult{AppID: resolvedAppID, Total: total}
+			// Some ASC responses omit paging.total. Fall back to paginating and
+			// counting the matching builds explicitly instead of failing.
+			paginateOpts := append([]asc.BuildsOption{asc.WithBuildsLimit(200)}, filterOpts...)
+			paginated, err := shared.PaginateWithSpinner(requestCtx,
+				func(ctx context.Context) (asc.PaginatedResponse, error) {
+					return client.GetBuilds(ctx, resolvedAppID, paginateOpts...)
+				},
+				func(ctx context.Context, nextURL string) (asc.PaginatedResponse, error) {
+					return client.GetBuilds(ctx, resolvedAppID, asc.WithBuildsNextURL(nextURL))
+				},
+			)
+			if err != nil {
+				return fmt.Errorf("builds count: failed to count via pagination: %w", err)
+			}
+
+			builds, ok := paginated.(*asc.BuildsResponse)
+			if !ok {
+				return fmt.Errorf("builds count: unexpected paginated response type %T", paginated)
+			}
+
+			result := &asc.BuildsCountResult{AppID: resolvedAppID, Total: len(builds.Data)}
 			return shared.PrintOutput(result, *output.Output, *output.Pretty)
 		},
 	}

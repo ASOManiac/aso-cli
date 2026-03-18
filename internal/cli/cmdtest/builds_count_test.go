@@ -358,43 +358,95 @@ func TestBuildsCountVersionLookupRequiresExactMatch(t *testing.T) {
 	}
 }
 
-func TestBuildsCountErrorsWhenPagingTotalMissing(t *testing.T) {
+func TestBuildsCountFallsBackToPaginationWhenPagingTotalMissing(t *testing.T) {
 	setupAuth(t)
 	t.Setenv("ASC_APP_ID", "")
 	t.Setenv("ASC_CONFIG_PATH", filepath.Join(t.TempDir(), "nonexistent.json"))
+	t.Setenv("ASC_SPINNER_DISABLED", "1")
+
+	const nextURL = "https://api.appstoreconnect.apple.com/v1/builds?filter%5Bapp%5D=123456789&limit=200&cursor=AQ"
 
 	originalTransport := http.DefaultTransport
 	t.Cleanup(func() {
 		http.DefaultTransport = originalTransport
 	})
 
+	requestCount := 0
 	http.DefaultTransport = roundTripFunc(func(req *http.Request) (*http.Response, error) {
-		body := `{"data":[],"meta":{"paging":{"limit":1}}}`
-		return &http.Response{
-			StatusCode: http.StatusOK,
-			Body:       io.NopCloser(strings.NewReader(body)),
-			Header:     http.Header{"Content-Type": []string{"application/json"}},
-		}, nil
+		requestCount++
+		switch requestCount {
+		case 1:
+			if req.URL.Path != "/v1/builds" {
+				t.Fatalf("expected probe request to /v1/builds, got %s", req.URL.Path)
+			}
+			if req.URL.Query().Get("limit") != "1" {
+				t.Fatalf("expected probe limit=1, got %q", req.URL.Query().Get("limit"))
+			}
+			body := `{"data":[{"type":"builds","id":"probe-build"}],"meta":{"paging":{"limit":1}}}`
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       io.NopCloser(strings.NewReader(body)),
+				Header:     http.Header{"Content-Type": []string{"application/json"}},
+			}, nil
+		case 2:
+			if req.URL.Path != "/v1/builds" {
+				t.Fatalf("expected fallback request to /v1/builds, got %s", req.URL.Path)
+			}
+			if req.URL.Query().Get("limit") != "200" {
+				t.Fatalf("expected fallback limit=200, got %q", req.URL.Query().Get("limit"))
+			}
+			body := `{"data":[{"type":"builds","id":"build-1"}],"links":{"next":"` + nextURL + `"}}`
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       io.NopCloser(strings.NewReader(body)),
+				Header:     http.Header{"Content-Type": []string{"application/json"}},
+			}, nil
+		case 3:
+			if req.URL.String() != nextURL {
+				t.Fatalf("expected next URL %q, got %q", nextURL, req.URL.String())
+			}
+			body := `{"data":[{"type":"builds","id":"build-2"}],"links":{"next":""}}`
+			return &http.Response{
+				StatusCode: http.StatusOK,
+				Body:       io.NopCloser(strings.NewReader(body)),
+				Header:     http.Header{"Content-Type": []string{"application/json"}},
+			}, nil
+		default:
+			t.Fatalf("unexpected request count %d", requestCount)
+			return nil, nil
+		}
 	})
 
 	root := RootCommand("1.2.3")
 	root.FlagSet.SetOutput(io.Discard)
 
-	var runErr error
-	stdout, _ := captureOutput(t, func() {
+	stdout, stderr := captureOutput(t, func() {
 		if err := root.Parse([]string{"builds", "count", "--app", "123456789"}); err != nil {
 			t.Fatalf("parse error: %v", err)
 		}
-		runErr = root.Run(context.Background())
+		if err := root.Run(context.Background()); err != nil {
+			t.Fatalf("run error: %v", err)
+		}
 	})
 
-	if runErr == nil {
-		t.Fatal("expected error, got nil")
+	if stderr != "" {
+		t.Fatalf("expected empty stderr, got %q", stderr)
 	}
-	if !strings.Contains(runErr.Error(), "did not return a total count") {
-		t.Fatalf("expected missing-total error, got %v", runErr)
+	if requestCount != 3 {
+		t.Fatalf("expected 3 requests, got %d", requestCount)
 	}
-	if stdout != "" {
-		t.Fatalf("expected empty stdout, got %q", stdout)
+
+	var out struct {
+		AppID string `json:"appId"`
+		Total int    `json:"total"`
+	}
+	if err := json.Unmarshal([]byte(stdout), &out); err != nil {
+		t.Fatalf("unmarshal output: %v\nstdout: %s", err, stdout)
+	}
+	if out.AppID != "123456789" {
+		t.Fatalf("expected appId=123456789, got %q", out.AppID)
+	}
+	if out.Total != 2 {
+		t.Fatalf("expected total=2, got %d", out.Total)
 	}
 }
