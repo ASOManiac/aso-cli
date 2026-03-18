@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
+	"howett.net/plist"
 
 	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
 	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
@@ -385,25 +386,36 @@ func updatePlistExemption(plistPath string) error {
 		return fmt.Errorf("encryption declarations exempt-declare: failed to read: %w", err)
 	}
 
-	content := string(data)
+	var payload map[string]any
+	format, err := plist.Unmarshal(data, &payload)
+	if err != nil {
+		return fmt.Errorf("encryption declarations exempt-declare: failed to decode plist: %w", err)
+	}
 
-	if strings.Contains(content, "ITSAppUsesNonExemptEncryption") {
-		fmt.Fprintf(os.Stderr, "Info.plist already contains ITSAppUsesNonExemptEncryption: %s\n", plistPath)
+	if payload == nil {
+		payload = make(map[string]any)
+	}
+
+	if current, ok := payload["ITSAppUsesNonExemptEncryption"].(bool); ok && !current {
+		fmt.Fprintf(os.Stderr, "Info.plist already sets ITSAppUsesNonExemptEncryption=false: %s\n", plistPath)
 		return nil
 	}
 
-	// Insert before closing </dict> tag
-	closingDict := "</dict>"
-	idx := strings.LastIndex(content, closingDict)
-	if idx == -1 {
-		return fmt.Errorf("encryption declarations exempt-declare: no closing </dict> found in %q", plistPath)
+	_, existed := payload["ITSAppUsesNonExemptEncryption"]
+	payload["ITSAppUsesNonExemptEncryption"] = false
+
+	updated, err := plist.Marshal(payload, format)
+	if err != nil {
+		return fmt.Errorf("encryption declarations exempt-declare: failed to encode plist: %w", err)
 	}
 
-	entry := "\t<key>ITSAppUsesNonExemptEncryption</key>\n\t<false/>\n"
-	updated := content[:idx] + entry + content[idx:]
-
-	if err := os.WriteFile(plistPath, []byte(updated), info.Mode()); err != nil {
+	if err := os.WriteFile(plistPath, updated, info.Mode()); err != nil {
 		return fmt.Errorf("encryption declarations exempt-declare: failed to write: %w", err)
+	}
+
+	if existed {
+		fmt.Fprintf(os.Stderr, "Updated ITSAppUsesNonExemptEncryption=false in %s\n", plistPath)
+		return nil
 	}
 
 	fmt.Fprintf(os.Stderr, "Added ITSAppUsesNonExemptEncryption=false to %s\n", plistPath)

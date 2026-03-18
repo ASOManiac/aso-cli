@@ -1396,6 +1396,16 @@ func TestPricingValidationErrors(t *testing.T) {
 			args:    []string{"pricing", "availability", "set", "--app", "APP_ID", "--territory", "USA", "--available", "true"},
 			wantErr: "Error: --available-in-new-territories is required",
 		},
+		{
+			name:    "pricing availability create missing territory",
+			args:    []string{"pricing", "availability", "create", "--app", "APP_ID", "--available", "true", "--available-in-new-territories", "true"},
+			wantErr: "Error: --territory is required",
+		},
+		{
+			name:    "pricing availability create missing available",
+			args:    []string{"pricing", "availability", "create", "--app", "APP_ID", "--territory", "USA", "--available-in-new-territories", "true"},
+			wantErr: "Error: --available is required",
+		},
 	}
 
 	for _, test := range tests {

@@ -504,7 +504,7 @@ func PricingAvailabilityCommand() *ffcli.Command {
 Examples:
   asc pricing availability get --app "123456789"
   asc pricing availability get --id "AVAILABILITY_ID"
-  asc pricing availability create --app "123456789" --available-in-new-territories true
+  asc pricing availability create --app "123456789" --territory "USA,GBR,DEU" --available true --available-in-new-territories true
   asc pricing availability set --app "123456789" --territory "USA,GBR,DEU" --available true --available-in-new-territories true
   asc pricing availability territory-availabilities --availability "AVAILABILITY_ID"`,
 		UsageFunc: shared.DefaultUsageFunc,
@@ -645,15 +645,16 @@ func PricingAvailabilityCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc pricing availability create --app \"APP_ID\" --available-in-new-territories true [--territory \"USA,GBR\" --available true]",
+		ShortUsage: "asc pricing availability create --app \"APP_ID\" --territory \"USA,GBR\" --available true --available-in-new-territories true",
 		ShortHelp:  "Initialize app availability for territories.",
 		LongHelp: `Initialize app availability for territories.
 
-Use this command to create the initial app availability record. Once created,
-use "asc pricing availability set" to update territory availability.
+Use this command to create the initial app availability record together with
+territory availability entries. Once created, use
+"asc pricing availability set" to update existing territory availability.
 
 Examples:
-  asc pricing availability create --app "123456789" --available-in-new-territories true
+  asc pricing availability create --app "123456789" --territory "USA,GBR,DEU" --available true --available-in-new-territories true
   asc pricing availability create --app "123456789" --available-in-new-territories false --territory "USA,GBR,DEU" --available true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
@@ -669,8 +670,12 @@ Examples:
 			}
 
 			territories := shared.SplitCSVUpper(*territory)
-			if len(territories) > 0 && !available.IsSet() {
-				fmt.Fprintln(os.Stderr, "Error: --available is required when --territory is specified")
+			if len(territories) == 0 {
+				fmt.Fprintln(os.Stderr, "Error: --territory is required")
+				return flag.ErrHelp
+			}
+			if !available.IsSet() {
+				fmt.Fprintln(os.Stderr, "Error: --available is required (true or false)")
 				return flag.ErrHelp
 			}
 
@@ -687,17 +692,15 @@ Examples:
 				AvailableInNewTerritories: &availableInNewTerritoriesValue,
 			}
 
-			if len(territories) > 0 {
-				availableValue := available.Value()
-				territoryAvailabilities := make([]asc.TerritoryAvailabilityCreate, 0, len(territories))
-				for _, territoryID := range territories {
-					territoryAvailabilities = append(territoryAvailabilities, asc.TerritoryAvailabilityCreate{
-						TerritoryID: territoryID,
-						Available:   availableValue,
-					})
-				}
-				attrs.TerritoryAvailabilities = territoryAvailabilities
+			availableValue := available.Value()
+			territoryAvailabilities := make([]asc.TerritoryAvailabilityCreate, 0, len(territories))
+			for _, territoryID := range territories {
+				territoryAvailabilities = append(territoryAvailabilities, asc.TerritoryAvailabilityCreate{
+					TerritoryID: territoryID,
+					Available:   availableValue,
+				})
 			}
+			attrs.TerritoryAvailabilities = territoryAvailabilities
 
 			resp, err := client.CreateAppAvailabilityV2(requestCtx, resolvedAppID, attrs)
 			if err != nil {
