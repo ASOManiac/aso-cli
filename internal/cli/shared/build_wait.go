@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
@@ -226,7 +227,9 @@ func diagnoseBuildUploadFailure(ctx context.Context, appID string, upload *asc.B
 
 func buildStatusPrivateKeyPath(creds ResolvedAuthCredentials) (string, error) {
 	if path := strings.TrimSpace(creds.KeyPath); path != "" {
-		return path, nil
+		if info, err := os.Stat(path); err == nil && !info.IsDir() {
+			return path, nil
+		}
 	}
 	if pem := strings.TrimSpace(creds.KeyPEM); pem != "" {
 		normalized := normalizePrivateKeyValue(pem)

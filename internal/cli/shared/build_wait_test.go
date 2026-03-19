@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -223,5 +224,36 @@ func TestWaitForBuildByNumberOrUploadFailureIncludesProcessingDiagnostics(t *tes
 	}
 	if !strings.Contains(err.Error(), `Invalid Siri Support. App Intent description "Searches Apple Music" cannot contain "apple"`) {
 		t.Fatalf("expected enriched processing details, got %v", err)
+	}
+}
+
+func TestBuildStatusPrivateKeyPathFallsBackToStoredPEMWhenPathMissing(t *testing.T) {
+	tempDir := t.TempDir()
+	keyPath := filepath.Join(tempDir, "AuthKey.p8")
+	writeECDSAPEM(t, keyPath)
+
+	keyData, err := os.ReadFile(keyPath)
+	if err != nil {
+		t.Fatalf("ReadFile() error: %v", err)
+	}
+
+	CleanupTempPrivateKeys()
+	t.Cleanup(CleanupTempPrivateKeys)
+
+	resolvedPath, err := buildStatusPrivateKeyPath(ResolvedAuthCredentials{
+		KeyPath: filepath.Join(tempDir, "missing.p8"),
+		KeyPEM:  string(keyData),
+	})
+	if err != nil {
+		t.Fatalf("buildStatusPrivateKeyPath() error: %v", err)
+	}
+	if resolvedPath == filepath.Join(tempDir, "missing.p8") {
+		t.Fatalf("expected fallback temp path, got missing configured path %q", resolvedPath)
+	}
+	if _, err := os.Stat(resolvedPath); err != nil {
+		t.Fatalf("Stat(%q) error: %v", resolvedPath, err)
+	}
+	if _, err := asc.NewClient("KEY123", "ISS456", resolvedPath); err != nil {
+		t.Fatalf("expected fallback private key path to be usable, got %v", err)
 	}
 }
