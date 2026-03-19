@@ -454,7 +454,7 @@ func checkContentRights(ctx context.Context, client *asc.Client, appID string) c
 			Name:    "Content rights",
 			Passed:  false,
 			Message: "Content rights declaration not set",
-			Hint:    fmt.Sprintf("asc apps update --app %s --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT", appID),
+			Hint:    fmt.Sprintf("asc apps update --id %s --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT", appID),
 		}
 	}
 

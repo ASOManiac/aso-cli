@@ -386,8 +386,8 @@ func TestCheckContentRights_NotSet(t *testing.T) {
 	if check.Passed {
 		t.Fatal("expected check to fail when contentRightsDeclaration is nil")
 	}
-	if check.Hint == "" {
-		t.Fatal("expected hint to be set")
+	if check.Hint != "asc apps update --id app-123 --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT" {
+		t.Fatalf("unexpected hint: %q", check.Hint)
 	}
 }
 
