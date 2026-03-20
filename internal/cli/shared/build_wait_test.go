@@ -188,7 +188,7 @@ func TestWaitForBuildByNumberOrUploadFailureReturnsBuildLinkedFromUpload(t *test
 }
 
 func TestWaitForBuildByNumberOrUploadFailureIncludesProcessingDiagnostics(t *testing.T) {
-	restoreDiagnostics := SetBuildUploadFailureDiagnosticsForTesting(func(context.Context, string, *asc.BuildUploadResponse) (string, error) {
+	restoreDiagnostics := SetBuildUploadFailureDiagnosticsForTesting(func(context.Context, *asc.Client, string, *asc.BuildUploadResponse) (string, error) {
 		return `Invalid Siri Support. App Intent description "Searches Apple Music" cannot contain "apple"`, nil
 	})
 	t.Cleanup(restoreDiagnostics)
@@ -461,6 +461,39 @@ func TestWaitForBuildByNumberOrUploadFailureReturnsMalformedUploadRelationships(
 	}
 	if !strings.Contains(err.Error(), `parse build upload "upload-current" relationships`) {
 		t.Fatalf("expected malformed relationship error, got %v", err)
+	}
+}
+
+func TestResolveBuildStatusBundleIDReturnsAppBundleIDWhenSupported(t *testing.T) {
+	previous := buildStatusBundleIDSupportedFn
+	buildStatusBundleIDSupportedFn = func(context.Context) bool { return true }
+	t.Cleanup(func() {
+		buildStatusBundleIDSupportedFn = previous
+	})
+
+	client := newBuildWaitTestClient(t, func(req *http.Request) (*http.Response, error) {
+		if req.Method != http.MethodGet {
+			return nil, fmt.Errorf("expected GET, got %s", req.Method)
+		}
+		if req.URL.Path != "/v1/apps/app-1" {
+			return nil, fmt.Errorf("unexpected path: %s", req.URL.Path)
+		}
+		return buildWaitJSONResponse(`{
+			"data": {
+				"type": "apps",
+				"id": "app-1",
+				"attributes": {
+					"name": "Demo",
+					"bundleId": "com.example.demo",
+					"sku": "demo"
+				}
+			}
+		}`)
+	})
+
+	bundleID := resolveBuildStatusBundleID(context.Background(), client, "app-1")
+	if bundleID != "com.example.demo" {
+		t.Fatalf("expected resolved bundle ID com.example.demo, got %q", bundleID)
 	}
 }
 

@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"bufio"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -22,6 +23,7 @@ var (
 	lookPathFn           = exec.LookPath
 	commandContextFn     = exec.CommandContext
 	activeDeveloperDirFn = activeDeveloperDir
+	altoolHelpOutputFn   = readAltoolHelpOutput
 )
 
 const xcodebuildErrorTailLimit = 64 * 1024
@@ -78,6 +80,7 @@ type ValidateResult struct {
 
 type BuildStatusOptions struct {
 	AppleID            string
+	BundleID           string
 	BundleVersion      string
 	BundleShortVersion string
 	Platform           string
@@ -268,6 +271,16 @@ func BuildStatus(ctx context.Context, opts BuildStatusOptions) (*BuildStatusResu
 	return parseBuildStatusOutput(output), nil
 }
 
+// SupportsBuildStatusBundleID reports whether the current altool help output
+// advertises a dedicated --bundle-id flag for build-status lookups.
+func SupportsBuildStatusBundleID(ctx context.Context) bool {
+	helpOutput, err := altoolHelpOutputFn(ctx)
+	if err != nil {
+		return false
+	}
+	return strings.Contains(helpOutput, "--bundle-id ")
+}
+
 // IsDirectUploadMode reports whether ExportOptions.plist uploads directly to
 // App Store Connect instead of producing a local IPA artifact.
 func IsDirectUploadMode(exportOptionsPlistPath string) bool {
@@ -403,6 +416,7 @@ func normalizeValidateOptions(opts ValidateOptions) ValidateOptions {
 
 func normalizeBuildStatusOptions(opts BuildStatusOptions) BuildStatusOptions {
 	opts.AppleID = strings.TrimSpace(opts.AppleID)
+	opts.BundleID = strings.TrimSpace(opts.BundleID)
 	opts.BundleVersion = strings.TrimSpace(opts.BundleVersion)
 	opts.BundleShortVersion = strings.TrimSpace(opts.BundleShortVersion)
 	opts.Platform = strings.TrimSpace(opts.Platform)
@@ -605,6 +619,10 @@ func buildBuildStatusCommand(opts BuildStatusOptions) []string {
 		"--apple-id", opts.AppleID,
 		"--bundle-version", opts.BundleVersion,
 		"--platform", platform,
+		"--output-format", "json",
+	}
+	if opts.BundleID != "" {
+		args = append(args, "--bundle-id", opts.BundleID)
 	}
 	if opts.BundleShortVersion != "" {
 		args = append(args, "--bundle-short-version-string", opts.BundleShortVersion)
@@ -702,7 +720,138 @@ func mergeCapturedCommandOutput(stdout, stderr string) string {
 	}
 }
 
+func readAltoolHelpOutput(ctx context.Context) (string, error) {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	cmd := commandContextFn(ctx, "xcrun", "altool", "--help")
+	var stdout strings.Builder
+	var stderr strings.Builder
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+	if err := cmd.Run(); err != nil {
+		return "", err
+	}
+	return mergeCapturedCommandOutput(stdout.String(), stderr.String()), nil
+}
+
 func parseBuildStatusOutput(output string) *BuildStatusResult {
+	if result, ok := parseBuildStatusJSONOutput(output); ok {
+		return result
+	}
+	return parseBuildStatusTextOutput(output)
+}
+
+func parseBuildStatusJSONOutput(output string) (*BuildStatusResult, bool) {
+	payload, ok := extractBuildStatusJSONValue(output)
+	if !ok {
+		return nil, false
+	}
+
+	result := &BuildStatusResult{}
+	populateBuildStatusResultFromJSON(result, payload)
+	if result.BuildStatus == "" && result.DeliveryUUID == "" && result.ImportStatus == "" && len(result.ProcessingErrors) == 0 {
+		return nil, false
+	}
+	result.ProcessingErrors = collectUniqueBuildStatusDetails(result.ProcessingErrors)
+	return result, true
+}
+
+func extractBuildStatusJSONValue(output string) (any, bool) {
+	for i := 0; i < len(output); i++ {
+		if output[i] != '{' && output[i] != '[' {
+			continue
+		}
+
+		decoder := json.NewDecoder(strings.NewReader(output[i:]))
+		var payload any
+		if err := decoder.Decode(&payload); err == nil {
+			return payload, true
+		}
+	}
+	return nil, false
+}
+
+func populateBuildStatusResultFromJSON(result *BuildStatusResult, value any) {
+	switch typed := value.(type) {
+	case map[string]any:
+		for key, nested := range typed {
+			switch normalizeBuildStatusJSONKey(key) {
+			case "buildstatus":
+				if result.BuildStatus == "" {
+					result.BuildStatus = jsonStringValue(nested)
+				}
+			case "deliveryuuid", "deliveryid":
+				if result.DeliveryUUID == "" {
+					result.DeliveryUUID = jsonStringValue(nested)
+				}
+			case "importstatus":
+				if result.ImportStatus == "" {
+					result.ImportStatus = jsonStringValue(nested)
+				}
+			case "processingerrors":
+				result.ProcessingErrors = append(result.ProcessingErrors, extractBuildStatusJSONProcessingErrors(nested)...)
+			}
+			populateBuildStatusResultFromJSON(result, nested)
+		}
+	case []any:
+		for _, nested := range typed {
+			populateBuildStatusResultFromJSON(result, nested)
+		}
+	}
+}
+
+func extractBuildStatusJSONProcessingErrors(value any) []string {
+	switch typed := value.(type) {
+	case string:
+		trimmed := strings.TrimSpace(typed)
+		if trimmed == "" {
+			return nil
+		}
+		return []string{trimmed}
+	case []any:
+		var details []string
+		for _, item := range typed {
+			details = append(details, extractBuildStatusJSONProcessingErrors(item)...)
+		}
+		return details
+	case map[string]any:
+		var details []string
+		for key, nested := range typed {
+			switch normalizeBuildStatusJSONKey(key) {
+			case "code", "serverwarning", "serverwarnings":
+				continue
+			case "description", "detail", "details", "message", "messages":
+				if text := jsonStringValue(nested); text != "" {
+					details = append(details, text)
+					continue
+				}
+			}
+			details = append(details, extractBuildStatusJSONProcessingErrors(nested)...)
+		}
+		return details
+	default:
+		return nil
+	}
+}
+
+func jsonStringValue(value any) string {
+	text, ok := value.(string)
+	if !ok {
+		return ""
+	}
+	return strings.TrimSpace(text)
+}
+
+func normalizeBuildStatusJSONKey(key string) string {
+	normalized := strings.ToLower(strings.TrimSpace(key))
+	normalized = strings.ReplaceAll(normalized, "-", "")
+	normalized = strings.ReplaceAll(normalized, "_", "")
+	normalized = strings.ReplaceAll(normalized, " ", "")
+	return normalized
+}
+
+func parseBuildStatusTextOutput(output string) *BuildStatusResult {
 	result := &BuildStatusResult{}
 	scanner := bufio.NewScanner(strings.NewReader(output))
 	scanner.Buffer(make([]byte, 0, bufio.MaxScanTokenSize), max(bufio.MaxScanTokenSize, len(output)+1))
@@ -734,6 +883,23 @@ func parseBuildStatusOutput(output string) *BuildStatusResult {
 	}
 
 	return result
+}
+
+func collectUniqueBuildStatusDetails(values []string) []string {
+	seen := make(map[string]struct{}, len(values))
+	details := make([]string, 0, len(values))
+	for _, value := range values {
+		trimmed := strings.TrimSpace(value)
+		if trimmed == "" {
+			continue
+		}
+		if _, ok := seen[trimmed]; ok {
+			continue
+		}
+		seen[trimmed] = struct{}{}
+		details = append(details, trimmed)
+	}
+	return details
 }
 
 func max(a, b int) int {

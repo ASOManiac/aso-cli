@@ -442,6 +442,7 @@ func TestBuildStatusRunsAltoolWithLookupFlags(t *testing.T) {
 
 	result, err := BuildStatus(context.Background(), BuildStatusOptions{
 		AppleID:            "6747745091",
+		BundleID:           "com.example.demo",
 		BundleVersion:      "2026031905",
 		BundleShortVersion: "1.2.3",
 		Platform:           "IOS",
@@ -470,8 +471,34 @@ func TestBuildStatusRunsAltoolWithLookupFlags(t *testing.T) {
 	if lines[0] != "xcodebuild|-version" {
 		t.Fatalf("expected version probe, got %q", lines[0])
 	}
-	if !strings.Contains(lines[1], "xcrun|altool|--build-status|--apple-id|6747745091|--bundle-version|2026031905|--platform|ios|--bundle-short-version-string|1.2.3|--apiKey|KEY123ABC|--apiIssuer|issuer-123|--p8-file-path|"+keyPath) {
+	if !strings.Contains(lines[1], "xcrun|altool|--build-status|--apple-id|6747745091|--bundle-version|2026031905|--platform|ios|--output-format|json|--bundle-id|com.example.demo|--bundle-short-version-string|1.2.3|--apiKey|KEY123ABC|--apiIssuer|issuer-123|--p8-file-path|"+keyPath) {
 		t.Fatalf("expected build-status invocation with lookup flags, got %q", lines[1])
+	}
+}
+
+func TestParseBuildStatusOutputPrefersJSONPayload(t *testing.T) {
+	result := parseBuildStatusOutput(`
+		Running altool at path '/Applications/Xcode.app/.../altool'...
+		{"buildStatus":"FAILED","deliveryUUID":"delivery-1","processingErrors":[{"code":"90626","description":"Invalid Siri Support. App Intent description cannot contain apple. (90626)"},{"description":"Extra JSON processing detail"}],"importStatus":"COMPLETE"}
+	`)
+
+	if result.BuildStatus != "FAILED" {
+		t.Fatalf("expected build status FAILED, got %q", result.BuildStatus)
+	}
+	if result.DeliveryUUID != "delivery-1" {
+		t.Fatalf("expected delivery UUID delivery-1, got %q", result.DeliveryUUID)
+	}
+	if result.ImportStatus != "COMPLETE" {
+		t.Fatalf("expected import status COMPLETE, got %q", result.ImportStatus)
+	}
+	if len(result.ProcessingErrors) != 2 {
+		t.Fatalf("expected 2 processing errors, got %+v", result.ProcessingErrors)
+	}
+	if result.ProcessingErrors[0] != "Invalid Siri Support. App Intent description cannot contain apple. (90626)" {
+		t.Fatalf("unexpected first processing error: %+v", result.ProcessingErrors)
+	}
+	if result.ProcessingErrors[1] != "Extra JSON processing detail" {
+		t.Fatalf("unexpected second processing error: %+v", result.ProcessingErrors)
 	}
 }
 
@@ -528,6 +555,20 @@ func TestParseBuildStatusOutputHandlesLongProcessingErrorLines(t *testing.T) {
 	}
 	if result.ProcessingErrors[0] != longDetail {
 		t.Fatalf("expected long processing detail to survive parsing, got %d bytes", len(result.ProcessingErrors[0]))
+	}
+}
+
+func TestSupportsBuildStatusBundleIDUsesHelpOutput(t *testing.T) {
+	previous := altoolHelpOutputFn
+	altoolHelpOutputFn = func(context.Context) (string, error) {
+		return "altool --build-status --bundle-id <id>\n", nil
+	}
+	t.Cleanup(func() {
+		altoolHelpOutputFn = previous
+	})
+
+	if !SupportsBuildStatusBundleID(context.Background()) {
+		t.Fatal("expected build-status bundle-id support to be detected")
 	}
 }
 
@@ -1075,12 +1116,12 @@ func TestXcodeHelperProcess(t *testing.T) {
 				fmt.Fprintln(os.Stderr, err)
 				os.Exit(2)
 			}
-			// Modern altool writes both informational and successful command output to stderr.
-			fmt.Fprint(os.Stderr, "BUILD-STATUS: FAILED\n")
-			fmt.Fprint(os.Stderr, "DELIVERY-UUID: delivery-1\n")
-			fmt.Fprint(os.Stderr, "PROCESSING-ERRORS:\n")
-			fmt.Fprint(os.Stderr, "code : 90626\n")
-			fmt.Fprint(os.Stderr, "description : Invalid Siri Support. App Intent description cannot contain apple. (90626)\n")
+			if got, err := valueAfter(commandArgs[2:], "--output-format"); err != nil || got != "json" {
+				fmt.Fprintln(os.Stderr, "missing --output-format json")
+				os.Exit(2)
+			}
+			// Modern altool often writes structured and informational output to stderr.
+			fmt.Fprint(os.Stderr, `{"buildStatus":"FAILED","deliveryUUID":"delivery-1","processingErrors":[{"code":"90626","description":"Invalid Siri Support. App Intent description cannot contain apple. (90626)"}],"importStatus":"COMPLETE"}`)
 			os.Exit(0)
 		}
 		if !helperContainsArg(commandArgs[2:], "--validate-app") {

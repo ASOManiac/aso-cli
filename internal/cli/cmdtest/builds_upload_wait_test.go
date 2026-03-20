@@ -16,7 +16,7 @@ import (
 func TestBuildsUploadWaitFailsFastWhenBuildUploadFails(t *testing.T) {
 	setupAuth(t)
 	t.Setenv("ASC_CONFIG_PATH", filepath.Join(t.TempDir(), "nonexistent.json"))
-	restoreDiagnostics := shared.SetBuildUploadFailureDiagnosticsForTesting(func(context.Context, string, *asc.BuildUploadResponse) (string, error) {
+	restoreDiagnostics := shared.SetBuildUploadFailureDiagnosticsForTesting(func(context.Context, *asc.Client, string, *asc.BuildUploadResponse) (string, error) {
 		return `Invalid Siri Support. App Intent description "Searches Apple Music" cannot contain "apple"`, nil
 	})
 	t.Cleanup(restoreDiagnostics)
