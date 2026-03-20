@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
@@ -301,20 +302,29 @@ func (c *Client) GetBuildAppEncryptionDeclaration(ctx context.Context, buildID s
 	return &response, nil
 }
 
-// ExpireBuild expires a build for TestFlight testing.
-func (c *Client) ExpireBuild(ctx context.Context, buildID string) (*BuildResponse, error) {
+// BuildUpdateAttributes describes mutable attributes on a build resource.
+type BuildUpdateAttributes struct {
+	UsesNonExemptEncryption *bool `json:"usesNonExemptEncryption,omitempty"`
+	Expired                 *bool `json:"expired,omitempty"`
+}
+
+// UpdateBuild patches a build resource with the given attributes.
+func (c *Client) UpdateBuild(ctx context.Context, buildID string, attrs BuildUpdateAttributes) (*BuildResponse, error) {
+	buildID = strings.TrimSpace(buildID)
+	if buildID == "" {
+		return nil, fmt.Errorf("buildID is required")
+	}
+
 	payload := struct {
 		Data struct {
-			Type       ResourceType `json:"type"`
-			ID         string       `json:"id"`
-			Attributes struct {
-				Expired bool `json:"expired"`
-			} `json:"attributes"`
+			Type       ResourceType          `json:"type"`
+			ID         string                `json:"id"`
+			Attributes BuildUpdateAttributes `json:"attributes"`
 		} `json:"data"`
 	}{}
 	payload.Data.Type = ResourceTypeBuilds
 	payload.Data.ID = buildID
-	payload.Data.Attributes.Expired = true
+	payload.Data.Attributes = attrs
 
 	body, err := BuildRequestBody(payload)
 	if err != nil {
@@ -324,6 +334,9 @@ func (c *Client) ExpireBuild(ctx context.Context, buildID string) (*BuildRespons
 	path := fmt.Sprintf("/v1/builds/%s", buildID)
 	data, err := c.do(ctx, "PATCH", path, body)
 	if err != nil {
+		if current, ok := c.resolveBuildUpdateNoOp(ctx, buildID, attrs, err); ok {
+			return current, nil
+		}
 		return nil, err
 	}
 
@@ -333,6 +346,55 @@ func (c *Client) ExpireBuild(ctx context.Context, buildID string) (*BuildRespons
 	}
 
 	return &response, nil
+}
+
+func (c *Client) resolveBuildUpdateNoOp(ctx context.Context, buildID string, attrs BuildUpdateAttributes, patchErr error) (*BuildResponse, bool) {
+	if !isBuildUpdateConflict(patchErr) {
+		return nil, false
+	}
+	current, err := c.GetBuild(ctx, buildID)
+	if err != nil {
+		return nil, false
+	}
+	if !buildUpdateMatchesCurrent(current, attrs) {
+		return nil, false
+	}
+	return current, true
+}
+
+func isBuildUpdateConflict(err error) bool {
+	apiErr, ok := errors.AsType[*APIError](err)
+	return ok && apiErr != nil && apiErr.StatusCode == http.StatusConflict
+}
+
+func buildUpdateMatchesCurrent(resp *BuildResponse, attrs BuildUpdateAttributes) bool {
+	if resp == nil {
+		return false
+	}
+
+	matched := false
+	current := resp.Data.Attributes
+
+	if attrs.UsesNonExemptEncryption != nil {
+		matched = true
+		if current.UsesNonExemptEncryption == nil || *current.UsesNonExemptEncryption != *attrs.UsesNonExemptEncryption {
+			return false
+		}
+	}
+	if attrs.Expired != nil {
+		matched = true
+		if current.Expired != *attrs.Expired {
+			return false
+		}
+	}
+
+	return matched
+}
+
+// ExpireBuild expires a build for TestFlight testing.
+func (c *Client) ExpireBuild(ctx context.Context, buildID string) (*BuildResponse, error) {
+	expired := true
+	return c.UpdateBuild(ctx, buildID, BuildUpdateAttributes{Expired: &expired})
 }
 
 // AddBetaGroupsToBuild adds beta groups to a build for TestFlight distribution.
