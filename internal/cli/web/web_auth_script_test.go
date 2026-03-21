@@ -34,11 +34,15 @@ func TestAppleTwoFactorScriptScansForCodeBeforeTrustClick(t *testing.T) {
 func TestAppleTwoFactorScriptAllowsSingleButtonTrustDialogs(t *testing.T) {
 	script := loadAppleTwoFactorScript(t)
 
-	if strings.Contains(script, "if (count of windowButtons) < 2 then") {
-		t.Fatalf("script still rejects single-button trust dialogs")
+	if !strings.Contains(script, "if not (my looksLikeTrustDialog(theWindow)) then") {
+		t.Fatalf("expected trust-dialog guard before single-button fallback")
 	}
-	if !strings.Contains(script, "if (count of windowButtons) = 0 then") {
-		t.Fatalf("expected script to allow one-button fallback when advancing trust dialogs")
+	if strings.Contains(script, "return my clickRightmostButton(theWindow)") {
+		guardIndex := strings.Index(script, "if not (my looksLikeTrustDialog(theWindow)) then")
+		clickIndex := strings.Index(script, "return my clickRightmostButton(theWindow)")
+		if guardIndex == -1 || clickIndex == -1 || guardIndex > clickIndex {
+			t.Fatalf("expected trust-dialog guard before rightmost-button fallback")
+		}
 	}
 }
 
@@ -53,5 +57,19 @@ func TestAppleTwoFactorScriptUsesTwoStepDeadlineAssignment(t *testing.T) {
 	}
 	if !strings.Contains(script, "set deadlineAt to deadlineAt + timeoutSeconds") {
 		t.Fatalf("expected deadline extension in script")
+	}
+}
+
+func TestAppleTwoFactorScriptRestrictsFallbackToRecognizedTrustPrompts(t *testing.T) {
+	script := loadAppleTwoFactorScript(t)
+
+	if !strings.Contains(script, "property trustDialogTextHints :") {
+		t.Fatalf("expected trust dialog text hints in script")
+	}
+	if !strings.Contains(script, "return my windowContainsAnyTextHint(theWindow, trustDialogTextHints)") {
+		t.Fatalf("expected trust dialog detection helper in script")
+	}
+	if !strings.Contains(script, "if not (my looksLikeTrustDialog(theWindow)) then") || !strings.Contains(script, "\t\treturn false") {
+		t.Fatalf("expected script to refuse unknown FollowUpUI dialogs before fallback clicking")
 	}
 }

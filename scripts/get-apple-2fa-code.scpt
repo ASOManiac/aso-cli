@@ -3,9 +3,9 @@
 --   osascript /absolute/path/to/get-apple-2fa-code.scpt 90
 --
 -- This script polls the macOS FollowUpUI accessibility tree for a 6-digit
--- Apple two-factor code and prints the first match to stdout. If the trust
--- dialog only shows one localized button, the script clicks it and keeps
--- polling for the code dialog.
+-- Apple two-factor code and prints the first match to stdout. If the browser
+-- trust dialog is recognizable but only shows one button, the script clicks
+-- it and keeps polling for the code dialog.
 --
 -- Requirements:
 --   - The Apple 2FA dialog must be visible on this Mac.
@@ -13,6 +13,7 @@
 
 property initialSettleDelaySeconds : 2
 property postTrustClickDelaySeconds : 2
+property trustDialogTextHints : {"trust", "browser", "trusted", "remember this browser", "do not ask again", "don't ask again"}
 
 on run argv
 	set timeoutSeconds to 60
@@ -90,6 +91,10 @@ end scanWindowForCode
 on clickTrustButtonIfPresent(theWindow)
 	if my clickAllowButtonIfPresent(theWindow) then
 		return true
+	end if
+
+	if not (my looksLikeTrustDialog(theWindow)) then
+		return false
 	end if
 
 	return my clickRightmostButton(theWindow)
@@ -180,6 +185,50 @@ on pressButton(buttonReference)
 end pressButton
 
 on scanElement(theElement)
+	set candidates to my elementTextCandidates(theElement)
+	repeat with candidateText in candidates
+		set code to my extractFirstCode(candidateText as text)
+		if code is not "" then
+			return code
+		end if
+	end repeat
+
+	return ""
+end scanElement
+
+on looksLikeTrustDialog(theWindow)
+	return my windowContainsAnyTextHint(theWindow, trustDialogTextHints)
+end looksLikeTrustDialog
+
+on windowContainsAnyTextHint(theWindow, textHints)
+	if my elementContainsAnyTextHint(theWindow, textHints) then
+		return true
+	end if
+
+	try
+		tell application "System Events" to set windowElements to entire contents of theWindow
+		repeat with currentElement in windowElements
+			if my elementContainsAnyTextHint(currentElement, textHints) then
+				return true
+			end if
+		end repeat
+	end try
+
+	return false
+end windowContainsAnyTextHint
+
+on elementContainsAnyTextHint(theElement, textHints)
+	set candidates to my elementTextCandidates(theElement)
+	repeat with candidateText in candidates
+		if my textContainsAnyTextHint(candidateText as text, textHints) then
+			return true
+		end if
+	end repeat
+
+	return false
+end elementContainsAnyTextHint
+
+on elementTextCandidates(theElement)
 	set candidates to {}
 
 	try
@@ -198,15 +247,21 @@ on scanElement(theElement)
 		set end of candidates to my normalizeText(description of theElement)
 	end try
 
-	repeat with candidateText in candidates
-		set code to my extractFirstCode(candidateText as text)
-		if code is not "" then
-			return code
-		end if
-	end repeat
+	return candidates
+end elementTextCandidates
 
-	return ""
-end scanElement
+on textContainsAnyTextHint(candidateText, textHints)
+	set candidateText to candidateText as text
+	ignoring case
+		repeat with currentHint in textHints
+			if candidateText contains (currentHint as text) then
+				return true
+			end if
+		end repeat
+	end ignoring
+
+	return false
+end textContainsAnyTextHint
 
 on normalizeText(candidateValue)
 	if candidateValue is missing value then
