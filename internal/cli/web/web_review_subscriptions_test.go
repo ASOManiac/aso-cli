@@ -1454,3 +1454,120 @@ func TestWebReviewSubscriptionsRemoveGroupCommandOnlyCountsRefreshedDetachedSubs
 		t.Fatalf("expected labels %v, got %v", wantLabels, *labels)
 	}
 }
+
+func TestCollectReviewSubscriptionGroupChangesMarksNotFoundAfterRefresh(t *testing.T) {
+	refreshedGroup := []webcore.ReviewSubscription{
+		{ID: "sub-1", SubmitWithNextAppStoreVersion: true},
+	}
+
+	changed, skipped := collectReviewSubscriptionGroupChanges(
+		refreshedGroup,
+		[]string{" sub-1 ", "sub-missing"},
+		true,
+		reviewSubscriptionAttachUnchangedAfterRefreshReason(),
+	)
+
+	if len(changed) != 1 || changed[0].ID != "sub-1" {
+		t.Fatalf("expected sub-1 to be marked changed, got %#v", changed)
+	}
+	if len(skipped) != 1 {
+		t.Fatalf("expected one skipped subscription, got %#v", skipped)
+	}
+	if skipped[0].Subscription.ID != "sub-missing" {
+		t.Fatalf("expected missing subscription id in skip output, got %#v", skipped[0])
+	}
+	if skipped[0].Reason != "subscription was not found after refresh" {
+		t.Fatalf("unexpected skip reason: %#v", skipped[0])
+	}
+}
+
+func TestBuildReviewSubscriptionGroupMutationRowsIncludeChangedAndSkippedDetails(t *testing.T) {
+	payload := reviewSubscriptionGroupMutationOutput{
+		AppID:        "app-1",
+		GroupID:      "group-1",
+		Operation:    "attach-group",
+		ChangedCount: 2,
+		SkippedCount: 1,
+		Changed: []webcore.ReviewSubscription{
+			{ID: "sub-1", ProductID: "com.example.monthly", State: "READY_TO_SUBMIT", SubmitWithNextAppStoreVersion: true},
+			{ID: "sub-2", Name: "   ", ProductID: "   ", State: " ", SubmitWithNextAppStoreVersion: false},
+		},
+		Skipped: []reviewSubscriptionMutationSkip{
+			{
+				Subscription: webcore.ReviewSubscription{ID: "sub-3", Name: "Legacy"},
+				Reason:       "state is MISSING_METADATA",
+			},
+		},
+	}
+
+	rows := buildReviewSubscriptionGroupMutationRows(payload)
+	if len(rows) != 9 {
+		t.Fatalf("expected 6 summary + 2 changed + 1 skipped rows, got %#v", rows)
+	}
+	if rows[4][2] != "2" || rows[5][2] != "1" {
+		t.Fatalf("expected changed/skipped counts in summary rows, got %#v", rows[4:6])
+	}
+	if !strings.Contains(rows[6][2], "id=sub-1") || !strings.Contains(rows[6][2], "name=com.example.monthly") || !strings.Contains(rows[6][2], "attached=true") {
+		t.Fatalf("expected changed row to include product-id fallback and attached state, got %#v", rows[6])
+	}
+	if !strings.Contains(rows[7][2], "id=sub-2") || !strings.Contains(rows[7][2], "name=sub-2") || !strings.Contains(rows[7][2], "state=n/a") {
+		t.Fatalf("expected changed row to include subscription-id fallback and n/a state, got %#v", rows[7])
+	}
+	if !strings.Contains(rows[8][2], "id=sub-3") || !strings.Contains(rows[8][2], "name=Legacy") || !strings.Contains(rows[8][2], "reason=state is MISSING_METADATA") {
+		t.Fatalf("expected skipped row details, got %#v", rows[8])
+	}
+}
+
+func TestBuildReviewSubscriptionMutationRowsFallbacks(t *testing.T) {
+	rows := buildReviewSubscriptionMutationRows(reviewSubscriptionMutationOutput{
+		AppID:        "app-1",
+		Operation:    "attach",
+		Changed:      false,
+		SubmissionID: "   ",
+		Subscription: webcore.ReviewSubscription{
+			ID:                            "sub-1",
+			ProductID:                     "   ",
+			Name:                          "",
+			GroupReferenceName:            "",
+			State:                         "",
+			SubmitWithNextAppStoreVersion: false,
+			IsAppStoreReviewInProgress:    false,
+		},
+	})
+
+	if len(rows) != 11 {
+		t.Fatalf("expected 11 mutation rows, got %#v", rows)
+	}
+	if rows[3][2] != "n/a" {
+		t.Fatalf("expected empty submission id to render as n/a, got %#v", rows[3])
+	}
+	if rows[6][2] != "sub-1" {
+		t.Fatalf("expected subscription name fallback to subscription id, got %#v", rows[6])
+	}
+	if rows[9][2] != "false" || rows[10][2] != "false" {
+		t.Fatalf("expected boolean fields to render false values, got %#v %#v", rows[9], rows[10])
+	}
+}
+
+func TestReviewSubscriptionGroupLabelFallsBackToGroupID(t *testing.T) {
+	name := reviewSubscriptionGroupLabel(
+		[]webcore.ReviewSubscription{
+			{GroupReferenceName: "   "},
+			{GroupReferenceName: "Premium"},
+		},
+		"group-1",
+	)
+	if name != "Premium" {
+		t.Fatalf("expected first non-empty group label, got %q", name)
+	}
+
+	fallback := reviewSubscriptionGroupLabel(
+		[]webcore.ReviewSubscription{
+			{GroupReferenceName: "   "},
+		},
+		"  group-2  ",
+	)
+	if fallback != "group-2" {
+		t.Fatalf("expected fallback group id when names missing, got %q", fallback)
+	}
+}

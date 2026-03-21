@@ -260,3 +260,72 @@ func TestReviewSubscriptionSubmissionJSONPreservesFalseBooleans(t *testing.T) {
 		t.Fatalf("expected false attach flag in JSON, got %s", text)
 	}
 }
+
+func TestListReviewSubscriptionsHandlesMissingIncludedSubscriptionResource(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{
+			"data": [{
+				"id": "group-1",
+				"type": "subscriptionGroups",
+				"attributes": {"referenceName": "Premium"},
+				"relationships": {
+					"subscriptions": {"data": [{"type": "subscriptions", "id": "sub-1"}]}
+				}
+			}],
+			"included": []
+		}`))
+	}))
+	defer server.Close()
+
+	client := testWebClient(server)
+	got, err := client.ListReviewSubscriptions(context.Background(), "app-123")
+	if err != nil {
+		t.Fatalf("ListReviewSubscriptions() error = %v", err)
+	}
+	if len(got) != 1 {
+		t.Fatalf("expected one subscription, got %#v", got)
+	}
+	if got[0].ID != "sub-1" || got[0].GroupID != "group-1" || got[0].GroupReferenceName != "Premium" {
+		t.Fatalf("unexpected decoded subscription identity: %#v", got[0])
+	}
+	if got[0].ProductID != "" || got[0].Name != "" || got[0].State != "" {
+		t.Fatalf("expected missing included fields to remain empty, got %#v", got[0])
+	}
+}
+
+func TestCreateSubscriptionSubmissionFallsBackToRequestedIDWhenRelationshipMissing(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/subscriptionSubmissions" {
+			t.Fatalf("unexpected path: %s", r.URL.Path)
+		}
+		if r.Method != http.MethodPost {
+			t.Fatalf("unexpected method: %s", r.Method)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{
+			"data": {
+				"id": "submission-1",
+				"type": "subscriptionSubmissions",
+				"attributes": {"submitWithNextAppStoreVersion": true},
+				"relationships": {}
+			}
+		}`))
+	}))
+	defer server.Close()
+
+	client := testWebClient(server)
+	got, err := client.CreateSubscriptionSubmission(context.Background(), "sub-expected")
+	if err != nil {
+		t.Fatalf("CreateSubscriptionSubmission() error = %v", err)
+	}
+	if got.ID != "submission-1" {
+		t.Fatalf("expected submission id submission-1, got %#v", got)
+	}
+	if got.SubscriptionID != "sub-expected" {
+		t.Fatalf("expected fallback subscription id sub-expected, got %#v", got)
+	}
+	if !got.SubmitWithNextAppStoreVersion {
+		t.Fatalf("expected submitWithNextAppStoreVersion true, got %#v", got)
+	}
+}
