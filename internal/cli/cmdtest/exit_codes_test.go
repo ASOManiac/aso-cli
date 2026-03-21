@@ -280,6 +280,16 @@ func TestRun_UsageValidationErrorsReturnExitUsage(t *testing.T) {
 			},
 			wantErr: `apps wall submit does not accept parent wall flags (--limit, --output)`,
 		},
+		{
+			name:    "apps public view missing app",
+			args:    []string{"apps", "public", "view"},
+			wantErr: "--app is required",
+		},
+		{
+			name:    "apps public search invalid limit",
+			args:    []string{"apps", "public", "search", "--term", "focus", "--limit", "0"},
+			wantErr: "--limit must be between 1 and 200",
+		},
 	}
 
 	for _, test := range tests {
