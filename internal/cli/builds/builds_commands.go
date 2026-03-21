@@ -398,6 +398,7 @@ Examples:
   asc builds individual-testers list --build "BUILD_ID"
   asc builds update --build "BUILD_ID" --uses-non-exempt-encryption=false
   asc builds add-groups --build "BUILD_ID" --group "GROUP_ID"
+  asc builds add-groups --build "BUILD_ID" --group "GROUP_ID" --submit --confirm
   asc builds remove-groups --build "BUILD_ID" --group "GROUP_ID"
   asc builds app get --build "BUILD_ID"
   asc builds pre-release-version get --build "BUILD_ID"

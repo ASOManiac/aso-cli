@@ -439,6 +439,16 @@ func TestBuildsGroupValidationErrors(t *testing.T) {
 			wantErr: "Error: --group is required",
 		},
 		{
+			name:    "builds add-groups submit missing confirm",
+			args:    []string{"builds", "add-groups", "--build", "BUILD_123", "--group", "GROUP_123", "--submit"},
+			wantErr: "Error: --confirm is required with --submit",
+		},
+		{
+			name:    "builds add-groups confirm requires submit",
+			args:    []string{"builds", "add-groups", "--build", "BUILD_123", "--group", "GROUP_123", "--confirm"},
+			wantErr: "Error: --confirm requires --submit",
+		},
+		{
 			name:    "builds remove-groups missing build",
 			args:    []string{"builds", "remove-groups"},
 			wantErr: "Error: --build is required",
