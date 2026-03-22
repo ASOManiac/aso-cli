@@ -57,6 +57,10 @@ var (
 	errTwoFactorRequired              = errors.New("two-factor authentication required")
 	errInvalidAppleAccountCredentials = errors.New("incorrect Apple Account email or password")
 	errAppleAccountActionRequired     = errors.New("complete the pending Apple Account web prompt in a browser (privacy acknowledgement or 2FA upgrade) and try again")
+
+	// ErrInvalidAppleAccountCredentials reports rejected Apple Account
+	// credentials during web login flows.
+	ErrInvalidAppleAccountCredentials = errInvalidAppleAccountCredentials
 )
 
 var webTLSRootBundlePaths = []string{
@@ -406,18 +410,37 @@ func Login(ctx context.Context, creds LoginCredentials) (*AuthSession, error) {
 	if ctx == nil {
 		ctx = context.Background()
 	}
+	jar, err := cookiejar.New(nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create cookie jar: %w", err)
+	}
+	client := newWebHTTPClient(jar)
+	return loginWithHTTPClient(ctx, client, creds)
+}
+
+// LoginWithClient performs Apple ID SRP authentication reusing an existing HTTP
+// client and cookie jar. This is used for best-effort relogin attempts that
+// should preserve Apple trust cookies from a cached session.
+func LoginWithClient(ctx context.Context, client *http.Client, creds LoginCredentials) (*AuthSession, error) {
+	if ctx == nil {
+		ctx = context.Background()
+	}
+	if client == nil {
+		return nil, fmt.Errorf("client is required")
+	}
+	if client.Jar == nil {
+		return nil, fmt.Errorf("client jar is required")
+	}
+	return loginWithHTTPClient(ctx, client, creds)
+}
+
+func loginWithHTTPClient(ctx context.Context, client *http.Client, creds LoginCredentials) (*AuthSession, error) {
 	if strings.TrimSpace(creds.Username) == "" {
 		return nil, fmt.Errorf("apple id is required")
 	}
 	if strings.TrimSpace(creds.Password) == "" {
 		return nil, fmt.Errorf("password is required")
 	}
-
-	jar, err := cookiejar.New(nil)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create cookie jar: %w", err)
-	}
-	client := newWebHTTPClient(jar)
 
 	serviceKey, err := getAuthServiceKey(ctx, client)
 	if err != nil {

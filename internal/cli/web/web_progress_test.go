@@ -54,7 +54,7 @@ func TestResolveSessionUsesProgressLabels(t *testing.T) {
 		t.Fatal("did not expect last-session cache lookup")
 		return nil, false, nil
 	}
-	promptPasswordFn = func() (string, error) {
+	promptPasswordFn = func(ctx context.Context) (string, error) {
 		return "secret", nil
 	}
 	webLoginFn = func(ctx context.Context, creds webcore.LoginCredentials) (*webcore.AuthSession, error) {
@@ -84,12 +84,10 @@ func TestResolveSessionUsesProgressLabels(t *testing.T) {
 func TestLoginWithOptionalTwoFactorUsesProgressLabels(t *testing.T) {
 	labels := stubWebProgressLabels(t)
 
-	origPrompt := promptTwoFactorCodeFn
 	origLogin := webLoginFn
 	origPrepare := prepareTwoFactorChallengeFn
 	origSubmit := submitTwoFactorCodeFn
 	t.Cleanup(func() {
-		promptTwoFactorCodeFn = origPrompt
 		webLoginFn = origLogin
 		prepareTwoFactorChallengeFn = origPrepare
 		submitTwoFactorCodeFn = origSubmit
@@ -101,9 +99,6 @@ func TestLoginWithOptionalTwoFactorUsesProgressLabels(t *testing.T) {
 	prepareTwoFactorChallengeFn = func(ctx context.Context, session *webcore.AuthSession) (*webcore.TwoFactorChallenge, error) {
 		return &webcore.TwoFactorChallenge{Method: "trusted-device"}, nil
 	}
-	promptTwoFactorCodeFn = func() (string, error) {
-		return "654321", nil
-	}
 	submitTwoFactorCodeFn = func(ctx context.Context, session *webcore.AuthSession, code string) error {
 		if code != "654321" {
 			t.Fatalf("expected code 654321, got %q", code)
@@ -111,7 +106,7 @@ func TestLoginWithOptionalTwoFactorUsesProgressLabels(t *testing.T) {
 		return nil
 	}
 
-	if _, err := loginWithOptionalTwoFactor(context.Background(), "user@example.com", "secret", ""); err != nil {
+	if _, err := loginWithOptionalTwoFactor(context.Background(), "user@example.com", "secret", "654321"); err != nil {
 		t.Fatalf("loginWithOptionalTwoFactor() error = %v", err)
 	}
 

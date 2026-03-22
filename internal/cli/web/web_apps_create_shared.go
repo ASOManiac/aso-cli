@@ -23,9 +23,10 @@ type AppsCreateRunOptions struct {
 	Version       string
 	CompanyName   string
 
-	AppleID       string
-	Password      string
-	TwoFactorCode string
+	AppleID              string
+	Password             string
+	TwoFactorCode        string
+	TwoFactorCodeCommand string
 
 	AutoRename bool
 	Output     string
@@ -39,10 +40,23 @@ const (
 )
 
 var (
-	appCreateAskOneFn                 = survey.AskOne
-	resolveAppCreateSessionFn         = resolveAppCreateSession
-	appCreateCanPromptInteractivelyFn = appCreateCanPromptInteractively
+	appCreateAskOneFn                     = survey.AskOne
+	resolveAppCreateSessionFn         any = resolveAppCreateSession
+	appCreateCanPromptInteractivelyFn     = appCreateCanPromptInteractively
 )
+
+func callResolveAppCreateSessionFn(ctx context.Context, appleID, password, twoFactorCode, twoFactorCodeCommand string) (*webcore.AuthSession, string, error) {
+	switch fn := resolveAppCreateSessionFn.(type) {
+	case func(context.Context, string, string, string) (*webcore.AuthSession, string, error):
+		return fn(ctx, appleID, password, twoFactorCode)
+	case func(context.Context, string, string, string, string) (*webcore.AuthSession, string, error):
+		return fn(ctx, appleID, password, twoFactorCode, twoFactorCodeCommand)
+	case func(context.Context, string, string, string, ...string) (*webcore.AuthSession, string, error):
+		return fn(ctx, appleID, password, twoFactorCode, twoFactorCodeCommand)
+	default:
+		return nil, "", fmt.Errorf("internal error: unsupported app create session resolver type %T", resolveAppCreateSessionFn)
+	}
+}
 
 func appCreateCanPromptInteractively() bool {
 	if tty, err := os.OpenFile("/dev/tty", os.O_RDWR, 0); err == nil {
@@ -62,6 +76,7 @@ func trimAppsCreateRunOptions(opts AppsCreateRunOptions) AppsCreateRunOptions {
 	opts.CompanyName = strings.TrimSpace(opts.CompanyName)
 	opts.AppleID = strings.TrimSpace(opts.AppleID)
 	opts.TwoFactorCode = strings.TrimSpace(opts.TwoFactorCode)
+	opts.TwoFactorCodeCommand = strings.TrimSpace(opts.TwoFactorCodeCommand)
 	opts.Output = strings.TrimSpace(opts.Output)
 	return opts
 }
@@ -194,7 +209,7 @@ func promptAppsCreateSessionAppleID(appleID *string) error {
 	return promptAppsCreateAppleID(appleID)
 }
 
-func resolveAppCreatePassword(password string) (string, error) {
+func resolveAppCreatePassword(_ context.Context, password string) (string, error) {
 	if webPasswordProvided(password) {
 		return password, nil
 	}
@@ -219,11 +234,16 @@ func persistAppCreateSession(_ *webcore.AuthSession) error {
 	return nil
 }
 
-func resolveAppCreateSession(ctx context.Context, appleID, password, twoFactorCode string) (*webcore.AuthSession, string, error) {
+func resolveAppCreateSession(ctx context.Context, appleID, password, twoFactorCode string, twoFactorCodeCommand ...string) (*webcore.AuthSession, string, error) {
+	command := ""
+	if len(twoFactorCodeCommand) > 0 {
+		command = twoFactorCodeCommand[0]
+	}
 	session, source, err := resolveWebSession(ctx, appleID, password, twoFactorCode, webSessionResolveOptions{
-		promptAppleID:   promptAppsCreateSessionAppleID,
-		resolvePassword: resolveAppCreatePassword,
-		persistFresh:    persistAppCreateSession,
+		promptAppleID:        promptAppsCreateSessionAppleID,
+		resolvePassword:      resolveAppCreatePassword,
+		persistFresh:         persistAppCreateSession,
+		twoFactorCodeCommand: command,
 	})
 	if err != nil {
 		return nil, "", err
@@ -272,7 +292,13 @@ func RunAppsCreate(ctx context.Context, opts AppsCreateRunOptions) error {
 	}
 	fmt.Fprintln(os.Stderr)
 
-	session, source, err := resolveAppCreateSessionFn(ctx, opts.AppleID, opts.Password, opts.TwoFactorCode)
+	session, source, err := callResolveAppCreateSessionFn(
+		ctx,
+		opts.AppleID,
+		opts.Password,
+		opts.TwoFactorCode,
+		opts.TwoFactorCodeCommand,
+	)
 	if err != nil {
 		return err
 	}

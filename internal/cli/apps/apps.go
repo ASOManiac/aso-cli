@@ -44,6 +44,9 @@ Examples:
   asc web apps create --name "My App" --bundle-id "com.example.app" --sku "MYAPP123"
   asc apps wall
   asc apps wall submit --app "1234567890" --confirm
+  asc apps public view --app "1234567890"
+  asc apps public search --term "focus" --country us
+  asc apps public storefronts list
   asc apps get --id "APP_ID"
   asc apps info view --app "APP_ID"
   asc apps info edit --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"
@@ -63,6 +66,7 @@ Examples:
 			AppsListCommand(),
 			AppsCreateCommand(),
 			AppsWallCommand(),
+			AppsPublicCommand(),
 			AppsGetCommand(),
 			AppsInfoCommand(),
 			AppsCIProductCommand(),
@@ -177,6 +181,7 @@ func AppsCreateCommand() *ffcli.Command {
 	appleID := fs.String("apple-id", "", "Apple ID (email) for authentication")
 	password := fs.String("password", "", "Apple ID password (will prompt if not provided)")
 	twoFactorCode := fs.String("two-factor-code", "", "2FA verification code (if prompted)")
+	twoFactorCodeCommand := fs.String("two-factor-code-command", "", "Shell command that prints the 2FA code to stdout if verification is required")
 	autoRename := fs.Bool("auto-rename", true, "Auto-retry with a unique app name when the chosen name is already in use (default: true)")
 	output := shared.BindOutputFlags(fs)
 
@@ -191,6 +196,8 @@ creation flow and will be removed after one release cycle.
 
 App creation requires Apple web-session authentication (not API key).
 If 2FA is enabled on your account, you may need to complete authentication in a browser first.
+The canonical web flow also supports --two-factor-code-command or
+ASC_WEB_2FA_CODE_COMMAND when a fresh login requires verification.
 Legacy ` + "`ASC_IRIS_SESSION_CACHE*`" + ` entries are imported into the web
 session cache automatically during the deprecation window.
 
@@ -210,19 +217,20 @@ Examples:
 			fmt.Fprintln(os.Stderr, appsCreateDeprecationWarning)
 			fmt.Fprintln(os.Stderr, appsCreateMigrationGuidance)
 			return runAppsCreateShimFn(ctx, cliweb.AppsCreateRunOptions{
-				Name:          *name,
-				BundleID:      *bundleID,
-				SKU:           *sku,
-				PrimaryLocale: *primaryLocale,
-				Platform:      *platform,
-				Version:       *version,
-				CompanyName:   *companyName,
-				AppleID:       *appleID,
-				Password:      *password,
-				TwoFactorCode: *twoFactorCode,
-				AutoRename:    *autoRename,
-				Output:        *output.Output,
-				Pretty:        *output.Pretty,
+				Name:                 *name,
+				BundleID:             *bundleID,
+				SKU:                  *sku,
+				PrimaryLocale:        *primaryLocale,
+				Platform:             *platform,
+				Version:              *version,
+				CompanyName:          *companyName,
+				AppleID:              *appleID,
+				Password:             *password,
+				TwoFactorCode:        *twoFactorCode,
+				TwoFactorCodeCommand: *twoFactorCodeCommand,
+				AutoRename:           *autoRename,
+				Output:               *output.Output,
+				Pretty:               *output.Pretty,
 			})
 		},
 	}

@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/Go-1.26+-00ADD8?style=for-the-badge&logo=go" alt="Go Version">
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/Homebrew-compatible-blue?style=for-the-badge" alt="Homebrew">
-  <img src="https://img.shields.io/github/downloads/rudrankriyam/App-Store-Connect-CLI/total?style=for-the-badge&color=green" alt="Downloads">
+  <a href="https://github.com/rudrankriyam/App-Store-Connect-CLI/releases" title="GitHub release assets (all-time) + Homebrew installs (365d), see docs/badges/README.md"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Frudrankriyam%2FApp-Store-Connect-CLI%2Fmain%2Fdocs%2Fbadges%2Finstalls-total.json&amp;style=for-the-badge&amp;color=brightgreen" alt="Estimated total downloads"></a>
 </p>
 
 <p align="center">
@@ -282,7 +282,7 @@ For full command families, flags, and discovery patterns, see:
 
 ## Acknowledgements
 
-Local screenshot framing uses Koubou (pinned to `0.14.0`) for deterministic device-frame rendering.
+Local screenshot framing uses Koubou (pinned to `0.18.0`) for deterministic device-frame rendering.
 GitHub: https://github.com/bitomule/koubou
 
 Simulator UI automation for screenshot capture and interactions uses AXe CLI.
@@ -307,11 +307,12 @@ MIT License - see [LICENSE](LICENSE) for details.
 ---
 
 <p align="center">
+  <img src="docs/images/codex-logo.png" alt="Codex logo" width="24" height="24" />
   <img src="https://cursor.com/marketing-static/icon-192x192.png" alt="Cursor logo" width="24" height="24" />
 </p>
 
 <p align="center">
-  Built with Cursor
+  Built with Codex &amp; Cursor using GPT-5.3-Codex and GPT-5.4
 </p>
 
 <p align="center">

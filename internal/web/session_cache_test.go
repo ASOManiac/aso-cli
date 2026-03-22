@@ -213,7 +213,7 @@ func TestTryResumeSessionDefaultBackendFallsBackToKeychainAndPersistsFile(t *tes
 	})
 
 	key := webSessionCacheKey("user@example.com")
-	if err := writeSessionToKeychain(key, serializeCookieJar(jar)); err != nil {
+	if err := writeSessionToKeychain(key, serializeCookieJar(jar, "user@example.com")); err != nil {
 		t.Fatalf("writeSessionToKeychain error: %v", err)
 	}
 
@@ -249,7 +249,7 @@ func TestTryResumeSessionDefaultBackendFallsBackToKeychainWhenFileSessionIsCorru
 	})
 
 	key := webSessionCacheKey("user@example.com")
-	if err := writeSessionToKeychain(key, serializeCookieJar(jar)); err != nil {
+	if err := writeSessionToKeychain(key, serializeCookieJar(jar, "user@example.com")); err != nil {
 		t.Fatalf("writeSessionToKeychain error: %v", err)
 	}
 
@@ -296,7 +296,7 @@ func TestTryResumeLastSessionDefaultBackendFallsBackToKeychainWhenLastFileSessio
 	})
 
 	key := webSessionCacheKey("user@example.com")
-	if err := writeSessionToKeychain(key, serializeCookieJar(jar)); err != nil {
+	if err := writeSessionToKeychain(key, serializeCookieJar(jar, "user@example.com")); err != nil {
 		t.Fatalf("writeSessionToKeychain error: %v", err)
 	}
 
@@ -347,7 +347,7 @@ func TestTryResumeLastSessionDefaultBackendFallsBackToKeychainWhenLastFileSessio
 	})
 
 	key := webSessionCacheKey("user@example.com")
-	if err := writeSessionToKeychain(key, serializeCookieJar(jar)); err != nil {
+	if err := writeSessionToKeychain(key, serializeCookieJar(jar, "user@example.com")); err != nil {
 		t.Fatalf("writeSessionToKeychain error: %v", err)
 	}
 
@@ -409,7 +409,7 @@ func TestTryResumeLastSessionDefaultBackendFallsBackToKeychainWhenLastFileMarker
 	})
 
 	key := webSessionCacheKey("user@example.com")
-	if err := writeSessionToKeychain(key, serializeCookieJar(jar)); err != nil {
+	if err := writeSessionToKeychain(key, serializeCookieJar(jar, "user@example.com")); err != nil {
 		t.Fatalf("writeSessionToKeychain error: %v", err)
 	}
 
@@ -456,7 +456,7 @@ func TestTryResumeSessionKeychainBackendFallsBackToFileAndPersistsKeychain(t *te
 	})
 
 	key := webSessionCacheKey("user@example.com")
-	if err := writeSessionToFile(key, serializeCookieJar(jar)); err != nil {
+	if err := writeSessionToFile(key, serializeCookieJar(jar, "user@example.com")); err != nil {
 		t.Fatalf("writeSessionToFile error: %v", err)
 	}
 
@@ -492,7 +492,7 @@ func TestTryResumeLastSessionKeychainBackendFallsBackToFileAndPersistsKeychain(t
 	})
 
 	key := webSessionCacheKey("user@example.com")
-	if err := writeSessionToFile(key, serializeCookieJar(jar)); err != nil {
+	if err := writeSessionToFile(key, serializeCookieJar(jar, "user@example.com")); err != nil {
 		t.Fatalf("writeSessionToFile error: %v", err)
 	}
 
@@ -535,7 +535,7 @@ func TestDeleteSessionDefaultBackendRemovesFileAndKeychain(t *testing.T) {
 	}
 
 	key := webSessionCacheKey("user@example.com")
-	if err := writeSessionToKeychain(key, serializeCookieJar(jar)); err != nil {
+	if err := writeSessionToKeychain(key, serializeCookieJar(jar, "user@example.com")); err != nil {
 		t.Fatalf("writeSessionToKeychain error: %v", err)
 	}
 
@@ -1062,14 +1062,94 @@ func TestTryResumeSessionReturnsExpiredErrorForUnauthorizedCache(t *testing.T) {
 	if !errors.Is(err, ErrCachedSessionExpired) {
 		t.Fatalf("expected ErrCachedSessionExpired, got %v", err)
 	}
-	if err != ErrCachedSessionExpired {
-		t.Fatalf("expected bare ErrCachedSessionExpired sentinel, got %v", err)
+	if errors.Unwrap(err) != nil {
+		t.Fatalf("expected bare ErrCachedSessionExpired sentinel, got wrapped error %v", err)
 	}
 	if ok {
 		t.Fatal("did not expect cache resume success")
 	}
 	if resumed != nil {
 		t.Fatal("did not expect resumed session")
+	}
+}
+
+func TestLoadCachedSessionHydratesJarWithoutValidation(t *testing.T) {
+	withArraySessionKeyring(t)
+	t.Setenv(webSessionBackendEnv, "keychain")
+	t.Setenv(webSessionCacheEnabledEnv, "1")
+	t.Setenv(webSessionCacheDirEnv, filepath.Join(t.TempDir(), "web-cache"))
+
+	jar, err := cookiejar.New(nil)
+	if err != nil {
+		t.Fatalf("cookiejar.New error: %v", err)
+	}
+	targetURL, _ := url.Parse("https://appstoreconnect.apple.com/")
+	jar.SetCookies(targetURL, []*http.Cookie{
+		{Name: "myacinfo", Value: "cached-token", Path: "/", Expires: time.Now().Add(24 * time.Hour)},
+	})
+
+	if err := PersistSession(&AuthSession{
+		Client:    &http.Client{Jar: jar},
+		UserEmail: "user@example.com",
+	}); err != nil {
+		t.Fatalf("PersistSession error: %v", err)
+	}
+
+	session, ok, err := LoadCachedSession("user@example.com")
+	if err != nil {
+		t.Fatalf("LoadCachedSession error: %v", err)
+	}
+	if !ok || session == nil {
+		t.Fatal("expected cached session to load")
+	}
+	if session.UserEmail != "user@example.com" {
+		t.Fatalf("expected stored email user@example.com, got %q", session.UserEmail)
+	}
+	if session.Client == nil || session.Client.Jar == nil {
+		t.Fatal("expected hydrated client jar")
+	}
+	if got := cookieValue(session.Client.Jar.Cookies(targetURL), "myacinfo"); got != "cached-token" {
+		t.Fatalf("expected hydrated cookie value, got %q", got)
+	}
+}
+
+func TestLoadLastCachedSessionHydratesJarWithoutValidation(t *testing.T) {
+	withArraySessionKeyring(t)
+	t.Setenv(webSessionBackendEnv, "keychain")
+	t.Setenv(webSessionCacheEnabledEnv, "1")
+	t.Setenv(webSessionCacheDirEnv, filepath.Join(t.TempDir(), "web-cache"))
+
+	jar, err := cookiejar.New(nil)
+	if err != nil {
+		t.Fatalf("cookiejar.New error: %v", err)
+	}
+	targetURL, _ := url.Parse("https://appstoreconnect.apple.com/")
+	jar.SetCookies(targetURL, []*http.Cookie{
+		{Name: "myacinfo", Value: "cached-token", Path: "/", Expires: time.Now().Add(24 * time.Hour)},
+	})
+
+	if err := PersistSession(&AuthSession{
+		Client:    &http.Client{Jar: jar},
+		UserEmail: "user@example.com",
+	}); err != nil {
+		t.Fatalf("PersistSession error: %v", err)
+	}
+
+	session, ok, err := LoadLastCachedSession()
+	if err != nil {
+		t.Fatalf("LoadLastCachedSession error: %v", err)
+	}
+	if !ok || session == nil {
+		t.Fatal("expected last cached session to load")
+	}
+	if session.UserEmail != "user@example.com" {
+		t.Fatalf("expected stored email user@example.com, got %q", session.UserEmail)
+	}
+	if session.Client == nil || session.Client.Jar == nil {
+		t.Fatal("expected hydrated client jar")
+	}
+	if got := cookieValue(session.Client.Jar.Cookies(targetURL), "myacinfo"); got != "cached-token" {
+		t.Fatalf("expected hydrated cookie value, got %q", got)
 	}
 }
 
@@ -1529,8 +1609,8 @@ func TestTryResumeSessionDoesNotPersistExpiredLegacyIrisCache(t *testing.T) {
 	if !errors.Is(err, ErrCachedSessionExpired) {
 		t.Fatalf("expected ErrCachedSessionExpired, got %v", err)
 	}
-	if err != ErrCachedSessionExpired {
-		t.Fatalf("expected bare ErrCachedSessionExpired sentinel, got %v", err)
+	if errors.Unwrap(err) != nil {
+		t.Fatalf("expected bare ErrCachedSessionExpired sentinel, got wrapped error %v", err)
 	}
 	if ok || resumed != nil {
 		t.Fatalf("did not expect resumed legacy session, got %+v ok=%v", resumed, ok)

@@ -1078,3 +1078,56 @@ func TestClientLookupAPIKeyRolesFailsWhenActorListIsForbidden(t *testing.T) {
 		t.Fatalf("expected ErrAPIKeyRolesUnresolved, got %v", err)
 	}
 }
+
+func TestShouldFallbackToActorList(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		err  error
+		want bool
+	}{
+		{name: "bad request", err: &APIError{Status: http.StatusBadRequest}, want: true},
+		{name: "forbidden", err: &APIError{Status: http.StatusForbidden}, want: true},
+		{name: "not found", err: &APIError{Status: http.StatusNotFound}, want: true},
+		{name: "method not allowed", err: &APIError{Status: http.StatusMethodNotAllowed}, want: true},
+		{name: "unauthorized", err: &APIError{Status: http.StatusUnauthorized}, want: false},
+		{name: "internal server error", err: &APIError{Status: http.StatusInternalServerError}, want: false},
+		{name: "non api error", err: errors.New("boom"), want: false},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if got := shouldFallbackToActorList(tt.err); got != tt.want {
+				t.Fatalf("shouldFallbackToActorList(%v) = %v, want %v", tt.err, got, tt.want)
+			}
+		})
+	}
+}
+
+func TestShouldFallbackToIndividualKeys(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		err  error
+		want bool
+	}{
+		{name: "forbidden", err: &APIError{Status: http.StatusForbidden}, want: true},
+		{name: "not found", err: &APIError{Status: http.StatusNotFound}, want: true},
+		{name: "bad request", err: &APIError{Status: http.StatusBadRequest}, want: false},
+		{name: "non api error", err: errors.New("boom"), want: false},
+	}
+
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			if got := shouldFallbackToIndividualKeys(tt.err); got != tt.want {
+				t.Fatalf("shouldFallbackToIndividualKeys(%v) = %v, want %v", tt.err, got, tt.want)
+			}
+		})
+	}
+}

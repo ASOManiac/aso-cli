@@ -27,7 +27,6 @@ func TestWebAppsCreatePassesPasswordCompatibilityFlagToSessionResolver(t *testin
 		ensureBundleIDFn = origEnsureBundleID
 		createWebAppFn = origCreateWebApp
 	})
-
 	var (
 		receivedID   string
 		receivedPass string

@@ -197,7 +197,8 @@ func WebAppsCreateCommand() *ffcli.Command {
 
 	appleID := fs.String("apple-id", "", "Apple Account email (required when no cache is available)")
 	password := fs.String("password", "", "Apple Account password (temporary compatibility flag; will prompt if not provided)")
-	twoFactorCode := fs.String("two-factor-code", "", "2FA code if your account requires verification")
+	twoFactorCode := bindDeprecatedTwoFactorCodeFlag(fs)
+	twoFactorCodeCommand := fs.String("two-factor-code-command", "", "Shell command that prints the 2FA code to stdout if verification is required")
 	autoRename := fs.Bool("auto-rename", true, "Retry with unique name suffix if app name is already taken")
 	output := shared.BindOutputFlags(fs)
 
@@ -219,6 +220,9 @@ Authentication:
     - secure interactive prompt (default and recommended for local use)
     - %s environment variable
     - temporary direct-password compatibility flag during the apps-create deprecation window
+  Two-factor verification can use --two-factor-code-command
+  or %s if a fresh login is required.
+  The legacy --two-factor-code flag still works as a deprecated compatibility alias.
   If you already have a cached web session, --apple-id can be omitted.
 
 Bundle ID preflight:
@@ -230,24 +234,32 @@ Bundle ID preflight:
 Examples:
   asc web apps create
   asc web apps create --name "My App" --bundle-id "com.example.app" --sku "MYAPP123" --apple-id "user@example.com"
-  %s asc web apps create --name "My App" --bundle-id "com.example.app" --sku "MYAPP123" --apple-id "user@example.com"`, webPasswordEnvDisplay(), webPasswordEnvAssignmentExample()),
+  %s asc web apps create --name "My App" --bundle-id "com.example.app" --sku "MYAPP123" --apple-id "user@example.com"
+  %s='osascript /path/to/get-apple-2fa-code.scpt' asc web apps create --apple-id "user@example.com"`,
+			webPasswordEnvDisplay(),
+			webTwoFactorCodeCommandEnv,
+			webPasswordEnvAssignmentExample(),
+			webTwoFactorCodeCommandEnv,
+		),
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
+			warnDeprecatedTwoFactorCodeFlag(*twoFactorCode)
 			return RunAppsCreate(ctx, AppsCreateRunOptions{
-				Name:          *name,
-				BundleID:      *bundleID,
-				SKU:           *sku,
-				PrimaryLocale: *primaryLocale,
-				Platform:      *platform,
-				Version:       *version,
-				CompanyName:   *companyName,
-				AppleID:       *appleID,
-				Password:      *password,
-				TwoFactorCode: *twoFactorCode,
-				AutoRename:    *autoRename,
-				Output:        *output.Output,
-				Pretty:        *output.Pretty,
+				Name:                 *name,
+				BundleID:             *bundleID,
+				SKU:                  *sku,
+				PrimaryLocale:        *primaryLocale,
+				Platform:             *platform,
+				Version:              *version,
+				CompanyName:          *companyName,
+				AppleID:              *appleID,
+				Password:             *password,
+				TwoFactorCode:        *twoFactorCode,
+				TwoFactorCodeCommand: *twoFactorCodeCommand,
+				AutoRename:           *autoRename,
+				Output:               *output.Output,
+				Pretty:               *output.Pretty,
 			})
 		},
 	}

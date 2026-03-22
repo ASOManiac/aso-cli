@@ -149,3 +149,61 @@ func TestValidateRejectsUnknownCapabilityReferences(t *testing.T) {
 		t.Fatalf("expected missing capability id in error, got %v", err)
 	}
 }
+
+func TestValidateRejectsNilSnapshot(t *testing.T) {
+	err := validateSnapshot(nil)
+	if err == nil {
+		t.Fatal("expected validation error")
+	}
+	if !strings.Contains(err.Error(), "required") {
+		t.Fatalf("expected required error, got %v", err)
+	}
+}
+
+func TestValidateRejectsEmptyCapabilityGroupID(t *testing.T) {
+	err := validateSnapshot(&Snapshot{
+		Groups: []CapabilityGroup{
+			{ID: "   "},
+		},
+	})
+	if err == nil {
+		t.Fatal("expected validation error")
+	}
+	if !strings.Contains(err.Error(), "empty id") {
+		t.Fatalf("expected empty id error, got %v", err)
+	}
+}
+
+func TestValidateRejectsEmptyRoleCode(t *testing.T) {
+	err := validateSnapshot(&Snapshot{
+		Groups: []CapabilityGroup{
+			{ID: "known"},
+		},
+		Roles: []Role{
+			{Code: " ", Capabilities: []string{"known"}},
+		},
+	})
+	if err == nil {
+		t.Fatal("expected validation error")
+	}
+	if !strings.Contains(err.Error(), "empty code") {
+		t.Fatalf("expected empty code error, got %v", err)
+	}
+}
+
+func TestValidateRejectsEmptyRoleCapabilityID(t *testing.T) {
+	err := validateSnapshot(&Snapshot{
+		Groups: []CapabilityGroup{
+			{ID: "known"},
+		},
+		Roles: []Role{
+			{Code: "ADMIN", Capabilities: []string{"known", " "}},
+		},
+	})
+	if err == nil {
+		t.Fatal("expected validation error")
+	}
+	if !strings.Contains(err.Error(), "empty capability id") {
+		t.Fatalf("expected empty capability id error, got %v", err)
+	}
+}

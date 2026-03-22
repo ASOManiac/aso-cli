@@ -54,6 +54,7 @@ type backendSelection struct {
 type persistedSession struct {
 	Version   int                  `json:"version"`
 	UpdatedAt time.Time            `json:"updated_at"`
+	UserEmail string               `json:"user_email,omitempty"`
 	Cookies   map[string][]pCookie `json:"cookies"`
 }
 
@@ -229,11 +230,12 @@ func isExpiredCookie(c pCookie, now time.Time) bool {
 	return false
 }
 
-func serializeCookieJar(jar http.CookieJar) persistedSession {
+func serializeCookieJar(jar http.CookieJar, userEmail string) persistedSession {
 	now := time.Now().UTC()
 	out := persistedSession{
 		Version:   webSessionCacheVersion,
 		UpdatedAt: now,
+		UserEmail: strings.TrimSpace(userEmail),
 		Cookies:   map[string][]pCookie{},
 	}
 	for _, u := range sessionCookieURLs() {
@@ -1046,6 +1048,21 @@ func resumeFromPersistedSession(ctx context.Context, sess persistedSession) (*Au
 	}, true, nil
 }
 
+func loadSessionFromPersistedSession(sess persistedSession) (*AuthSession, bool, error) {
+	jar, err := cookiejar.New(nil)
+	if err != nil {
+		return nil, false, err
+	}
+	loaded := hydrateCookieJar(jar, sess)
+	if loaded == 0 {
+		return nil, false, nil
+	}
+	return &AuthSession{
+		Client:    newWebHTTPClient(jar),
+		UserEmail: strings.TrimSpace(sess.UserEmail),
+	}, true, nil
+}
+
 // PersistSession stores web-session cookies for later reuse.
 func PersistSession(session *AuthSession) error {
 	if session == nil || session.Client == nil || session.Client.Jar == nil {
@@ -1062,8 +1079,30 @@ func PersistSession(session *AuthSession) error {
 	}
 
 	key := webSessionCacheKey(username)
-	serialized := serializeCookieJar(session.Client.Jar)
+	serialized := serializeCookieJar(session.Client.Jar, username)
 	return persistSessionBySelection(selection, key, serialized)
+}
+
+// LoadCachedSession loads a cached web session cookie jar without validating it
+// against the live App Store Connect session endpoint. This is used for
+// best-effort relogin attempts that want to preserve Apple trust cookies.
+func LoadCachedSession(username string) (*AuthSession, bool, error) {
+	username = strings.TrimSpace(username)
+	if username == "" {
+		return nil, false, nil
+	}
+
+	selection := resolveBackendSelection()
+	if selection.backend == sessionBackendOff {
+		return nil, false, nil
+	}
+
+	key := webSessionCacheKey(username)
+	sess, ok, err := readSessionBySelection(selection, key)
+	if err != nil || !ok {
+		return nil, false, err
+	}
+	return loadSessionFromPersistedSession(sess)
 }
 
 // TryResumeSession attempts to resume a session for a specific Apple ID.
@@ -1096,6 +1135,21 @@ func TryResumeSession(ctx context.Context, username string) (*AuthSession, bool,
 	// Best effort: persist refreshed cookies after successful session validation.
 	_ = PersistSession(resumed)
 	return resumed, true, nil
+}
+
+// LoadLastCachedSession loads the last cached web session cookie jar without
+// validating it against the live App Store Connect session endpoint.
+func LoadLastCachedSession() (*AuthSession, bool, error) {
+	selection := resolveBackendSelection()
+	if selection.backend == sessionBackendOff {
+		return nil, false, nil
+	}
+
+	sess, ok, err := readLastSessionBySelection(selection)
+	if err != nil || !ok {
+		return nil, false, err
+	}
+	return loadSessionFromPersistedSession(sess)
 }
 
 // TryResumeLastSession attempts to resume the last successful web session.
