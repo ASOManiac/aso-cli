@@ -160,10 +160,8 @@ Examples:
 
 			// Verify asset delivery — poll until COMPLETE or FAILED
 			screenshotID := resp.Data.ID
-			finalState, verifyErr := waitForSubscriptionReviewScreenshotDelivery(requestCtx, client, screenshotID)
-			if verifyErr != nil {
-				fmt.Fprintf(os.Stderr, "Warning: upload committed but verification failed (state: %s): %v\n", finalState, verifyErr)
-				fmt.Fprintf(os.Stderr, "Check status with: asc subscriptions review screenshots view --screenshot-id %s\n", screenshotID)
+			if _, verifyErr := waitForSubscriptionReviewScreenshotDelivery(requestCtx, client, screenshotID); verifyErr != nil {
+				return fmt.Errorf("subscriptions review-screenshots create: %w", verifyErr)
 			}
 
 			if commitResp != nil {

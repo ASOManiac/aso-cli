@@ -169,10 +169,8 @@ Examples:
 
 			// Verify asset delivery — poll until COMPLETE or FAILED
 			screenshotID := resp.Data.ID
-			finalState, verifyErr := waitForIAPReviewScreenshotDelivery(requestCtx, client, screenshotID)
-			if verifyErr != nil {
-				fmt.Fprintf(os.Stderr, "Warning: upload committed but verification failed (state: %s): %v\n", finalState, verifyErr)
-				fmt.Fprintf(os.Stderr, "Check status with: asc iap review-screenshots view --iap-id %s\n", iapValue)
+			if _, verifyErr := waitForIAPReviewScreenshotDelivery(requestCtx, client, screenshotID); verifyErr != nil {
+				return fmt.Errorf("iap review-screenshots create: %w", verifyErr)
 			}
 
 			finalResp, err := client.GetInAppPurchaseAppStoreReviewScreenshot(requestCtx, screenshotID)
