@@ -498,23 +498,22 @@ func (c *Client) GetAnalyticsInAppEventsPage(ctx context.Context, appID, startDa
 		AppID:              strings.TrimSpace(appID),
 		RequestedStartDate: strings.TrimSpace(startDate),
 		RequestedEndDate:   strings.TrimSpace(endDate),
-		EffectiveStartTime: settings.Configuration.DataStartDate,
-		EffectiveEndTime:   settings.Configuration.DataEndDate,
 		Events:             events.Results,
+	}
+	page.EffectiveStartTime, page.EffectiveEndTime, err = analyticsClampedTimeRange(
+		startDate,
+		endDate,
+		settings.Configuration.DataStartDate,
+		settings.Configuration.DataEndDate,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("in-app-events range: %w", err)
 	}
 	if len(events.Results) == 0 {
 		return page, nil
 	}
 	selected := events.Results[0]
 	page.SelectedEventID = selected.ID
-	if strings.TrimSpace(page.EffectiveStartTime) == "" || strings.TrimSpace(page.EffectiveEndTime) == "" {
-		startTime, endTime, err := analyticsTimeRange(startDate, endDate, "", "")
-		if err != nil {
-			return nil, fmt.Errorf("in-app-events range: %w", err)
-		}
-		page.EffectiveStartTime = startTime
-		page.EffectiveEndTime = endTime
-	}
 	metrics, err := c.GetAnalyticsMeasures(ctx, AnalyticsMeasuresRequest{
 		AppID:     appID,
 		StartTime: page.EffectiveStartTime,
@@ -533,6 +532,41 @@ func (c *Client) GetAnalyticsInAppEventsPage(ctx context.Context, appID, startDa
 	}
 	page.SelectedMetrics = metrics
 	return page, nil
+}
+
+func analyticsClampedTimeRange(startDate, endDate, minTime, maxTime string) (string, string, error) {
+	startTime, endTime, err := analyticsTimeRange(startDate, endDate, "", "")
+	if err != nil {
+		return "", "", err
+	}
+	start, _ := time.Parse(time.RFC3339, startTime)
+	end, _ := time.Parse(time.RFC3339, endTime)
+	if parsedMin, ok, err := analyticsOptionalRFC3339(minTime); err != nil {
+		return "", "", fmt.Errorf("invalid minimum time: %w", err)
+	} else if ok && start.Before(parsedMin) {
+		start = parsedMin
+	}
+	if parsedMax, ok, err := analyticsOptionalRFC3339(maxTime); err != nil {
+		return "", "", fmt.Errorf("invalid maximum time: %w", err)
+	} else if ok && end.After(parsedMax) {
+		end = parsedMax
+	}
+	if end.Before(start) {
+		return "", "", fmt.Errorf("requested range is outside the available analytics window")
+	}
+	return start.Format(time.RFC3339), end.Format(time.RFC3339), nil
+}
+
+func analyticsOptionalRFC3339(value string) (time.Time, bool, error) {
+	value = strings.TrimSpace(value)
+	if value == "" {
+		return time.Time{}, false, nil
+	}
+	parsed, err := time.Parse(time.RFC3339, value)
+	if err != nil {
+		return time.Time{}, false, err
+	}
+	return parsed, true, nil
 }
 
 // GetAnalyticsCampaignsPage reproduces the Acquisition > Campaigns page.

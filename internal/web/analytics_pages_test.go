@@ -146,6 +146,64 @@ func TestGetAnalyticsCampaignsPageUsesDefaultRankingLimit(t *testing.T) {
 	}
 }
 
+func TestGetAnalyticsInAppEventsPageUsesRequestedRange(t *testing.T) {
+	client := &Client{
+		httpClient: &http.Client{
+			Transport: roundTripFunc(func(req *http.Request) (*http.Response, error) {
+				switch req.URL.Path {
+				case "/analytics/api/v1/settings/all":
+					return analyticsTestJSONResponse(req, `{
+						"configuration": {
+							"dataStartDate": "2015-04-01T00:00:00Z",
+							"dataEndDate": "2026-03-23T00:00:00Z"
+						}
+					}`), nil
+				case "/analytics/api/v1/app-info/app-1/in-app-events":
+					return analyticsTestJSONResponse(req, `{
+						"size": 1,
+						"results": [
+							{
+								"id": "event-1",
+								"name": "Launch Promo",
+								"status": "PUBLISHED"
+							}
+						]
+					}`), nil
+				case "/analytics/api/v1/data/app/detail/measures":
+					body, err := io.ReadAll(req.Body)
+					if err != nil {
+						t.Fatalf("failed to read body: %v", err)
+					}
+					var payload map[string]any
+					if err := json.Unmarshal(body, &payload); err != nil {
+						t.Fatalf("failed to decode body: %v", err)
+					}
+					if got := payload["startTime"]; got != "2025-12-24T00:00:00Z" {
+						t.Fatalf("expected requested start time, got %#v", got)
+					}
+					if got := payload["endTime"]; got != "2026-03-23T00:00:00Z" {
+						t.Fatalf("expected requested end time, got %#v", got)
+					}
+					return analyticsTestJSONResponse(req, `{"results":[]}`), nil
+				default:
+					t.Fatalf("unexpected path: %s", req.URL.Path)
+					return nil, nil
+				}
+			}),
+		},
+		baseURL:            analyticsAPIBaseURL,
+		minRequestInterval: 0,
+	}
+
+	resp, err := client.GetAnalyticsInAppEventsPage(context.Background(), "app-1", "2025-12-24", "2026-03-23")
+	if err != nil {
+		t.Fatalf("GetAnalyticsInAppEventsPage() error = %v", err)
+	}
+	if resp.EffectiveStartTime != "2025-12-24T00:00:00Z" || resp.EffectiveEndTime != "2026-03-23T00:00:00Z" {
+		t.Fatalf("unexpected effective range: %#v", resp)
+	}
+}
+
 func TestGetAnalyticsSettingsIncludesRequestedByHeader(t *testing.T) {
 	client := &Client{
 		httpClient: &http.Client{
@@ -221,6 +279,21 @@ func TestAnalyticsBenchmarkWeekWindowForDisplayFormatsAPIAndDisplayDates(t *test
 	}
 	if window.EndDate != "2026-03-01" {
 		t.Fatalf("unexpected end date: %#v", window)
+	}
+}
+
+func TestAnalyticsClampedTimeRangeClampsToSettingsWindow(t *testing.T) {
+	start, end, err := analyticsClampedTimeRange(
+		"2015-03-01",
+		"2026-04-01",
+		"2015-04-01T00:00:00Z",
+		"2026-03-23T00:00:00Z",
+	)
+	if err != nil {
+		t.Fatalf("analyticsClampedTimeRange() error = %v", err)
+	}
+	if start != "2015-04-01T00:00:00Z" || end != "2026-03-23T00:00:00Z" {
+		t.Fatalf("unexpected clamped range: %q %q", start, end)
 	}
 }
 
