@@ -8,6 +8,7 @@ import (
 
 	"github.com/ASOManiac/aso-cli/internal/cli/accessibility"
 	"github.com/ASOManiac/aso-cli/internal/cli/account"
+	asocmd "github.com/ASOManiac/aso-cli/internal/cli/aso"
 	"github.com/ASOManiac/aso-cli/internal/cli/actors"
 	"github.com/ASOManiac/aso-cli/internal/cli/agerating"
 	"github.com/ASOManiac/aso-cli/internal/cli/agreements"
@@ -183,6 +184,7 @@ func Subcommands(version string) []*ffcli.Command {
 		gamecenter.GameCenterCommand(),
 		schema.SchemaCommand(),
 		snitch.SnitchCommand(version),
+		asocmd.ASOCommand(),
 		VersionCommand(version),
 	}
 
