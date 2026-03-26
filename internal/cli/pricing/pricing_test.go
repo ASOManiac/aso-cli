@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"flag"
+	"strings"
 	"testing"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
@@ -249,6 +250,14 @@ func TestPricingAvailabilitySetCommand_HasAvailableInNewTerritoriesFlag(t *testi
 
 	if f := cmd.FlagSet.Lookup("available-in-new-territories"); f == nil {
 		t.Fatal("expected --available-in-new-territories flag to be defined")
+	}
+}
+
+func TestPricingAvailabilitySetCommand_HelpMentionsAllTerritories(t *testing.T) {
+	cmd := PricingAvailabilitySetCommand()
+
+	if !strings.Contains(cmd.LongHelp, "--all-territories") {
+		t.Fatalf("expected --all-territories example in long help, got %q", cmd.LongHelp)
 	}
 }
 

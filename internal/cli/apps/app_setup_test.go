@@ -116,6 +116,14 @@ func TestAppSetupAvailabilitySetCommand_MissingFlags(t *testing.T) {
 	}
 }
 
+func TestAppSetupAvailabilitySetCommand_HelpMentionsAllTerritories(t *testing.T) {
+	cmd := AppSetupAvailabilitySetCommand()
+
+	if !strings.Contains(cmd.LongHelp, "--all-territories") {
+		t.Fatalf("expected --all-territories example in long help, got %q", cmd.LongHelp)
+	}
+}
+
 func TestAppSetupPricingSetCommand_MissingFlags(t *testing.T) {
 	t.Setenv("ASC_APP_ID", "")
 	t.Setenv("ASC_CONFIG_PATH", filepath.Join(t.TempDir(), "config.json"))
