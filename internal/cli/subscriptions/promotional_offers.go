@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SubscriptionsPromotionalOffersCommand returns the promotional offers command group.
@@ -19,13 +19,13 @@ func SubscriptionsPromotionalOffersCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "promotional-offers",
-		ShortUsage: "asc subscriptions promotional-offers <subcommand> [flags]",
+		ShortUsage: "aso subscriptions promotional-offers <subcommand> [flags]",
 		ShortHelp:  "Manage subscription promotional offers.",
 		LongHelp: `Manage subscription promotional offers.
 
 Examples:
-  asc subscriptions promotional-offers list --subscription-id "SUB_ID"
-  asc subscriptions promotional-offers create --subscription-id "SUB_ID" --offer-code "SPRING" --name "Spring" --offer-duration ONE_MONTH --offer-mode FREE_TRIAL --number-of-periods 1 --prices "PRICE_ID"`,
+  aso subscriptions promotional-offers list --subscription-id "SUB_ID"
+  aso subscriptions promotional-offers create --subscription-id "SUB_ID" --offer-code "SPRING" --name "Spring" --offer-duration ONE_MONTH --offer-mode FREE_TRIAL --number-of-periods 1 --prices "PRICE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -54,13 +54,13 @@ func SubscriptionsPromotionalOffersListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc subscriptions promotional-offers list [flags]",
+		ShortUsage: "aso subscriptions promotional-offers list [flags]",
 		ShortHelp:  "List promotional offers for a subscription.",
 		LongHelp: `List promotional offers for a subscription.
 
 Examples:
-  asc subscriptions promotional-offers list --subscription-id "SUB_ID"
-  asc subscriptions promotional-offers list --subscription-id "SUB_ID" --paginate`,
+  aso subscriptions promotional-offers list --subscription-id "SUB_ID"
+  aso subscriptions promotional-offers list --subscription-id "SUB_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -126,12 +126,12 @@ func SubscriptionsPromotionalOffersGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc subscriptions promotional-offers get --id \"OFFER_ID\"",
+		ShortUsage: "aso subscriptions promotional-offers get --id \"OFFER_ID\"",
 		ShortHelp:  "Get a promotional offer by ID.",
 		LongHelp: `Get a promotional offer by ID.
 
 Examples:
-  asc subscriptions promotional-offers get --id "OFFER_ID"`,
+  aso subscriptions promotional-offers get --id "OFFER_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -174,12 +174,12 @@ func SubscriptionsPromotionalOffersCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc subscriptions promotional-offers create [flags]",
+		ShortUsage: "aso subscriptions promotional-offers create [flags]",
 		ShortHelp:  "Create a promotional offer.",
 		LongHelp: `Create a promotional offer.
 
 Examples:
-  asc subscriptions promotional-offers create --subscription-id "SUB_ID" --offer-code "SPRING" --name "Spring" --offer-duration ONE_MONTH --offer-mode FREE_TRIAL --number-of-periods 1 --prices "PRICE_ID"`,
+  aso subscriptions promotional-offers create --subscription-id "SUB_ID" --offer-code "SPRING" --name "Spring" --offer-duration ONE_MONTH --offer-mode FREE_TRIAL --number-of-periods 1 --prices "PRICE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -260,12 +260,12 @@ func SubscriptionsPromotionalOffersUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc subscriptions promotional-offers update [flags]",
+		ShortUsage: "aso subscriptions promotional-offers update [flags]",
 		ShortHelp:  "Update a promotional offer's prices.",
 		LongHelp: `Update a promotional offer's prices.
 
 Examples:
-  asc subscriptions promotional-offers update --id "OFFER_ID" --prices "PRICE_ID"`,
+  aso subscriptions promotional-offers update --id "OFFER_ID" --prices "PRICE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -309,12 +309,12 @@ func SubscriptionsPromotionalOffersDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc subscriptions promotional-offers delete --id \"OFFER_ID\" --confirm",
+		ShortUsage: "aso subscriptions promotional-offers delete --id \"OFFER_ID\" --confirm",
 		ShortHelp:  "Delete a promotional offer.",
 		LongHelp: `Delete a promotional offer.
 
 Examples:
-  asc subscriptions promotional-offers delete --id "OFFER_ID" --confirm`,
+  aso subscriptions promotional-offers delete --id "OFFER_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -358,13 +358,13 @@ func SubscriptionsPromotionalOfferPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "prices",
-		ShortUsage: "asc subscriptions promotional-offers prices --id \"OFFER_ID\" [flags]",
+		ShortUsage: "aso subscriptions promotional-offers prices --id \"OFFER_ID\" [flags]",
 		ShortHelp:  "List prices for a promotional offer.",
 		LongHelp: `List prices for a promotional offer.
 
 Examples:
-  asc subscriptions promotional-offers prices --id "OFFER_ID"
-  asc subscriptions promotional-offers prices --id "OFFER_ID" --paginate`,
+  aso subscriptions promotional-offers prices --id "OFFER_ID"
+  aso subscriptions promotional-offers prices --id "OFFER_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

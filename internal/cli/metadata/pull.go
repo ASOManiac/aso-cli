@@ -11,8 +11,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const includeLocalizations = "localizations"
@@ -45,17 +45,17 @@ func MetadataPullCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "pull",
-		ShortUsage: "asc metadata pull --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" [--app-info \"APP_INFO_ID\"] [flags]",
+		ShortUsage: "aso metadata pull --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" [--app-info \"APP_INFO_ID\"] [flags]",
 		ShortHelp:  "Pull metadata from App Store Connect into canonical files.",
 		LongHelp: `Pull metadata from App Store Connect into canonical files.
 
 Phase 1 supports localization metadata for app-info and app-store versions.
 
 Examples:
-  asc metadata pull --app "APP_ID" --version "1.2.3" --dir "./metadata"
-  asc metadata pull --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata"
-  asc metadata pull --app "APP_ID" --app-info "APP_INFO_ID" --version "1.2.3" --dir "./metadata"
-  asc metadata pull --app "APP_ID" --version "1.2.3" --dir "./metadata" --force`,
+  aso metadata pull --app "APP_ID" --version "1.2.3" --dir "./metadata"
+  aso metadata pull --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata"
+  aso metadata pull --app "APP_ID" --app-info "APP_INFO_ID" --version "1.2.3" --dir "./metadata"
+  aso metadata pull --app "APP_ID" --version "1.2.3" --dir "./metadata" --force`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

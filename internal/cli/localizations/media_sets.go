@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // LocalizationsPreviewSetsCommand returns the preview sets command group.
@@ -19,14 +19,14 @@ func LocalizationsPreviewSetsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "preview-sets",
-		ShortUsage: "asc localizations preview-sets <subcommand> [flags]",
+		ShortUsage: "aso localizations preview-sets <subcommand> [flags]",
 		ShortHelp:  "Manage preview sets for an App Store localization.",
 		LongHelp: `Manage preview sets for an App Store localization.
 
 Examples:
-  asc localizations preview-sets list --localization-id "LOCALIZATION_ID"
-  asc localizations preview-sets get --id "PREVIEW_SET_ID"
-  asc localizations preview-sets links --localization-id "LOCALIZATION_ID"`,
+  aso localizations preview-sets list --localization-id "LOCALIZATION_ID"
+  aso localizations preview-sets get --id "PREVIEW_SET_ID"
+  aso localizations preview-sets links --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -36,9 +36,9 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				LocalizationsPreviewSetsRelationshipsCommand(),
 				"relationships",
-				"asc localizations preview-sets links --localization-id \"LOCALIZATION_ID\"",
-				"asc localizations preview-sets links",
-				"Warning: `asc localizations preview-sets relationships` is deprecated. Use `asc localizations preview-sets links`.",
+				"aso localizations preview-sets links --localization-id \"LOCALIZATION_ID\"",
+				"aso localizations preview-sets links",
+				"Warning: `aso localizations preview-sets relationships` is deprecated. Use `aso localizations preview-sets links`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {
@@ -52,12 +52,12 @@ func LocalizationsPreviewSetsListCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "localizations preview-sets list",
 		Name:        "list",
-		ShortUsage:  "asc localizations preview-sets list --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage:  "aso localizations preview-sets list --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:   "List preview sets for an App Store localization.",
 		LongHelp: `List preview sets for an App Store localization.
 
 Examples:
-  asc localizations preview-sets list --localization-id "LOCALIZATION_ID"`,
+  aso localizations preview-sets list --localization-id "LOCALIZATION_ID"`,
 		ParentFlag:  "localization-id",
 		ParentUsage: "App Store version localization ID",
 		LimitMax:    200,
@@ -81,12 +81,12 @@ func LocalizationsPreviewSetsGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "localizations preview-sets get",
 		Name:        "get",
-		ShortUsage:  "asc localizations preview-sets get --id \"PREVIEW_SET_ID\"",
+		ShortUsage:  "aso localizations preview-sets get --id \"PREVIEW_SET_ID\"",
 		ShortHelp:   "Get an app preview set by ID.",
 		LongHelp: `Get an app preview set by ID.
 
 Examples:
-  asc localizations preview-sets get --id "PREVIEW_SET_ID"`,
+  aso localizations preview-sets get --id "PREVIEW_SET_ID"`,
 		IDFlag:      "id",
 		IDUsage:     "App preview set ID",
 		ErrorPrefix: "localizations preview-sets get",
@@ -101,12 +101,12 @@ func LocalizationsPreviewSetsRelationshipsCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "localizations preview-sets links",
 		Name:        "links",
-		ShortUsage:  "asc localizations preview-sets links --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage:  "aso localizations preview-sets links --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:   "List preview set relationships for an App Store localization.",
 		LongHelp: `List preview set relationships for an App Store localization.
 
 Examples:
-  asc localizations preview-sets links --localization-id "LOCALIZATION_ID"`,
+  aso localizations preview-sets links --localization-id "LOCALIZATION_ID"`,
 		ParentFlag:  "localization-id",
 		ParentUsage: "App Store version localization ID",
 		LimitMax:    200,
@@ -131,15 +131,15 @@ func LocalizationsScreenshotSetsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "screenshot-sets",
-		ShortUsage: "asc localizations screenshot-sets <subcommand> [flags]",
+		ShortUsage: "aso localizations screenshot-sets <subcommand> [flags]",
 		ShortHelp:  "Manage screenshot sets for an App Store localization.",
 		LongHelp: `Manage screenshot sets for an App Store localization.
 
 Examples:
-  asc localizations screenshot-sets list --localization-id "LOCALIZATION_ID"
-  asc localizations screenshot-sets get --id "SCREENSHOT_SET_ID"
-  asc localizations screenshot-sets delete --id "SCREENSHOT_SET_ID" --confirm
-  asc localizations screenshot-sets links --localization-id "LOCALIZATION_ID"`,
+  aso localizations screenshot-sets list --localization-id "LOCALIZATION_ID"
+  aso localizations screenshot-sets get --id "SCREENSHOT_SET_ID"
+  aso localizations screenshot-sets delete --id "SCREENSHOT_SET_ID" --confirm
+  aso localizations screenshot-sets links --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -150,9 +150,9 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				LocalizationsScreenshotSetsRelationshipsCommand(),
 				"relationships",
-				"asc localizations screenshot-sets links --localization-id \"LOCALIZATION_ID\"",
-				"asc localizations screenshot-sets links",
-				"Warning: `asc localizations screenshot-sets relationships` is deprecated. Use `asc localizations screenshot-sets links`.",
+				"aso localizations screenshot-sets links --localization-id \"LOCALIZATION_ID\"",
+				"aso localizations screenshot-sets links",
+				"Warning: `aso localizations screenshot-sets relationships` is deprecated. Use `aso localizations screenshot-sets links`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {
@@ -166,12 +166,12 @@ func LocalizationsScreenshotSetsGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "localizations screenshot-sets get",
 		Name:        "get",
-		ShortUsage:  "asc localizations screenshot-sets get --id \"SCREENSHOT_SET_ID\"",
+		ShortUsage:  "aso localizations screenshot-sets get --id \"SCREENSHOT_SET_ID\"",
 		ShortHelp:   "Get an app screenshot set by ID.",
 		LongHelp: `Get an app screenshot set by ID.
 
 Examples:
-  asc localizations screenshot-sets get --id "SCREENSHOT_SET_ID"`,
+  aso localizations screenshot-sets get --id "SCREENSHOT_SET_ID"`,
 		IDFlag:      "id",
 		IDUsage:     "App screenshot set ID",
 		ErrorPrefix: "localizations screenshot-sets get",
@@ -191,12 +191,12 @@ func LocalizationsScreenshotSetsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc localizations screenshot-sets delete --id \"SCREENSHOT_SET_ID\" --confirm",
+		ShortUsage: "aso localizations screenshot-sets delete --id \"SCREENSHOT_SET_ID\" --confirm",
 		ShortHelp:  "Delete an empty screenshot set by ID.",
 		LongHelp: `Delete an empty screenshot set by ID.
 
 Examples:
-  asc localizations screenshot-sets delete --id "SCREENSHOT_SET_ID" --confirm`,
+  aso localizations screenshot-sets delete --id "SCREENSHOT_SET_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -237,12 +237,12 @@ func LocalizationsScreenshotSetsListCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "localizations screenshot-sets list",
 		Name:        "list",
-		ShortUsage:  "asc localizations screenshot-sets list --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage:  "aso localizations screenshot-sets list --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:   "List screenshot sets for an App Store localization.",
 		LongHelp: `List screenshot sets for an App Store localization.
 
 Examples:
-  asc localizations screenshot-sets list --localization-id "LOCALIZATION_ID"`,
+  aso localizations screenshot-sets list --localization-id "LOCALIZATION_ID"`,
 		ParentFlag:  "localization-id",
 		ParentUsage: "App Store version localization ID",
 		LimitMax:    200,
@@ -266,12 +266,12 @@ func LocalizationsScreenshotSetsRelationshipsCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "localizations screenshot-sets links",
 		Name:        "links",
-		ShortUsage:  "asc localizations screenshot-sets links --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage:  "aso localizations screenshot-sets links --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:   "List screenshot set relationships for an App Store localization.",
 		LongHelp: `List screenshot set relationships for an App Store localization.
 
 Examples:
-  asc localizations screenshot-sets links --localization-id "LOCALIZATION_ID"`,
+  aso localizations screenshot-sets links --localization-id "LOCALIZATION_ID"`,
 		ParentFlag:  "localization-id",
 		ParentUsage: "App Store version localization ID",
 		LimitMax:    200,

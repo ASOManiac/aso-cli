@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AnalyticsReportsCommand returns the analytics reports command group.
@@ -19,14 +19,14 @@ func AnalyticsReportsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "reports",
-		ShortUsage: "asc analytics reports <subcommand> [flags]",
+		ShortUsage: "aso analytics reports <subcommand> [flags]",
 		ShortHelp:  "Get analytics reports by ID or relationships.",
 		LongHelp: `Get analytics reports by ID or relationships.
 
 Examples:
-  asc analytics reports get --report-id "REPORT_ID"
-  asc analytics reports links --report-id "REPORT_ID"
-  asc analytics reports links --report-id "REPORT_ID" --paginate`,
+  aso analytics reports get --report-id "REPORT_ID"
+  aso analytics reports links --report-id "REPORT_ID"
+  aso analytics reports links --report-id "REPORT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -35,9 +35,9 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				AnalyticsReportsRelationshipsCommand(),
 				"relationships",
-				"asc analytics reports links --report-id \"REPORT_ID\" [flags]",
-				"asc analytics reports links",
-				"Warning: `asc analytics reports relationships` is deprecated. Use `asc analytics reports links`.",
+				"aso analytics reports links --report-id \"REPORT_ID\" [flags]",
+				"aso analytics reports links",
+				"Warning: `aso analytics reports relationships` is deprecated. Use `aso analytics reports links`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {
@@ -55,12 +55,12 @@ func AnalyticsReportsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc analytics reports get --report-id \"REPORT_ID\" [flags]",
+		ShortUsage: "aso analytics reports get --report-id \"REPORT_ID\" [flags]",
 		ShortHelp:  "Get an analytics report by ID.",
 		LongHelp: `Get an analytics report by ID.
 
 Examples:
-  asc analytics reports get --report-id "REPORT_ID"`,
+  aso analytics reports get --report-id "REPORT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -99,13 +99,13 @@ func AnalyticsReportsRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc analytics reports links --report-id \"REPORT_ID\" [flags]",
+		ShortUsage: "aso analytics reports links --report-id \"REPORT_ID\" [flags]",
 		ShortHelp:  "List analytics report instance relationships.",
 		LongHelp: `List analytics report instance relationships.
 
 Examples:
-  asc analytics reports links --report-id "REPORT_ID"
-  asc analytics reports links --report-id "REPORT_ID" --paginate`,
+  aso analytics reports links --report-id "REPORT_ID"
+  aso analytics reports links --report-id "REPORT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

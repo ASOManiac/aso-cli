@@ -16,9 +16,9 @@ import (
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"golang.org/x/term"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/appleauth"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/appleauth"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 const (
@@ -647,11 +647,11 @@ func WebAuthCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "auth",
-		ShortUsage: "asc web auth <subcommand> [flags]",
+		ShortUsage: "aso web auth <subcommand> [flags]",
 		ShortHelp:  "[experimental] Manage unofficial Apple web sessions (discouraged).",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
-Manage Apple web-session authentication used by "asc web" commands.
+Manage Apple web-session authentication used by "aso web" commands.
 This is not the official App Store Connect API-key auth flow.
 
 ` + webWarningText,
@@ -680,11 +680,11 @@ func WebAuthLoginCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "login",
-		ShortUsage: "asc web auth login --apple-id EMAIL [--two-factor-code-command CMD]",
+		ShortUsage: "aso web auth login --apple-id EMAIL [--two-factor-code-command CMD]",
 		ShortHelp:  "[experimental] Authenticate unofficial Apple web session.",
 		LongHelp: fmt.Sprintf(`EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
-Authenticate using Apple web-session behavior for detached "asc web" workflows.
+Authenticate using Apple web-session behavior for detached "aso web" workflows.
 
 Password input options:
   - secure interactive prompt (default and recommended for local use)
@@ -699,9 +699,9 @@ Two-factor input options:
 `+webWarningText+`
 
 Examples:
-  asc web auth login --apple-id "user@example.com"
-  %s asc web auth login --apple-id "user@example.com"
-  %s='osascript /path/to/get-apple-2fa-code.scpt' asc web auth login --apple-id "user@example.com"`,
+  aso web auth login --apple-id "user@example.com"
+  %s aso web auth login --apple-id "user@example.com"
+  %s='osascript /path/to/get-apple-2fa-code.scpt' aso web auth login --apple-id "user@example.com"`,
 			webPasswordEnvDisplay(),
 			webTwoFactorCodeCommandEnv,
 			webPasswordEnvAssignmentExample(),
@@ -740,7 +740,7 @@ func WebAuthStatusCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "status",
-		ShortUsage: "asc web auth status [--apple-id EMAIL]",
+		ShortUsage: "aso web auth status [--apple-id EMAIL]",
 		ShortHelp:  "[experimental] Show unofficial web-session status.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -795,11 +795,11 @@ func WebAuthLogoutCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "logout",
-		ShortUsage: "asc web auth logout [--apple-id EMAIL | --all]",
+		ShortUsage: "aso web auth logout [--apple-id EMAIL | --all]",
 		ShortHelp:  "[experimental] Clear unofficial web-session cache.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
-Remove cached web-session credentials for detached "asc web" commands.
+Remove cached web-session credentials for detached "aso web" commands.
 
 ` + webWarningText,
 		FlagSet:   fs,

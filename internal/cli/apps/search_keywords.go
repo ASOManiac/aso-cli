@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppsSearchKeywordsCommand returns the search keywords command group.
@@ -19,7 +19,7 @@ func AppsSearchKeywordsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "search-keywords",
-		ShortUsage: "asc apps search-keywords <subcommand> [flags]",
+		ShortUsage: "aso apps search-keywords <subcommand> [flags]",
 		ShortHelp:  "Manage raw search-keyword relationships for an app.",
 		LongHelp: `Manage raw search-keyword relationships for an app.
 
@@ -27,12 +27,12 @@ This command wraps the low-level App Store Connect ` + "`searchKeywords`" + `
 relationship API for apps.
 
 For canonical version-localization keyword workflows, use
-` + "`asc metadata keywords ...`" + ` instead.
+` + "`aso metadata keywords ...`" + ` instead.
 
 Examples:
-  asc apps search-keywords list --app "APP_ID"
-  asc apps search-keywords list --app "APP_ID" --platform IOS --locale "en-US"
-  asc apps search-keywords set --app "APP_ID" --keywords "kw1,kw2" --confirm`,
+  aso apps search-keywords list --app "APP_ID"
+  aso apps search-keywords list --app "APP_ID" --platform IOS --locale "en-US"
+  aso apps search-keywords set --app "APP_ID" --keywords "kw1,kw2" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -59,13 +59,13 @@ func AppsSearchKeywordsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc apps search-keywords list --app \"APP_ID\"",
+		ShortUsage: "aso apps search-keywords list --app \"APP_ID\"",
 		ShortHelp:  "List search keywords for an app.",
 		LongHelp: `List search keywords for an app.
 
 Examples:
-  asc apps search-keywords list --app "APP_ID"
-  asc apps search-keywords list --app "APP_ID" --platform IOS --locale "en-US"`,
+  aso apps search-keywords list --app "APP_ID"
+  aso apps search-keywords list --app "APP_ID" --platform IOS --locale "en-US"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -148,12 +148,12 @@ func AppsSearchKeywordsSetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc apps search-keywords set --app \"APP_ID\" --keywords \"kw1,kw2\" --confirm",
+		ShortUsage: "aso apps search-keywords set --app \"APP_ID\" --keywords \"kw1,kw2\" --confirm",
 		ShortHelp:  "Replace search keywords for an app.",
 		LongHelp: `Replace search keywords for an app.
 
 Examples:
-  asc apps search-keywords set --app "APP_ID" --keywords "kw1,kw2" --confirm`,
+  aso apps search-keywords set --app "APP_ID" --keywords "kw1,kw2" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

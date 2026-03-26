@@ -28,13 +28,13 @@ func TestVisibleHelpFlagsFiltersHiddenFlags(t *testing.T) {
 func TestRewriteCommandTreePathRewritesRuntimeErrorPrefix(t *testing.T) {
 	cmd := &ffcli.Command{
 		Name:       "values",
-		ShortUsage: "asc offer-codes values [flags]",
+		ShortUsage: "aso offer-codes values [flags]",
 		Exec: func(ctx context.Context, args []string) error {
 			return fmt.Errorf("offer-codes values: %w", errors.New("boom"))
 		},
 	}
 
-	rewritten := RewriteCommandTreePath(cmd, "asc offer-codes", "asc subscriptions offer-codes")
+	rewritten := RewriteCommandTreePath(cmd, "aso offer-codes", "aso subscriptions offer-codes")
 	if rewritten == nil {
 		t.Fatal("expected rewritten command")
 	}

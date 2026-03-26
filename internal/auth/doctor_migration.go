@@ -9,7 +9,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 type DoctorMigrationHints struct {
@@ -498,7 +498,7 @@ func buildMigrationChecks(signals migrationSignals, suggestions []string) []Doct
 		if len(signals.bundlerFiles) > 0 {
 			checks = append(checks, DoctorCheck{
 				Status:  DoctorInfo,
-				Message: "No asc command suggestions matched detected Bundler files",
+				Message: "No aso command suggestions matched detected Bundler files",
 			})
 		}
 		return checks
@@ -564,22 +564,22 @@ func buildSuggestedCommands(signals migrationSignals, resolver MigrationSuggesti
 	values = fallbackMigrationCommandValues(values)
 
 	if hasAuthSignal {
-		add(`asc auth login --name "MyKey" --key-id "KEY_ID" --issuer-id "ISSUER_ID" --private-key /path/to/AuthKey.p8`)
+		add(`aso auth login --name "MyKey" --key-id "KEY_ID" --issuer-id "ISSUER_ID" --private-key /path/to/AuthKey.p8`)
 	}
 	if hasMetadataSignal {
 		fastlaneDir := formatFastlaneDir(signals.fastlaneDir)
-		add(fmt.Sprintf("asc migrate validate --fastlane-dir %s", fastlaneDir))
-		add(fmt.Sprintf(`asc migrate import --app %q --version-id %q --fastlane-dir %s`, values.appID, values.versionID, fastlaneDir))
+		add(fmt.Sprintf("aso migrate validate --fastlane-dir %s", fastlaneDir))
+		add(fmt.Sprintf(`aso migrate import --app %q --version-id %q --fastlane-dir %s`, values.appID, values.versionID, fastlaneDir))
 	}
 	if hasBuildSignal {
-		add(fmt.Sprintf(`asc builds latest --app %q`, values.appID))
+		add(fmt.Sprintf(`aso builds latest --app %q`, values.appID))
 	}
 	if hasTestflightSignal {
-		add(fmt.Sprintf(`asc publish testflight --app %q --ipa app.ipa --group "GROUP_ID"`, values.appID))
+		add(fmt.Sprintf(`aso publish testflight --app %q --ipa app.ipa --group "GROUP_ID"`, values.appID))
 	}
 	if hasAppStoreSignal {
-		add(fmt.Sprintf(`asc publish appstore --app %q --ipa app.ipa --version %q --submit --confirm`, values.appID, values.versionString))
-		add(fmt.Sprintf(`asc submit create --app %q --version %q --build %q --confirm`, values.appID, values.versionString, values.buildID))
+		add(fmt.Sprintf(`aso publish appstore --app %q --ipa app.ipa --version %q --submit --confirm`, values.appID, values.versionString))
+		add(fmt.Sprintf(`aso submit create --app %q --version %q --build %q --confirm`, values.appID, values.versionString, values.buildID))
 	}
 
 	return commands

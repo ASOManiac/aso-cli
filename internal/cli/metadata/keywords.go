@@ -16,9 +16,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 const (
@@ -198,7 +198,7 @@ func MetadataKeywordsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "keywords",
-		ShortUsage: "asc metadata keywords <subcommand> [flags]",
+		ShortUsage: "aso metadata keywords <subcommand> [flags]",
 		ShortHelp:  "Manage canonical version-localization keyword metadata.",
 		LongHelp: `Manage canonical version-localization keyword metadata.
 
@@ -207,15 +207,15 @@ inside ` + "`./metadata/version/<version>/<locale>.json`" + ` files.
 
 It does not front the raw App Store Connect ` + "`searchKeywords`" + `
 relationship APIs. Those low-level surfaces remain available under:
-  - ` + "`asc apps search-keywords ...`" + `
-  - ` + "`asc localizations search-keywords ...`" + `
+  - ` + "`aso apps search-keywords ...`" + `
+  - ` + "`aso localizations search-keywords ...`" + `
 
 Examples:
-  asc metadata keywords import --dir "./metadata" --version "1.2.3" --locale "en-US" --input "./keywords.csv"
-  asc metadata keywords plan --app "APP_ID" --version "1.2.3" --dir "./metadata"
-  asc metadata keywords localize --dir "./metadata" --version "1.2.3" --from-locale "en-US" --to-locales "fr-FR,de-DE"
-  asc metadata keywords apply --app "APP_ID" --version "1.2.3" --dir "./metadata" --confirm
-  asc metadata keywords sync --app "APP_ID" --version "1.2.3" --dir "./metadata" --input "./keywords.json" --format json --confirm`,
+  aso metadata keywords import --dir "./metadata" --version "1.2.3" --locale "en-US" --input "./keywords.csv"
+  aso metadata keywords plan --app "APP_ID" --version "1.2.3" --dir "./metadata"
+  aso metadata keywords localize --dir "./metadata" --version "1.2.3" --from-locale "en-US" --to-locales "fr-FR,de-DE"
+  aso metadata keywords apply --app "APP_ID" --version "1.2.3" --dir "./metadata" --confirm
+  aso metadata keywords sync --app "APP_ID" --version "1.2.3" --dir "./metadata" --input "./keywords.json" --format json --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -247,7 +247,7 @@ func MetadataKeywordsImportCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "import",
-		ShortUsage: "asc metadata keywords import --dir \"./metadata\" --version \"1.2.3\" --input \"./keywords.csv\" [flags]",
+		ShortUsage: "aso metadata keywords import --dir \"./metadata\" --version \"1.2.3\" --input \"./keywords.csv\" [flags]",
 		ShortHelp:  "Import provider keyword exports into canonical metadata files.",
 		LongHelp: `Import provider keyword exports into canonical metadata files.
 
@@ -258,9 +258,9 @@ Supported input formats:
   - astro-csv: Astro keyword export CSV using the documented Keyword column (requires --locale unless locale data is present)
 
 Examples:
-  asc metadata keywords import --dir "./metadata" --version "1.2.3" --locale "en-US" --input "./keywords.csv"
-  asc metadata keywords import --dir "./metadata" --version "1.2.3" --format json --input "./keywords.json"
-  asc metadata keywords import --dir "./metadata" --version "1.2.3" --format text --locale "fr-FR" --input "./keywords.txt" --dry-run`,
+  aso metadata keywords import --dir "./metadata" --version "1.2.3" --locale "en-US" --input "./keywords.csv"
+  aso metadata keywords import --dir "./metadata" --version "1.2.3" --format json --input "./keywords.json"
+  aso metadata keywords import --dir "./metadata" --version "1.2.3" --format text --locale "fr-FR" --input "./keywords.txt" --dry-run`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -316,7 +316,7 @@ func MetadataKeywordsPlanCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "plan",
-		ShortUsage: "asc metadata keywords plan --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" [flags]",
+		ShortUsage: "aso metadata keywords plan --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" [flags]",
 		ShortHelp:  "Preview keyword-only changes against App Store Connect.",
 		LongHelp: `Preview keyword-only changes against App Store Connect.
 
@@ -324,8 +324,8 @@ This command reads local canonical metadata files, looks only at the version
 localization ` + "`keywords`" + ` field, and builds a non-mutating plan.
 
 Examples:
-  asc metadata keywords plan --app "APP_ID" --version "1.2.3" --dir "./metadata"
-  asc metadata keywords plan --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata"`,
+  aso metadata keywords plan --app "APP_ID" --version "1.2.3" --dir "./metadata"
+  aso metadata keywords plan --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -352,7 +352,7 @@ func MetadataKeywordsDiffCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "diff",
-		ShortUsage: "asc metadata keywords diff --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" [flags]",
+		ShortUsage: "aso metadata keywords diff --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" [flags]",
 		ShortHelp:  "Diff local canonical keywords against App Store Connect.",
 		LongHelp: `Diff local canonical keywords against App Store Connect.
 
@@ -360,8 +360,8 @@ This is a keyword-focused alias of the planning flow, intended for human review
 of local-vs-remote keyword changes before apply.
 
 Examples:
-  asc metadata keywords diff --app "APP_ID" --version "1.2.3" --dir "./metadata"
-  asc metadata keywords diff --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata"`,
+  aso metadata keywords diff --app "APP_ID" --version "1.2.3" --dir "./metadata"
+  aso metadata keywords diff --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -416,7 +416,7 @@ func MetadataKeywordsLocalizeCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localize",
-		ShortUsage: "asc metadata keywords localize --dir \"./metadata\" --version \"1.2.3\" --from-locale \"en-US\" --to-locales \"fr-FR,de-DE\" [flags]",
+		ShortUsage: "aso metadata keywords localize --dir \"./metadata\" --version \"1.2.3\" --from-locale \"en-US\" --to-locales \"fr-FR,de-DE\" [flags]",
 		ShortHelp:  "Copy one locale's canonical keywords into other locales.",
 		LongHelp: `Copy one locale's canonical keywords into other locales.
 
@@ -425,8 +425,8 @@ more target locale files. It does not translate terms; it seeds target locale
 files so they can be reviewed and refined before apply.
 
 Examples:
-  asc metadata keywords localize --dir "./metadata" --version "1.2.3" --from-locale "en-US" --to-locales "fr-FR,de-DE"
-  asc metadata keywords localize --dir "./metadata" --version "1.2.3" --from-locale "en-US" --to-locales "it,es-MX" --overwrite --dry-run`,
+  aso metadata keywords localize --dir "./metadata" --version "1.2.3" --from-locale "en-US" --to-locales "fr-FR,de-DE"
+  aso metadata keywords localize --dir "./metadata" --version "1.2.3" --from-locale "en-US" --to-locales "it,es-MX" --overwrite --dry-run`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -482,7 +482,7 @@ func MetadataKeywordsApplyCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "apply",
-		ShortUsage: "asc metadata keywords apply --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" --confirm [flags]",
+		ShortUsage: "aso metadata keywords apply --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" --confirm [flags]",
 		ShortHelp:  "Apply keyword-only metadata changes to App Store Connect.",
 		LongHelp: `Apply keyword-only metadata changes to App Store Connect.
 
@@ -490,8 +490,8 @@ This command mutates only the version-localization ` + "`keywords`" + ` field.
 Other version metadata fields remain untouched by updates performed here.
 
 Examples:
-  asc metadata keywords apply --app "APP_ID" --version "1.2.3" --dir "./metadata" --confirm
-  asc metadata keywords apply --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata" --confirm`,
+  aso metadata keywords apply --app "APP_ID" --version "1.2.3" --dir "./metadata" --confirm
+  aso metadata keywords apply --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -542,7 +542,7 @@ func MetadataKeywordsSyncCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "sync",
-		ShortUsage: "asc metadata keywords sync --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" --input \"./keywords.csv\" [flags]",
+		ShortUsage: "aso metadata keywords sync --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" --input \"./keywords.csv\" [flags]",
 		ShortHelp:  "Import keyword input and sync the resulting keyword plan.",
 		LongHelp: `Import keyword input and sync the resulting keyword plan.
 
@@ -555,9 +555,9 @@ Without ` + "`--confirm`" + `, sync writes local files (unless ` + "`--dry-run`"
 and returns a non-mutating remote plan.
 
 Examples:
-  asc metadata keywords sync --app "APP_ID" --version "1.2.3" --dir "./metadata" --input "./keywords.csv"
-  asc metadata keywords sync --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata" --input "./keywords.json" --format json --confirm
-  asc metadata keywords sync --app "APP_ID" --version "1.2.3" --dir "./metadata" --format text --locale "en-US" --input "./keywords.txt" --dry-run`,
+  aso metadata keywords sync --app "APP_ID" --version "1.2.3" --dir "./metadata" --input "./keywords.csv"
+  aso metadata keywords sync --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata" --input "./keywords.json" --format json --confirm
+  aso metadata keywords sync --app "APP_ID" --version "1.2.3" --dir "./metadata" --format text --locale "en-US" --input "./keywords.txt" --dry-run`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -4,7 +4,7 @@ package asc
 // All callers continue to use asc.ResourceType, asc.Resource[T], etc. without changes.
 // The canonical definitions now live in internal/asc/types/.
 
-import "github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc/types"
+import "github.com/ASOManiac/aso-cli/internal/asc/types"
 
 // Core types — aliases to types package.
 type (

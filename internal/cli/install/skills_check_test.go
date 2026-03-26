@@ -12,7 +12,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 func TestSkillsAutoCheckEnabled(t *testing.T) {

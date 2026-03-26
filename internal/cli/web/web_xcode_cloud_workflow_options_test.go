@@ -12,7 +12,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func TestBindJSONOnlyOutputFlagsDefaultsToJSON(t *testing.T) {

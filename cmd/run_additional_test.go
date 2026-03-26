@@ -24,8 +24,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 func TestRun_VersionFlag(t *testing.T) {
@@ -230,19 +230,19 @@ func TestShouldCancelRunContextAfterError(t *testing.T) {
 
 func TestShouldRunSkillsUpdateCheck(t *testing.T) {
 	t.Run("runs for successful subcommand context", func(t *testing.T) {
-		if !shouldRunSkillsUpdateCheck("asc completion", context.Background()) {
+		if !shouldRunSkillsUpdateCheck("aso completion", context.Background()) {
 			t.Fatal("expected skills update check to run for successful subcommand")
 		}
 	})
 
 	t.Run("skips for root command", func(t *testing.T) {
-		if shouldRunSkillsUpdateCheck("asc", context.Background()) {
+		if shouldRunSkillsUpdateCheck("aso", context.Background()) {
 			t.Fatal("expected skills update check to be skipped for root command")
 		}
 	})
 
 	t.Run("skips for install-skills command", func(t *testing.T) {
-		if shouldRunSkillsUpdateCheck("asc install-skills", context.Background()) {
+		if shouldRunSkillsUpdateCheck("aso install-skills", context.Background()) {
 			t.Fatal("expected skills update check to be skipped for install-skills command")
 		}
 	})
@@ -251,7 +251,7 @@ func TestShouldRunSkillsUpdateCheck(t *testing.T) {
 		ctx, cancel := context.WithCancel(context.Background())
 		cancel()
 
-		if shouldRunSkillsUpdateCheck("asc web auth login", ctx) {
+		if shouldRunSkillsUpdateCheck("aso web auth login", ctx) {
 			t.Fatal("expected skills update check to be skipped for canceled run context")
 		}
 	})
@@ -444,10 +444,10 @@ func TestRootCommand_ReleaseHelpMentionsCanonicalPathAndStatus(t *testing.T) {
 	if !strings.Contains(usage, "canonical path") {
 		t.Fatalf("expected release help to describe the canonical path, got %q", usage)
 	}
-	if !strings.Contains(usage, `asc status --app "APP_ID"`) {
+	if !strings.Contains(usage, `aso status --app "APP_ID"`) {
 		t.Fatalf("expected release help to mention status monitoring, got %q", usage)
 	}
-	if !strings.Contains(usage, `asc submit create --app "APP_ID" --version "VERSION" --build "BUILD_ID" --confirm`) {
+	if !strings.Contains(usage, `aso submit create --app "APP_ID" --version "VERSION" --build "BUILD_ID" --confirm`) {
 		t.Fatalf("expected release help to keep low-level submit guidance discoverable, got %q", usage)
 	}
 }
@@ -467,10 +467,10 @@ func TestRootCommand_WorkflowHelpMentionsReleaseAndStatusMonitoring(t *testing.T
 	}
 
 	usage := workflowCmd.UsageFunc(workflowCmd)
-	if !strings.Contains(usage, `asc release run --app $APP_ID --version $VERSION --build $BUILD_ID --metadata-dir ./metadata/version/$VERSION --confirm`) {
+	if !strings.Contains(usage, `aso release run --app $APP_ID --version $VERSION --build $BUILD_ID --metadata-dir ./metadata/version/$VERSION --confirm`) {
 		t.Fatalf("expected workflow help to show the high-level release step, got %q", usage)
 	}
-	if !strings.Contains(usage, `asc status --app "APP_ID"`) {
+	if !strings.Contains(usage, `aso status --app "APP_ID"`) {
 		t.Fatalf("expected workflow help to mention post-release status monitoring, got %q", usage)
 	}
 }
@@ -891,7 +891,7 @@ func TestWriteJUnitReport(t *testing.T) {
 	})
 
 	runErr := errors.New("boom")
-	if err := writeJUnitReport("asc builds list", runErr, 2*time.Second); err != nil {
+	if err := writeJUnitReport("aso builds list", runErr, 2*time.Second); err != nil {
 		t.Fatalf("writeJUnitReport() error: %v", err)
 	}
 
@@ -916,7 +916,7 @@ func TestWriteJUnitReport(t *testing.T) {
 	if suite.Failures != 1 {
 		t.Fatalf("failures = %d, want 1", suite.Failures)
 	}
-	if len(suite.TestCases) != 1 || suite.TestCases[0].Name != "asc builds list" {
+	if len(suite.TestCases) != 1 || suite.TestCases[0].Name != "aso builds list" {
 		t.Fatalf("unexpected testcase payload: %+v", suite.TestCases)
 	}
 	if suite.TestCases[0].Failure == nil || suite.TestCases[0].Failure.Type != "ERROR" {

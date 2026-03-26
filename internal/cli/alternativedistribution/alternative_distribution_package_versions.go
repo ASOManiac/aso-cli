@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AlternativeDistributionPackageVersionsCommand returns the package versions command group.
@@ -19,15 +19,15 @@ func AlternativeDistributionPackageVersionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "versions",
-		ShortUsage: "asc alternative-distribution packages versions <subcommand> [flags]",
+		ShortUsage: "aso alternative-distribution packages versions <subcommand> [flags]",
 		ShortHelp:  "Manage alternative distribution package versions.",
 		LongHelp: `Manage alternative distribution package versions.
 
 Examples:
-  asc alternative-distribution packages versions list --package-id "PACKAGE_ID"
-  asc alternative-distribution packages versions get --version-id "VERSION_ID"
-  asc alternative-distribution packages versions deltas --version-id "VERSION_ID"
-  asc alternative-distribution packages versions variants --version-id "VERSION_ID"`,
+  aso alternative-distribution packages versions list --package-id "PACKAGE_ID"
+  aso alternative-distribution packages versions get --version-id "VERSION_ID"
+  aso alternative-distribution packages versions deltas --version-id "VERSION_ID"
+  aso alternative-distribution packages versions variants --version-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -54,13 +54,13 @@ func AlternativeDistributionPackageVersionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc alternative-distribution packages versions list --package-id \"PACKAGE_ID\" [flags]",
+		ShortUsage: "aso alternative-distribution packages versions list --package-id \"PACKAGE_ID\" [flags]",
 		ShortHelp:  "List alternative distribution package versions.",
 		LongHelp: `List alternative distribution package versions.
 
 Examples:
-  asc alternative-distribution packages versions list --package-id "PACKAGE_ID"
-  asc alternative-distribution packages versions list --package-id "PACKAGE_ID" --paginate`,
+  aso alternative-distribution packages versions list --package-id "PACKAGE_ID"
+  aso alternative-distribution packages versions list --package-id "PACKAGE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -125,12 +125,12 @@ func AlternativeDistributionPackageVersionsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc alternative-distribution packages versions get --version-id \"VERSION_ID\"",
+		ShortUsage: "aso alternative-distribution packages versions get --version-id \"VERSION_ID\"",
 		ShortHelp:  "Get an alternative distribution package version.",
 		LongHelp: `Get an alternative distribution package version.
 
 Examples:
-  asc alternative-distribution packages versions get --version-id "VERSION_ID"`,
+  aso alternative-distribution packages versions get --version-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -170,13 +170,13 @@ func AlternativeDistributionPackageVersionsDeltasCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "deltas",
-		ShortUsage: "asc alternative-distribution packages versions deltas --version-id \"VERSION_ID\" [flags]",
+		ShortUsage: "aso alternative-distribution packages versions deltas --version-id \"VERSION_ID\" [flags]",
 		ShortHelp:  "List alternative distribution package deltas.",
 		LongHelp: `List alternative distribution package deltas.
 
 Examples:
-  asc alternative-distribution packages versions deltas --version-id "VERSION_ID"
-  asc alternative-distribution packages versions deltas --version-id "VERSION_ID" --paginate`,
+  aso alternative-distribution packages versions deltas --version-id "VERSION_ID"
+  aso alternative-distribution packages versions deltas --version-id "VERSION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -244,13 +244,13 @@ func AlternativeDistributionPackageVersionsVariantsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "variants",
-		ShortUsage: "asc alternative-distribution packages versions variants --version-id \"VERSION_ID\" [flags]",
+		ShortUsage: "aso alternative-distribution packages versions variants --version-id \"VERSION_ID\" [flags]",
 		ShortHelp:  "List alternative distribution package variants.",
 		LongHelp: `List alternative distribution package variants.
 
 Examples:
-  asc alternative-distribution packages versions variants --version-id "VERSION_ID"
-  asc alternative-distribution packages versions variants --version-id "VERSION_ID" --paginate`,
+  aso alternative-distribution packages versions variants --version-id "VERSION_ID"
+  aso alternative-distribution packages versions variants --version-id "VERSION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

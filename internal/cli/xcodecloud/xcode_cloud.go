@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const xcodeCloudAppFlagUsage = "App Store Connect app ID, bundle ID, or exact app name (or ASC_APP_ID env)"
@@ -31,22 +31,22 @@ func XcodeCloudCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "xcode-cloud",
-		ShortUsage: "asc xcode-cloud <subcommand> [flags]",
+		ShortUsage: "aso xcode-cloud <subcommand> [flags]",
 		ShortHelp:  "Trigger and monitor Xcode Cloud workflows.",
 		LongHelp: `Trigger and monitor Xcode Cloud workflows.
 
 Examples:
-  asc xcode-cloud workflows --app "APP_ID"
-  asc xcode-cloud build-runs --workflow-id "WORKFLOW_ID"
-  asc xcode-cloud actions --run-id "BUILD_RUN_ID"
-  asc xcode-cloud scm providers list
-  asc xcode-cloud run --app "APP_ID" --workflow "WorkflowName" --branch "main"
-  asc xcode-cloud run --workflow-id "WORKFLOW_ID" --git-reference-id "REF_ID"
-  asc xcode-cloud run --workflow-id "WORKFLOW_ID" --pull-request-id "PR_ID"
-  asc xcode-cloud run --source-run-id "BUILD_RUN_ID" --clean
-  asc xcode-cloud run --app "APP_ID" --workflow "Deploy" --branch "main" --wait
-  asc xcode-cloud status --run-id "BUILD_RUN_ID"
-  asc xcode-cloud status --run-id "BUILD_RUN_ID" --wait`,
+  aso xcode-cloud workflows --app "APP_ID"
+  aso xcode-cloud build-runs --workflow-id "WORKFLOW_ID"
+  aso xcode-cloud actions --run-id "BUILD_RUN_ID"
+  aso xcode-cloud scm providers list
+  aso xcode-cloud run --app "APP_ID" --workflow "WorkflowName" --branch "main"
+  aso xcode-cloud run --workflow-id "WORKFLOW_ID" --git-reference-id "REF_ID"
+  aso xcode-cloud run --workflow-id "WORKFLOW_ID" --pull-request-id "PR_ID"
+  aso xcode-cloud run --source-run-id "BUILD_RUN_ID" --clean
+  aso xcode-cloud run --app "APP_ID" --workflow "Deploy" --branch "main" --wait
+  aso xcode-cloud status --run-id "BUILD_RUN_ID"
+  aso xcode-cloud status --run-id "BUILD_RUN_ID" --wait`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -88,7 +88,7 @@ func XcodeCloudRunCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "run",
-		ShortUsage: "asc xcode-cloud run [flags]",
+		ShortUsage: "aso xcode-cloud run [flags]",
 		ShortHelp:  "Trigger an Xcode Cloud workflow build.",
 		LongHelp: `Trigger an Xcode Cloud workflow build.
 
@@ -100,12 +100,12 @@ Rerun mode:
 - Use --source-run-id to rerun from an existing build run (without workflow/source selectors)
 
 Examples:
-  asc xcode-cloud run --app "123456789" --workflow "CI" --branch "main"
-  asc xcode-cloud run --workflow-id "WORKFLOW_ID" --git-reference-id "REF_ID"
-  asc xcode-cloud run --workflow-id "WORKFLOW_ID" --pull-request-id "PR_ID"
-  asc xcode-cloud run --source-run-id "BUILD_RUN_ID" --clean
-  asc xcode-cloud run --app "123456789" --workflow "Deploy" --branch "release/1.0" --wait
-  asc xcode-cloud run --app "123456789" --workflow "CI" --branch "main" --wait --poll-interval 30s --timeout 1h`,
+  aso xcode-cloud run --app "123456789" --workflow "CI" --branch "main"
+  aso xcode-cloud run --workflow-id "WORKFLOW_ID" --git-reference-id "REF_ID"
+  aso xcode-cloud run --workflow-id "WORKFLOW_ID" --pull-request-id "PR_ID"
+  aso xcode-cloud run --source-run-id "BUILD_RUN_ID" --clean
+  aso xcode-cloud run --app "123456789" --workflow "Deploy" --branch "release/1.0" --wait
+  aso xcode-cloud run --app "123456789" --workflow "CI" --branch "main" --wait --poll-interval 30s --timeout 1h`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -327,15 +327,15 @@ func XcodeCloudStatusCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "status",
-		ShortUsage: "asc xcode-cloud status [flags]",
+		ShortUsage: "aso xcode-cloud status [flags]",
 		ShortHelp:  "Check the status of an Xcode Cloud build run.",
 		LongHelp: `Check the status of an Xcode Cloud build run.
 
 Examples:
-  asc xcode-cloud status --run-id "BUILD_RUN_ID"
-  asc xcode-cloud status --run-id "BUILD_RUN_ID" --output table
-  asc xcode-cloud status --run-id "BUILD_RUN_ID" --wait
-  asc xcode-cloud status --run-id "BUILD_RUN_ID" --wait --poll-interval 30s --timeout 1h`,
+  aso xcode-cloud status --run-id "BUILD_RUN_ID"
+  aso xcode-cloud status --run-id "BUILD_RUN_ID" --output table
+  aso xcode-cloud status --run-id "BUILD_RUN_ID" --wait
+  aso xcode-cloud status --run-id "BUILD_RUN_ID" --wait --poll-interval 30s --timeout 1h`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

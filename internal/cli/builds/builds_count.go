@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildsCountCommand returns the builds count subcommand.
@@ -26,7 +26,7 @@ func BuildsCountCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "count",
-		ShortUsage: "asc builds count [flags]",
+		ShortUsage: "aso builds count [flags]",
 		ShortHelp:  "Count total builds for an app in App Store Connect.",
 		LongHelp: `Count the total number of builds for an app in App Store Connect.
 
@@ -34,17 +34,17 @@ Prefers meta.paging.total from the API response, so most counts finish in a
 single request with limit=1. If App Store Connect omits the total, falls back
 to paginating and counting the matching builds.
 
-Supports the same filters as "asc builds list" so you can count builds
+Supports the same filters as "aso builds list" so you can count builds
 matching specific criteria without fetching them all.
 
 Examples:
-  asc builds count --app "123456789"
-  asc builds count --app "123456789" --version "2.1.0"
-  asc builds count --app "123456789" --build-number "42"
-  asc builds count --app "123456789" --platform IOS
-  asc builds count --app "123456789" --processing-state VALID
-  asc builds count --app "123456789" --processing-state all
-  asc builds count --app "123456789" --version "2.1.0" --platform IOS --output json`,
+  aso builds count --app "123456789"
+  aso builds count --app "123456789" --version "2.1.0"
+  aso builds count --app "123456789" --build-number "42"
+  aso builds count --app "123456789" --platform IOS
+  aso builds count --app "123456789" --processing-state VALID
+  aso builds count --app "123456789" --processing-state all
+  aso builds count --app "123456789" --version "2.1.0" --platform IOS --output json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

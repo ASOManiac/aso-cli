@@ -1,6 +1,6 @@
 package versions
 
-import "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+import "github.com/ASOManiac/aso-cli/internal/cli/shared"
 
 func normalizeAppStoreVersionInclude(value string) ([]string, error) {
 	return shared.NormalizeSelection(value, appStoreVersionIncludeList(), "--include")

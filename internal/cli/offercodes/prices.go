@@ -7,8 +7,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // OfferCodePricesCommand returns the prices command group.
@@ -17,12 +17,12 @@ func OfferCodePricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "prices",
-		ShortUsage: "asc offer-codes prices <subcommand> [flags]",
+		ShortUsage: "aso offer-codes prices <subcommand> [flags]",
 		ShortHelp:  "Manage offer code prices.",
 		LongHelp: `Manage offer code prices.
 
 Examples:
-  asc offer-codes prices list --offer-code-id "OFFER_CODE_ID"`,
+  aso offer-codes prices list --offer-code-id "OFFER_CODE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -39,14 +39,14 @@ func OfferCodePricesListCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "list",
 		Name:        "list",
-		ShortUsage:  "asc offer-codes prices list [flags]",
+		ShortUsage:  "aso offer-codes prices list [flags]",
 		ShortHelp:   "List prices for a subscription offer code.",
 		LongHelp: `List prices for a subscription offer code.
 
 Examples:
-  asc offer-codes prices list --offer-code-id "OFFER_CODE_ID"
-  asc offer-codes prices list --offer-code-id "OFFER_CODE_ID" --limit 50
-  asc offer-codes prices list --offer-code-id "OFFER_CODE_ID" --paginate`,
+  aso offer-codes prices list --offer-code-id "OFFER_CODE_ID"
+  aso offer-codes prices list --offer-code-id "OFFER_CODE_ID" --limit 50
+  aso offer-codes prices list --offer-code-id "OFFER_CODE_ID" --paginate`,
 		ParentFlag:  "offer-code-id",
 		ParentUsage: "Subscription offer code ID (required)",
 		LimitMax:    offerCodesMaxLimit,

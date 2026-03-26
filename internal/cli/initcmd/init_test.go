@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/docs"
+	"github.com/ASOManiac/aso-cli/internal/cli/docs"
 )
 
 func TestInitCommandMetadata(t *testing.T) {
@@ -19,7 +19,7 @@ func TestInitCommandMetadata(t *testing.T) {
 	if cmd.Name != "init" {
 		t.Fatalf("expected command name init, got %q", cmd.Name)
 	}
-	if cmd.ShortUsage != "asc init [flags]" {
+	if cmd.ShortUsage != "aso init [flags]" {
 		t.Fatalf("unexpected short usage %q", cmd.ShortUsage)
 	}
 	if cmd.UsageFunc == nil {

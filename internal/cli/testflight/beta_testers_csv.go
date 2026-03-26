@@ -15,8 +15,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type betaTestersCSVRow struct {
@@ -70,7 +70,7 @@ func BetaTestersExportCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "export",
-		ShortUsage: "asc testflight beta-testers export --app \"APP_ID\" --output \"./testers.csv\" [flags]",
+		ShortUsage: "aso testflight beta-testers export --app \"APP_ID\" --output \"./testers.csv\" [flags]",
 		ShortHelp:  "Export TestFlight beta testers to a CSV file.",
 		LongHelp: `Export TestFlight beta testers to a CSV file.
 
@@ -79,11 +79,11 @@ CSV format:
   - groups are semicolon-delimited when present (for fastlane compatibility)
 
 Examples:
-  asc testflight beta-testers export --app "APP_ID" --output "./testflight-testers.csv"
-  asc testflight beta-testers export --app "APP_ID" --group "Beta" --output "./testers.csv"
-  asc testflight beta-testers export --app "APP_ID" --build "BUILD_ID" --output "./testers.csv"
-  asc testflight beta-testers export --app "APP_ID" --email "tester@example.com" --output "./testers.csv"
-  asc testflight beta-testers export --app "APP_ID" --output "./testers.csv" --include-groups`,
+  aso testflight beta-testers export --app "APP_ID" --output "./testflight-testers.csv"
+  aso testflight beta-testers export --app "APP_ID" --group "Beta" --output "./testers.csv"
+  aso testflight beta-testers export --app "APP_ID" --build "BUILD_ID" --output "./testers.csv"
+  aso testflight beta-testers export --app "APP_ID" --email "tester@example.com" --output "./testers.csv"
+  aso testflight beta-testers export --app "APP_ID" --output "./testers.csv" --include-groups`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -257,7 +257,7 @@ func BetaTestersImportCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "import",
-		ShortUsage: "asc testflight beta-testers import --app \"APP_ID\" --input \"./testers.csv\" [flags]",
+		ShortUsage: "aso testflight beta-testers import --app \"APP_ID\" --input \"./testers.csv\" [flags]",
 		ShortHelp:  "Import TestFlight beta testers from a CSV file.",
 		LongHelp: `Import TestFlight beta testers from a CSV file.
 
@@ -273,10 +273,10 @@ Groups are semicolon-delimited in canonical import/export files.
 For compatibility, comma-delimited groups are also accepted when no semicolon is present.
 
 Examples:
-  asc testflight beta-testers import --app "APP_ID" --input "./testflight-testers.csv" --dry-run
-  asc testflight beta-testers import --app "APP_ID" --input "./testflight-testers.csv"
-  asc testflight beta-testers import --app "APP_ID" --input "./testflight-testers.csv" --invite
-  asc testflight beta-testers import --app "APP_ID" --input "./testflight-testers.csv" --group "Beta"`,
+  aso testflight beta-testers import --app "APP_ID" --input "./testflight-testers.csv" --dry-run
+  aso testflight beta-testers import --app "APP_ID" --input "./testflight-testers.csv"
+  aso testflight beta-testers import --app "APP_ID" --input "./testflight-testers.csv" --invite
+  aso testflight beta-testers import --app "APP_ID" --input "./testflight-testers.csv" --group "Beta"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

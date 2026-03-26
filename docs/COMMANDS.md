@@ -4,9 +4,9 @@ This file is generated from live CLI help output.
 For authoritative command behavior, also use:
 
 ```bash
-asc --help
-asc <command> --help
-asc <command> <subcommand> --help
+aso --help
+aso <command> --help
+aso <command> <subcommand> --help
 ```
 
 To regenerate:
@@ -18,7 +18,7 @@ make generate-command-docs
 ## Usage Pattern
 
 ```bash
-asc <subcommand> [flags]
+aso <subcommand> [flags]
 ```
 
 ## Global Flags
@@ -38,8 +38,8 @@ asc <subcommand> [flags]
 
 - `auth` - Manage authentication for the App Store Connect API.
 - `doctor` - Diagnose authentication configuration issues.
-- `install-skills` - Install the asc skill pack for App Store Connect workflows.
-- `init` - Initialize asc helper docs in the current repo.
+- `install-skills` - Install the aso skill pack for App Store Connect workflows.
+- `init` - Initialize aso helper docs in the current repo.
 - `docs` - Access embedded documentation guides and reference helpers.
 
 ### Experimental Commands
@@ -156,25 +156,25 @@ asc <subcommand> [flags]
 
 ```bash
 # List apps
-asc apps list --output table
+aso apps list --output table
 
 # Upload a build
-asc builds upload --app "123456789" --ipa "/path/to/MyApp.ipa"
+aso builds upload --app "123456789" --ipa "/path/to/MyApp.ipa"
 
 # Stage an App Store version before submission
-asc release stage --app "123456789" --version "1.2.3" --build "BUILD_ID" --copy-metadata-from "1.2.2" --dry-run
+aso release stage --app "123456789" --version "1.2.3" --build "BUILD_ID" --copy-metadata-from "1.2.2" --dry-run
 
 # Release an App Store version (high-level)
-asc release run --app "123456789" --version "1.2.3" --build "BUILD_ID" --metadata-dir "./metadata/version/1.2.3" --dry-run
-asc release run --app "123456789" --version "1.2.3" --build "BUILD_ID" --metadata-dir "./metadata/version/1.2.3" --confirm
-asc status --app "123456789"
+aso release run --app "123456789" --version "1.2.3" --build "BUILD_ID" --metadata-dir "./metadata/version/1.2.3" --dry-run
+aso release run --app "123456789" --version "1.2.3" --build "BUILD_ID" --metadata-dir "./metadata/version/1.2.3" --confirm
+aso status --app "123456789"
 
 # Lower-level review/submit flow
-asc validate --app "123456789" --version "1.2.3"
-asc submit create --app "123456789" --version "1.2.3" --build "BUILD_ID" --confirm
+aso validate --app "123456789" --version "1.2.3"
+aso submit create --app "123456789" --version "1.2.3" --build "BUILD_ID" --confirm
 
 # Run a local automation workflow
-asc workflow run release
+aso workflow run release
 ```
 
 ## Related Documentation

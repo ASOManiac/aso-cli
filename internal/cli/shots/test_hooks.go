@@ -3,7 +3,7 @@ package shots
 import (
 	"context"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshots"
+	"github.com/ASOManiac/aso-cli/internal/screenshots"
 )
 
 // SetFrameFunc replaces the frame implementation for tests.

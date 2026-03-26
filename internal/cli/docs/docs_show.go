@@ -9,7 +9,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // DocsShowCommand returns the docs show subcommand.
@@ -18,13 +18,13 @@ func DocsShowCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "show",
-		ShortUsage: "asc docs show <api-notes|reference>",
+		ShortUsage: "aso docs show <api-notes|reference>",
 		ShortHelp:  "Print an embedded documentation guide.",
 		LongHelp: `Print an embedded documentation guide.
 
 Examples:
-  asc docs show api-notes
-  asc docs show reference`,
+  aso docs show api-notes
+  aso docs show reference`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

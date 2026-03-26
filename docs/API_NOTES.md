@@ -9,7 +9,7 @@ Quirks and tips for specific App Store Connect API endpoints.
   - MONTHLY: `YYYY-MM`
   - YEARLY: `YYYY`
 - Vendor number comes from Sales and Trends → Reports URL (`vendorNumber=...`)
-- Use `--paginate` with `asc analytics get --date` to avoid missing instances on later pages
+- Use `--paginate` with `aso analytics get --date` to avoid missing instances on later pages
 - Long analytics runs may require raising `ASC_TIMEOUT`
 
 ## Finance Reports
@@ -29,7 +29,7 @@ Finance reports use Apple fiscal months (`YYYY-MM`), not calendar months.
 - `FINANCE_DETAIL` reports require region code `Z1` (the only valid region for detailed reports)
 - Transaction Tax reports are NOT available via API; download manually from App Store Connect
 - Region codes reference: https://developer.apple.com/help/app-store-connect/reference/financial-report-regions-and-currencies/
-- Use `asc finance regions` to see all available region codes
+- Use `aso finance regions` to see all available region codes
 
 ## Sandbox Testers
 

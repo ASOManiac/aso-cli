@@ -1,16 +1,16 @@
 # Workflow Patterns
 
-`asc workflow` lets you compose existing `asc` commands and shell commands into
+`aso workflow` lets you compose existing `aso` commands and shell commands into
 repeatable release pipelines.
 
 ## Verified local Xcode -> TestFlight workflow
 
 This pattern was validated against a real app using:
 
-- `asc builds latest --next` to choose the next build number for a version
-- `asc xcode archive` to create a deterministic `.xcarchive`
-- `asc xcode export` to create a deterministic `.ipa`
-- `asc publish testflight --group ... --wait` to upload, wait for processing,
+- `aso builds latest --next` to choose the next build number for a version
+- `aso xcode archive` to create a deterministic `.xcarchive`
+- `aso xcode export` to create a deterministic `.ipa`
+- `aso publish testflight --group ... --wait` to upload, wait for processing,
   and add the build to a TestFlight group
 
 Create `.asc/export-options-app-store.plist`:
@@ -55,14 +55,14 @@ Create `.asc/workflow.json`:
         },
         {
           "name": "beta_resolve_next_build",
-          "run": "asc builds latest --app \"$APP_ID\" --version \"$VERSION\" --platform IOS --next --initial-build-number 1 --output json",
+          "run": "aso builds latest --app \"$APP_ID\" --version \"$VERSION\" --platform IOS --next --initial-build-number 1 --output json",
           "outputs": {
             "BUILD_NUMBER": "$.nextBuildNumber"
           }
         },
         {
           "name": "beta_archive",
-          "run": "asc xcode archive --project \"$PROJECT_PATH\" --scheme \"$SCHEME\" --configuration \"$CONFIGURATION\" --archive-path \".asc/artifacts/App-$VERSION-${steps.beta_resolve_next_build.BUILD_NUMBER}.xcarchive\" --clean --overwrite --xcodebuild-flag=-destination --xcodebuild-flag=generic/platform=iOS --xcodebuild-flag=-allowProvisioningUpdates --xcodebuild-flag=MARKETING_VERSION=$VERSION --xcodebuild-flag=CURRENT_PROJECT_VERSION=${steps.beta_resolve_next_build.BUILD_NUMBER} --output json",
+          "run": "aso xcode archive --project \"$PROJECT_PATH\" --scheme \"$SCHEME\" --configuration \"$CONFIGURATION\" --archive-path \".asc/artifacts/App-$VERSION-${steps.beta_resolve_next_build.BUILD_NUMBER}.xcarchive\" --clean --overwrite --xcodebuild-flag=-destination --xcodebuild-flag=generic/platform=iOS --xcodebuild-flag=-allowProvisioningUpdates --xcodebuild-flag=MARKETING_VERSION=$VERSION --xcodebuild-flag=CURRENT_PROJECT_VERSION=${steps.beta_resolve_next_build.BUILD_NUMBER} --output json",
           "outputs": {
             "ARCHIVE_PATH": "$.archive_path",
             "VERSION": "$.version",
@@ -71,7 +71,7 @@ Create `.asc/workflow.json`:
         },
         {
           "name": "beta_export",
-          "run": "asc xcode export --archive-path ${steps.beta_archive.ARCHIVE_PATH} --export-options \"$EXPORT_OPTIONS\" --ipa-path \".asc/artifacts/App-$VERSION-${steps.beta_archive.BUILD_NUMBER}.ipa\" --overwrite --xcodebuild-flag=-allowProvisioningUpdates --output json",
+          "run": "aso xcode export --archive-path ${steps.beta_archive.ARCHIVE_PATH} --export-options \"$EXPORT_OPTIONS\" --ipa-path \".asc/artifacts/App-$VERSION-${steps.beta_archive.BUILD_NUMBER}.ipa\" --overwrite --xcodebuild-flag=-allowProvisioningUpdates --output json",
           "outputs": {
             "IPA_PATH": "$.ipa_path",
             "VERSION": "$.version",
@@ -80,7 +80,7 @@ Create `.asc/workflow.json`:
         },
         {
           "name": "beta_publish",
-          "run": "asc publish testflight --app \"$APP_ID\" --ipa ${steps.beta_export.IPA_PATH} --group \"$TESTFLIGHT_GROUP\" --wait --poll-interval 10s --output json",
+          "run": "aso publish testflight --app \"$APP_ID\" --ipa ${steps.beta_export.IPA_PATH} --group \"$TESTFLIGHT_GROUP\" --wait --poll-interval 10s --output json",
           "outputs": {
             "BUILD_ID": "$.buildId",
             "BUILD_NUMBER": "$.buildNumber"
@@ -95,9 +95,9 @@ Create `.asc/workflow.json`:
 Run it:
 
 ```bash
-asc workflow validate
-asc workflow run --dry-run testflight_beta VERSION:1.2.3
-asc workflow run testflight_beta VERSION:1.2.3
+aso workflow validate
+aso workflow run --dry-run testflight_beta VERSION:1.2.3
+aso workflow run testflight_beta VERSION:1.2.3
 ```
 
 Notes:

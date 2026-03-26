@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate docs/COMMANDS.md from live `asc --help` output."""
+"""Generate docs/COMMANDS.md from live `aso --help` output."""
 
 from __future__ import annotations
 
@@ -39,7 +39,7 @@ def run_help_text() -> str:
 
 
 def parse_help(help_text: str) -> tuple[str, list[tuple[str, str]], list[tuple[str, list[tuple[str, str]]]]]:
-    usage = "asc <subcommand> [flags]"
+    usage = "aso <subcommand> [flags]"
     flags: list[tuple[str, str]] = []
     groups: list[tuple[str, list[tuple[str, str]]]] = []
 
@@ -47,7 +47,7 @@ def parse_help(help_text: str) -> tuple[str, list[tuple[str, str]], list[tuple[s
     current_group_index: int | None = None
 
     for line in help_text.splitlines():
-        if line.startswith("  asc "):
+        if line.startswith("  aso "):
             usage = line.strip()
 
         stripped = line.strip()
@@ -89,9 +89,9 @@ def render(usage: str, flags: list[tuple[str, str]], groups: list[tuple[str, lis
         "For authoritative command behavior, also use:",
         "",
         "```bash",
-        "asc --help",
-        "asc <command> --help",
-        "asc <command> <subcommand> --help",
+        "aso --help",
+        "aso <command> --help",
+        "aso <command> <subcommand> --help",
         "```",
         "",
         "To regenerate:",
@@ -138,25 +138,25 @@ def render(usage: str, flags: list[tuple[str, str]], groups: list[tuple[str, lis
             "",
             "```bash",
             "# List apps",
-            "asc apps list --output table",
+            "aso apps list --output table",
             "",
             "# Upload a build",
-            "asc builds upload --app \"123456789\" --ipa \"/path/to/MyApp.ipa\"",
+            "aso builds upload --app \"123456789\" --ipa \"/path/to/MyApp.ipa\"",
             "",
             "# Stage an App Store version before submission",
-            "asc release stage --app \"123456789\" --version \"1.2.3\" --build \"BUILD_ID\" --copy-metadata-from \"1.2.2\" --dry-run",
+            "aso release stage --app \"123456789\" --version \"1.2.3\" --build \"BUILD_ID\" --copy-metadata-from \"1.2.2\" --dry-run",
             "",
             "# Release an App Store version (high-level)",
-            "asc release run --app \"123456789\" --version \"1.2.3\" --build \"BUILD_ID\" --metadata-dir \"./metadata/version/1.2.3\" --dry-run",
-            "asc release run --app \"123456789\" --version \"1.2.3\" --build \"BUILD_ID\" --metadata-dir \"./metadata/version/1.2.3\" --confirm",
-            "asc status --app \"123456789\"",
+            "aso release run --app \"123456789\" --version \"1.2.3\" --build \"BUILD_ID\" --metadata-dir \"./metadata/version/1.2.3\" --dry-run",
+            "aso release run --app \"123456789\" --version \"1.2.3\" --build \"BUILD_ID\" --metadata-dir \"./metadata/version/1.2.3\" --confirm",
+            "aso status --app \"123456789\"",
             "",
             "# Lower-level review/submit flow",
-            "asc validate --app \"123456789\" --version \"1.2.3\"",
-            "asc submit create --app \"123456789\" --version \"1.2.3\" --build \"BUILD_ID\" --confirm",
+            "aso validate --app \"123456789\" --version \"1.2.3\"",
+            "aso submit create --app \"123456789\" --version \"1.2.3\" --build \"BUILD_ID\" --confirm",
             "",
             "# Run a local automation workflow",
-            "asc workflow run release",
+            "aso workflow run release",
             "```",
             "",
             "## Related Documentation",

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SandboxGetCommand returns the sandbox get subcommand.
@@ -23,13 +23,13 @@ func SandboxGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc sandbox get [flags]",
+		ShortUsage: "aso sandbox get [flags]",
 		ShortHelp:  "Get sandbox tester details.",
 		LongHelp: `Get sandbox tester details by ID or email.
 
 Examples:
-  asc sandbox get --id "SANDBOX_TESTER_ID"
-  asc sandbox get --email "tester@example.com"`,
+  aso sandbox get --id "SANDBOX_TESTER_ID"
+  aso sandbox get --email "tester@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -80,14 +80,14 @@ func SandboxUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc sandbox update [flags]",
+		ShortUsage: "aso sandbox update [flags]",
 		ShortHelp:  "Update a sandbox tester.",
 		LongHelp: `Update sandbox tester settings (v2 API).
 
 Examples:
-  asc sandbox update --id "SANDBOX_TESTER_ID" --territory "USA"
-  asc sandbox update --email "tester@example.com" --interrupt-purchases
-  asc sandbox update --id "SANDBOX_TESTER_ID" --subscription-renewal-rate "MONTHLY_RENEWAL_EVERY_ONE_HOUR"`,
+  aso sandbox update --id "SANDBOX_TESTER_ID" --territory "USA"
+  aso sandbox update --email "tester@example.com" --interrupt-purchases
+  aso sandbox update --id "SANDBOX_TESTER_ID" --subscription-renewal-rate "MONTHLY_RENEWAL_EVERY_ONE_HOUR"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -169,13 +169,13 @@ func SandboxClearHistoryCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "clear-history",
-		ShortUsage: "asc sandbox clear-history [flags]",
+		ShortUsage: "aso sandbox clear-history [flags]",
 		ShortHelp:  "Clear sandbox tester purchase history.",
 		LongHelp: `Clear purchase history for a sandbox tester (v2 API).
 
 Examples:
-  asc sandbox clear-history --id "SANDBOX_TESTER_ID" --confirm
-  asc sandbox clear-history --email "tester@example.com" --confirm`,
+  aso sandbox clear-history --id "SANDBOX_TESTER_ID" --confirm
+  aso sandbox clear-history --email "tester@example.com" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

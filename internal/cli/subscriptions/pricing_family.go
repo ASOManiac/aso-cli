@@ -6,7 +6,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SubscriptionsPricingCommand returns the canonical pricing family.
@@ -15,17 +15,17 @@ func SubscriptionsPricingCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "pricing",
-		ShortUsage: "asc subscriptions pricing <subcommand> [flags]",
+		ShortUsage: "aso subscriptions pricing <subcommand> [flags]",
 		ShortHelp:  "Manage subscription pricing.",
 		LongHelp: `Manage subscription pricing.
 
 Examples:
-  asc subscriptions pricing summary --app "APP_ID"
-  asc subscriptions pricing prices list --subscription-id "SUB_ID"
-  asc subscriptions pricing prices set --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID"
-  asc subscriptions pricing price-points list --subscription-id "SUB_ID" --territory "USA"
-  asc subscriptions pricing availability view --subscription-id "SUB_ID"
-  asc subscriptions pricing equalize --subscription-id "SUB_ID" --base-price "3.49"`,
+  aso subscriptions pricing summary --app "APP_ID"
+  aso subscriptions pricing prices list --subscription-id "SUB_ID"
+  aso subscriptions pricing prices set --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID"
+  aso subscriptions pricing price-points list --subscription-id "SUB_ID" --territory "USA"
+  aso subscriptions pricing availability view --subscription-id "SUB_ID"
+  aso subscriptions pricing equalize --subscription-id "SUB_ID" --base-price "3.49"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -47,43 +47,43 @@ func SubscriptionsPricingPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "prices",
-		ShortUsage: "asc subscriptions pricing prices <subcommand> [flags]",
+		ShortUsage: "aso subscriptions pricing prices <subcommand> [flags]",
 		ShortHelp:  "Manage subscription price records.",
 		LongHelp: `Manage subscription price records.
 
 Examples:
-  asc subscriptions pricing prices list --subscription-id "SUB_ID"
-  asc subscriptions pricing prices set --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID"
-  asc subscriptions pricing prices import --subscription-id "SUB_ID" --input "./prices.csv"
-  asc subscriptions pricing prices delete --price-id "PRICE_ID" --confirm`,
+  aso subscriptions pricing prices list --subscription-id "SUB_ID"
+  aso subscriptions pricing prices set --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID"
+  aso subscriptions pricing prices import --subscription-id "SUB_ID" --input "./prices.csv"
+  aso subscriptions pricing prices delete --price-id "PRICE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			wrapSubscriptionsCommand(
 				SubscriptionsPricesListCommand(),
-				"asc subscriptions prices list",
-				"asc subscriptions pricing prices list",
+				"aso subscriptions prices list",
+				"aso subscriptions pricing prices list",
 				"",
 				"",
 			),
 			wrapSubscriptionsCommand(
 				SubscriptionsPricesAddCommand(),
-				"asc subscriptions prices add",
-				"asc subscriptions pricing prices set",
+				"aso subscriptions prices add",
+				"aso subscriptions pricing prices set",
 				"set",
 				"Set a subscription price.",
 			),
 			wrapSubscriptionsCommand(
 				SubscriptionsPricesImportCommand(),
-				"asc subscriptions prices import",
-				"asc subscriptions pricing prices import",
+				"aso subscriptions prices import",
+				"aso subscriptions pricing prices import",
 				"",
 				"",
 			),
 			wrapSubscriptionsCommand(
 				SubscriptionsPricesDeleteCommand(),
-				"asc subscriptions prices delete",
-				"asc subscriptions pricing prices delete",
+				"aso subscriptions prices delete",
+				"aso subscriptions pricing prices delete",
 				"",
 				"",
 			),
@@ -98,8 +98,8 @@ Examples:
 func SubscriptionsPricingPricePointsCommand() *ffcli.Command {
 	return wrapSubscriptionsCommand(
 		SubscriptionsPricePointsCommand(),
-		"asc subscriptions price-points",
-		"asc subscriptions pricing price-points",
+		"aso subscriptions price-points",
+		"aso subscriptions pricing price-points",
 		"price-points",
 		"Manage subscription price points.",
 	)
@@ -109,8 +109,8 @@ func SubscriptionsPricingPricePointsCommand() *ffcli.Command {
 func SubscriptionsPricingAvailabilityCommand() *ffcli.Command {
 	cmd := wrapSubscriptionsCommand(
 		SubscriptionsAvailabilityCommand(),
-		"asc subscriptions availability",
-		"asc subscriptions pricing availability",
+		"aso subscriptions availability",
+		"aso subscriptions pricing availability",
 		"availability",
 		"Manage subscription availability.",
 	)
@@ -118,18 +118,18 @@ func SubscriptionsPricingAvailabilityCommand() *ffcli.Command {
 		cmd.Subcommands = append(cmd.Subcommands, shared.DeprecatedAliasLeafCommand(
 			viewCmd,
 			"get",
-			"asc subscriptions pricing availability get [flags]",
-			"asc subscriptions pricing availability view",
-			"Warning: `asc subscriptions pricing availability get` is deprecated. Use `asc subscriptions pricing availability view`.",
+			"aso subscriptions pricing availability get [flags]",
+			"aso subscriptions pricing availability view",
+			"Warning: `aso subscriptions pricing availability get` is deprecated. Use `aso subscriptions pricing availability view`.",
 		))
 	}
 	if editCmd := findSubscriptionsSubcommand(cmd, "edit"); editCmd != nil {
 		cmd.Subcommands = append(cmd.Subcommands, shared.DeprecatedAliasLeafCommand(
 			editCmd,
 			"set",
-			"asc subscriptions pricing availability set [flags]",
-			"asc subscriptions pricing availability edit",
-			"Warning: `asc subscriptions pricing availability set` is deprecated. Use `asc subscriptions pricing availability edit`.",
+			"aso subscriptions pricing availability set [flags]",
+			"aso subscriptions pricing availability edit",
+			"Warning: `aso subscriptions pricing availability set` is deprecated. Use `aso subscriptions pricing availability edit`.",
 		))
 	}
 	return cmd

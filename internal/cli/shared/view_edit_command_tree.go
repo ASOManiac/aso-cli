@@ -101,7 +101,7 @@ func NormalizeViewEditCommandTree(root *ffcli.Command, editPaths map[string]stru
 		changed = true
 	}
 
-	walk(nil, root, "asc "+rootName)
+	walk(nil, root, "aso "+rootName)
 	if !changed {
 		return root
 	}
@@ -137,8 +137,8 @@ func renameLeafVerb(cmd *ffcli.Command, oldPath, newName string) (*ffcli.Command
 	}
 
 	oldShortUsage := strings.TrimSpace(cmd.ShortUsage)
-	oldCommandPath := strings.TrimSpace(strings.TrimPrefix(oldPath, "asc "))
-	newCommandPath := strings.TrimSpace(strings.TrimPrefix(newPath, "asc "))
+	oldCommandPath := strings.TrimSpace(strings.TrimPrefix(oldPath, "aso "))
+	newCommandPath := strings.TrimSpace(strings.TrimPrefix(newPath, "aso "))
 
 	cmd.Name = newName
 	renameFlagSetLastToken(cmd.FlagSet, oldName, newName)

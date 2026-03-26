@@ -14,11 +14,11 @@ import (
 )
 
 const (
-	iapPricesDeprecationWarning         = "Warning: `asc iap prices` is deprecated. Use `asc iap pricing summary`."
-	iapPricePointsDeprecationWarning    = "Warning: `asc iap price-points list` is deprecated. Use `asc iap pricing price-points list`."
-	iapPriceSchedulesDeprecationWarning = "Warning: `asc iap price-schedules get` is deprecated. Use `asc iap pricing schedules view`."
-	iapAvailabilityDeprecationWarning   = "Warning: `asc iap availability get` is deprecated. Use `asc iap pricing availability view`."
-	iapAvailabilitiesDeprecationWarning = "Warning: `asc iap availabilities get` is deprecated. Use `asc iap pricing availabilities view`."
+	iapPricesDeprecationWarning         = "Warning: `aso iap prices` is deprecated. Use `aso iap pricing summary`."
+	iapPricePointsDeprecationWarning    = "Warning: `aso iap price-points list` is deprecated. Use `aso iap pricing price-points list`."
+	iapPriceSchedulesDeprecationWarning = "Warning: `aso iap price-schedules get` is deprecated. Use `aso iap pricing schedules view`."
+	iapAvailabilityDeprecationWarning   = "Warning: `aso iap availability get` is deprecated. Use `aso iap pricing availability view`."
+	iapAvailabilitiesDeprecationWarning = "Warning: `aso iap availabilities get` is deprecated. Use `aso iap pricing availabilities view`."
 )
 
 func findCommandByPath(t *testing.T, path ...string) *ffcli.Command {
@@ -126,37 +126,37 @@ func TestIAPPricingMovedSurfacesUseCanonicalHelp(t *testing.T) {
 		{
 			name:         "summary",
 			path:         []string{"iap", "pricing", "summary"},
-			wantUsage:    "asc iap pricing summary [flags]",
+			wantUsage:    "aso iap pricing summary [flags]",
 			wantContains: []string{"Show consolidated in-app purchase pricing summary."},
-			wantNotShown: []string{"asc iap prices [flags]"},
+			wantNotShown: []string{"aso iap prices [flags]"},
 		},
 		{
 			name:         "price points",
 			path:         []string{"iap", "pricing", "price-points"},
-			wantUsage:    "asc iap pricing price-points <subcommand> [flags]",
+			wantUsage:    "aso iap pricing price-points <subcommand> [flags]",
 			wantContains: []string{"list", "equalizations"},
-			wantNotShown: []string{"asc iap price-points <subcommand> [flags]"},
+			wantNotShown: []string{"aso iap price-points <subcommand> [flags]"},
 		},
 		{
 			name:         "schedules",
 			path:         []string{"iap", "pricing", "schedules"},
-			wantUsage:    "asc iap pricing schedules <subcommand> [flags]",
+			wantUsage:    "aso iap pricing schedules <subcommand> [flags]",
 			wantContains: []string{"view", "base-territory", "create", "manual-prices", "automatic-prices"},
-			wantNotShown: []string{"asc iap price-schedules <subcommand> [flags]"},
+			wantNotShown: []string{"aso iap price-schedules <subcommand> [flags]"},
 		},
 		{
 			name:         "availability",
 			path:         []string{"iap", "pricing", "availability"},
-			wantUsage:    "asc iap pricing availability <subcommand> [flags]",
+			wantUsage:    "aso iap pricing availability <subcommand> [flags]",
 			wantContains: []string{"view", "set"},
-			wantNotShown: []string{"asc iap availability <subcommand> [flags]"},
+			wantNotShown: []string{"aso iap availability <subcommand> [flags]"},
 		},
 		{
 			name:         "availabilities",
 			path:         []string{"iap", "pricing", "availabilities"},
-			wantUsage:    "asc iap pricing availabilities <subcommand> [flags]",
+			wantUsage:    "aso iap pricing availabilities <subcommand> [flags]",
 			wantContains: []string{"view", "available-territories"},
-			wantNotShown: []string{"asc iap availabilities <subcommand> [flags]"},
+			wantNotShown: []string{"aso iap availabilities <subcommand> [flags]"},
 		},
 	}
 
@@ -191,37 +191,37 @@ func TestDeprecatedIAPPricingAliasHelpPointsToCanonicalPaths(t *testing.T) {
 		{
 			name:         "prices alias",
 			path:         []string{"iap", "prices"},
-			wantUsage:    "asc iap pricing summary [flags]",
-			wantContains: []string{"DEPRECATED: use `asc iap pricing summary`."},
-			wantNotShown: []string{"asc iap prices [flags]"},
+			wantUsage:    "aso iap pricing summary [flags]",
+			wantContains: []string{"DEPRECATED: use `aso iap pricing summary`."},
+			wantNotShown: []string{"aso iap prices [flags]"},
 		},
 		{
 			name:         "price points alias",
 			path:         []string{"iap", "price-points"},
-			wantUsage:    "asc iap pricing price-points <subcommand> [flags]",
-			wantContains: []string{"Compatibility alias: use `asc iap pricing price-points ...`."},
-			wantNotShown: []string{"asc iap price-points <subcommand> [flags]"},
+			wantUsage:    "aso iap pricing price-points <subcommand> [flags]",
+			wantContains: []string{"Compatibility alias: use `aso iap pricing price-points ...`."},
+			wantNotShown: []string{"aso iap price-points <subcommand> [flags]"},
 		},
 		{
 			name:         "schedules alias",
 			path:         []string{"iap", "price-schedules"},
-			wantUsage:    "asc iap pricing schedules <subcommand> [flags]",
-			wantContains: []string{"Compatibility alias: use `asc iap pricing schedules ...`."},
-			wantNotShown: []string{"asc iap price-schedules <subcommand> [flags]"},
+			wantUsage:    "aso iap pricing schedules <subcommand> [flags]",
+			wantContains: []string{"Compatibility alias: use `aso iap pricing schedules ...`."},
+			wantNotShown: []string{"aso iap price-schedules <subcommand> [flags]"},
 		},
 		{
 			name:         "availability alias",
 			path:         []string{"iap", "availability"},
-			wantUsage:    "asc iap pricing availability <subcommand> [flags]",
-			wantContains: []string{"Compatibility alias: use `asc iap pricing availability ...`."},
-			wantNotShown: []string{"asc iap availability <subcommand> [flags]"},
+			wantUsage:    "aso iap pricing availability <subcommand> [flags]",
+			wantContains: []string{"Compatibility alias: use `aso iap pricing availability ...`."},
+			wantNotShown: []string{"aso iap availability <subcommand> [flags]"},
 		},
 		{
 			name:         "availabilities alias",
 			path:         []string{"iap", "availabilities"},
-			wantUsage:    "asc iap pricing availabilities <subcommand> [flags]",
-			wantContains: []string{"Compatibility alias: use `asc iap pricing availabilities ...`."},
-			wantNotShown: []string{"asc iap availabilities <subcommand> [flags]"},
+			wantUsage:    "aso iap pricing availabilities <subcommand> [flags]",
+			wantContains: []string{"Compatibility alias: use `aso iap pricing availabilities ...`."},
+			wantNotShown: []string{"aso iap availabilities <subcommand> [flags]"},
 		},
 	}
 

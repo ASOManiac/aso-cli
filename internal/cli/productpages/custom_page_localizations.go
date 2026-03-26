@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // CustomPageLocalizationsCommand returns the custom page localizations command group.
@@ -19,16 +19,16 @@ func CustomPageLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc product-pages custom-pages localizations <subcommand> [flags]",
+		ShortUsage: "aso product-pages custom-pages localizations <subcommand> [flags]",
 		ShortHelp:  "Manage custom product page localizations.",
 		LongHelp: `Manage custom product page localizations.
 
 Examples:
-  asc product-pages custom-pages localizations list --custom-page-version-id "VERSION_ID"
-  asc product-pages custom-pages localizations create --custom-page-version-id "VERSION_ID" --locale "en-US"
-  asc product-pages custom-pages localizations delete --localization-id "LOCALIZATION_ID" --confirm
-  asc product-pages custom-pages localizations search-keywords list --localization-id "LOCALIZATION_ID"
-  asc product-pages custom-pages localizations preview-sets list --localization-id "LOCALIZATION_ID"`,
+  aso product-pages custom-pages localizations list --custom-page-version-id "VERSION_ID"
+  aso product-pages custom-pages localizations create --custom-page-version-id "VERSION_ID" --locale "en-US"
+  aso product-pages custom-pages localizations delete --localization-id "LOCALIZATION_ID" --confirm
+  aso product-pages custom-pages localizations search-keywords list --localization-id "LOCALIZATION_ID"
+  aso product-pages custom-pages localizations preview-sets list --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -59,13 +59,13 @@ func CustomPageLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc product-pages custom-pages localizations list --custom-page-version-id \"VERSION_ID\" [flags]",
+		ShortUsage: "aso product-pages custom-pages localizations list --custom-page-version-id \"VERSION_ID\" [flags]",
 		ShortHelp:  "List custom product page localizations.",
 		LongHelp: `List custom product page localizations.
 
 Examples:
-  asc product-pages custom-pages localizations list --custom-page-version-id "VERSION_ID"
-  asc product-pages custom-pages localizations list --custom-page-version-id "VERSION_ID" --paginate`,
+  aso product-pages custom-pages localizations list --custom-page-version-id "VERSION_ID"
+  aso product-pages custom-pages localizations list --custom-page-version-id "VERSION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -131,12 +131,12 @@ func CustomPageLocalizationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc product-pages custom-pages localizations get --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso product-pages custom-pages localizations get --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:  "Get a custom product page localization by ID.",
 		LongHelp: `Get a custom product page localization by ID.
 
 Examples:
-  asc product-pages custom-pages localizations get --localization-id "LOCALIZATION_ID"`,
+  aso product-pages custom-pages localizations get --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -175,13 +175,13 @@ func CustomPageLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc product-pages custom-pages localizations create --custom-page-version-id \"VERSION_ID\" --locale \"en-US\"",
+		ShortUsage: "aso product-pages custom-pages localizations create --custom-page-version-id \"VERSION_ID\" --locale \"en-US\"",
 		ShortHelp:  "Create a custom product page localization.",
 		LongHelp: `Create a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations create --custom-page-version-id "VERSION_ID" --locale "en-US"
-  asc product-pages custom-pages localizations create --custom-page-version-id "VERSION_ID" --locale "en-US" --promotional-text "Promo copy"`,
+  aso product-pages custom-pages localizations create --custom-page-version-id "VERSION_ID" --locale "en-US"
+  aso product-pages custom-pages localizations create --custom-page-version-id "VERSION_ID" --locale "en-US" --promotional-text "Promo copy"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -225,12 +225,12 @@ func CustomPageLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc product-pages custom-pages localizations update --localization-id \"LOCALIZATION_ID\" --promotional-text \"TEXT\"",
+		ShortUsage: "aso product-pages custom-pages localizations update --localization-id \"LOCALIZATION_ID\" --promotional-text \"TEXT\"",
 		ShortHelp:  "Update a custom product page localization.",
 		LongHelp: `Update a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations update --localization-id "LOCALIZATION_ID" --promotional-text "Updated copy"`,
+  aso product-pages custom-pages localizations update --localization-id "LOCALIZATION_ID" --promotional-text "Updated copy"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -278,12 +278,12 @@ func CustomPageLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc product-pages custom-pages localizations delete --localization-id \"LOCALIZATION_ID\" --confirm",
+		ShortUsage: "aso product-pages custom-pages localizations delete --localization-id \"LOCALIZATION_ID\" --confirm",
 		ShortHelp:  "Delete a custom product page localization.",
 		LongHelp: `Delete a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations delete --localization-id "LOCALIZATION_ID" --confirm`,
+  aso product-pages custom-pages localizations delete --localization-id "LOCALIZATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

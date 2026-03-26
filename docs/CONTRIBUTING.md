@@ -65,7 +65,7 @@ ASC_BYPASS_KEYCHAIN=1 make test
 for cmd in auth analytics finance apps app-tags testflight builds versions \
            feedback crashes localizations \
            build-localizations sandbox submit xcode-cloud reviews; do
-  echo "=== $cmd ===" && ./asc $cmd --help 2>&1
+  echo "=== $cmd ===" && ./aso $cmd --help 2>&1
 done
 
 # 3. Check for duplicate sections (should see SUBCOMMANDS only once per command)

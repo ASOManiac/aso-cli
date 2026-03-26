@@ -12,8 +12,8 @@ import (
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"gopkg.in/yaml.v3"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // TestFlightConfig is the YAML export schema for TestFlight config.
@@ -98,12 +98,12 @@ func TestFlightSyncCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "sync",
-		ShortUsage: "asc testflight sync <subcommand> [flags]",
+		ShortUsage: "aso testflight sync <subcommand> [flags]",
 		ShortHelp:  "Sync TestFlight configuration.",
 		LongHelp: `Sync TestFlight configuration.
 
 Examples:
-  asc testflight sync pull --app "APP_ID" --output "./testflight.yaml"`,
+  aso testflight sync pull --app "APP_ID" --output "./testflight.yaml"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -130,14 +130,14 @@ func TestFlightSyncPullCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "pull",
-		ShortUsage: "asc testflight sync pull [flags]",
+		ShortUsage: "aso testflight sync pull [flags]",
 		ShortHelp:  "Export TestFlight configuration to YAML.",
 		LongHelp: `Export TestFlight configuration to YAML.
 
 Examples:
-  asc testflight sync pull --app "APP_ID" --output "./testflight.yaml"
-  asc testflight sync pull --app "APP_ID" --output "./testflight.yaml" --include-builds
-  asc testflight sync pull --app "APP_ID" --output "./testflight.yaml" --include-builds --include-testers`,
+  aso testflight sync pull --app "APP_ID" --output "./testflight.yaml"
+  aso testflight sync pull --app "APP_ID" --output "./testflight.yaml" --include-builds
+  aso testflight sync pull --app "APP_ID" --output "./testflight.yaml" --include-builds --include-testers`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

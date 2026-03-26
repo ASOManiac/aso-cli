@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppsCIProductCommand returns the ci-product command group.
@@ -17,12 +17,12 @@ func AppsCIProductCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "ci-product",
-		ShortUsage: "asc apps ci-product <subcommand> [flags]",
+		ShortUsage: "aso apps ci-product <subcommand> [flags]",
 		ShortHelp:  "View the CI product for an app.",
 		LongHelp: `View the CI product for an app.
 
 Examples:
-  asc apps ci-product get --id "APP_ID"`,
+  aso apps ci-product get --id "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -43,12 +43,12 @@ func AppsCIProductGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc apps ci-product get --id \"APP_ID\"",
+		ShortUsage: "aso apps ci-product get --id \"APP_ID\"",
 		ShortHelp:  "Get the CI product for an app.",
 		LongHelp: `Get the CI product for an app.
 
 Examples:
-  asc apps ci-product get --id "APP_ID"`,
+  aso apps ci-product get --id "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

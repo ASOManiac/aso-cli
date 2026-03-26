@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppEventsRelationshipsCommand returns the app event links command.
@@ -25,13 +25,13 @@ func AppEventsRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc app-events links --event-id \"EVENT_ID\" [flags]",
+		ShortUsage: "aso app-events links --event-id \"EVENT_ID\" [flags]",
 		ShortHelp:  "List localization relationships for an in-app event.",
 		LongHelp: `List localization relationships for an in-app event.
 
 Examples:
-  asc app-events links --event-id "EVENT_ID"
-  asc app-events links --event-id "EVENT_ID" --paginate`,
+  aso app-events links --event-id "EVENT_ID"
+  aso app-events links --event-id "EVENT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

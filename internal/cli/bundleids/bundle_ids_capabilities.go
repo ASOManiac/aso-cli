@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BundleIDsCapabilitiesCommand returns the bundle IDs capabilities command group.
@@ -20,15 +20,15 @@ func BundleIDsCapabilitiesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "capabilities",
-		ShortUsage: "asc bundle-ids capabilities <subcommand> [flags]",
+		ShortUsage: "aso bundle-ids capabilities <subcommand> [flags]",
 		ShortHelp:  "Manage bundle ID capabilities.",
 		LongHelp: `Manage bundle ID capabilities.
 
 Examples:
-  asc bundle-ids capabilities list --bundle "BUNDLE_ID"
-  asc bundle-ids capabilities add --bundle "BUNDLE_ID" --capability ICLOUD
-  asc bundle-ids capabilities update --id "CAPABILITY_ID" --settings '[{"key":"ICLOUD_VERSION","options":[{"key":"XCODE_13","enabled":true}]}]'
-  asc bundle-ids capabilities remove --id "CAPABILITY_ID" --confirm`,
+  aso bundle-ids capabilities list --bundle "BUNDLE_ID"
+  aso bundle-ids capabilities add --bundle "BUNDLE_ID" --capability ICLOUD
+  aso bundle-ids capabilities update --id "CAPABILITY_ID" --settings '[{"key":"ICLOUD_VERSION","options":[{"key":"XCODE_13","enabled":true}]}]'
+  aso bundle-ids capabilities remove --id "CAPABILITY_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -54,13 +54,13 @@ func BundleIDsCapabilitiesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc bundle-ids capabilities list --bundle \"BUNDLE_ID\" [flags]",
+		ShortUsage: "aso bundle-ids capabilities list --bundle \"BUNDLE_ID\" [flags]",
 		ShortHelp:  "List bundle ID capabilities.",
 		LongHelp: `List bundle ID capabilities.
 
 Examples:
-  asc bundle-ids capabilities list --bundle "BUNDLE_ID"
-  asc bundle-ids capabilities list --bundle "BUNDLE_ID" --paginate`,
+  aso bundle-ids capabilities list --bundle "BUNDLE_ID"
+  aso bundle-ids capabilities list --bundle "BUNDLE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -122,13 +122,13 @@ func BundleIDsCapabilitiesAddCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "add",
-		ShortUsage: "asc bundle-ids capabilities add --bundle \"BUNDLE_ID\" --capability CAPABILITY_TYPE [flags]",
+		ShortUsage: "aso bundle-ids capabilities add --bundle \"BUNDLE_ID\" --capability CAPABILITY_TYPE [flags]",
 		ShortHelp:  "Add a capability to a bundle ID.",
 		LongHelp: `Add a capability to a bundle ID.
 
 Examples:
-  asc bundle-ids capabilities add --bundle "BUNDLE_ID" --capability ICLOUD
-  asc bundle-ids capabilities add --bundle "BUNDLE_ID" --capability ICLOUD --settings '[{"key":"ICLOUD_VERSION","options":[{"key":"XCODE_13","enabled":true}]}]'`,
+  aso bundle-ids capabilities add --bundle "BUNDLE_ID" --capability ICLOUD
+  aso bundle-ids capabilities add --bundle "BUNDLE_ID" --capability ICLOUD --settings '[{"key":"ICLOUD_VERSION","options":[{"key":"XCODE_13","enabled":true}]}]'`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -181,14 +181,14 @@ func BundleIDsCapabilitiesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc bundle-ids capabilities update --id \"CAPABILITY_ID\" [flags]",
+		ShortUsage: "aso bundle-ids capabilities update --id \"CAPABILITY_ID\" [flags]",
 		ShortHelp:  "Update a bundle ID capability.",
 		LongHelp: `Update a bundle ID capability.
 
 Examples:
-  asc bundle-ids capabilities update --id "CAPABILITY_ID" --settings '[{"key":"ICLOUD_VERSION","options":[{"key":"XCODE_13","enabled":true}]}]'
-  asc bundle-ids capabilities update --id "CAPABILITY_ID" --capability PUSH_NOTIFICATIONS
-  asc bundle-ids capabilities update --id "CAPABILITY_ID" --output table`,
+  aso bundle-ids capabilities update --id "CAPABILITY_ID" --settings '[{"key":"ICLOUD_VERSION","options":[{"key":"XCODE_13","enabled":true}]}]'
+  aso bundle-ids capabilities update --id "CAPABILITY_ID" --capability PUSH_NOTIFICATIONS
+  aso bundle-ids capabilities update --id "CAPABILITY_ID" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -243,12 +243,12 @@ func BundleIDsCapabilitiesRemoveCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "remove",
-		ShortUsage: "asc bundle-ids capabilities remove --id \"CAPABILITY_ID\" --confirm",
+		ShortUsage: "aso bundle-ids capabilities remove --id \"CAPABILITY_ID\" --confirm",
 		ShortHelp:  "Remove a capability from a bundle ID.",
 		LongHelp: `Remove a capability from a bundle ID.
 
 Examples:
-  asc bundle-ids capabilities remove --id "CAPABILITY_ID" --confirm`,
+  aso bundle-ids capabilities remove --id "CAPABILITY_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ReviewSubmissionsListCommand returns the review submissions list subcommand.
@@ -28,16 +28,16 @@ func ReviewSubmissionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submissions-list",
-		ShortUsage: "asc review submissions-list [flags]",
+		ShortUsage: "aso review submissions-list [flags]",
 		ShortHelp:  "List review submissions for an app or globally.",
 		LongHelp: `List review submissions for an app or globally.
 
 Examples:
-  asc review submissions-list --app "123456789"
-  asc review submissions-list --app "123456789" --platform IOS --state READY_FOR_REVIEW
-  asc review submissions-list --app "123456789" --paginate
-  asc review submissions-list --global --app "123456789"
-  asc review submissions-list --global --app "123456789" --platform IOS --state READY_FOR_REVIEW`,
+  aso review submissions-list --app "123456789"
+  aso review submissions-list --app "123456789" --platform IOS --state READY_FOR_REVIEW
+  aso review submissions-list --app "123456789" --paginate
+  aso review submissions-list --global --app "123456789"
+  aso review submissions-list --global --app "123456789" --platform IOS --state READY_FOR_REVIEW`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -151,12 +151,12 @@ func ReviewSubmissionsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submissions-get",
-		ShortUsage: "asc review submissions-get [flags]",
+		ShortUsage: "aso review submissions-get [flags]",
 		ShortHelp:  "Get a review submission by ID.",
 		LongHelp: `Get a review submission by ID.
 
 Examples:
-  asc review submissions-get --id "SUBMISSION_ID"`,
+  aso review submissions-get --id "SUBMISSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -193,12 +193,12 @@ func ReviewSubmissionsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submissions-create",
-		ShortUsage: "asc review submissions-create [flags]",
+		ShortUsage: "aso review submissions-create [flags]",
 		ShortHelp:  "Create a review submission.",
 		LongHelp: `Create a review submission for an app.
 
 Examples:
-  asc review submissions-create --app "123456789" --platform IOS`,
+  aso review submissions-create --app "123456789" --platform IOS`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -241,12 +241,12 @@ func ReviewSubmissionsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submissions-update",
-		ShortUsage: "asc review submissions-update --id \"SUBMISSION_ID\" --canceled true [flags]",
+		ShortUsage: "aso review submissions-update --id \"SUBMISSION_ID\" --canceled true [flags]",
 		ShortHelp:  "Update a review submission.",
 		LongHelp: `Update a review submission.
 
 Examples:
-  asc review submissions-update --id "SUBMISSION_ID" --canceled true`,
+  aso review submissions-update --id "SUBMISSION_ID" --canceled true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -297,12 +297,12 @@ func ReviewSubmissionsSubmitCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submissions-submit",
-		ShortUsage: "asc review submissions-submit [flags]",
+		ShortUsage: "aso review submissions-submit [flags]",
 		ShortHelp:  "Submit a review submission.",
 		LongHelp: `Submit a review submission for review.
 
 Examples:
-  asc review submissions-submit --id "SUBMISSION_ID" --confirm`,
+  aso review submissions-submit --id "SUBMISSION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -343,12 +343,12 @@ func ReviewSubmissionsCancelCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submissions-cancel",
-		ShortUsage: "asc review submissions-cancel [flags]",
+		ShortUsage: "aso review submissions-cancel [flags]",
 		ShortHelp:  "Cancel a review submission.",
 		LongHelp: `Cancel a review submission.
 
 Examples:
-  asc review submissions-cancel --id "SUBMISSION_ID" --confirm`,
+  aso review submissions-cancel --id "SUBMISSION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -391,13 +391,13 @@ func ReviewSubmissionsItemsIDsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submissions-items-ids",
-		ShortUsage: "asc review submissions-items-ids --id \"SUBMISSION_ID\" [flags]",
+		ShortUsage: "aso review submissions-items-ids --id \"SUBMISSION_ID\" [flags]",
 		ShortHelp:  "List review submission item IDs for a submission.",
 		LongHelp: `List review submission item IDs for a submission.
 
 Examples:
-  asc review submissions-items-ids --id "SUBMISSION_ID"
-  asc review submissions-items-ids --id "SUBMISSION_ID" --paginate`,
+  aso review submissions-items-ids --id "SUBMISSION_ID"
+  aso review submissions-items-ids --id "SUBMISSION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

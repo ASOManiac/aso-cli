@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // IAPContentCommand returns the content command group.
@@ -17,12 +17,12 @@ func IAPContentCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "content",
-		ShortUsage: "asc iap content <subcommand> [flags]",
+		ShortUsage: "aso iap content <subcommand> [flags]",
 		ShortHelp:  "Fetch in-app purchase content metadata.",
 		LongHelp: `Fetch in-app purchase content metadata.
 
 Examples:
-  asc iap content get --iap-id "IAP_ID"`,
+  aso iap content get --iap-id "IAP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -44,12 +44,12 @@ func IAPContentGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc iap content get --iap-id \"IAP_ID\"",
+		ShortUsage: "aso iap content get --iap-id \"IAP_ID\"",
 		ShortHelp:  "Get in-app purchase content metadata.",
 		LongHelp: `Get in-app purchase content metadata.
 
 Examples:
-  asc iap content get --iap-id "IAP_ID"`,
+  aso iap content get --iap-id "IAP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -1,6 +1,6 @@
 package shared
 
-import "github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+import "github.com/ASOManiac/aso-cli/internal/asc"
 
 // BuildAppKeywordsResponse converts a keyword list into the standard
 // appKeywords response shape used by multiple keyword mutation commands.

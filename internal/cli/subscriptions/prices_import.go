@@ -20,8 +20,8 @@ import (
 	"golang.org/x/text/language"
 	"golang.org/x/text/language/display"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type subscriptionPriceImportSummary struct {
@@ -107,7 +107,7 @@ func SubscriptionsPricesImportCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "import",
-		ShortUsage: "asc subscriptions prices import --subscription-id \"SUB_ID\" --input \"./prices.csv\" [flags]",
+		ShortUsage: "aso subscriptions prices import --subscription-id \"SUB_ID\" --input \"./prices.csv\" [flags]",
 		ShortHelp:  "Import subscription prices from a CSV file.",
 		LongHelp: `Import subscription prices from a CSV file.
 
@@ -125,9 +125,9 @@ Header aliases:
   Currency Code -> currency_code
 
 Examples:
-  asc subscriptions prices import --subscription-id "SUB_ID" --input "./prices.csv" --dry-run
-  asc subscriptions prices import --subscription-id "SUB_ID" --input "./prices.csv" --start-date "2026-03-01"
-  asc subscriptions prices import --subscription-id "SUB_ID" --input "./prices.csv" --preserved`,
+  aso subscriptions prices import --subscription-id "SUB_ID" --input "./prices.csv" --dry-run
+  aso subscriptions prices import --subscription-id "SUB_ID" --input "./prices.csv" --start-date "2026-03-01"
+  aso subscriptions prices import --subscription-id "SUB_ID" --input "./prices.csv" --preserved`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

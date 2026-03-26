@@ -10,9 +10,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 // checkResult represents the outcome of a single preflight check.
@@ -52,14 +52,14 @@ func SubmitPreflightCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "preflight",
-		ShortUsage: "asc submit preflight [flags]",
+		ShortUsage: "aso submit preflight [flags]",
 		ShortHelp:  "Check submission readiness without submitting.",
 		LongHelp: `Check all submission requirements upfront and report issues with fix commands.
 
 Examples:
-  asc submit preflight --app "123456789" --version "1.0"
-  asc submit preflight --app "123456789" --version "1.0" --platform TV_OS
-  asc submit preflight --app "123456789" --version "2.0" --output json`,
+  aso submit preflight --app "123456789" --version "1.0"
+  aso submit preflight --app "123456789" --version "1.0" --platform TV_OS
+  aso submit preflight --app "123456789" --version "2.0" --output json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -215,7 +215,7 @@ func checkVersionExists(ctx context.Context, client *asc.Client, appID, version,
 			Name:    "Version exists",
 			Passed:  false,
 			Message: fmt.Sprintf("Version %s not found for platform %s: %v", version, platform, err),
-			Hint:    fmt.Sprintf("asc versions create --app %s --version %s --platform %s", appID, version, platform),
+			Hint:    fmt.Sprintf("aso versions create --app %s --version %s --platform %s", appID, version, platform),
 		}
 	}
 	return versionID, checkResult{
@@ -236,7 +236,7 @@ func checkBuildAttachedWithAttrs(ctx context.Context, client *asc.Client, versio
 				Name:    "Build attached",
 				Passed:  false,
 				Message: "No build attached to this version",
-				Hint:    fmt.Sprintf("asc submit create --version-id %s --build BUILD_ID --confirm", versionID),
+				Hint:    fmt.Sprintf("aso submit create --version-id %s --build BUILD_ID --confirm", versionID),
 			}
 		}
 		return "", nil, checkResult{
@@ -252,7 +252,7 @@ func checkBuildAttachedWithAttrs(ctx context.Context, client *asc.Client, versio
 			Name:    "Build attached",
 			Passed:  false,
 			Message: "No build attached to this version",
-			Hint:    fmt.Sprintf("asc submit create --version-id %s --build BUILD_ID --confirm", versionID),
+			Hint:    fmt.Sprintf("aso submit create --version-id %s --build BUILD_ID --confirm", versionID),
 		}
 	}
 
@@ -278,7 +278,7 @@ func checkBuildEncryption(ctx context.Context, client *asc.Client, buildID strin
 			Name:    "Encryption compliance",
 			Passed:  false,
 			Message: "usesNonExemptEncryption not set on build",
-			Hint:    fmt.Sprintf("Set Uses Non-Exempt Encryption for build %s in App Store Connect, then rerun asc submit preflight", buildID),
+			Hint:    fmt.Sprintf("Set Uses Non-Exempt Encryption for build %s in App Store Connect, then rerun aso submit preflight", buildID),
 		}
 	}
 
@@ -301,7 +301,7 @@ func checkBuildEncryption(ctx context.Context, client *asc.Client, buildID strin
 				Name:    "Encryption compliance",
 				Passed:  false,
 				Message: "usesNonExemptEncryption=true but no encryption declaration attached to build",
-				Hint:    fmt.Sprintf("asc encryption declarations assign-builds --id DECLARATION_ID --build %s", buildID),
+				Hint:    fmt.Sprintf("aso encryption declarations assign-builds --id DECLARATION_ID --build %s", buildID),
 			}
 		}
 		return checkResult{
@@ -316,7 +316,7 @@ func checkBuildEncryption(ctx context.Context, client *asc.Client, buildID strin
 			Name:    "Encryption compliance",
 			Passed:  false,
 			Message: "usesNonExemptEncryption=true but build encryption declaration is missing an ID",
-			Hint:    fmt.Sprintf("asc encryption declarations assign-builds --id DECLARATION_ID --build %s", buildID),
+			Hint:    fmt.Sprintf("aso encryption declarations assign-builds --id DECLARATION_ID --build %s", buildID),
 		}
 	}
 	declarationState := declarationResp.Data.Attributes.AppEncryptionDeclarationState
@@ -332,28 +332,28 @@ func checkBuildEncryption(ctx context.Context, client *asc.Client, buildID strin
 			Name:    "Encryption compliance",
 			Passed:  false,
 			Message: fmt.Sprintf("Encryption declaration attached (%s) is still %s", declarationID, declarationState),
-			Hint:    "Wait for the encryption declaration to reach APPROVED in App Store Connect, then rerun asc submit preflight",
+			Hint:    "Wait for the encryption declaration to reach APPROVED in App Store Connect, then rerun aso submit preflight",
 		}
 	case asc.AppEncryptionDeclarationStateRejected, asc.AppEncryptionDeclarationStateInvalid, asc.AppEncryptionDeclarationStateExpired:
 		return checkResult{
 			Name:    "Encryption compliance",
 			Passed:  false,
 			Message: fmt.Sprintf("Encryption declaration attached (%s) is %s", declarationID, declarationState),
-			Hint:    fmt.Sprintf("Attach an approved encryption declaration to build %s in App Store Connect, then rerun asc submit preflight", buildID),
+			Hint:    fmt.Sprintf("Attach an approved encryption declaration to build %s in App Store Connect, then rerun aso submit preflight", buildID),
 		}
 	case "":
 		return checkResult{
 			Name:    "Encryption compliance",
 			Passed:  false,
 			Message: fmt.Sprintf("Encryption declaration attached (%s) is missing approval state", declarationID),
-			Hint:    fmt.Sprintf("asc builds app-encryption-declaration get --id %s", buildID),
+			Hint:    fmt.Sprintf("aso builds app-encryption-declaration get --id %s", buildID),
 		}
 	default:
 		return checkResult{
 			Name:    "Encryption compliance",
 			Passed:  false,
 			Message: fmt.Sprintf("Encryption declaration attached (%s) has unsupported state %q", declarationID, declarationState),
-			Hint:    fmt.Sprintf("asc builds app-encryption-declaration get --id %s", buildID),
+			Hint:    fmt.Sprintf("aso builds app-encryption-declaration get --id %s", buildID),
 		}
 	}
 }
@@ -421,7 +421,7 @@ func checkAgeRating(ctx context.Context, client *asc.Client, appInfoID, appID st
 				Name:    "Age rating",
 				Passed:  false,
 				Message: "Age rating declaration not found",
-				Hint:    fmt.Sprintf("asc age-rating edit --app %s --gambling false --violence-realistic NONE ...", appID),
+				Hint:    fmt.Sprintf("aso age-rating edit --app %s --gambling false --violence-realistic NONE ...", appID),
 			}
 		}
 		return checkResult{
@@ -438,7 +438,7 @@ func checkAgeRating(ctx context.Context, client *asc.Client, appInfoID, appID st
 			Name:    "Age rating",
 			Passed:  false,
 			Message: fmt.Sprintf("Age rating incomplete (missing: %s)", strings.Join(missing, ", ")),
-			Hint:    fmt.Sprintf("asc age-rating edit --app %s --gambling false --violence-realistic NONE ...", appID),
+			Hint:    fmt.Sprintf("aso age-rating edit --app %s --gambling false --violence-realistic NONE ...", appID),
 		}
 	}
 
@@ -518,7 +518,7 @@ func checkContentRights(ctx context.Context, client *asc.Client, appID string) c
 			Name:    "Content rights",
 			Passed:  false,
 			Message: "Content rights declaration not set",
-			Hint:    fmt.Sprintf("asc apps update --id %s --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT", appID),
+			Hint:    fmt.Sprintf("aso apps update --id %s --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT", appID),
 		}
 	}
 
@@ -540,7 +540,7 @@ func checkPrimaryCategory(ctx context.Context, client *asc.Client, appInfoID, ap
 				Name:    "Primary category",
 				Passed:  false,
 				Message: "Primary category not set",
-				Hint:    fmt.Sprintf("asc app-setup categories set --app %s --primary SPORTS", appID),
+				Hint:    fmt.Sprintf("aso app-setup categories set --app %s --primary SPORTS", appID),
 			}
 		}
 		return checkResult{
@@ -555,7 +555,7 @@ func checkPrimaryCategory(ctx context.Context, client *asc.Client, appInfoID, ap
 			Name:    "Primary category",
 			Passed:  false,
 			Message: "Primary category not set",
-			Hint:    fmt.Sprintf("asc app-setup categories set --app %s --primary SPORTS", appID),
+			Hint:    fmt.Sprintf("aso app-setup categories set --app %s --primary SPORTS", appID),
 		}
 	}
 
@@ -642,7 +642,7 @@ func checkLocalizationMetadata(localizations []asc.Resource[asc.AppStoreVersionL
 }
 
 func metadataPushHint(appID, version, platform string) string {
-	hint := fmt.Sprintf("asc metadata push --app %s --version %s", appID, version)
+	hint := fmt.Sprintf("aso metadata push --app %s --version %s", appID, version)
 	if strings.TrimSpace(platform) != "" {
 		hint += " --platform " + platform
 	}
@@ -724,9 +724,9 @@ func screenshotUploadHint(localizationID, platform string) string {
 		deviceType = "APPLE_VISION_PRO"
 	}
 	if strings.TrimSpace(localizationID) == "" {
-		return fmt.Sprintf("asc screenshots upload --version-localization LOC_ID --path ./screenshots --device-type %s", deviceType)
+		return fmt.Sprintf("aso screenshots upload --version-localization LOC_ID --path ./screenshots --device-type %s", deviceType)
 	}
-	return fmt.Sprintf("asc screenshots upload --version-localization %s --path ./screenshots --device-type %s", localizationID, deviceType)
+	return fmt.Sprintf("aso screenshots upload --version-localization %s --path ./screenshots --device-type %s", localizationID, deviceType)
 }
 
 // --- Text output ---

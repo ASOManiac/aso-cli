@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildBundlesCommand returns the build-bundles command with subcommands.
@@ -19,16 +19,16 @@ func BuildBundlesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "build-bundles",
-		ShortUsage: "asc build-bundles <subcommand> [flags]",
+		ShortUsage: "aso build-bundles <subcommand> [flags]",
 		ShortHelp:  "Manage build bundles and App Clip data.",
 		LongHelp: `Manage build bundles and App Clip data.
 
 Examples:
-  asc build-bundles list --build "BUILD_ID"
-  asc build-bundles file-sizes list --id "BUILD_BUNDLE_ID"
-  asc build-bundles app-clip cache-status get --id "BUILD_BUNDLE_ID"
-  asc build-bundles app-clip debug-status get --id "BUILD_BUNDLE_ID"
-  asc build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID"`,
+  aso build-bundles list --build "BUILD_ID"
+  aso build-bundles file-sizes list --id "BUILD_BUNDLE_ID"
+  aso build-bundles app-clip cache-status get --id "BUILD_BUNDLE_ID"
+  aso build-bundles app-clip debug-status get --id "BUILD_BUNDLE_ID"
+  aso build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -52,13 +52,13 @@ func BuildBundlesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc build-bundles list [flags]",
+		ShortUsage: "aso build-bundles list [flags]",
 		ShortHelp:  "List build bundles for a build.",
 		LongHelp: `List build bundles for a build.
 
 Examples:
-  asc build-bundles list --build "BUILD_ID"
-  asc build-bundles list --build "BUILD_ID" --limit 10`,
+  aso build-bundles list --build "BUILD_ID"
+  aso build-bundles list --build "BUILD_ID" --limit 10`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -101,13 +101,13 @@ func BuildBundleFileSizesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "file-sizes",
-		ShortUsage: "asc build-bundles file-sizes <subcommand> [flags]",
+		ShortUsage: "aso build-bundles file-sizes <subcommand> [flags]",
 		ShortHelp:  "Manage build bundle file size data.",
 		LongHelp: `Manage build bundle file size data.
 
 Examples:
-  asc build-bundles file-sizes list --id "BUILD_BUNDLE_ID"
-  asc build-bundles file-sizes list --id "BUILD_BUNDLE_ID" --paginate`,
+  aso build-bundles file-sizes list --id "BUILD_BUNDLE_ID"
+  aso build-bundles file-sizes list --id "BUILD_BUNDLE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -131,14 +131,14 @@ func BuildBundleFileSizesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc build-bundles file-sizes list [flags]",
+		ShortUsage: "aso build-bundles file-sizes list [flags]",
 		ShortHelp:  "List build bundle file sizes.",
 		LongHelp: `List build bundle file sizes.
 
 Examples:
-  asc build-bundles file-sizes list --id "BUILD_BUNDLE_ID"
-  asc build-bundles file-sizes list --id "BUILD_BUNDLE_ID" --limit 100
-  asc build-bundles file-sizes list --id "BUILD_BUNDLE_ID" --paginate`,
+  aso build-bundles file-sizes list --id "BUILD_BUNDLE_ID"
+  aso build-bundles file-sizes list --id "BUILD_BUNDLE_ID" --limit 100
+  aso build-bundles file-sizes list --id "BUILD_BUNDLE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -201,14 +201,14 @@ func BuildBundlesAppClipCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-clip",
-		ShortUsage: "asc build-bundles app-clip <subcommand> [flags]",
+		ShortUsage: "aso build-bundles app-clip <subcommand> [flags]",
 		ShortHelp:  "Manage App Clip data for build bundles.",
 		LongHelp: `Manage App Clip data for build bundles.
 
 Examples:
-  asc build-bundles app-clip cache-status get --id "BUILD_BUNDLE_ID"
-  asc build-bundles app-clip debug-status get --id "BUILD_BUNDLE_ID"
-  asc build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID"`,
+  aso build-bundles app-clip cache-status get --id "BUILD_BUNDLE_ID"
+  aso build-bundles app-clip debug-status get --id "BUILD_BUNDLE_ID"
+  aso build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -228,12 +228,12 @@ func BuildBundlesAppClipCacheStatusCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "cache-status",
-		ShortUsage: "asc build-bundles app-clip cache-status <subcommand> [flags]",
+		ShortUsage: "aso build-bundles app-clip cache-status <subcommand> [flags]",
 		ShortHelp:  "Fetch App Clip domain cache status.",
 		LongHelp: `Fetch App Clip domain cache status.
 
 Examples:
-  asc build-bundles app-clip cache-status get --id "BUILD_BUNDLE_ID"`,
+  aso build-bundles app-clip cache-status get --id "BUILD_BUNDLE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -254,12 +254,12 @@ func BuildBundlesAppClipCacheStatusGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc build-bundles app-clip cache-status get --id \"BUILD_BUNDLE_ID\"",
+		ShortUsage: "aso build-bundles app-clip cache-status get --id \"BUILD_BUNDLE_ID\"",
 		ShortHelp:  "Get App Clip domain cache status for a build bundle.",
 		LongHelp: `Get App Clip domain cache status for a build bundle.
 
 Examples:
-  asc build-bundles app-clip cache-status get --id "BUILD_BUNDLE_ID"`,
+  aso build-bundles app-clip cache-status get --id "BUILD_BUNDLE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -298,12 +298,12 @@ func BuildBundlesAppClipDebugStatusCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "debug-status",
-		ShortUsage: "asc build-bundles app-clip debug-status <subcommand> [flags]",
+		ShortUsage: "aso build-bundles app-clip debug-status <subcommand> [flags]",
 		ShortHelp:  "Fetch App Clip domain debug status.",
 		LongHelp: `Fetch App Clip domain debug status.
 
 Examples:
-  asc build-bundles app-clip debug-status get --id "BUILD_BUNDLE_ID"`,
+  aso build-bundles app-clip debug-status get --id "BUILD_BUNDLE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -324,12 +324,12 @@ func BuildBundlesAppClipDebugStatusGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc build-bundles app-clip debug-status get --id \"BUILD_BUNDLE_ID\"",
+		ShortUsage: "aso build-bundles app-clip debug-status get --id \"BUILD_BUNDLE_ID\"",
 		ShortHelp:  "Get App Clip domain debug status for a build bundle.",
 		LongHelp: `Get App Clip domain debug status for a build bundle.
 
 Examples:
-  asc build-bundles app-clip debug-status get --id "BUILD_BUNDLE_ID"`,
+  aso build-bundles app-clip debug-status get --id "BUILD_BUNDLE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -368,13 +368,13 @@ func BuildBundlesAppClipInvocationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "invocations",
-		ShortUsage: "asc build-bundles app-clip invocations <subcommand> [flags]",
+		ShortUsage: "aso build-bundles app-clip invocations <subcommand> [flags]",
 		ShortHelp:  "Manage App Clip invocations.",
 		LongHelp: `Manage App Clip invocations.
 
 Examples:
-  asc build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID"
-  asc build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID" --paginate`,
+  aso build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID"
+  aso build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -398,14 +398,14 @@ func BuildBundlesAppClipInvocationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc build-bundles app-clip invocations list [flags]",
+		ShortUsage: "aso build-bundles app-clip invocations list [flags]",
 		ShortHelp:  "List App Clip invocations for a build bundle.",
 		LongHelp: `List App Clip invocations for a build bundle.
 
 Examples:
-  asc build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID"
-  asc build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID" --limit 50
-  asc build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID" --paginate`,
+  aso build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID"
+  aso build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID" --limit 50
+  aso build-bundles app-clip invocations list --id "BUILD_BUNDLE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

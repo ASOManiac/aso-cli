@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 func TestSubscriptionsPricingAvailabilityGetWarnsAndMatchesCanonicalViewOutput(t *testing.T) {
@@ -50,7 +50,7 @@ func TestSubscriptionsPricingAvailabilityGetWarnsAndMatchesCanonicalViewOutput(t
 	if canonicalStderr != "" {
 		t.Fatalf("expected canonical command to avoid warnings, got %q", canonicalStderr)
 	}
-	if !strings.Contains(aliasStderr, "Warning: `asc subscriptions pricing availability get` is deprecated. Use `asc subscriptions pricing availability view`.") {
+	if !strings.Contains(aliasStderr, "Warning: `aso subscriptions pricing availability get` is deprecated. Use `aso subscriptions pricing availability view`.") {
 		t.Fatalf("expected deprecation warning, got %q", aliasStderr)
 	}
 	assertOnlyDeprecatedCommandWarnings(t, aliasStderr)
@@ -121,7 +121,7 @@ func TestSubscriptionsPricingAvailabilitySetWarnsAndMatchesCanonicalEditOutput(t
 	if canonicalStderr != "" {
 		t.Fatalf("expected canonical command to avoid warnings, got %q", canonicalStderr)
 	}
-	if !strings.Contains(aliasStderr, "Warning: `asc subscriptions pricing availability set` is deprecated. Use `asc subscriptions pricing availability edit`.") {
+	if !strings.Contains(aliasStderr, "Warning: `aso subscriptions pricing availability set` is deprecated. Use `aso subscriptions pricing availability edit`.") {
 		t.Fatalf("expected deprecation warning, got %q", aliasStderr)
 	}
 	assertOnlyDeprecatedCommandWarnings(t, aliasStderr)
@@ -218,7 +218,7 @@ func TestSubscriptionsPricingAvailabilitySetAliasUsesPricingErrorPrefix(t *testi
 	if !strings.Contains(runErr.Error(), "subscriptions pricing availability edit: failed to set:") || !strings.Contains(runErr.Error(), "boom") {
 		t.Fatalf("expected pricing error prefix, got %q", runErr.Error())
 	}
-	if !strings.Contains(stderr, "Warning: `asc subscriptions pricing availability set` is deprecated. Use `asc subscriptions pricing availability edit`.") {
+	if !strings.Contains(stderr, "Warning: `aso subscriptions pricing availability set` is deprecated. Use `aso subscriptions pricing availability edit`.") {
 		t.Fatalf("expected deprecation warning, got %q", stderr)
 	}
 	assertOnlyDeprecatedCommandWarnings(t, stderr)

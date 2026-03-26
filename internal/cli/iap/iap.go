@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // IAPCommand returns the in-app purchases command group.
@@ -20,23 +20,23 @@ func IAPCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "iap",
-		ShortUsage: "asc iap <subcommand> [flags]",
+		ShortUsage: "aso iap <subcommand> [flags]",
 		ShortHelp:  "Manage in-app purchases in App Store Connect.",
 		LongHelp: `Manage in-app purchases in App Store Connect.
 
 Examples:
-  asc iap list --app "APP_ID"
-  asc iap pricing summary --app "APP_ID"
-  asc iap get --id "IAP_ID"
-  asc iap create --app "APP_ID" --type CONSUMABLE --ref-name "Pro" --product-id "com.example.pro"
-  asc iap setup --app "APP_ID" --type NON_CONSUMABLE --reference-name "Pro Lifetime" --product-id "com.example.lifetime" --locale "en-US" --display-name "Pro Lifetime" --price "3.99" --base-territory "USA"
-  asc iap update --id "IAP_ID" --ref-name "New Name"
-  asc iap delete --id "IAP_ID" --confirm
-  asc iap localizations list --iap-id "IAP_ID"
-  asc iap images create --iap-id "IAP_ID" --file "./image.png"
-  asc iap pricing availability set --iap-id "IAP_ID" --territories "USA,CAN"
-  asc iap offer-codes create --iap-id "IAP_ID" --name "SPRING" --prices "USA:PRICE_POINT_ID"
-  asc iap promoted-purchases create --app "APP_ID" --product-id "IAP_ID" --visible-for-all-users true`,
+  aso iap list --app "APP_ID"
+  aso iap pricing summary --app "APP_ID"
+  aso iap get --id "IAP_ID"
+  aso iap create --app "APP_ID" --type CONSUMABLE --ref-name "Pro" --product-id "com.example.pro"
+  aso iap setup --app "APP_ID" --type NON_CONSUMABLE --reference-name "Pro Lifetime" --product-id "com.example.lifetime" --locale "en-US" --display-name "Pro Lifetime" --price "3.99" --base-territory "USA"
+  aso iap update --id "IAP_ID" --ref-name "New Name"
+  aso iap delete --id "IAP_ID" --confirm
+  aso iap localizations list --iap-id "IAP_ID"
+  aso iap images create --iap-id "IAP_ID" --file "./image.png"
+  aso iap pricing availability set --iap-id "IAP_ID" --territories "USA,CAN"
+  aso iap offer-codes create --iap-id "IAP_ID" --name "SPRING" --prices "USA:PRICE_POINT_ID"
+  aso iap promoted-purchases create --app "APP_ID" --product-id "IAP_ID" --visible-for-all-users true`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -79,15 +79,15 @@ func IAPListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc iap list [flags]",
+		ShortUsage: "aso iap list [flags]",
 		ShortHelp:  "List in-app purchases for an app.",
 		LongHelp: `List in-app purchases for an app.
 
 Examples:
-  asc iap list --app "APP_ID"
-  asc iap list --app "APP_ID" --limit 50
-  asc iap list --app "APP_ID" --paginate
-  asc iap list --app "APP_ID" --legacy`,
+  aso iap list --app "APP_ID"
+  aso iap list --app "APP_ID" --limit 50
+  aso iap list --app "APP_ID" --paginate
+  aso iap list --app "APP_ID" --legacy`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -179,13 +179,13 @@ func IAPGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc iap get --id \"IAP_ID\"",
+		ShortUsage: "aso iap get --id \"IAP_ID\"",
 		ShortHelp:  "Get an in-app purchase by ID.",
 		LongHelp: `Get an in-app purchase by ID.
 
 Examples:
-  asc iap get --id "IAP_ID"
-  asc iap get --id "IAP_ID" --legacy`,
+  aso iap get --id "IAP_ID"
+  aso iap get --id "IAP_ID" --legacy`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -235,13 +235,13 @@ func IAPCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc iap create [flags]",
+		ShortUsage: "aso iap create [flags]",
 		ShortHelp:  "Create a new in-app purchase.",
 		LongHelp: `Create a new in-app purchase.
 
 Examples:
-  asc iap create --app "APP_ID" --type CONSUMABLE --ref-name "Pro" --product-id "com.example.pro"
-  asc iap create --app "APP_ID" --type NON_CONSUMABLE --ref-name "Lifetime" --product-id "com.example.lifetime" --family-sharable`,
+  aso iap create --app "APP_ID" --type CONSUMABLE --ref-name "Pro" --product-id "com.example.pro"
+  aso iap create --app "APP_ID" --type NON_CONSUMABLE --ref-name "Lifetime" --product-id "com.example.lifetime" --family-sharable`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -307,13 +307,13 @@ func IAPUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc iap update [flags]",
+		ShortUsage: "aso iap update [flags]",
 		ShortHelp:  "Update an in-app purchase.",
 		LongHelp: `Update an in-app purchase.
 
 Examples:
-  asc iap update --id "IAP_ID" --ref-name "New Name"
-  asc iap update --id "IAP_ID" --family-sharable`,
+  aso iap update --id "IAP_ID" --ref-name "New Name"
+  aso iap update --id "IAP_ID" --family-sharable`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -366,12 +366,12 @@ func IAPDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc iap delete --id \"IAP_ID\" --confirm",
+		ShortUsage: "aso iap delete --id \"IAP_ID\" --confirm",
 		ShortHelp:  "Delete an in-app purchase.",
 		LongHelp: `Delete an in-app purchase.
 
 Examples:
-  asc iap delete --id "IAP_ID" --confirm`,
+  aso iap delete --id "IAP_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -413,12 +413,12 @@ func IAPLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc iap localizations <subcommand> [flags]",
+		ShortUsage: "aso iap localizations <subcommand> [flags]",
 		ShortHelp:  "Manage in-app purchase localizations.",
 		LongHelp: `Manage in-app purchase localizations.
 
 Examples:
-  asc iap localizations list --iap-id "IAP_ID"`,
+  aso iap localizations list --iap-id "IAP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -446,13 +446,13 @@ func IAPLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc iap localizations list [flags]",
+		ShortUsage: "aso iap localizations list [flags]",
 		ShortHelp:  "List in-app purchase localizations.",
 		LongHelp: `List in-app purchase localizations.
 
 Examples:
-  asc iap localizations list --iap-id "IAP_ID"
-  asc iap localizations list --iap-id "IAP_ID" --paginate`,
+  aso iap localizations list --iap-id "IAP_ID"
+  aso iap localizations list --iap-id "IAP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

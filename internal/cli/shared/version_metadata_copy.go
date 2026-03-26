@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 // VersionMetadataCopyOptions defines a metadata carry-forward operation between App Store versions.

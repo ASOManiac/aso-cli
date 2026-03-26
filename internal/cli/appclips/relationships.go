@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppClipDefaultExperiencesRelationshipsCommand returns the default experiences links subcommand.
@@ -25,13 +25,13 @@ func AppClipDefaultExperiencesRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "default-experiences-links",
-		ShortUsage: "asc app-clips default-experiences-links --app-clip-id \"CLIP_ID\" [flags]",
+		ShortUsage: "aso app-clips default-experiences-links --app-clip-id \"CLIP_ID\" [flags]",
 		ShortHelp:  "List default experience relationships for an App Clip.",
 		LongHelp: `List default experience relationships for an App Clip.
 
 Examples:
-  asc app-clips default-experiences-links --app-clip-id "CLIP_ID"
-  asc app-clips default-experiences-links --app-clip-id "CLIP_ID" --paginate`,
+  aso app-clips default-experiences-links --app-clip-id "CLIP_ID"
+  aso app-clips default-experiences-links --app-clip-id "CLIP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -100,13 +100,13 @@ func AppClipAdvancedExperiencesRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "advanced-experiences-links",
-		ShortUsage: "asc app-clips advanced-experiences-links --app-clip-id \"CLIP_ID\" [flags]",
+		ShortUsage: "aso app-clips advanced-experiences-links --app-clip-id \"CLIP_ID\" [flags]",
 		ShortHelp:  "List advanced experience relationships for an App Clip.",
 		LongHelp: `List advanced experience relationships for an App Clip.
 
 Examples:
-  asc app-clips advanced-experiences-links --app-clip-id "CLIP_ID"
-  asc app-clips advanced-experiences-links --app-clip-id "CLIP_ID" --paginate`,
+  aso app-clips advanced-experiences-links --app-clip-id "CLIP_ID"
+  aso app-clips advanced-experiences-links --app-clip-id "CLIP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

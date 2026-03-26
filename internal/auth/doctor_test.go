@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 func TestDoctorConfigPermissionsWarning(t *testing.T) {
@@ -248,11 +248,11 @@ end
 	}
 
 	expectedCommands := []string{
-		`asc auth login --name "MyKey" --key-id "KEY_ID" --issuer-id "ISSUER_ID" --private-key /path/to/AuthKey.p8`,
-		"asc migrate validate --fastlane-dir ./fastlane",
-		`asc migrate import --app "APP_ID" --version-id "VERSION_ID" --fastlane-dir ./fastlane`,
-		`asc builds latest --app "APP_ID"`,
-		`asc publish testflight --app "APP_ID" --ipa app.ipa --group "GROUP_ID"`,
+		`aso auth login --name "MyKey" --key-id "KEY_ID" --issuer-id "ISSUER_ID" --private-key /path/to/AuthKey.p8`,
+		"aso migrate validate --fastlane-dir ./fastlane",
+		`aso migrate import --app "APP_ID" --version-id "VERSION_ID" --fastlane-dir ./fastlane`,
+		`aso builds latest --app "APP_ID"`,
+		`aso publish testflight --app "APP_ID" --ipa app.ipa --group "GROUP_ID"`,
 	}
 	if !reflect.DeepEqual(report.Migration.SuggestedCommands, expectedCommands) {
 		t.Fatalf("SuggestedCommands = %#v, want %#v", report.Migration.SuggestedCommands, expectedCommands)
@@ -415,13 +415,13 @@ func TestDoctorMigrationHintsPrefillsVersionFromXcodeAndAppID(t *testing.T) {
 	if report.Migration == nil {
 		t.Fatal("expected migration hints in report")
 	}
-	if !sliceContains(report.Migration.SuggestedCommands, `asc builds latest --app "123456789"`) {
+	if !sliceContains(report.Migration.SuggestedCommands, `aso builds latest --app "123456789"`) {
 		t.Fatalf("expected personalized app id in builds latest, got %#v", report.Migration.SuggestedCommands)
 	}
-	if !sliceContains(report.Migration.SuggestedCommands, `asc publish appstore --app "123456789" --ipa app.ipa --version "2.3.4" --submit --confirm`) {
+	if !sliceContains(report.Migration.SuggestedCommands, `aso publish appstore --app "123456789" --ipa app.ipa --version "2.3.4" --submit --confirm`) {
 		t.Fatalf("expected personalized publish command, got %#v", report.Migration.SuggestedCommands)
 	}
-	if !sliceContains(report.Migration.SuggestedCommands, `asc submit create --app "123456789" --version "2.3.4" --build "BUILD_ID" --confirm`) {
+	if !sliceContains(report.Migration.SuggestedCommands, `aso submit create --app "123456789" --version "2.3.4" --build "BUILD_ID" --confirm`) {
 		t.Fatalf("expected personalized submit command, got %#v", report.Migration.SuggestedCommands)
 	}
 }
@@ -487,10 +487,10 @@ func TestDoctorMigrationHintsUsesResolvedIDsWhenLookupSucceeds(t *testing.T) {
 	if report.Migration == nil {
 		t.Fatal("expected migration hints in report")
 	}
-	if !sliceContains(report.Migration.SuggestedCommands, `asc migrate import --app "987654321" --version-id "version-id-123" --fastlane-dir ./fastlane`) {
+	if !sliceContains(report.Migration.SuggestedCommands, `aso migrate import --app "987654321" --version-id "version-id-123" --fastlane-dir ./fastlane`) {
 		t.Fatalf("expected personalized migrate import command, got %#v", report.Migration.SuggestedCommands)
 	}
-	if !sliceContains(report.Migration.SuggestedCommands, `asc submit create --app "987654321" --version "4.5.6" --build "build-id-456" --confirm`) {
+	if !sliceContains(report.Migration.SuggestedCommands, `aso submit create --app "987654321" --version "4.5.6" --build "build-id-456" --confirm`) {
 		t.Fatalf("expected personalized submit command with resolved build ID, got %#v", report.Migration.SuggestedCommands)
 	}
 }

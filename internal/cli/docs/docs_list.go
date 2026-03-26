@@ -8,8 +8,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // DocsListCommand returns the docs list subcommand.
@@ -19,13 +19,13 @@ func DocsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc docs list [flags]",
+		ShortUsage: "aso docs list [flags]",
 		ShortHelp:  "List available embedded documentation guides.",
 		LongHelp: `List available embedded documentation guides.
 
 Examples:
-  asc docs list
-  asc docs list --output table`,
+  aso docs list
+  aso docs list --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

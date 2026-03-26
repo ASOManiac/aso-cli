@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -115,7 +115,7 @@ func IAPSetupCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "setup",
-		ShortUsage: "asc iap setup [flags]",
+		ShortUsage: "aso iap setup [flags]",
 		ShortHelp:  "Create an in-app purchase with optional localization and pricing.",
 		LongHelp: `Create a new in-app purchase and optionally bootstrap its first
 localization and price schedule in one workflow.
@@ -130,9 +130,9 @@ verifies the resulting IAP, localization, and current price. Use
 confirmed final state.
 
 Examples:
-  asc iap setup --app "APP_ID" --type NON_CONSUMABLE --reference-name "Pro Lifetime" --product-id "com.example.lifetime"
-  asc iap setup --app "APP_ID" --type NON_CONSUMABLE --reference-name "Pro Lifetime" --product-id "com.example.lifetime" --locale "en-US" --display-name "Second Draft Pro" --description "Unlock everything"
-  asc iap setup --app "APP_ID" --type NON_CONSUMABLE --reference-name "Pro Lifetime" --product-id "com.example.lifetime" --locale "en-US" --display-name "Second Draft Pro" --price "3.99" --base-territory "USA" --start-date "2026-03-01"`,
+  aso iap setup --app "APP_ID" --type NON_CONSUMABLE --reference-name "Pro Lifetime" --product-id "com.example.lifetime"
+  aso iap setup --app "APP_ID" --type NON_CONSUMABLE --reference-name "Pro Lifetime" --product-id "com.example.lifetime" --locale "en-US" --display-name "Second Draft Pro" --description "Unlock everything"
+  aso iap setup --app "APP_ID" --type NON_CONSUMABLE --reference-name "Pro Lifetime" --product-id "com.example.lifetime" --locale "en-US" --display-name "Second Draft Pro" --price "3.99" --base-territory "USA" --start-date "2026-03-01"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

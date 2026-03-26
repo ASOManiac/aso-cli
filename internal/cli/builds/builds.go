@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildsAddGroupsCommand returns the builds add-groups subcommand.
@@ -27,16 +27,16 @@ func BuildsAddGroupsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "add-groups",
-		ShortUsage: "asc builds add-groups --build BUILD_ID --group GROUP_ID[,GROUP_ID...] [--submit --confirm]",
+		ShortUsage: "aso builds add-groups --build BUILD_ID --group GROUP_ID[,GROUP_ID...] [--submit --confirm]",
 		ShortHelp:  "Add beta groups to a build for TestFlight distribution.",
 		LongHelp: `Add beta groups to a build for TestFlight distribution.
 
 Examples:
-  asc builds add-groups --build "BUILD_ID" --group "GROUP_ID"
-  asc builds add-groups --build "BUILD_ID" --group "External Testers"
-  asc builds add-groups --build "BUILD_ID" --group "GROUP1,GROUP2"
-  asc builds add-groups --build "BUILD_ID" --group "INTERNAL_ID,EXTERNAL_ID" --skip-internal
-  asc builds add-groups --build "BUILD_ID" --group "GROUP_ID" --submit --confirm`,
+  aso builds add-groups --build "BUILD_ID" --group "GROUP_ID"
+  aso builds add-groups --build "BUILD_ID" --group "External Testers"
+  aso builds add-groups --build "BUILD_ID" --group "GROUP1,GROUP2"
+  aso builds add-groups --build "BUILD_ID" --group "INTERNAL_ID,EXTERNAL_ID" --skip-internal
+  aso builds add-groups --build "BUILD_ID" --group "GROUP_ID" --submit --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -220,13 +220,13 @@ func BuildsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc builds update --build BUILD_ID --uses-non-exempt-encryption [true|false] [flags]",
+		ShortUsage: "aso builds update --build BUILD_ID --uses-non-exempt-encryption [true|false] [flags]",
 		ShortHelp:  "Update build attributes.",
 		LongHelp: `Update build attributes such as encryption compliance.
 
 Examples:
-  asc builds update --build "BUILD_ID" --uses-non-exempt-encryption=false
-  asc builds update --build "BUILD_ID" --uses-non-exempt-encryption=true`,
+  aso builds update --build "BUILD_ID" --uses-non-exempt-encryption=false
+  aso builds update --build "BUILD_ID" --uses-non-exempt-encryption=true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -284,13 +284,13 @@ func BuildsRemoveGroupsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "remove-groups",
-		ShortUsage: "asc builds remove-groups --build BUILD_ID --group GROUP_ID[,GROUP_ID...] --confirm",
+		ShortUsage: "aso builds remove-groups --build BUILD_ID --group GROUP_ID[,GROUP_ID...] --confirm",
 		ShortHelp:  "Remove beta groups from a build.",
 		LongHelp: `Remove beta groups from a build.
 
 Examples:
-  asc builds remove-groups --build "BUILD_ID" --group "GROUP_ID" --confirm
-  asc builds remove-groups --build "BUILD_ID" --group "GROUP1,GROUP2" --confirm`,
+  aso builds remove-groups --build "BUILD_ID" --group "GROUP_ID" --confirm
+  aso builds remove-groups --build "BUILD_ID" --group "GROUP1,GROUP2" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

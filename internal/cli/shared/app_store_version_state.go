@@ -1,6 +1,6 @@
 package shared
 
-import "github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+import "github.com/ASOManiac/aso-cli/internal/asc"
 
 // ResolveAppStoreVersionState prefers the app version state when available.
 func ResolveAppStoreVersionState(attrs asc.AppStoreVersionAttributes) string {

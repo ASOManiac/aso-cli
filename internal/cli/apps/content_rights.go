@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type contentRightsResult struct {
@@ -24,7 +24,7 @@ func AppsContentRightsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "content-rights",
-		ShortUsage: "asc apps content-rights <subcommand> [flags]",
+		ShortUsage: "aso apps content-rights <subcommand> [flags]",
 		ShortHelp:  "Manage an app's content rights declaration.",
 		LongHelp: `Manage an app's content rights declaration.
 
@@ -32,8 +32,8 @@ The content rights declaration indicates whether your app uses third-party conte
 This is required for App Store submission.
 
 Examples:
-  asc apps content-rights view --app "APP_ID"
-  asc apps content-rights edit --app "APP_ID" --uses-third-party-content=false`,
+  aso apps content-rights view --app "APP_ID"
+  aso apps content-rights edit --app "APP_ID" --uses-third-party-content=false`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -55,12 +55,12 @@ func AppsContentRightsViewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "view",
-		ShortUsage: "asc apps content-rights view --app \"APP_ID\"",
+		ShortUsage: "aso apps content-rights view --app \"APP_ID\"",
 		ShortHelp:  "View an app's content rights declaration.",
 		LongHelp: `View an app's content rights declaration.
 
 Examples:
-  asc apps content-rights view --app "APP_ID"`,
+  aso apps content-rights view --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -115,7 +115,7 @@ func AppsContentRightsEditCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "edit",
-		ShortUsage: "asc apps content-rights edit --app \"APP_ID\" --uses-third-party-content=false",
+		ShortUsage: "aso apps content-rights edit --app \"APP_ID\" --uses-third-party-content=false",
 		ShortHelp:  "Edit an app's content rights declaration.",
 		LongHelp: `Edit an app's content rights declaration.
 
@@ -128,8 +128,8 @@ for App Store submission.
 Accepts: true, false, yes, no, uses, does-not-use, or the raw API values.
 
 Examples:
-  asc apps content-rights edit --app "APP_ID" --uses-third-party-content=false
-  asc apps content-rights edit --app "APP_ID" --uses-third-party-content=true`,
+  aso apps content-rights edit --app "APP_ID" --uses-third-party-content=false
+  aso apps content-rights edit --app "APP_ID" --uses-third-party-content=true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

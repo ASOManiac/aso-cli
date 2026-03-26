@@ -8,7 +8,7 @@ import (
 
 	"github.com/99designs/keyring"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 const testCredentialMetadataDescription = `asc:metadata:{"key_id":"KEY123","issuer_id":"ISS456"}`

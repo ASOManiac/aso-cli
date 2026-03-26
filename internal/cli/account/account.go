@@ -11,9 +11,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	authsvc "github.com/rudrankriyam/App-Store-Connect-CLI/internal/auth"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	authsvc "github.com/ASOManiac/aso-cli/internal/auth"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AccountCommand returns the account command group.
@@ -22,14 +22,14 @@ func AccountCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "account",
-		ShortUsage: "asc account <subcommand> [flags]",
+		ShortUsage: "aso account <subcommand> [flags]",
 		ShortHelp:  "Inspect account-level health and access signals.",
 		LongHelp: `Inspect account-level health and access signals.
 
 Examples:
-  asc account status
-  asc account status --app "123456789"
-  asc account status --output table`,
+  aso account status
+  aso account status --app "123456789"
+  aso account status --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -49,7 +49,7 @@ func accountStatusCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "status",
-		ShortUsage: "asc account status [flags]",
+		ShortUsage: "aso account status [flags]",
 		ShortHelp:  "Show account/workspace health checks.",
 		LongHelp: `Show account/workspace health checks.
 
@@ -59,9 +59,9 @@ Checks currently include:
   - account agreements availability (public API capability note)
 
 Examples:
-  asc account status
-  asc account status --app "123456789"
-  asc account status --output markdown`,
+  aso account status
+  aso account status --app "123456789"
+  aso account status --output markdown`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

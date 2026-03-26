@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppClipInvocationLocalizationsCommand returns the invocations localizations command group.
@@ -19,13 +19,13 @@ func AppClipInvocationLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc app-clips invocations localizations <subcommand> [flags]",
+		ShortUsage: "aso app-clips invocations localizations <subcommand> [flags]",
 		ShortHelp:  "Manage beta App Clip invocation localizations.",
 		LongHelp: `Manage beta App Clip invocation localizations.
 
 Examples:
-  asc app-clips invocations localizations list --invocation-id "INVOCATION_ID"
-  asc app-clips invocations localizations create --invocation-id "INVOCATION_ID" --locale "en-US" --title "Try it"`,
+  aso app-clips invocations localizations list --invocation-id "INVOCATION_ID"
+  aso app-clips invocations localizations create --invocation-id "INVOCATION_ID" --locale "en-US" --title "Try it"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -50,12 +50,12 @@ func AppClipInvocationLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc app-clips invocations localizations list --invocation-id \"INVOCATION_ID\" [flags]",
+		ShortUsage: "aso app-clips invocations localizations list --invocation-id \"INVOCATION_ID\" [flags]",
 		ShortHelp:  "List localizations for a beta App Clip invocation.",
 		LongHelp: `List localizations for a beta App Clip invocation.
 
 Examples:
-  asc app-clips invocations localizations list --invocation-id "INVOCATION_ID"`,
+  aso app-clips invocations localizations list --invocation-id "INVOCATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -102,12 +102,12 @@ func AppClipInvocationLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc app-clips invocations localizations create --invocation-id \"INVOCATION_ID\" --locale \"en-US\" --title \"Try it\"",
+		ShortUsage: "aso app-clips invocations localizations create --invocation-id \"INVOCATION_ID\" --locale \"en-US\" --title \"Try it\"",
 		ShortHelp:  "Create a beta App Clip invocation localization.",
 		LongHelp: `Create a beta App Clip invocation localization.
 
 Examples:
-  asc app-clips invocations localizations create --invocation-id "INVOCATION_ID" --locale "en-US" --title "Try it"`,
+  aso app-clips invocations localizations create --invocation-id "INVOCATION_ID" --locale "en-US" --title "Try it"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -162,12 +162,12 @@ func AppClipInvocationLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc app-clips invocations localizations update --localization-id \"LOC_ID\" [flags]",
+		ShortUsage: "aso app-clips invocations localizations update --localization-id \"LOC_ID\" [flags]",
 		ShortHelp:  "Update a beta App Clip invocation localization.",
 		LongHelp: `Update a beta App Clip invocation localization.
 
 Examples:
-  asc app-clips invocations localizations update --localization-id "LOC_ID" --title "Try it"`,
+  aso app-clips invocations localizations update --localization-id "LOC_ID" --title "Try it"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -217,12 +217,12 @@ func AppClipInvocationLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc app-clips invocations localizations delete --localization-id \"LOC_ID\" --confirm",
+		ShortUsage: "aso app-clips invocations localizations delete --localization-id \"LOC_ID\" --confirm",
 		ShortHelp:  "Delete a beta App Clip invocation localization.",
 		LongHelp: `Delete a beta App Clip invocation localization.
 
 Examples:
-  asc app-clips invocations localizations delete --localization-id "LOC_ID" --confirm`,
+  aso app-clips invocations localizations delete --localization-id "LOC_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -8,8 +8,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SandboxListCommand returns the sandbox list subcommand.
@@ -25,16 +25,16 @@ func SandboxListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc sandbox list [flags]",
+		ShortUsage: "aso sandbox list [flags]",
 		ShortHelp:  "List sandbox testers.",
 		LongHelp: `List sandbox testers for the App Store Connect team.
 
 Examples:
-  asc sandbox list
-  asc sandbox list --email "tester@example.com"
-  asc sandbox list --territory "USA"
-  asc sandbox list --limit 50
-  asc sandbox list --paginate`,
+  aso sandbox list
+  aso sandbox list --email "tester@example.com"
+  aso sandbox list --territory "USA"
+  aso sandbox list --limit 50
+  aso sandbox list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

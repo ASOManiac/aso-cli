@@ -11,8 +11,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -23,15 +23,15 @@ const (
 func PublishCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "publish",
-		ShortUsage: "asc publish <subcommand> [flags]",
+		ShortUsage: "aso publish <subcommand> [flags]",
 		ShortHelp:  "End-to-end publish workflows for TestFlight and App Store.",
 		LongHelp: `End-to-end publish workflows.
 
 Combines upload, distribution, and submission into single commands.
 
 Examples:
-  asc publish testflight --app APP_ID --ipa app.ipa --group GROUP_ID
-  asc publish appstore --app APP_ID --ipa app.ipa --version 1.2.3 --submit --confirm`,
+  aso publish testflight --app APP_ID --ipa app.ipa --group GROUP_ID
+  aso publish appstore --app APP_ID --ipa app.ipa --version 1.2.3 --submit --confirm`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			PublishTestFlightCommand(),
@@ -64,7 +64,7 @@ func PublishTestFlightCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "testflight",
-		ShortUsage: "asc publish testflight [flags]",
+		ShortUsage: "aso publish testflight [flags]",
 		ShortHelp:  "Upload and distribute to TestFlight.",
 		LongHelp: `Upload IPA and distribute to TestFlight beta groups.
 
@@ -75,12 +75,12 @@ Steps:
 4. Optionally notify testers
 
 Examples:
-  asc publish testflight --app "123" --ipa app.ipa --group "GROUP_ID"
-  asc publish testflight --app "123" --ipa app.ipa --group "External Testers"
-  asc publish testflight --app "123" --ipa app.ipa --group "G1,G2" --wait --notify
-  asc publish testflight --app "123" --ipa app.ipa --group "GROUP_ID" --test-notes "Test instructions" --locale "en-US" --wait
-  asc publish testflight --app "123" --build "BUILD_ID" --group "GROUP_ID" --wait
-  asc publish testflight --app "123" --build-number "42" --group "GROUP_ID" --wait`,
+  aso publish testflight --app "123" --ipa app.ipa --group "GROUP_ID"
+  aso publish testflight --app "123" --ipa app.ipa --group "External Testers"
+  aso publish testflight --app "123" --ipa app.ipa --group "G1,G2" --wait --notify
+  aso publish testflight --app "123" --ipa app.ipa --group "GROUP_ID" --test-notes "Test instructions" --locale "en-US" --wait
+  aso publish testflight --app "123" --build "BUILD_ID" --group "GROUP_ID" --wait
+  aso publish testflight --app "123" --build-number "42" --group "GROUP_ID" --wait`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -290,7 +290,7 @@ func PublishAppStoreCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "appstore",
-		ShortUsage: "asc publish appstore [flags]",
+		ShortUsage: "aso publish appstore [flags]",
 		ShortHelp:  "Upload and submit to App Store.",
 		LongHelp: `Upload IPA, attach to version, and optionally submit for review.
 
@@ -302,8 +302,8 @@ Steps:
 5. Submit for review (if --submit --confirm)
 
 Examples:
-  asc publish appstore --app "123" --ipa app.ipa --version 1.2.3
-  asc publish appstore --app "123" --ipa app.ipa --version 1.2.3 --submit --confirm`,
+  aso publish appstore --app "123" --ipa app.ipa --version 1.2.3
+  aso publish appstore --app "123" --ipa app.ipa --version 1.2.3 --submit --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

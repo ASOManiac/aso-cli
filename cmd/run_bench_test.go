@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func BenchmarkRunVersionOnlyFlag(b *testing.B) {

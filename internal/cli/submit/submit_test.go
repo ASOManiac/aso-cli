@@ -21,9 +21,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	validatecli "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/validate"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	validatecli "github.com/ASOManiac/aso-cli/internal/cli/validate"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 func TestSubmitCommandShape(t *testing.T) {
@@ -176,7 +176,7 @@ func TestRunSubmitCreateReadinessPreflight_PrintsPrivacyPublishStateAdvisory(t *
 	if !strings.Contains(stderr, "Hint: Confirm App Privacy is published in App Store Connect before submitting: https://appstoreconnect.apple.com/apps/app-123/appPrivacy") {
 		t.Fatalf("expected App Privacy hint in stderr, got %q", stderr)
 	}
-	if strings.Contains(strings.ToLower(stderr), "asc web") {
+	if strings.Contains(strings.ToLower(stderr), "aso web") {
 		t.Fatalf("did not expect private/web command references in stderr, got %q", stderr)
 	}
 }
@@ -2899,14 +2899,14 @@ func TestPrintSubmissionErrorHintsUsesExistingRunnableCommands(t *testing.T) {
 	})
 
 	for _, want := range []string{
-		"Hint: Review current age rating: asc age-rating view --app app-1",
-		"Hint: Review age-rating update flags: asc age-rating edit --help",
-		"Hint: If your app does not use third-party content: asc apps update --id app-1 --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT",
-		"Hint: If your app uses third-party content: asc apps update --id app-1 --content-rights USES_THIRD_PARTY_CONTENT",
+		"Hint: Review current age rating: aso age-rating view --app app-1",
+		"Hint: Review age-rating update flags: aso age-rating edit --help",
+		"Hint: If your app does not use third-party content: aso apps update --id app-1 --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT",
+		"Hint: If your app uses third-party content: aso apps update --id app-1 --content-rights USES_THIRD_PARTY_CONTENT",
 		"Hint: Set Uses Non-Exempt Encryption for the attached build in App Store Connect, then retry submission.",
 		"Hint: Complete App Privacy at: https://appstoreconnect.apple.com/apps/app-1/appPrivacy",
-		"Hint: List available categories: asc categories list",
-		"Hint: Review category update flags: asc app-setup categories set --help",
+		"Hint: List available categories: aso categories list",
+		"Hint: Review category update flags: aso app-setup categories set --help",
 	} {
 		if !strings.Contains(stderr, want) {
 			t.Fatalf("expected hint %q in stderr, got %q", want, stderr)
@@ -2959,11 +2959,11 @@ func TestPrintSubmissionErrorHintsUsesAssociatedErrorsForSubmissionStateConflict
 	})
 
 	for _, want := range []string{
-		"Hint: Check the active submission: asc submit status --id active-submission-1",
-		"Hint: Inspect the active submission payload: asc review submissions-get --id active-submission-1",
-		"Hint: Re-run readiness validation: asc validate --app app-1 --version-id version-1",
-		"Hint: Re-run submit preflight: asc submit preflight --app app-1 --version 1.0 --platform MAC_OS",
-		"Hint: Review the release dashboard: asc status --app app-1 --include submission,appstore,review",
+		"Hint: Check the active submission: aso submit status --id active-submission-1",
+		"Hint: Inspect the active submission payload: aso review submissions-get --id active-submission-1",
+		"Hint: Re-run readiness validation: aso validate --app app-1 --version-id version-1",
+		"Hint: Re-run submit preflight: aso submit preflight --app app-1 --version 1.0 --platform MAC_OS",
+		"Hint: Review the release dashboard: aso status --app app-1 --include submission,appstore,review",
 	} {
 		if !strings.Contains(stderr, want) {
 			t.Fatalf("expected hint %q in stderr, got %q", want, stderr)

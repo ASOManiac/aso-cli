@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	localxcode "github.com/rudrankriyam/App-Store-Connect-CLI/internal/xcode"
+	localxcode "github.com/ASOManiac/aso-cli/internal/xcode"
 )
 
 func TestXcodeVersionViewCommandOutputsResult(t *testing.T) {

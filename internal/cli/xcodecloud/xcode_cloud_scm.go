@@ -7,8 +7,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func xcodeCloudScmListFlags(fs *flag.FlagSet) (limit *int, next *string, paginate *bool, output *string, pretty *bool) {
@@ -27,14 +27,14 @@ func XcodeCloudScmCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "scm",
-		ShortUsage: "asc xcode-cloud scm <subcommand> [flags]",
+		ShortUsage: "aso xcode-cloud scm <subcommand> [flags]",
 		ShortHelp:  "Manage Xcode Cloud SCM providers and repositories.",
 		LongHelp: `Manage Xcode Cloud SCM providers and repositories.
 
 Examples:
-  asc xcode-cloud scm providers list
-  asc xcode-cloud scm repositories list
-  asc xcode-cloud scm repositories git-references --repo-id "REPO_ID"`,
+  aso xcode-cloud scm providers list
+  aso xcode-cloud scm repositories list
+  aso xcode-cloud scm repositories git-references --repo-id "REPO_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -57,14 +57,14 @@ func XcodeCloudScmProvidersCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "providers",
-		ShortUsage: "asc xcode-cloud scm providers [flags]",
+		ShortUsage: "aso xcode-cloud scm providers [flags]",
 		ShortHelp:  "Manage SCM providers.",
 		LongHelp: `Manage SCM providers.
 
 Examples:
-  asc xcode-cloud scm providers list
-  asc xcode-cloud scm providers get --provider-id "PROVIDER_ID"
-  asc xcode-cloud scm providers repositories --provider-id "PROVIDER_ID"`,
+  aso xcode-cloud scm providers list
+  aso xcode-cloud scm providers get --provider-id "PROVIDER_ID"
+  aso xcode-cloud scm providers repositories --provider-id "PROVIDER_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -85,13 +85,13 @@ func XcodeCloudScmProvidersListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc xcode-cloud scm providers list [flags]",
+		ShortUsage: "aso xcode-cloud scm providers list [flags]",
 		ShortHelp:  "List SCM providers.",
 		LongHelp: `List SCM providers.
 
 Examples:
-  asc xcode-cloud scm providers list
-  asc xcode-cloud scm providers list --paginate`,
+  aso xcode-cloud scm providers list
+  aso xcode-cloud scm providers list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -104,12 +104,12 @@ func XcodeCloudScmProvidersGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "get",
 		Name:        "get",
-		ShortUsage:  "asc xcode-cloud scm providers get --provider-id \"PROVIDER_ID\"",
+		ShortUsage:  "aso xcode-cloud scm providers get --provider-id \"PROVIDER_ID\"",
 		ShortHelp:   "Get an SCM provider by ID.",
 		LongHelp: `Get an SCM provider by ID.
 
 Examples:
-  asc xcode-cloud scm providers get --provider-id "PROVIDER_ID"`,
+  aso xcode-cloud scm providers get --provider-id "PROVIDER_ID"`,
 		IDFlag:      "provider-id",
 		IDUsage:     "SCM provider ID",
 		ErrorPrefix: "xcode-cloud scm providers get",
@@ -126,13 +126,13 @@ func XcodeCloudScmProvidersRepositoriesCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "repositories",
 		Name:        "repositories",
-		ShortUsage:  "asc xcode-cloud scm providers repositories --provider-id \"PROVIDER_ID\" [flags]",
+		ShortUsage:  "aso xcode-cloud scm providers repositories --provider-id \"PROVIDER_ID\" [flags]",
 		ShortHelp:   "List repositories for an SCM provider.",
 		LongHelp: `List repositories for an SCM provider.
 
 Examples:
-  asc xcode-cloud scm providers repositories --provider-id "PROVIDER_ID"
-  asc xcode-cloud scm providers repositories --provider-id "PROVIDER_ID" --paginate`,
+  aso xcode-cloud scm providers repositories --provider-id "PROVIDER_ID"
+  aso xcode-cloud scm providers repositories --provider-id "PROVIDER_ID" --paginate`,
 		ParentFlag:  "provider-id",
 		ParentUsage: "SCM provider ID",
 		LimitMax:    200,
@@ -162,14 +162,14 @@ func XcodeCloudScmRepositoriesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "repositories",
-		ShortUsage: "asc xcode-cloud scm repositories [flags]",
+		ShortUsage: "aso xcode-cloud scm repositories [flags]",
 		ShortHelp:  "Manage SCM repositories.",
 		LongHelp: `Manage SCM repositories.
 
 Examples:
-  asc xcode-cloud scm repositories list
-  asc xcode-cloud scm repositories get --id "REPO_ID"
-  asc xcode-cloud scm repositories git-references --repo-id "REPO_ID"`,
+  aso xcode-cloud scm repositories list
+  aso xcode-cloud scm repositories get --id "REPO_ID"
+  aso xcode-cloud scm repositories git-references --repo-id "REPO_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -193,13 +193,13 @@ func XcodeCloudScmRepositoriesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc xcode-cloud scm repositories list [flags]",
+		ShortUsage: "aso xcode-cloud scm repositories list [flags]",
 		ShortHelp:  "List SCM repositories.",
 		LongHelp: `List SCM repositories.
 
 Examples:
-  asc xcode-cloud scm repositories list
-  asc xcode-cloud scm repositories list --paginate`,
+  aso xcode-cloud scm repositories list
+  aso xcode-cloud scm repositories list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -212,12 +212,12 @@ func XcodeCloudScmRepositoriesGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "get",
 		Name:        "get",
-		ShortUsage:  "asc xcode-cloud scm repositories get --id \"REPO_ID\"",
+		ShortUsage:  "aso xcode-cloud scm repositories get --id \"REPO_ID\"",
 		ShortHelp:   "Get an SCM repository by ID.",
 		LongHelp: `Get an SCM repository by ID.
 
 Examples:
-  asc xcode-cloud scm repositories get --id "REPO_ID"`,
+  aso xcode-cloud scm repositories get --id "REPO_ID"`,
 		IDFlag:      "id",
 		IDUsage:     "SCM repository ID",
 		ErrorPrefix: "xcode-cloud scm repositories get",
@@ -238,13 +238,13 @@ func XcodeCloudScmRepositoriesGitReferencesCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "git-references",
 		Name:        "git-references",
-		ShortUsage:  "asc xcode-cloud scm repositories git-references --repo-id \"REPO_ID\" [flags]",
+		ShortUsage:  "aso xcode-cloud scm repositories git-references --repo-id \"REPO_ID\" [flags]",
 		ShortHelp:   "List git references for a repository.",
 		LongHelp: `List git references for a repository.
 
 Examples:
-  asc xcode-cloud scm repositories git-references --repo-id "REPO_ID"
-  asc xcode-cloud scm repositories git-references --repo-id "REPO_ID" --paginate`,
+  aso xcode-cloud scm repositories git-references --repo-id "REPO_ID"
+  aso xcode-cloud scm repositories git-references --repo-id "REPO_ID" --paginate`,
 		ParentFlag:  "repo-id",
 		ParentUsage: "SCM repository ID",
 		LimitMax:    200,
@@ -270,13 +270,13 @@ func XcodeCloudScmRepositoriesPullRequestsCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "pull-requests",
 		Name:        "pull-requests",
-		ShortUsage:  "asc xcode-cloud scm repositories pull-requests --repo-id \"REPO_ID\" [flags]",
+		ShortUsage:  "aso xcode-cloud scm repositories pull-requests --repo-id \"REPO_ID\" [flags]",
 		ShortHelp:   "List pull requests for a repository.",
 		LongHelp: `List pull requests for a repository.
 
 Examples:
-  asc xcode-cloud scm repositories pull-requests --repo-id "REPO_ID"
-  asc xcode-cloud scm repositories pull-requests --repo-id "REPO_ID" --paginate`,
+  aso xcode-cloud scm repositories pull-requests --repo-id "REPO_ID"
+  aso xcode-cloud scm repositories pull-requests --repo-id "REPO_ID" --paginate`,
 		ParentFlag:  "repo-id",
 		ParentUsage: "SCM repository ID",
 		LimitMax:    200,
@@ -303,13 +303,13 @@ func XcodeCloudScmRepositoriesRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc xcode-cloud scm repositories links <git-references|pull-requests> [flags]",
+		ShortUsage: "aso xcode-cloud scm repositories links <git-references|pull-requests> [flags]",
 		ShortHelp:  "List SCM repository relationship linkages.",
 		LongHelp: `List SCM repository relationship linkages.
 
 Examples:
-  asc xcode-cloud scm repositories links git-references --repo-id "REPO_ID"
-  asc xcode-cloud scm repositories links pull-requests --repo-id "REPO_ID"`,
+  aso xcode-cloud scm repositories links git-references --repo-id "REPO_ID"
+  aso xcode-cloud scm repositories links pull-requests --repo-id "REPO_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -326,13 +326,13 @@ func XcodeCloudScmRepositoriesRelationshipsGitReferencesCommand() *ffcli.Command
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "git-references",
 		Name:        "git-references",
-		ShortUsage:  "asc xcode-cloud scm repositories links git-references --repo-id \"REPO_ID\" [flags]",
+		ShortUsage:  "aso xcode-cloud scm repositories links git-references --repo-id \"REPO_ID\" [flags]",
 		ShortHelp:   "List git reference relationship linkages for a repository.",
 		LongHelp: `List git reference relationship linkages for a repository.
 
 Examples:
-  asc xcode-cloud scm repositories links git-references --repo-id "REPO_ID"
-  asc xcode-cloud scm repositories links git-references --repo-id "REPO_ID" --paginate`,
+  aso xcode-cloud scm repositories links git-references --repo-id "REPO_ID"
+  aso xcode-cloud scm repositories links git-references --repo-id "REPO_ID" --paginate`,
 		ParentFlag:  "repo-id",
 		ParentUsage: "SCM repository ID",
 		LimitMax:    200,
@@ -358,13 +358,13 @@ func XcodeCloudScmRepositoriesRelationshipsPullRequestsCommand() *ffcli.Command 
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "pull-requests",
 		Name:        "pull-requests",
-		ShortUsage:  "asc xcode-cloud scm repositories links pull-requests --repo-id \"REPO_ID\" [flags]",
+		ShortUsage:  "aso xcode-cloud scm repositories links pull-requests --repo-id \"REPO_ID\" [flags]",
 		ShortHelp:   "List pull request relationship linkages for a repository.",
 		LongHelp: `List pull request relationship linkages for a repository.
 
 Examples:
-  asc xcode-cloud scm repositories links pull-requests --repo-id "REPO_ID"
-  asc xcode-cloud scm repositories links pull-requests --repo-id "REPO_ID" --paginate`,
+  aso xcode-cloud scm repositories links pull-requests --repo-id "REPO_ID"
+  aso xcode-cloud scm repositories links pull-requests --repo-id "REPO_ID" --paginate`,
 		ParentFlag:  "repo-id",
 		ParentUsage: "SCM repository ID",
 		LimitMax:    200,
@@ -391,25 +391,25 @@ func DeprecatedXcodeCloudScmRepositoriesRelationshipsAliasCommand() *ffcli.Comma
 
 	return &ffcli.Command{
 		Name:       "relationships",
-		ShortUsage: "asc xcode-cloud scm repositories links <git-references|pull-requests> [flags]",
-		ShortHelp:  "DEPRECATED: use `asc xcode-cloud scm repositories links ...`.",
-		LongHelp:   "Deprecated compatibility alias for `asc xcode-cloud scm repositories links ...`.",
+		ShortUsage: "aso xcode-cloud scm repositories links <git-references|pull-requests> [flags]",
+		ShortHelp:  "DEPRECATED: use `aso xcode-cloud scm repositories links ...`.",
+		LongHelp:   "Deprecated compatibility alias for `aso xcode-cloud scm repositories links ...`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
 			shared.DeprecatedAliasLeafCommand(
 				XcodeCloudScmRepositoriesRelationshipsGitReferencesCommand(),
 				"git-references",
-				"asc xcode-cloud scm repositories links git-references --repo-id \"REPO_ID\" [flags]",
-				"asc xcode-cloud scm repositories links git-references",
-				"Warning: `asc xcode-cloud scm repositories relationships git-references` is deprecated. Use `asc xcode-cloud scm repositories links git-references`.",
+				"aso xcode-cloud scm repositories links git-references --repo-id \"REPO_ID\" [flags]",
+				"aso xcode-cloud scm repositories links git-references",
+				"Warning: `aso xcode-cloud scm repositories relationships git-references` is deprecated. Use `aso xcode-cloud scm repositories links git-references`.",
 			),
 			shared.DeprecatedAliasLeafCommand(
 				XcodeCloudScmRepositoriesRelationshipsPullRequestsCommand(),
 				"pull-requests",
-				"asc xcode-cloud scm repositories links pull-requests --repo-id \"REPO_ID\" [flags]",
-				"asc xcode-cloud scm repositories links pull-requests",
-				"Warning: `asc xcode-cloud scm repositories relationships pull-requests` is deprecated. Use `asc xcode-cloud scm repositories links pull-requests`.",
+				"aso xcode-cloud scm repositories links pull-requests --repo-id \"REPO_ID\" [flags]",
+				"aso xcode-cloud scm repositories links pull-requests",
+				"Warning: `aso xcode-cloud scm repositories relationships pull-requests` is deprecated. Use `aso xcode-cloud scm repositories links pull-requests`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {
@@ -424,12 +424,12 @@ func XcodeCloudScmGitReferencesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "git-references",
-		ShortUsage: "asc xcode-cloud scm git-references <subcommand> [flags]",
+		ShortUsage: "aso xcode-cloud scm git-references <subcommand> [flags]",
 		ShortHelp:  "Manage SCM git references.",
 		LongHelp: `Manage SCM git references.
 
 Examples:
-  asc xcode-cloud scm git-references get --id "REF_ID"`,
+  aso xcode-cloud scm git-references get --id "REF_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -445,12 +445,12 @@ func XcodeCloudScmGitReferencesGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "get",
 		Name:        "get",
-		ShortUsage:  "asc xcode-cloud scm git-references get --id \"REF_ID\"",
+		ShortUsage:  "aso xcode-cloud scm git-references get --id \"REF_ID\"",
 		ShortHelp:   "Get an SCM git reference by ID.",
 		LongHelp: `Get an SCM git reference by ID.
 
 Examples:
-  asc xcode-cloud scm git-references get --id "REF_ID"`,
+  aso xcode-cloud scm git-references get --id "REF_ID"`,
 		IDFlag:      "id",
 		IDUsage:     "SCM git reference ID",
 		ErrorPrefix: "xcode-cloud scm git-references get",
@@ -469,12 +469,12 @@ func XcodeCloudScmPullRequestsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "pull-requests",
-		ShortUsage: "asc xcode-cloud scm pull-requests <subcommand> [flags]",
+		ShortUsage: "aso xcode-cloud scm pull-requests <subcommand> [flags]",
 		ShortHelp:  "Manage SCM pull requests.",
 		LongHelp: `Manage SCM pull requests.
 
 Examples:
-  asc xcode-cloud scm pull-requests get --id "PR_ID"`,
+  aso xcode-cloud scm pull-requests get --id "PR_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -490,12 +490,12 @@ func XcodeCloudScmPullRequestsGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "get",
 		Name:        "get",
-		ShortUsage:  "asc xcode-cloud scm pull-requests get --id \"PR_ID\"",
+		ShortUsage:  "aso xcode-cloud scm pull-requests get --id \"PR_ID\"",
 		ShortHelp:   "Get an SCM pull request by ID.",
 		LongHelp: `Get an SCM pull request by ID.
 
 Examples:
-  asc xcode-cloud scm pull-requests get --id "PR_ID"`,
+  aso xcode-cloud scm pull-requests get --id "PR_ID"`,
 		IDFlag:      "id",
 		IDUsage:     "SCM pull request ID",
 		ErrorPrefix: "xcode-cloud scm pull-requests get",

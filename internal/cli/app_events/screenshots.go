@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppEventScreenshotsCommand returns the app event screenshots command group.
@@ -19,13 +19,13 @@ func AppEventScreenshotsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "screenshots",
-		ShortUsage: "asc app-events screenshots <subcommand> [flags]",
+		ShortUsage: "aso app-events screenshots <subcommand> [flags]",
 		ShortHelp:  "Manage in-app event screenshots.",
 		LongHelp: `Manage in-app event screenshots.
 
 Examples:
-  asc app-events screenshots list --event-id "EVENT_ID"
-  asc app-events screenshots create --localization-id "LOC_ID" --path "./event.png" --asset-type EVENT_CARD`,
+  aso app-events screenshots list --event-id "EVENT_ID"
+  aso app-events screenshots create --localization-id "LOC_ID" --path "./event.png" --asset-type EVENT_CARD`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -34,9 +34,9 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				AppEventScreenshotsRelationshipsCommand(),
 				"relationships",
-				"asc app-events screenshots links [flags]",
-				"asc app-events screenshots links",
-				"Warning: `asc app-events screenshots relationships` is deprecated. Use `asc app-events screenshots links`.",
+				"aso app-events screenshots links [flags]",
+				"aso app-events screenshots links",
+				"Warning: `aso app-events screenshots relationships` is deprecated. Use `aso app-events screenshots links`.",
 			),
 			AppEventScreenshotsGetCommand(),
 			AppEventScreenshotsCreateCommand(),
@@ -62,14 +62,14 @@ func AppEventScreenshotsRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc app-events screenshots links [flags]",
+		ShortUsage: "aso app-events screenshots links [flags]",
 		ShortHelp:  "List screenshot relationships for an in-app event localization.",
 		LongHelp: `List screenshot relationships for an in-app event localization.
 
 Examples:
-  asc app-events screenshots links --localization-id "LOC_ID"
-  asc app-events screenshots links --event-id "EVENT_ID" --locale "en-US"
-  asc app-events screenshots links --event-id "EVENT_ID" --paginate`,
+  aso app-events screenshots links --localization-id "LOC_ID"
+  aso app-events screenshots links --event-id "EVENT_ID" --locale "en-US"
+  aso app-events screenshots links --event-id "EVENT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -147,14 +147,14 @@ func AppEventScreenshotsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc app-events screenshots list [flags]",
+		ShortUsage: "aso app-events screenshots list [flags]",
 		ShortHelp:  "List screenshots for an in-app event localization.",
 		LongHelp: `List screenshots for an in-app event localization.
 
 Examples:
-  asc app-events screenshots list --localization-id "LOC_ID"
-  asc app-events screenshots list --event-id "EVENT_ID" --locale "en-US"
-  asc app-events screenshots list --event-id "EVENT_ID" --paginate`,
+  aso app-events screenshots list --localization-id "LOC_ID"
+  aso app-events screenshots list --event-id "EVENT_ID" --locale "en-US"
+  aso app-events screenshots list --event-id "EVENT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -227,12 +227,12 @@ func AppEventScreenshotsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-events screenshots get --screenshot-id \"SHOT_ID\"",
+		ShortUsage: "aso app-events screenshots get --screenshot-id \"SHOT_ID\"",
 		ShortHelp:  "Get an in-app event screenshot by ID.",
 		LongHelp: `Get an in-app event screenshot by ID.
 
 Examples:
-  asc app-events screenshots get --screenshot-id "SHOT_ID"`,
+  aso app-events screenshots get --screenshot-id "SHOT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -273,13 +273,13 @@ func AppEventScreenshotsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc app-events screenshots create [flags]",
+		ShortUsage: "aso app-events screenshots create [flags]",
 		ShortHelp:  "Upload a screenshot for an in-app event localization.",
 		LongHelp: `Upload a screenshot for an in-app event localization.
 
 Examples:
-  asc app-events screenshots create --localization-id "LOC_ID" --path "./event.png" --asset-type EVENT_CARD
-  asc app-events screenshots create --event-id "EVENT_ID" --locale "en-US" --path "./event.png" --asset-type EVENT_DETAILS_PAGE`,
+  aso app-events screenshots create --localization-id "LOC_ID" --path "./event.png" --asset-type EVENT_CARD
+  aso app-events screenshots create --event-id "EVENT_ID" --locale "en-US" --path "./event.png" --asset-type EVENT_DETAILS_PAGE`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -359,12 +359,12 @@ func AppEventScreenshotsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc app-events screenshots delete --screenshot-id \"SHOT_ID\" --confirm",
+		ShortUsage: "aso app-events screenshots delete --screenshot-id \"SHOT_ID\" --confirm",
 		ShortHelp:  "Delete an in-app event screenshot.",
 		LongHelp: `Delete an in-app event screenshot.
 
 Examples:
-  asc app-events screenshots delete --screenshot-id "SHOT_ID" --confirm`,
+  aso app-events screenshots delete --screenshot-id "SHOT_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

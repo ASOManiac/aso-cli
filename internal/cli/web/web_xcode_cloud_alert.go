@@ -17,9 +17,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 const usageAlertSlackWebhookEnv = "ASC_SLACK_WEBHOOK"
@@ -150,7 +150,7 @@ func webXcodeCloudUsageAlertCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "alert",
-		ShortUsage: "asc web xcode-cloud usage alert [flags]",
+		ShortUsage: "aso web xcode-cloud usage alert [flags]",
 		ShortHelp:  "[experimental] Evaluate usage thresholds and send alerts.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -165,10 +165,10 @@ Exit behavior:
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud usage alert --apple-id "user@example.com"
-  asc web xcode-cloud usage alert --warn-at 75 --critical-at 90 --fail-on warning --output table
-  asc web xcode-cloud usage alert --slack-webhook "https://hooks.slack.com/services/..." --notify-on critical
-  asc web xcode-cloud usage alert --webhook "https://example.com/alerts" --webhook-header "Authorization: Bearer TOKEN"`,
+  aso web xcode-cloud usage alert --apple-id "user@example.com"
+  aso web xcode-cloud usage alert --warn-at 75 --critical-at 90 --fail-on warning --output table
+  aso web xcode-cloud usage alert --slack-webhook "https://hooks.slack.com/services/..." --notify-on critical
+  aso web xcode-cloud usage alert --webhook "https://example.com/alerts" --webhook-header "Authorization: Bearer TOKEN"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

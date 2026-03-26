@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	cmd "github.com/rudrankriyam/App-Store-Connect-CLI/cmd"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	cmd "github.com/ASOManiac/aso-cli/cmd"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 func TestAuthIssuerIDOutputJSON(t *testing.T) {

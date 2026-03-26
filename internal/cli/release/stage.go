@@ -9,7 +9,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ReleaseStageCommand prepares an App Store version without submitting it for review.
@@ -33,7 +33,7 @@ func ReleaseStageCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "stage",
-		ShortUsage: "asc release stage --app \"APP_ID\" --version \"2.4.0\" --build \"BUILD_ID\" (--metadata-dir \"./metadata/version/2.4.0\" | --copy-metadata-from \"2.3.2\") [flags]",
+		ShortUsage: "aso release stage --app \"APP_ID\" --version \"2.4.0\" --build \"BUILD_ID\" (--metadata-dir \"./metadata/version/2.4.0\" | --copy-metadata-from \"2.3.2\") [flags]",
 		ShortHelp:  "Run version + metadata + attach + validate.",
 		LongHelp: `Run a deterministic pre-submit App Store staging pipeline:
 1. Ensure/create version
@@ -45,9 +45,9 @@ Stops before creating a review submission.
 Supports dry-run planning, step-level structured output, and checkpointed resume.
 
 Examples:
-  asc release stage --app "APP_ID" --version "2.4.0" --build "BUILD_ID" --copy-metadata-from "2.3.2" --dry-run
-  asc release stage --app "APP_ID" --version "2.4.0" --build "BUILD_ID" --copy-metadata-from "2.3.2" --confirm
-  asc release stage --app "APP_ID" --version "2.4.0" --build "BUILD_ID" --metadata-dir "./metadata/version/2.4.0" --confirm`,
+  aso release stage --app "APP_ID" --version "2.4.0" --build "BUILD_ID" --copy-metadata-from "2.3.2" --dry-run
+  aso release stage --app "APP_ID" --version "2.4.0" --build "BUILD_ID" --copy-metadata-from "2.3.2" --confirm
+  aso release stage --app "APP_ID" --version "2.4.0" --build "BUILD_ID" --metadata-dir "./metadata/version/2.4.0" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

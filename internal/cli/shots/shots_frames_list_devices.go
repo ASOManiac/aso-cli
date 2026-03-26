@@ -5,8 +5,8 @@ import (
 	"flag"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshots"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/screenshots"
 )
 
 type frameDevicesOutput struct {
@@ -21,7 +21,7 @@ func ShotsFramesListDevicesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list-frame-devices",
-		ShortUsage: "asc screenshots list-frame-devices [--output json]",
+		ShortUsage: "aso screenshots list-frame-devices [--output json]",
 		ShortHelp:  "[experimental] List supported frame devices and the default.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,

@@ -11,8 +11,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // NotarizationCommand returns the notarization command group.
@@ -24,16 +24,16 @@ func NotarizationCommand() *ffcli.Command {
 func notarizationCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "notarization",
-		ShortUsage: "asc notarization <subcommand> [flags]",
+		ShortUsage: "aso notarization <subcommand> [flags]",
 		ShortHelp:  "Manage macOS notarization submissions.",
 		LongHelp: `Manage macOS notarization submissions via the Apple Notary API.
 
 Examples:
-  asc notarization submit --file ./MyApp.zip
-  asc notarization submit --file ./MyApp.zip --wait
-  asc notarization status --id "SUBMISSION_ID"
-  asc notarization log --id "SUBMISSION_ID"
-  asc notarization list`,
+  aso notarization submit --file ./MyApp.zip
+  aso notarization submit --file ./MyApp.zip --wait
+  aso notarization status --id "SUBMISSION_ID"
+  aso notarization log --id "SUBMISSION_ID"
+  aso notarization list`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			submitCommand(),
@@ -59,7 +59,7 @@ func submitCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submit",
-		ShortUsage: "asc notarization submit --file <path> [flags]",
+		ShortUsage: "aso notarization submit --file <path> [flags]",
 		ShortHelp:  "Submit software for notarization.",
 		LongHelp: `Submit a file for macOS notarization via the Apple Notary API.
 
@@ -68,10 +68,10 @@ SHA-256 hash, creates a submission, uploads the file to Apple's S3 bucket,
 and optionally waits for the notarization to complete.
 
 Examples:
-  asc notarization submit --file ./MyApp.zip
-  asc notarization submit --file ./MyApp.zip --wait
-  asc notarization submit --file ./MyApp.zip --wait --poll-interval 30s --timeout 1h
-  asc notarization submit --file ./MyApp.zip --output table`,
+  aso notarization submit --file ./MyApp.zip
+  aso notarization submit --file ./MyApp.zip --wait
+  aso notarization submit --file ./MyApp.zip --wait --poll-interval 30s --timeout 1h
+  aso notarization submit --file ./MyApp.zip --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -178,7 +178,7 @@ Examples:
 			// If not waiting, print the submission response and exit
 			if !*wait {
 				if shared.ProgressEnabled() {
-					fmt.Fprintf(os.Stderr, "Use 'asc notarization status --id %s' to check progress.\n", submissionID)
+					fmt.Fprintf(os.Stderr, "Use 'aso notarization status --id %s' to check progress.\n", submissionID)
 				}
 				resp := &asc.NotarySubmissionStatusResponse{
 					Data: asc.NotarySubmissionStatusData{
@@ -220,7 +220,7 @@ Examples:
 			case asc.NotaryStatusInvalid, asc.NotaryStatusRejected:
 				if shared.ProgressEnabled() {
 					fmt.Fprintf(os.Stderr, "Notarization failed. Status: %s\n", statusResp.Data.Attributes.Status)
-					fmt.Fprintf(os.Stderr, "Run 'asc notarization log --id %s' for details.\n", submissionID)
+					fmt.Fprintf(os.Stderr, "Run 'aso notarization log --id %s' for details.\n", submissionID)
 				}
 				return shared.NewReportedError(fmt.Errorf("notarization %s: %s", submissionID, statusResp.Data.Attributes.Status))
 			default:
@@ -239,15 +239,15 @@ func statusCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "status",
-		ShortUsage: "asc notarization status --id \"SUBMISSION_ID\"",
+		ShortUsage: "aso notarization status --id \"SUBMISSION_ID\"",
 		ShortHelp:  "Get the status of a notarization submission.",
 		LongHelp: `Get the status of a notarization submission.
 
 Status values: Accepted, In Progress, Invalid, Rejected.
 
 Examples:
-  asc notarization status --id "SUBMISSION_ID"
-  asc notarization status --id "SUBMISSION_ID" --output table`,
+  aso notarization status --id "SUBMISSION_ID"
+  aso notarization status --id "SUBMISSION_ID" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -284,7 +284,7 @@ func logCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "log",
-		ShortUsage: "asc notarization log --id \"SUBMISSION_ID\"",
+		ShortUsage: "aso notarization log --id \"SUBMISSION_ID\"",
 		ShortHelp:  "Get the developer log URL for a notarization submission.",
 		LongHelp: `Get the developer log URL for a notarization submission.
 
@@ -292,8 +292,8 @@ The log contains detailed information about the notarization result,
 including any issues found during the scan.
 
 Examples:
-  asc notarization log --id "SUBMISSION_ID"
-  asc notarization log --id "SUBMISSION_ID" --output table`,
+  aso notarization log --id "SUBMISSION_ID"
+  aso notarization log --id "SUBMISSION_ID" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -330,14 +330,14 @@ func listCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc notarization list [flags]",
+		ShortUsage: "aso notarization list [flags]",
 		ShortHelp:  "List previous notarization submissions.",
 		LongHelp: `List previous notarization submissions.
 
 Examples:
-  asc notarization list
-  asc notarization list --limit 5
-  asc notarization list --output table`,
+  aso notarization list
+  aso notarization list --limit 5
+  aso notarization list --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

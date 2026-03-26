@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildsTestNotesCommand returns the builds test-notes command group.
@@ -19,16 +19,16 @@ func BuildsTestNotesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "test-notes",
-		ShortUsage: "asc builds test-notes <subcommand> [flags]",
+		ShortUsage: "aso builds test-notes <subcommand> [flags]",
 		ShortHelp:  "Manage TestFlight What to Test notes.",
 		LongHelp: `Manage TestFlight "What to Test" notes for a build.
 
 Examples:
-  asc builds test-notes list --build "BUILD_ID"
-  asc builds test-notes view --id "LOCALIZATION_ID"
-  asc builds test-notes create --build "BUILD_ID" --locale "en-US" --whats-new "Test instructions"
-  asc builds test-notes update --id "LOCALIZATION_ID" --whats-new "Updated instructions"
-  asc builds test-notes delete --id "LOCALIZATION_ID" --confirm`,
+  aso builds test-notes list --build "BUILD_ID"
+  aso builds test-notes view --id "LOCALIZATION_ID"
+  aso builds test-notes create --build "BUILD_ID" --locale "en-US" --whats-new "Test instructions"
+  aso builds test-notes update --id "LOCALIZATION_ID" --whats-new "Updated instructions"
+  aso builds test-notes delete --id "LOCALIZATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -58,14 +58,14 @@ func BuildsTestNotesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc builds test-notes list [flags]",
+		ShortUsage: "aso builds test-notes list [flags]",
 		ShortHelp:  "List What to Test notes for a build.",
 		LongHelp: `List What to Test notes for a build.
 
 Examples:
-  asc builds test-notes list --build "BUILD_ID"
-  asc builds test-notes list --build "BUILD_ID" --locale "en-US,ja"
-  asc builds test-notes list --build "BUILD_ID" --paginate`,
+  aso builds test-notes list --build "BUILD_ID"
+  aso builds test-notes list --build "BUILD_ID" --locale "en-US,ja"
+  aso builds test-notes list --build "BUILD_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -137,12 +137,12 @@ func BuildsTestNotesViewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "view",
-		ShortUsage: "asc builds test-notes view [flags]",
+		ShortUsage: "aso builds test-notes view [flags]",
 		ShortHelp:  "View a What to Test note by ID.",
 		LongHelp: `View a What to Test note by ID.
 
 Examples:
-  asc builds test-notes view --id "LOCALIZATION_ID"`,
+  aso builds test-notes view --id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -174,9 +174,9 @@ func DeprecatedBuildsTestNotesGetAliasCommand() *ffcli.Command {
 	return shared.DeprecatedAliasLeafCommand(
 		BuildsTestNotesViewCommand(),
 		"get",
-		"asc builds test-notes get [flags]",
-		"asc builds test-notes view",
-		"Warning: `asc builds test-notes get` is deprecated. Use `asc builds test-notes view`.",
+		"aso builds test-notes get [flags]",
+		"aso builds test-notes view",
+		"Warning: `aso builds test-notes get` is deprecated. Use `aso builds test-notes view`.",
 	)
 }
 
@@ -191,12 +191,12 @@ func BuildsTestNotesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc builds test-notes create [flags]",
+		ShortUsage: "aso builds test-notes create [flags]",
 		ShortHelp:  "Create What to Test notes for a build.",
 		LongHelp: `Create What to Test notes for a build.
 
 Examples:
-  asc builds test-notes create --build "BUILD_ID" --locale "en-US" --whats-new "Test instructions"`,
+  aso builds test-notes create --build "BUILD_ID" --locale "en-US" --whats-new "Test instructions"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -256,13 +256,13 @@ func BuildsTestNotesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc builds test-notes update [flags]",
+		ShortUsage: "aso builds test-notes update [flags]",
 		ShortHelp:  "Update What to Test notes by ID or build+locale.",
 		LongHelp: `Update What to Test notes by ID or by build+locale.
 
 Examples:
-  asc builds test-notes update --id "LOCALIZATION_ID" --whats-new "Updated notes"
-  asc builds test-notes update --build "BUILD_ID" --locale "en-US" --whats-new "Updated notes"`,
+  aso builds test-notes update --id "LOCALIZATION_ID" --whats-new "Updated notes"
+  aso builds test-notes update --build "BUILD_ID" --locale "en-US" --whats-new "Updated notes"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -352,12 +352,12 @@ func BuildsTestNotesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc builds test-notes delete [flags]",
+		ShortUsage: "aso builds test-notes delete [flags]",
 		ShortHelp:  "Delete What to Test notes by ID.",
 		LongHelp: `Delete What to Test notes by ID.
 
 Examples:
-  asc builds test-notes delete --id "LOCALIZATION_ID" --confirm`,
+  aso builds test-notes delete --id "LOCALIZATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

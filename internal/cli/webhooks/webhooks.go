@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const webhooksMaxLimit = 200
@@ -21,21 +21,21 @@ func WebhooksCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "webhooks",
-		ShortUsage: "asc webhooks <subcommand> [flags]",
+		ShortUsage: "aso webhooks <subcommand> [flags]",
 		ShortHelp:  "Manage webhooks in App Store Connect.",
 		LongHelp: `Manage webhooks in App Store Connect.
 
 Examples:
-  asc webhooks list --app "APP_ID"
-  asc webhooks get --webhook-id "WEBHOOK_ID"
-  asc webhooks create --app "APP_ID" --name "Build Updates" --url "https://example.com/webhook" --secret "secret123" --events "SUBSCRIPTION.CREATED,SUBSCRIPTION.UPDATED" --enabled true
-  asc webhooks update --webhook-id "WEBHOOK_ID" --url "https://new-url.com/webhook" --enabled false
-  asc webhooks delete --webhook-id "WEBHOOK_ID" --confirm
-  asc webhooks serve --port 8787 --dir ./webhook-events
-  asc webhooks deliveries --webhook-id "WEBHOOK_ID"
-  asc webhooks deliveries relationships --webhook-id "WEBHOOK_ID"
-  asc webhooks deliveries redeliver --delivery-id "DELIVERY_ID"
-  asc webhooks ping --webhook-id "WEBHOOK_ID"`,
+  aso webhooks list --app "APP_ID"
+  aso webhooks get --webhook-id "WEBHOOK_ID"
+  aso webhooks create --app "APP_ID" --name "Build Updates" --url "https://example.com/webhook" --secret "secret123" --events "SUBSCRIPTION.CREATED,SUBSCRIPTION.UPDATED" --enabled true
+  aso webhooks update --webhook-id "WEBHOOK_ID" --url "https://new-url.com/webhook" --enabled false
+  aso webhooks delete --webhook-id "WEBHOOK_ID" --confirm
+  aso webhooks serve --port 8787 --dir ./webhook-events
+  aso webhooks deliveries --webhook-id "WEBHOOK_ID"
+  aso webhooks deliveries relationships --webhook-id "WEBHOOK_ID"
+  aso webhooks deliveries redeliver --delivery-id "DELIVERY_ID"
+  aso webhooks ping --webhook-id "WEBHOOK_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -66,14 +66,14 @@ func WebhooksListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc webhooks list [flags]",
+		ShortUsage: "aso webhooks list [flags]",
 		ShortHelp:  "List webhooks for an app.",
 		LongHelp: `List webhooks for an app.
 
 Examples:
-  asc webhooks list --app "APP_ID"
-  asc webhooks list --app "APP_ID" --limit 10
-  asc webhooks list --app "APP_ID" --paginate`,
+  aso webhooks list --app "APP_ID"
+  aso webhooks list --app "APP_ID" --limit 10
+  aso webhooks list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -140,12 +140,12 @@ func WebhooksGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc webhooks get --webhook-id \"WEBHOOK_ID\" [flags]",
+		ShortUsage: "aso webhooks get --webhook-id \"WEBHOOK_ID\" [flags]",
 		ShortHelp:  "Get a webhook by ID.",
 		LongHelp: `Get a webhook by ID.
 
 Examples:
-  asc webhooks get --webhook-id "WEBHOOK_ID"`,
+  aso webhooks get --webhook-id "WEBHOOK_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -188,12 +188,12 @@ func WebhooksCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc webhooks create --app APP_ID --name NAME --url URL --secret SECRET --events EVENTS --enabled [true|false] [flags]",
+		ShortUsage: "aso webhooks create --app APP_ID --name NAME --url URL --secret SECRET --events EVENTS --enabled [true|false] [flags]",
 		ShortHelp:  "Create a webhook.",
 		LongHelp: `Create a webhook.
 
 Examples:
-  asc webhooks create --app "APP_ID" --name "Build Updates" --url "https://example.com/webhook" --secret "secret123" --events "SUBSCRIPTION.CREATED,SUBSCRIPTION.UPDATED" --enabled true`,
+  aso webhooks create --app "APP_ID" --name "Build Updates" --url "https://example.com/webhook" --secret "secret123" --events "SUBSCRIPTION.CREATED,SUBSCRIPTION.UPDATED" --enabled true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -269,13 +269,13 @@ func WebhooksUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc webhooks update --webhook-id WEBHOOK_ID [flags]",
+		ShortUsage: "aso webhooks update --webhook-id WEBHOOK_ID [flags]",
 		ShortHelp:  "Update a webhook.",
 		LongHelp: `Update a webhook.
 
 Examples:
-  asc webhooks update --webhook-id "WEBHOOK_ID" --url "https://new-url.com/webhook"
-  asc webhooks update --webhook-id "WEBHOOK_ID" --enabled false`,
+  aso webhooks update --webhook-id "WEBHOOK_ID" --url "https://new-url.com/webhook"
+  aso webhooks update --webhook-id "WEBHOOK_ID" --enabled false`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -350,12 +350,12 @@ func WebhooksDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc webhooks delete --webhook-id WEBHOOK_ID --confirm [flags]",
+		ShortUsage: "aso webhooks delete --webhook-id WEBHOOK_ID --confirm [flags]",
 		ShortHelp:  "Delete a webhook.",
 		LongHelp: `Delete a webhook.
 
 Examples:
-  asc webhooks delete --webhook-id "WEBHOOK_ID" --confirm`,
+  aso webhooks delete --webhook-id "WEBHOOK_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -401,14 +401,14 @@ func WebhookDeliveriesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "deliveries",
-		ShortUsage: "asc webhooks deliveries --webhook-id WEBHOOK_ID [flags]",
+		ShortUsage: "aso webhooks deliveries --webhook-id WEBHOOK_ID [flags]",
 		ShortHelp:  "List webhook deliveries.",
 		LongHelp: `List webhook deliveries.
 
 Examples:
-  asc webhooks deliveries --webhook-id "WEBHOOK_ID" --created-after "2026-01-01T00:00:00Z"
-  asc webhooks deliveries --webhook-id "WEBHOOK_ID" --limit 10
-  asc webhooks deliveries --webhook-id "WEBHOOK_ID" --paginate`,
+  aso webhooks deliveries --webhook-id "WEBHOOK_ID" --created-after "2026-01-01T00:00:00Z"
+  aso webhooks deliveries --webhook-id "WEBHOOK_ID" --limit 10
+  aso webhooks deliveries --webhook-id "WEBHOOK_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -416,9 +416,9 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				WebhookDeliveriesRelationshipsCommand(),
 				"relationships",
-				"asc webhooks deliveries links --webhook-id WEBHOOK_ID [flags]",
-				"asc webhooks deliveries links",
-				"Warning: `asc webhooks deliveries relationships` is deprecated. Use `asc webhooks deliveries links`.",
+				"aso webhooks deliveries links --webhook-id WEBHOOK_ID [flags]",
+				"aso webhooks deliveries links",
+				"Warning: `aso webhooks deliveries relationships` is deprecated. Use `aso webhooks deliveries links`.",
 			),
 			WebhookDeliveriesRedeliverCommand(),
 		},
@@ -523,13 +523,13 @@ func WebhookDeliveriesRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc webhooks deliveries links --webhook-id WEBHOOK_ID [flags]",
+		ShortUsage: "aso webhooks deliveries links --webhook-id WEBHOOK_ID [flags]",
 		ShortHelp:  "List webhook delivery relationships.",
 		LongHelp: `List webhook delivery relationships.
 
 Examples:
-  asc webhooks deliveries links --webhook-id "WEBHOOK_ID"
-  asc webhooks deliveries links --webhook-id "WEBHOOK_ID" --paginate`,
+  aso webhooks deliveries links --webhook-id "WEBHOOK_ID"
+  aso webhooks deliveries links --webhook-id "WEBHOOK_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -604,12 +604,12 @@ func WebhookDeliveriesRedeliverCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "redeliver",
-		ShortUsage: "asc webhooks deliveries redeliver --delivery-id DELIVERY_ID [flags]",
+		ShortUsage: "aso webhooks deliveries redeliver --delivery-id DELIVERY_ID [flags]",
 		ShortHelp:  "Redeliver a webhook delivery.",
 		LongHelp: `Redeliver a webhook delivery.
 
 Examples:
-  asc webhooks deliveries redeliver --delivery-id "DELIVERY_ID"`,
+  aso webhooks deliveries redeliver --delivery-id "DELIVERY_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -646,12 +646,12 @@ func WebhookPingCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "ping",
-		ShortUsage: "asc webhooks ping --webhook-id WEBHOOK_ID [flags]",
+		ShortUsage: "aso webhooks ping --webhook-id WEBHOOK_ID [flags]",
 		ShortHelp:  "Create a webhook ping.",
 		LongHelp: `Create a webhook ping.
 
 Examples:
-  asc webhooks ping --webhook-id "WEBHOOK_ID"`,
+  aso webhooks ping --webhook-id "WEBHOOK_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

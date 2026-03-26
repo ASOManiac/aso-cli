@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 func TestDeprecatedAgeRatingGetAliasWarnsAndMatchesViewOutput(t *testing.T) {
@@ -57,7 +57,7 @@ func TestDeprecatedAgeRatingGetAliasWarnsAndMatchesViewOutput(t *testing.T) {
 	if canonicalStderr != "" {
 		t.Fatalf("expected canonical command to avoid warnings, got %q", canonicalStderr)
 	}
-	requireStderrContainsWarning(t, aliasStderr, "Warning: `asc age-rating get` has been renamed to `asc age-rating view`.")
+	requireStderrContainsWarning(t, aliasStderr, "Warning: `aso age-rating get` has been renamed to `aso age-rating view`.")
 
 	var canonicalPayload map[string]any
 	if err := json.Unmarshal([]byte(canonicalStdout), &canonicalPayload); err != nil {

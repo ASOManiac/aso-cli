@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	cmd "github.com/rudrankriyam/App-Store-Connect-CLI/cmd"
+	cmd "github.com/ASOManiac/aso-cli/cmd"
 )
 
 func resetAuthEnvForUsageTests(t *testing.T) {

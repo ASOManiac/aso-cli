@@ -11,9 +11,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 var (
@@ -62,13 +62,13 @@ type analyticsCohortsOutput struct {
 	Result    *webcore.AnalyticsCohortsResponse `json:"result"`
 }
 
-// WebAnalyticsCommand returns the analytics command group under `asc web`.
+// WebAnalyticsCommand returns the analytics command group under `aso web`.
 func WebAnalyticsCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("web analytics", flag.ExitOnError)
 
 	return &ffcli.Command{
 		Name:       "analytics",
-		ShortUsage: "asc web analytics <subcommand> [flags]",
+		ShortUsage: "aso web analytics <subcommand> [flags]",
 		ShortHelp:  "[experimental] Recreate App Store Connect analytics web dashboards.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -78,14 +78,14 @@ func WebAnalyticsCommand() *ffcli.Command {
 ` + webWarningText + `
 
 Examples:
-  asc web analytics overview --app "123456789" --start 2025-12-24 --end 2026-03-23 --apple-id "user@example.com"
-  asc web analytics sources --app "123456789" --start 2025-12-24 --end 2026-03-23
-  asc web analytics sales --app "123456789" --start 2025-12-24 --end 2026-03-23 --output markdown
-  asc web analytics benchmarks --app "123456789"
-  asc web analytics subscriptions --app "123456789" --start 2025-12-24 --end 2026-03-23 --output table
-  asc web analytics metrics --app "123456789" --start 2025-12-24 --end 2026-03-23 --measures units,redownloads
-  asc web analytics retention --app "123456789" --start 2026-02-22 --end 2026-03-23
-  asc web analytics cohorts --app "123456789" --start 2025-12-24 --end 2026-03-23 --measures cohort-download-to-paid-rate --periods d1,d7,d35`,
+  aso web analytics overview --app "123456789" --start 2025-12-24 --end 2026-03-23 --apple-id "user@example.com"
+  aso web analytics sources --app "123456789" --start 2025-12-24 --end 2026-03-23
+  aso web analytics sales --app "123456789" --start 2025-12-24 --end 2026-03-23 --output markdown
+  aso web analytics benchmarks --app "123456789"
+  aso web analytics subscriptions --app "123456789" --start 2025-12-24 --end 2026-03-23 --output table
+  aso web analytics metrics --app "123456789" --start 2025-12-24 --end 2026-03-23 --measures units,redownloads
+  aso web analytics retention --app "123456789" --start 2026-02-22 --end 2026-03-23
+  aso web analytics cohorts --app "123456789" --start 2025-12-24 --end 2026-03-23 --measures cohort-download-to-paid-rate --periods d1,d7,d35`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -120,7 +120,7 @@ func WebAnalyticsOverviewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "overview",
-		ShortUsage: "asc web analytics overview [flags]",
+		ShortUsage: "aso web analytics overview [flags]",
 		ShortHelp:  "[experimental] Recreate the Analytics overview dashboard.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -173,7 +173,7 @@ func WebAnalyticsSubscriptionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "subscriptions",
-		ShortUsage: "asc web analytics subscriptions [flags]",
+		ShortUsage: "aso web analytics subscriptions [flags]",
 		ShortHelp:  "[experimental] Recreate the subscriptions summary dashboard.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -229,7 +229,7 @@ func WebAnalyticsMetricsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "metrics",
-		ShortUsage: "asc web analytics metrics [flags]",
+		ShortUsage: "aso web analytics metrics [flags]",
 		ShortHelp:  "[experimental] Query private analytics measures.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -303,7 +303,7 @@ func WebAnalyticsRetentionCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "retention",
-		ShortUsage: "asc web analytics retention [flags]",
+		ShortUsage: "aso web analytics retention [flags]",
 		ShortHelp:  "[experimental] Query private analytics retention data.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -374,7 +374,7 @@ func WebAnalyticsCohortsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "cohorts",
-		ShortUsage: "asc web analytics cohorts [flags]",
+		ShortUsage: "aso web analytics cohorts [flags]",
 		ShortHelp:  "[experimental] Query private analytics cohort data.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 

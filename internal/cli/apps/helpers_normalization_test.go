@@ -3,7 +3,7 @@ package apps
 import (
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func TestNormalizeInclude(t *testing.T) {

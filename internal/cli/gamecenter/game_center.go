@@ -7,8 +7,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // GameCenterCommand returns the game-center command group.
@@ -17,26 +17,26 @@ func GameCenterCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "game-center",
-		ShortUsage: "asc game-center <subcommand> [flags]",
+		ShortUsage: "aso game-center <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center resources in App Store Connect.",
 		LongHelp: `Manage Game Center resources in App Store Connect.
 
 Examples:
-  asc game-center achievements list --app "APP_ID"
-  asc game-center achievements create --app "APP_ID" --reference-name "First Win" --vendor-id "com.example.firstwin" --points 10
-  asc game-center leaderboards list --app "APP_ID"
-  asc game-center leaderboards create --app "APP_ID" --reference-name "High Score" --vendor-id "com.example.highscore" --formatter INTEGER --sort DESC --submission-type BEST_SCORE
-  asc game-center leaderboard-sets list --app "APP_ID"
-  asc game-center leaderboard-sets create --app "APP_ID" --reference-name "Season 1" --vendor-id "com.example.season1"
-  asc game-center challenges list --app "APP_ID"
-  asc game-center activities list --app "APP_ID"
-  asc game-center groups list --app "APP_ID"
-  asc game-center app-versions list --app "APP_ID"
-  asc game-center enabled-versions list --app "APP_ID"
-  asc game-center enabled-versions compatible-versions --id "ENABLED_VERSION_ID"
-  asc game-center details list --app "APP_ID"
-  asc game-center details achievements-v2 list --id "DETAILS_ID"
-  asc game-center matchmaking queues list`,
+  aso game-center achievements list --app "APP_ID"
+  aso game-center achievements create --app "APP_ID" --reference-name "First Win" --vendor-id "com.example.firstwin" --points 10
+  aso game-center leaderboards list --app "APP_ID"
+  aso game-center leaderboards create --app "APP_ID" --reference-name "High Score" --vendor-id "com.example.highscore" --formatter INTEGER --sort DESC --submission-type BEST_SCORE
+  aso game-center leaderboard-sets list --app "APP_ID"
+  aso game-center leaderboard-sets create --app "APP_ID" --reference-name "Season 1" --vendor-id "com.example.season1"
+  aso game-center challenges list --app "APP_ID"
+  aso game-center activities list --app "APP_ID"
+  aso game-center groups list --app "APP_ID"
+  aso game-center app-versions list --app "APP_ID"
+  aso game-center enabled-versions list --app "APP_ID"
+  aso game-center enabled-versions compatible-versions --id "ENABLED_VERSION_ID"
+  aso game-center details list --app "APP_ID"
+  aso game-center details achievements-v2 list --id "DETAILS_ID"
+  aso game-center matchmaking queues list`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{

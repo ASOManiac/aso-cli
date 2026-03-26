@@ -9,21 +9,21 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppEncryptionDeclarationsCommand returns the app-encryption-declarations command group.
 func AppEncryptionDeclarationsCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "app-encryption-declarations",
-		ShortUsage: "asc apps app-encryption-declarations <subcommand> [flags]",
+		ShortUsage: "aso apps app-encryption-declarations <subcommand> [flags]",
 		ShortHelp:  "List app encryption declarations for an app.",
 		LongHelp: `List app encryption declarations for an app.
 
 Examples:
-  asc apps app-encryption-declarations list --id "APP_ID"
-  asc apps app-encryption-declarations list --id "APP_ID" --include appEncryptionDeclarationDocument`,
+  aso apps app-encryption-declarations list --id "APP_ID"
+  aso apps app-encryption-declarations list --id "APP_ID" --include appEncryptionDeclarationDocument`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			AppEncryptionDeclarationsListCommand(),
@@ -51,14 +51,14 @@ func AppEncryptionDeclarationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc apps app-encryption-declarations list --id \"APP_ID\" [flags]",
+		ShortUsage: "aso apps app-encryption-declarations list --id \"APP_ID\" [flags]",
 		ShortHelp:  "List encryption declarations for an app.",
 		LongHelp: `List encryption declarations for an app.
 
 Examples:
-  asc apps app-encryption-declarations list --id "APP_ID"
-  asc apps app-encryption-declarations list --id "APP_ID" --include appEncryptionDeclarationDocument --document-fields "fileName,fileSize"
-  asc apps app-encryption-declarations list --id "APP_ID" --paginate`,
+  aso apps app-encryption-declarations list --id "APP_ID"
+  aso apps app-encryption-declarations list --id "APP_ID" --include appEncryptionDeclarationDocument --document-fields "fileName,fileSize"
+  aso apps app-encryption-declarations list --id "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

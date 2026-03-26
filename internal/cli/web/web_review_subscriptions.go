@@ -10,9 +10,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 type reviewSubscriptionsListOutput struct {
@@ -93,7 +93,7 @@ func reviewSubscriptionAttachPreflight(appID string, subscription webcore.Review
 	)
 	fmt.Fprintf(
 		os.Stderr,
-		"Hint: run `asc validate subscriptions --app \"%s\"` to inspect readiness.\n",
+		"Hint: run `aso validate subscriptions --app \"%s\"` to inspect readiness.\n",
 		reviewSubscriptionValue(strings.TrimSpace(appID)),
 	)
 	fmt.Fprintln(os.Stderr, "Hint: Apple only allows this attach flow after the subscription reaches READY_TO_SUBMIT.")
@@ -102,11 +102,11 @@ func reviewSubscriptionAttachPreflight(appID string, subscription webcore.Review
 		fmt.Fprintln(os.Stderr, "Hint: Check localizations, pricing coverage, and the App Store review screenshot.")
 		fmt.Fprintf(
 			os.Stderr,
-			"Hint: In live testing, a subscription promotional image also mattered even though App Store Connect surfaces it as a recommendation. Upload one with `asc subscriptions images create --subscription-id \"%s\" --file \"./image.png\"` if it is missing.\n",
+			"Hint: In live testing, a subscription promotional image also mattered even though App Store Connect surfaces it as a recommendation. Upload one with `aso subscriptions images create --subscription-id \"%s\" --file \"./image.png\"` if it is missing.\n",
 			reviewSubscriptionValue(subscriptionID),
 		)
 	case "":
-		fmt.Fprintln(os.Stderr, "Hint: Refresh App Store Connect or rerun `asc web review subscriptions list` to confirm the current readiness state before retrying.")
+		fmt.Fprintln(os.Stderr, "Hint: Refresh App Store Connect or rerun `aso web review subscriptions list` to confirm the current readiness state before retrying.")
 	default:
 		fmt.Fprintln(os.Stderr, "Hint: Complete the outstanding App Store Connect action for this subscription, then retry once it reaches READY_TO_SUBMIT.")
 	}
@@ -273,7 +273,7 @@ func reviewSubscriptionGroupLabel(subscriptions []webcore.ReviewSubscription, gr
 func reviewSubscriptionAttachSkipReason(subscription webcore.ReviewSubscription) string {
 	switch state := reviewSubscriptionState(subscription); state {
 	case "MISSING_METADATA":
-		return "state is MISSING_METADATA; run `asc validate subscriptions` and upload missing assets first"
+		return "state is MISSING_METADATA; run `aso validate subscriptions` and upload missing assets first"
 	case "READY_TO_SUBMIT":
 		return "state is READY_TO_SUBMIT but the refreshed review state still shows not attached"
 	case "":
@@ -344,7 +344,7 @@ func reviewSubscriptionGroupAttachPreflight(appID, groupID string, subscriptions
 	)
 	fmt.Fprintf(
 		os.Stderr,
-		"Hint: run `asc validate subscriptions --app \"%s\"` to inspect readiness.\n",
+		"Hint: run `aso validate subscriptions --app \"%s\"` to inspect readiness.\n",
 		reviewSubscriptionValue(strings.TrimSpace(appID)),
 	)
 	fmt.Fprintln(os.Stderr, "Hint: Apple only allows attach after the relevant subscriptions reach READY_TO_SUBMIT.")
@@ -370,7 +370,7 @@ func WebReviewSubscriptionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "subscriptions",
-		ShortUsage: "asc web review subscriptions <subcommand> [flags]",
+		ShortUsage: "aso web review subscriptions <subcommand> [flags]",
 		ShortHelp:  "[experimental] Inspect and mutate review-attached subscriptions.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -410,7 +410,7 @@ func WebReviewSubscriptionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc web review subscriptions list --app APP_ID [flags]",
+		ShortUsage: "aso web review subscriptions list --app APP_ID [flags]",
 		ShortHelp:  "[experimental] List subscriptions and next-version attach state.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,
@@ -462,7 +462,7 @@ func WebReviewSubscriptionsAttachCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "attach",
-		ShortUsage: "asc web review subscriptions attach --app APP_ID --subscription-id SUB_ID --confirm [flags]",
+		ShortUsage: "aso web review subscriptions attach --app APP_ID --subscription-id SUB_ID --confirm [flags]",
 		ShortHelp:  "[experimental] Attach a subscription to the next app version review.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,
@@ -550,7 +550,7 @@ func WebReviewSubscriptionsAttachGroupCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "attach-group",
-		ShortUsage: "asc web review subscriptions attach-group --app APP_ID --group-id GROUP_ID --confirm [flags]",
+		ShortUsage: "aso web review subscriptions attach-group --app APP_ID --group-id GROUP_ID --confirm [flags]",
 		ShortHelp:  "[experimental] Attach all READY_TO_SUBMIT subscriptions in one group.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,
@@ -662,7 +662,7 @@ func WebReviewSubscriptionsRemoveCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "remove",
-		ShortUsage: "asc web review subscriptions remove --app APP_ID --subscription-id SUB_ID --confirm [flags]",
+		ShortUsage: "aso web review subscriptions remove --app APP_ID --subscription-id SUB_ID --confirm [flags]",
 		ShortHelp:  "[experimental] Remove a subscription from the next app version review.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,
@@ -745,7 +745,7 @@ func WebReviewSubscriptionsRemoveGroupCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "remove-group",
-		ShortUsage: "asc web review subscriptions remove-group --app APP_ID --group-id GROUP_ID --confirm [flags]",
+		ShortUsage: "aso web review subscriptions remove-group --app APP_ID --group-id GROUP_ID --confirm [flags]",
 		ShortHelp:  "[experimental] Remove all attached subscriptions in one group.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,

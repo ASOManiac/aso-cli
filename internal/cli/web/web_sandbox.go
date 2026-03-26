@@ -10,10 +10,10 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	sandboxcmd "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/sandbox"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	sandboxcmd "github.com/ASOManiac/aso-cli/internal/cli/sandbox"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 var createWebSandboxTesterFn = func(ctx context.Context, client *webcore.Client, attrs webcore.SandboxAccountCreateAttributes) error {
@@ -34,7 +34,7 @@ func WebSandboxCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "sandbox",
-		ShortUsage: "asc web sandbox <subcommand> [flags]",
+		ShortUsage: "aso web sandbox <subcommand> [flags]",
 		ShortHelp:  "[experimental] Create sandbox testers via web sessions.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -69,7 +69,7 @@ func WebSandboxCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc web sandbox create --first-name NAME --last-name NAME --email EMAIL --password PASS --territory USA [flags]",
+		ShortUsage: "aso web sandbox create --first-name NAME --last-name NAME --email EMAIL --password PASS --territory USA [flags]",
 		ShortHelp:  "[experimental] Create a sandbox tester via web API.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -82,8 +82,8 @@ Required:
   --first-name, --last-name, --email, --password, --territory
 
 Examples:
-  asc web sandbox create --first-name "Jane" --last-name "Tester" --email "jane+sandbox@example.com" --password "Passwordtest1" --territory "USA"
-  asc web sandbox create --first-name "Monthly" --last-name "Probe" --email "billing+monthly@example.com" --password "Passwordtest1" --territory "USA" --apple-id "user@example.com"
+  aso web sandbox create --first-name "Jane" --last-name "Tester" --email "jane+sandbox@example.com" --password "Passwordtest1" --territory "USA"
+  aso web sandbox create --first-name "Monthly" --last-name "Probe" --email "billing+monthly@example.com" --password "Passwordtest1" --territory "USA" --apple-id "user@example.com"
 
 ` + webWarningText,
 		FlagSet:   fs,

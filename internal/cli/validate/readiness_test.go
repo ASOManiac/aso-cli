@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 func TestReadinessPricingSkipReason_DowngradesTransientFailures(t *testing.T) {

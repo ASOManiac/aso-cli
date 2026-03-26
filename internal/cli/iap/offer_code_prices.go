@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // IAPOfferCodesPricesCommand returns the offer code prices subcommand.
@@ -25,13 +25,13 @@ func IAPOfferCodesPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "prices",
-		ShortUsage: "asc iap offer-codes prices --offer-code-id \"OFFER_CODE_ID\" [flags]",
+		ShortUsage: "aso iap offer-codes prices --offer-code-id \"OFFER_CODE_ID\" [flags]",
 		ShortHelp:  "List prices for an offer code.",
 		LongHelp: `List prices for an offer code.
 
 Examples:
-  asc iap offer-codes prices --offer-code-id "OFFER_CODE_ID"
-  asc iap offer-codes prices --offer-code-id "OFFER_CODE_ID" --paginate`,
+  aso iap offer-codes prices --offer-code-id "OFFER_CODE_ID"
+  aso iap offer-codes prices --offer-code-id "OFFER_CODE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

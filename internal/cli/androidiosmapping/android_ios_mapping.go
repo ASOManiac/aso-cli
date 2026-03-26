@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AndroidIosMappingCommand returns the android-to-iOS mapping command group.
@@ -19,16 +19,16 @@ func AndroidIosMappingCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "android-ios-mapping",
-		ShortUsage: "asc android-ios-mapping <subcommand> [flags]",
+		ShortUsage: "aso android-ios-mapping <subcommand> [flags]",
 		ShortHelp:  "Manage Android-to-iOS app mapping details.",
 		LongHelp: `Manage Android-to-iOS app mapping details.
 
 Examples:
-  asc android-ios-mapping list --app "APP_ID"
-  asc android-ios-mapping get --mapping-id "MAPPING_ID"
-  asc android-ios-mapping create --app "APP_ID" --android-package-name "com.example.android" --fingerprints "SHA1,SHA2"
-  asc android-ios-mapping update --mapping-id "MAPPING_ID" --android-package-name "com.example.android.new"
-  asc android-ios-mapping delete --mapping-id "MAPPING_ID" --confirm`,
+  aso android-ios-mapping list --app "APP_ID"
+  aso android-ios-mapping get --mapping-id "MAPPING_ID"
+  aso android-ios-mapping create --app "APP_ID" --android-package-name "com.example.android" --fingerprints "SHA1,SHA2"
+  aso android-ios-mapping update --mapping-id "MAPPING_ID" --android-package-name "com.example.android.new"
+  aso android-ios-mapping delete --mapping-id "MAPPING_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -57,13 +57,13 @@ func AndroidIosMappingListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc android-ios-mapping list --app \"APP_ID\"",
+		ShortUsage: "aso android-ios-mapping list --app \"APP_ID\"",
 		ShortHelp:  "List Android-to-iOS app mappings for an app.",
 		LongHelp: `List Android-to-iOS app mappings for an app.
 
 Examples:
-  asc android-ios-mapping list --app "APP_ID"
-  asc android-ios-mapping list --app "APP_ID" --limit 10`,
+  aso android-ios-mapping list --app "APP_ID"
+  aso android-ios-mapping list --app "APP_ID" --limit 10`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -134,12 +134,12 @@ func AndroidIosMappingGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc android-ios-mapping get --mapping-id \"MAPPING_ID\"",
+		ShortUsage: "aso android-ios-mapping get --mapping-id \"MAPPING_ID\"",
 		ShortHelp:  "Get an Android-to-iOS app mapping by ID.",
 		LongHelp: `Get an Android-to-iOS app mapping by ID.
 
 Examples:
-  asc android-ios-mapping get --mapping-id "MAPPING_ID"`,
+  aso android-ios-mapping get --mapping-id "MAPPING_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -183,12 +183,12 @@ func AndroidIosMappingCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc android-ios-mapping create --app \"APP_ID\" --android-package-name \"com.example.android\" --fingerprints \"SHA1,SHA2\"",
+		ShortUsage: "aso android-ios-mapping create --app \"APP_ID\" --android-package-name \"com.example.android\" --fingerprints \"SHA1,SHA2\"",
 		ShortHelp:  "Create an Android-to-iOS app mapping.",
 		LongHelp: `Create an Android-to-iOS app mapping.
 
 Examples:
-  asc android-ios-mapping create --app "APP_ID" --android-package-name "com.example.android" --fingerprints "SHA1,SHA2"`,
+  aso android-ios-mapping create --app "APP_ID" --android-package-name "com.example.android" --fingerprints "SHA1,SHA2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -242,15 +242,15 @@ func AndroidIosMappingUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc android-ios-mapping update --mapping-id \"MAPPING_ID\" [flags]",
+		ShortUsage: "aso android-ios-mapping update --mapping-id \"MAPPING_ID\" [flags]",
 		ShortHelp:  "Update an Android-to-iOS app mapping.",
 		LongHelp: `Update an Android-to-iOS app mapping.
 
 Examples:
-  asc android-ios-mapping update --mapping-id "MAPPING_ID" --android-package-name "com.example.android.new"
-  asc android-ios-mapping update --mapping-id "MAPPING_ID" --fingerprints "SHA1,SHA2"
-  asc android-ios-mapping update --mapping-id "MAPPING_ID" --clear-android-package-name
-  asc android-ios-mapping update --mapping-id "MAPPING_ID" --clear-fingerprints`,
+  aso android-ios-mapping update --mapping-id "MAPPING_ID" --android-package-name "com.example.android.new"
+  aso android-ios-mapping update --mapping-id "MAPPING_ID" --fingerprints "SHA1,SHA2"
+  aso android-ios-mapping update --mapping-id "MAPPING_ID" --clear-android-package-name
+  aso android-ios-mapping update --mapping-id "MAPPING_ID" --clear-fingerprints`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -324,12 +324,12 @@ func AndroidIosMappingDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc android-ios-mapping delete --mapping-id \"MAPPING_ID\" --confirm",
+		ShortUsage: "aso android-ios-mapping delete --mapping-id \"MAPPING_ID\" --confirm",
 		ShortHelp:  "Delete an Android-to-iOS app mapping.",
 		LongHelp: `Delete an Android-to-iOS app mapping.
 
 Examples:
-  asc android-ios-mapping delete --mapping-id "MAPPING_ID" --confirm`,
+  aso android-ios-mapping delete --mapping-id "MAPPING_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

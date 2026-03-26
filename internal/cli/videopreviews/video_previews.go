@@ -6,8 +6,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/assets"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/assets"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // VideoPreviewsCommand returns the top-level video previews command.
@@ -16,16 +16,16 @@ func VideoPreviewsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "video-previews",
-		ShortUsage: "asc video-previews <subcommand> [flags]",
+		ShortUsage: "aso video-previews <subcommand> [flags]",
 		ShortHelp:  "Manage App Store app preview videos.",
 		LongHelp: `Manage App Store app preview videos for a version localization.
 
 Examples:
-  asc video-previews list --version-localization "LOC_ID"
-  asc video-previews upload --version-localization "LOC_ID" --path "./previews" --device-type "IPHONE_69"
-  asc video-previews download --version-localization "LOC_ID" --output-dir "./previews/downloaded"
-  asc video-previews delete --id "PREVIEW_ID" --confirm
-  asc video-previews set-poster-frame --id "PREVIEW_ID" --time-code "00:00:05:00"`,
+  aso video-previews list --version-localization "LOC_ID"
+  aso video-previews upload --version-localization "LOC_ID" --path "./previews" --device-type "IPHONE_69"
+  aso video-previews download --version-localization "LOC_ID" --output-dir "./previews/downloaded"
+  aso video-previews delete --id "PREVIEW_ID" --confirm
+  aso video-previews set-poster-frame --id "PREVIEW_ID" --time-code "00:00:05:00"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{

@@ -9,7 +9,7 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	cmd "github.com/rudrankriyam/App-Store-Connect-CLI/cmd"
+	cmd "github.com/ASOManiac/aso-cli/cmd"
 )
 
 func TestReleaseNotesGenerate_JSON(t *testing.T) {

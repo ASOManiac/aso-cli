@@ -8,7 +8,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildsFindCommand resolves a build by build number.
@@ -22,7 +22,7 @@ func BuildsFindCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "find",
-		ShortUsage: "asc builds find --app APP_ID --build-number BUILD_NUMBER [flags]",
+		ShortUsage: "aso builds find --app APP_ID --build-number BUILD_NUMBER [flags]",
 		ShortHelp:  "Find a build by build number.",
 		LongHelp: `Find a build by build number.
 
@@ -30,9 +30,9 @@ This command resolves a build by app + CFBundleVersion and returns the latest
 matching build for the selected platform.
 
 Examples:
-  asc builds find --app "123456789" --build-number "42"
-  asc builds find --app "123456789" --build-number "42" --platform IOS
-  asc builds find --app "123456789" --build-number "42" --output table`,
+  aso builds find --app "123456789" --build-number "42"
+  aso builds find --app "123456789" --build-number "42" --platform IOS
+  aso builds find --app "123456789" --build-number "42" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

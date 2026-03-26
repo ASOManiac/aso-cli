@@ -9,21 +9,21 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PreReleaseVersionsCommand returns the pre-release-versions command.
 func PreReleaseVersionsCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "pre-release-versions",
-		ShortUsage: "asc pre-release-versions <subcommand> [flags]",
+		ShortUsage: "aso pre-release-versions <subcommand> [flags]",
 		ShortHelp:  "Manage TestFlight pre-release versions.",
 		LongHelp: `Manage TestFlight pre-release versions.
 
 Examples:
-  asc pre-release-versions list --app "APP_ID"
-  asc pre-release-versions relationships get --id "PR_ID" --type "app"`,
+  aso pre-release-versions list --app "APP_ID"
+  aso pre-release-versions relationships get --id "PR_ID" --type "app"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			PreReleaseVersionsListCommand(),
@@ -52,15 +52,15 @@ func PreReleaseVersionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc pre-release-versions list [flags]",
+		ShortUsage: "aso pre-release-versions list [flags]",
 		ShortHelp:  "List TestFlight pre-release versions for an app.",
 		LongHelp: `List TestFlight pre-release versions for an app.
 
 Examples:
-  asc pre-release-versions list --app "APP_ID"
-  asc pre-release-versions list --app "APP_ID" --platform IOS
-  asc pre-release-versions list --app "APP_ID" --version "1.0.0"
-  asc pre-release-versions list --app "APP_ID" --paginate`,
+  aso pre-release-versions list --app "APP_ID"
+  aso pre-release-versions list --app "APP_ID" --platform IOS
+  aso pre-release-versions list --app "APP_ID" --version "1.0.0"
+  aso pre-release-versions list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -141,12 +141,12 @@ func PreReleaseVersionsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc pre-release-versions get [flags]",
+		ShortUsage: "aso pre-release-versions get [flags]",
 		ShortHelp:  "Get a TestFlight pre-release version by ID.",
 		LongHelp: `Get a TestFlight pre-release version by ID.
 
 Examples:
-  asc pre-release-versions get --id "PR_ID"`,
+  aso pre-release-versions get --id "PR_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

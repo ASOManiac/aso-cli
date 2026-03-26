@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	deprecatedBetaBuildLocalizationsGetWarning    = "Warning: `asc beta-build-localizations get` is deprecated. Use `asc builds test-notes view`"
-	deprecatedBetaBuildLocalizationsCreateWarning = "Warning: `asc beta-build-localizations create` is deprecated. Use `asc builds test-notes create`"
+	deprecatedBetaBuildLocalizationsGetWarning    = "Warning: `aso beta-build-localizations get` is deprecated. Use `aso builds test-notes view`"
+	deprecatedBetaBuildLocalizationsCreateWarning = "Warning: `aso beta-build-localizations create` is deprecated. Use `aso builds test-notes create`"
 )
 
 func TestBetaBuildLocalizationsGetLatestByAppWithStateAlias(t *testing.T) {

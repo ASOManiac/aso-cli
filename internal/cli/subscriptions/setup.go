@@ -8,8 +8,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -140,7 +140,7 @@ func SubscriptionsSetupCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "setup",
-		ShortUsage: "asc subscriptions setup [flags]",
+		ShortUsage: "aso subscriptions setup [flags]",
 		ShortHelp:  "Create a subscription with optional group, localization, pricing, and availability.",
 		LongHelp: `Create a new subscription and optionally bootstrap its group,
 first localization, initial pricing, and availability in one workflow.
@@ -155,10 +155,10 @@ availability. Use --no-verify to skip that postcondition check when speed
 matters more than confirmed final state.
 
 Examples:
-  asc subscriptions setup --app "APP_ID" --group-reference-name "Pro" --reference-name "Pro Monthly" --product-id "com.example.pro.monthly" --subscription-period ONE_MONTH
-  asc subscriptions setup --app "APP_ID" --group-reference-name "Pro" --reference-name "Pro Monthly" --product-id "com.example.pro.monthly" --subscription-period ONE_MONTH --locale "en-US" --display-name "Pro Monthly" --description "Unlock everything"
-  asc subscriptions setup --app "APP_ID" --group-reference-name "Pro" --reference-name "Pro Monthly" --product-id "com.example.pro.monthly" --price "3.99" --price-territory "USA" --territories "USA,CAN"
-  asc subscriptions setup --group-id "GROUP_ID" --reference-name "Pro Monthly" --product-id "com.example.pro.monthly" --subscription-period ONE_MONTH --no-verify`,
+  aso subscriptions setup --app "APP_ID" --group-reference-name "Pro" --reference-name "Pro Monthly" --product-id "com.example.pro.monthly" --subscription-period ONE_MONTH
+  aso subscriptions setup --app "APP_ID" --group-reference-name "Pro" --reference-name "Pro Monthly" --product-id "com.example.pro.monthly" --subscription-period ONE_MONTH --locale "en-US" --display-name "Pro Monthly" --description "Unlock everything"
+  aso subscriptions setup --app "APP_ID" --group-reference-name "Pro" --reference-name "Pro Monthly" --product-id "com.example.pro.monthly" --price "3.99" --price-territory "USA" --territories "USA,CAN"
+  aso subscriptions setup --group-id "GROUP_ID" --reference-name "Pro Monthly" --product-id "com.example.pro.monthly" --subscription-period ONE_MONTH --no-verify`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const reviewScreenshotPollInterval = 2 * time.Second
@@ -22,13 +22,13 @@ func SubscriptionsReviewScreenshotsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "review-screenshots",
-		ShortUsage: "asc subscriptions review-screenshots <subcommand> [flags]",
+		ShortUsage: "aso subscriptions review-screenshots <subcommand> [flags]",
 		ShortHelp:  "Manage subscription App Store review screenshots.",
 		LongHelp: `Manage subscription App Store review screenshots.
 
 Examples:
-  asc subscriptions review-screenshots get --screenshot-id "SHOT_ID"
-  asc subscriptions review-screenshots create --subscription-id "SUB_ID" --file "./screenshot.png"`,
+  aso subscriptions review-screenshots get --screenshot-id "SHOT_ID"
+  aso subscriptions review-screenshots create --subscription-id "SUB_ID" --file "./screenshot.png"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -52,12 +52,12 @@ func SubscriptionsReviewScreenshotsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc subscriptions review-screenshots get --screenshot-id \"SHOT_ID\"",
+		ShortUsage: "aso subscriptions review-screenshots get --screenshot-id \"SHOT_ID\"",
 		ShortHelp:  "Get a review screenshot by ID.",
 		LongHelp: `Get a review screenshot by ID.
 
 Examples:
-  asc subscriptions review-screenshots get --screenshot-id "SHOT_ID"`,
+  aso subscriptions review-screenshots get --screenshot-id "SHOT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -95,12 +95,12 @@ func SubscriptionsReviewScreenshotsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc subscriptions review-screenshots create [flags]",
+		ShortUsage: "aso subscriptions review-screenshots create [flags]",
 		ShortHelp:  "Upload a review screenshot for a subscription.",
 		LongHelp: `Upload a review screenshot for a subscription.
 
 Examples:
-  asc subscriptions review-screenshots create --subscription-id "SUB_ID" --file "./screenshot.png"`,
+  aso subscriptions review-screenshots create --subscription-id "SUB_ID" --file "./screenshot.png"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -183,12 +183,12 @@ func SubscriptionsReviewScreenshotsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc subscriptions review-screenshots update [flags]",
+		ShortUsage: "aso subscriptions review-screenshots update [flags]",
 		ShortHelp:  "Update a review screenshot.",
 		LongHelp: `Update a review screenshot.
 
 Examples:
-  asc subscriptions review-screenshots update --screenshot-id "SHOT_ID" --uploaded true --checksum "HASH"`,
+  aso subscriptions review-screenshots update --screenshot-id "SHOT_ID" --uploaded true --checksum "HASH"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -241,12 +241,12 @@ func SubscriptionsReviewScreenshotsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc subscriptions review-screenshots delete --screenshot-id \"SHOT_ID\" --confirm",
+		ShortUsage: "aso subscriptions review-screenshots delete --screenshot-id \"SHOT_ID\" --confirm",
 		ShortHelp:  "Delete a review screenshot.",
 		LongHelp: `Delete a review screenshot.
 
 Examples:
-  asc subscriptions review-screenshots delete --screenshot-id "SHOT_ID" --confirm`,
+  aso subscriptions review-screenshots delete --screenshot-id "SHOT_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

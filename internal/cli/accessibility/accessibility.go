@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AccessibilityCommand returns the accessibility declarations command.
@@ -20,16 +20,16 @@ func AccessibilityCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "accessibility",
-		ShortUsage: "asc accessibility <subcommand> [flags]",
+		ShortUsage: "aso accessibility <subcommand> [flags]",
 		ShortHelp:  "Manage accessibility declarations.",
 		LongHelp: `Manage accessibility declarations for an app.
 
 Examples:
-  asc accessibility list --app "APP_ID"
-  asc accessibility get --id "DECLARATION_ID"
-  asc accessibility create --app "APP_ID" --device-family IPHONE --supports-voiceover true
-  asc accessibility update --id "DECLARATION_ID" --publish true
-  asc accessibility delete --id "DECLARATION_ID" --confirm`,
+  aso accessibility list --app "APP_ID"
+  aso accessibility get --id "DECLARATION_ID"
+  aso accessibility create --app "APP_ID" --device-family IPHONE --supports-voiceover true
+  aso accessibility update --id "DECLARATION_ID" --publish true
+  aso accessibility delete --id "DECLARATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -60,15 +60,15 @@ func AccessibilityListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc accessibility list [flags]",
+		ShortUsage: "aso accessibility list [flags]",
 		ShortHelp:  "List accessibility declarations for an app.",
 		LongHelp: `List accessibility declarations for an app.
 
 Examples:
-  asc accessibility list --app "APP_ID"
-  asc accessibility list --app "APP_ID" --device-family IPHONE
-  asc accessibility list --app "APP_ID" --state PUBLISHED --limit 50
-  asc accessibility list --app "APP_ID" --paginate`,
+  aso accessibility list --app "APP_ID"
+  aso accessibility list --app "APP_ID" --device-family IPHONE
+  aso accessibility list --app "APP_ID" --state PUBLISHED --limit 50
+  aso accessibility list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -153,13 +153,13 @@ func AccessibilityGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc accessibility get --id DECLARATION_ID",
+		ShortUsage: "aso accessibility get --id DECLARATION_ID",
 		ShortHelp:  "Get an accessibility declaration by ID.",
 		LongHelp: `Get an accessibility declaration by ID.
 
 Examples:
-  asc accessibility get --id "DECLARATION_ID"
-  asc accessibility get --id "DECLARATION_ID" --fields "deviceFamily,state"`,
+  aso accessibility get --id "DECLARATION_ID"
+  aso accessibility get --id "DECLARATION_ID" --fields "deviceFamily,state"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -211,13 +211,13 @@ func AccessibilityCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc accessibility create --app APP_ID --device-family DEVICE_FAMILY [flags]",
+		ShortUsage: "aso accessibility create --app APP_ID --device-family DEVICE_FAMILY [flags]",
 		ShortHelp:  "Create an accessibility declaration.",
 		LongHelp: `Create an accessibility declaration.
 
 Examples:
-  asc accessibility create --app "APP_ID" --device-family IPHONE --supports-voiceover true
-  asc accessibility create --app "APP_ID" --device-family IPAD --supports-captions true`,
+  aso accessibility create --app "APP_ID" --device-family IPHONE --supports-voiceover true
+  aso accessibility create --app "APP_ID" --device-family IPAD --supports-captions true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -290,13 +290,13 @@ func AccessibilityUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc accessibility update --id DECLARATION_ID [flags]",
+		ShortUsage: "aso accessibility update --id DECLARATION_ID [flags]",
 		ShortHelp:  "Update an accessibility declaration.",
 		LongHelp: `Update an accessibility declaration.
 
 Examples:
-  asc accessibility update --id "DECLARATION_ID" --supports-voiceover true
-  asc accessibility update --id "DECLARATION_ID" --publish true`,
+  aso accessibility update --id "DECLARATION_ID" --supports-voiceover true
+  aso accessibility update --id "DECLARATION_ID" --publish true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -354,12 +354,12 @@ func AccessibilityDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc accessibility delete --id DECLARATION_ID --confirm",
+		ShortUsage: "aso accessibility delete --id DECLARATION_ID --confirm",
 		ShortHelp:  "Delete an accessibility declaration.",
 		LongHelp: `Delete an accessibility declaration.
 
 Examples:
-  asc accessibility delete --id "DECLARATION_ID" --confirm`,
+  aso accessibility delete --id "DECLARATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -11,8 +11,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 var ageRatingLevelValues = []string{
@@ -59,14 +59,14 @@ func AgeRatingCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "age-rating",
-		ShortUsage: "asc age-rating <subcommand> [flags]",
+		ShortUsage: "aso age-rating <subcommand> [flags]",
 		ShortHelp:  "Manage App Store age rating declarations.",
 		LongHelp: `Manage App Store age rating declarations for an app, app info, or version.
 
 Examples:
-  asc age-rating view --app APP_ID
-  asc age-rating view --app-info-id APP_INFO_ID
-  asc age-rating set --app APP_ID --kids-age-band FIVE_AND_UNDER --gambling false`,
+  aso age-rating view --app APP_ID
+  aso age-rating view --app-info-id APP_INFO_ID
+  aso age-rating set --app APP_ID --kids-age-band FIVE_AND_UNDER --gambling false`,
 		FlagSet:   fs,
 		UsageFunc: ageRatingUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -91,14 +91,14 @@ func AgeRatingViewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "view",
-		ShortUsage: "asc age-rating view --app APP_ID [flags]",
+		ShortUsage: "aso age-rating view --app APP_ID [flags]",
 		ShortHelp:  "View an age rating declaration.",
 		LongHelp: `Get the current age rating declaration.
 
 Examples:
-  asc age-rating view --app APP_ID
-  asc age-rating view --app-info-id APP_INFO_ID
-  asc age-rating view --version-id VERSION_ID`,
+  aso age-rating view --app APP_ID
+  aso age-rating view --app-info-id APP_INFO_ID
+  aso age-rating view --version-id VERSION_ID`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -136,13 +136,13 @@ func compatAgeRatingGetAliasCommand() *ffcli.Command {
 	cmd := AgeRatingViewCommand()
 	clone := *cmd
 	clone.Name = "get"
-	clone.ShortUsage = "asc age-rating get --app APP_ID [flags]"
-	clone.ShortHelp = "Compatibility alias for `asc age-rating view`."
-	clone.LongHelp = "Compatibility alias for the renamed `asc age-rating view` command."
+	clone.ShortUsage = "aso age-rating get --app APP_ID [flags]"
+	clone.ShortHelp = "Compatibility alias for `aso age-rating view`."
+	clone.LongHelp = "Compatibility alias for the renamed `aso age-rating view` command."
 	clone.UsageFunc = shared.DefaultUsageFunc
 	origExec := cmd.Exec
 	clone.Exec = func(ctx context.Context, args []string) error {
-		fmt.Fprintln(os.Stderr, "Warning: `asc age-rating get` has been renamed to `asc age-rating view`.")
+		fmt.Fprintln(os.Stderr, "Warning: `aso age-rating get` has been renamed to `aso age-rating view`.")
 		return origExec(ctx, args)
 	}
 	return &clone
@@ -210,7 +210,7 @@ func AgeRatingSetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc age-rating set --id DECLARATION_ID [flags]",
+		ShortUsage: "aso age-rating set --id DECLARATION_ID [flags]",
 		ShortHelp:  "Update an age rating declaration.",
 		LongHelp: `Update an age rating declaration.
 
@@ -218,10 +218,10 @@ Use --all-none to set all ratings to their safe defaults (NONE/false) in one
 command, then override individual fields as needed.
 
 Examples:
-  asc age-rating set --app APP_ID --all-none
-  asc age-rating set --app APP_ID --all-none --unrestricted-web-access true
-  asc age-rating set --id DECLARATION_ID --gambling false --kids-age-band FIVE_AND_UNDER
-  asc age-rating set --app APP_ID --violence-realistic FREQUENT_OR_INTENSE --unrestricted-web-access true`,
+  aso age-rating set --app APP_ID --all-none
+  aso age-rating set --app APP_ID --all-none --unrestricted-web-access true
+  aso age-rating set --id DECLARATION_ID --gambling false --kids-age-band FIVE_AND_UNDER
+  aso age-rating set --app APP_ID --violence-realistic FREQUENT_OR_INTENSE --unrestricted-web-access true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

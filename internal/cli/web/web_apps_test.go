@@ -11,9 +11,9 @@ import (
 	"testing"
 
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func TestWebAppsCreatePassesPasswordCompatibilityFlagToSessionResolver(t *testing.T) {

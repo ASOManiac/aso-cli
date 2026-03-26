@@ -17,10 +17,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/auth"
-	authcli "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/auth"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/auth"
+	authcli "github.com/ASOManiac/aso-cli/internal/cli/auth"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 func captureOutput(t *testing.T, fn func()) (string, string) {

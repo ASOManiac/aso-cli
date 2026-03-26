@@ -12,8 +12,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PerformanceDownloadCommand returns the download subcommand.
@@ -33,14 +33,14 @@ func PerformanceDownloadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "download",
-		ShortUsage: "asc performance download [flags]",
+		ShortUsage: "aso performance download [flags]",
 		ShortHelp:  "Download metrics or diagnostic logs.",
 		LongHelp: `Download metrics or diagnostic logs.
 
 Examples:
-  asc performance download --app "APP_ID" --output ./metrics.json
-  asc performance download --build "BUILD_ID" --output ./metrics.json
-  asc performance download --diagnostic-id "SIGNATURE_ID" --output ./diagnostic.json --decompress`,
+  aso performance download --app "APP_ID" --output ./metrics.json
+  aso performance download --build "BUILD_ID" --output ./metrics.json
+  aso performance download --diagnostic-id "SIGNATURE_ID" --output ./diagnostic.json --decompress`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

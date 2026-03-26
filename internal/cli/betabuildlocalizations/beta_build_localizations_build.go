@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BetaBuildLocalizationsBuildCommand returns the build command group.
@@ -17,27 +17,27 @@ func BetaBuildLocalizationsBuildCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "build",
-		ShortUsage: "asc beta-build-localizations build <subcommand> [flags]",
+		ShortUsage: "aso beta-build-localizations build <subcommand> [flags]",
 		ShortHelp:  "DEPRECATED: legacy-only compatibility path.",
 		LongHelp: `Deprecated compatibility path retained during migration.
 
-No canonical ` + "`asc builds test-notes ...`" + ` replacement exists for the build relationship helper yet.
+No canonical ` + "`aso builds test-notes ...`" + ` replacement exists for the build relationship helper yet.
 
 View the build for a beta build localization.
 
 Examples:
-  asc beta-build-localizations build get --id "LOCALIZATION_ID"`,
+  aso beta-build-localizations build get --id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
 			deprecatedBetaBuildLocalizationsLeafCommand(
 				BetaBuildLocalizationsBuildGetCommand(),
 				"",
-				"Warning: `asc beta-build-localizations build get` is deprecated. No canonical replacement exists yet; this legacy helper remains available during transition.",
+				"Warning: `aso beta-build-localizations build get` is deprecated. No canonical replacement exists yet; this legacy helper remains available during transition.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {
-			fmt.Fprintln(os.Stderr, "Warning: `asc beta-build-localizations build` is deprecated. No canonical replacement exists yet; this legacy helper remains available during transition.")
+			fmt.Fprintln(os.Stderr, "Warning: `aso beta-build-localizations build` is deprecated. No canonical replacement exists yet; this legacy helper remains available during transition.")
 			return flag.ErrHelp
 		},
 	}
@@ -52,12 +52,12 @@ func BetaBuildLocalizationsBuildGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc beta-build-localizations build get --id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso beta-build-localizations build get --id \"LOCALIZATION_ID\"",
 		ShortHelp:  "Get the build for a beta build localization.",
 		LongHelp: `Get the build for a beta build localization.
 
 Examples:
-  asc beta-build-localizations build get --id "LOCALIZATION_ID"`,
+  aso beta-build-localizations build get --id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

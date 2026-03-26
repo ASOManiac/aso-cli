@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const iapReviewScreenshotPollInterval = 2 * time.Second
@@ -22,15 +22,15 @@ func IAPReviewScreenshotsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "review-screenshots",
-		ShortUsage: "asc iap review-screenshots <subcommand> [flags]",
+		ShortUsage: "aso iap review-screenshots <subcommand> [flags]",
 		ShortHelp:  "Manage in-app purchase review screenshots.",
 		LongHelp: `Manage in-app purchase review screenshots.
 
 Examples:
-  asc iap review-screenshots get --iap-id "IAP_ID"
-  asc iap review-screenshots create --iap-id "IAP_ID" --file "./review.png"
-  asc iap review-screenshots update --screenshot-id "SHOT_ID" --file "./review.png"
-  asc iap review-screenshots delete --screenshot-id "SHOT_ID" --confirm`,
+  aso iap review-screenshots get --iap-id "IAP_ID"
+  aso iap review-screenshots create --iap-id "IAP_ID" --file "./review.png"
+  aso iap review-screenshots update --screenshot-id "SHOT_ID" --file "./review.png"
+  aso iap review-screenshots delete --screenshot-id "SHOT_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -55,13 +55,13 @@ func IAPReviewScreenshotsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc iap review-screenshots get --iap-id \"IAP_ID\"",
+		ShortUsage: "aso iap review-screenshots get --iap-id \"IAP_ID\"",
 		ShortHelp:  "Get an in-app purchase review screenshot.",
 		LongHelp: `Get an in-app purchase review screenshot.
 
 Examples:
-  asc iap review-screenshots get --iap-id "IAP_ID"
-  asc iap review-screenshots get --screenshot-id "SHOT_ID"`,
+  aso iap review-screenshots get --iap-id "IAP_ID"
+  aso iap review-screenshots get --screenshot-id "SHOT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -108,12 +108,12 @@ func IAPReviewScreenshotsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc iap review-screenshots create --iap-id \"IAP_ID\" --file \"./review.png\"",
+		ShortUsage: "aso iap review-screenshots create --iap-id \"IAP_ID\" --file \"./review.png\"",
 		ShortHelp:  "Upload an in-app purchase review screenshot.",
 		LongHelp: `Upload an in-app purchase review screenshot.
 
 Examples:
-  asc iap review-screenshots create --iap-id "IAP_ID" --file "./review.png"`,
+  aso iap review-screenshots create --iap-id "IAP_ID" --file "./review.png"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -191,12 +191,12 @@ func IAPReviewScreenshotsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc iap review-screenshots update --screenshot-id \"SHOT_ID\" --file \"./review.png\"",
+		ShortUsage: "aso iap review-screenshots update --screenshot-id \"SHOT_ID\" --file \"./review.png\"",
 		ShortHelp:  "Re-upload an in-app purchase review screenshot.",
 		LongHelp: `Re-upload an in-app purchase review screenshot.
 
 Examples:
-  asc iap review-screenshots update --screenshot-id "SHOT_ID" --file "./review.png"`,
+  aso iap review-screenshots update --screenshot-id "SHOT_ID" --file "./review.png"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -294,12 +294,12 @@ func IAPReviewScreenshotsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc iap review-screenshots delete --screenshot-id \"SHOT_ID\" --confirm",
+		ShortUsage: "aso iap review-screenshots delete --screenshot-id \"SHOT_ID\" --confirm",
 		ShortHelp:  "Delete an in-app purchase review screenshot.",
 		LongHelp: `Delete an in-app purchase review screenshot.
 
 Examples:
-  asc iap review-screenshots delete --screenshot-id "SHOT_ID" --confirm`,
+  aso iap review-screenshots delete --screenshot-id "SHOT_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

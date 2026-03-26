@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/itunes"
+	"github.com/ASOManiac/aso-cli/internal/itunes"
 )
 
 func TestReviewsRatingsSuccessOutputs(t *testing.T) {

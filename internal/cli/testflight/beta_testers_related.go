@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BetaTestersAppsCommand returns the beta-testers apps command group.
@@ -19,12 +19,12 @@ func BetaTestersAppsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "apps",
-		ShortUsage: "asc testflight beta-testers apps <subcommand> [flags]",
+		ShortUsage: "aso testflight beta-testers apps <subcommand> [flags]",
 		ShortHelp:  "List apps for a beta tester.",
 		LongHelp: `List apps for a beta tester.
 
 Examples:
-  asc testflight beta-testers apps list --tester-id "TESTER_ID"`,
+  aso testflight beta-testers apps list --tester-id "TESTER_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -49,13 +49,13 @@ func BetaTestersAppsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc testflight beta-testers apps list [flags]",
+		ShortUsage: "aso testflight beta-testers apps list [flags]",
 		ShortHelp:  "List apps for a beta tester.",
 		LongHelp: `List apps for a beta tester.
 
 Examples:
-  asc testflight beta-testers apps list --tester-id "TESTER_ID"
-  asc testflight beta-testers apps list --tester-id "TESTER_ID" --paginate`,
+  aso testflight beta-testers apps list --tester-id "TESTER_ID"
+  aso testflight beta-testers apps list --tester-id "TESTER_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -127,12 +127,12 @@ func BetaTestersBetaGroupsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "beta-groups",
-		ShortUsage: "asc testflight beta-testers beta-groups <subcommand> [flags]",
+		ShortUsage: "aso testflight beta-testers beta-groups <subcommand> [flags]",
 		ShortHelp:  "List beta groups for a beta tester.",
 		LongHelp: `List beta groups for a beta tester.
 
 Examples:
-  asc testflight beta-testers beta-groups list --tester-id "TESTER_ID"`,
+  aso testflight beta-testers beta-groups list --tester-id "TESTER_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -157,13 +157,13 @@ func BetaTestersBetaGroupsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc testflight beta-testers beta-groups list [flags]",
+		ShortUsage: "aso testflight beta-testers beta-groups list [flags]",
 		ShortHelp:  "List beta groups for a beta tester.",
 		LongHelp: `List beta groups for a beta tester.
 
 Examples:
-  asc testflight beta-testers beta-groups list --tester-id "TESTER_ID"
-  asc testflight beta-testers beta-groups list --tester-id "TESTER_ID" --paginate`,
+  aso testflight beta-testers beta-groups list --tester-id "TESTER_ID"
+  aso testflight beta-testers beta-groups list --tester-id "TESTER_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -235,12 +235,12 @@ func BetaTestersBuildsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "builds",
-		ShortUsage: "asc testflight beta-testers builds <subcommand> [flags]",
+		ShortUsage: "aso testflight beta-testers builds <subcommand> [flags]",
 		ShortHelp:  "List builds for a beta tester.",
 		LongHelp: `List builds for a beta tester.
 
 Examples:
-  asc testflight beta-testers builds list --tester-id "TESTER_ID"`,
+  aso testflight beta-testers builds list --tester-id "TESTER_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -265,13 +265,13 @@ func BetaTestersBuildsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc testflight beta-testers builds list [flags]",
+		ShortUsage: "aso testflight beta-testers builds list [flags]",
 		ShortHelp:  "List builds for a beta tester.",
 		LongHelp: `List builds for a beta tester.
 
 Examples:
-  asc testflight beta-testers builds list --tester-id "TESTER_ID"
-  asc testflight beta-testers builds list --tester-id "TESTER_ID" --paginate`,
+  aso testflight beta-testers builds list --tester-id "TESTER_ID"
+  aso testflight beta-testers builds list --tester-id "TESTER_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AlternativeDistributionKeysCommand returns the keys command group.
@@ -19,16 +19,16 @@ func AlternativeDistributionKeysCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "keys",
-		ShortUsage: "asc alternative-distribution keys <subcommand> [flags]",
+		ShortUsage: "aso alternative-distribution keys <subcommand> [flags]",
 		ShortHelp:  "Manage alternative distribution keys.",
 		LongHelp: `Manage alternative distribution keys.
 
 Examples:
-  asc alternative-distribution keys list
-  asc alternative-distribution keys get --key-id "KEY_ID"
-  asc alternative-distribution keys create --app "APP_ID" --public-key-path "./key.pem"
-  asc alternative-distribution keys delete --key-id "KEY_ID" --confirm
-  asc alternative-distribution keys app --app "APP_ID"`,
+  aso alternative-distribution keys list
+  aso alternative-distribution keys get --key-id "KEY_ID"
+  aso alternative-distribution keys create --app "APP_ID" --public-key-path "./key.pem"
+  aso alternative-distribution keys delete --key-id "KEY_ID" --confirm
+  aso alternative-distribution keys app --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -55,14 +55,14 @@ func AlternativeDistributionKeysListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc alternative-distribution keys list [flags]",
+		ShortUsage: "aso alternative-distribution keys list [flags]",
 		ShortHelp:  "List alternative distribution keys.",
 		LongHelp: `List alternative distribution keys.
 
 Examples:
-  asc alternative-distribution keys list
-  asc alternative-distribution keys list --limit 50
-  asc alternative-distribution keys list --paginate`,
+  aso alternative-distribution keys list
+  aso alternative-distribution keys list --limit 50
+  aso alternative-distribution keys list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -122,12 +122,12 @@ func AlternativeDistributionKeysGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc alternative-distribution keys get --key-id \"KEY_ID\"",
+		ShortUsage: "aso alternative-distribution keys get --key-id \"KEY_ID\"",
 		ShortHelp:  "Get an alternative distribution key.",
 		LongHelp: `Get an alternative distribution key.
 
 Examples:
-  asc alternative-distribution keys get --key-id "KEY_ID"`,
+  aso alternative-distribution keys get --key-id "KEY_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -166,13 +166,13 @@ func AlternativeDistributionKeysCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc alternative-distribution keys create --app \"APP_ID\" --public-key-path \"./key.pem\"",
+		ShortUsage: "aso alternative-distribution keys create --app \"APP_ID\" --public-key-path \"./key.pem\"",
 		ShortHelp:  "Create an alternative distribution key.",
 		LongHelp: `Create an alternative distribution key.
 
 Examples:
-  asc alternative-distribution keys create --app "APP_ID" --public-key "KEY_DATA"
-  asc alternative-distribution keys create --app "APP_ID" --public-key-path "./key.pem"`,
+  aso alternative-distribution keys create --app "APP_ID" --public-key "KEY_DATA"
+  aso alternative-distribution keys create --app "APP_ID" --public-key-path "./key.pem"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -227,12 +227,12 @@ func AlternativeDistributionKeysDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc alternative-distribution keys delete --key-id \"KEY_ID\" --confirm",
+		ShortUsage: "aso alternative-distribution keys delete --key-id \"KEY_ID\" --confirm",
 		ShortHelp:  "Delete an alternative distribution key.",
 		LongHelp: `Delete an alternative distribution key.
 
 Examples:
-  asc alternative-distribution keys delete --key-id "KEY_ID" --confirm`,
+  aso alternative-distribution keys delete --key-id "KEY_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -277,12 +277,12 @@ func AlternativeDistributionKeysAppCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app",
-		ShortUsage: "asc alternative-distribution keys app --app \"APP_ID\"",
+		ShortUsage: "aso alternative-distribution keys app --app \"APP_ID\"",
 		ShortHelp:  "Get an app's alternative distribution key.",
 		LongHelp: `Get an app's alternative distribution key.
 
 Examples:
-  asc alternative-distribution keys app --app "APP_ID"`,
+  aso alternative-distribution keys app --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

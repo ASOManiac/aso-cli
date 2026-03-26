@@ -13,9 +13,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/validate"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/validate"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 type validateFixture struct {
@@ -409,7 +409,7 @@ func TestValidateOutputsJSONAndTable(t *testing.T) {
 		if check.Severity != validation.SeverityInfo {
 			t.Fatalf("expected info severity for privacy advisory, got %+v", check)
 		}
-		if strings.Contains(strings.ToLower(check.Remediation), "asc web") {
+		if strings.Contains(strings.ToLower(check.Remediation), "aso web") {
 			t.Fatalf("did not expect private/web guidance in remediation, got %q", check.Remediation)
 		}
 	}

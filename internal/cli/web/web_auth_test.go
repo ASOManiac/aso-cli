@@ -16,9 +16,9 @@ import (
 	"time"
 
 	"github.com/creack/pty"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/appleauth"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/appleauth"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func TestReadPasswordFromInput(t *testing.T) {
@@ -413,7 +413,7 @@ func TestReadTwoFactorCodeFromCommand(t *testing.T) {
 		}
 	})
 
-	t.Run("honors asc timeout override while waiting for helper output", func(t *testing.T) {
+	t.Run("honors aso timeout override while waiting for helper output", func(t *testing.T) {
 		t.Setenv("ASC_TIMEOUT", "50ms")
 
 		_, err := readTwoFactorCodeFromCommand(context.Background(), "sleep 0.1; printf '123456\\n'")

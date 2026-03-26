@@ -24,7 +24,7 @@ type JUnitTestCase struct {
 type JUnitReport struct {
 	Tests     []JUnitTestCase // Test cases in this report
 	Timestamp time.Time       // Report generation time
-	Name      string          // Test suite name (default: "asc")
+	Name      string          // Test suite name (default: "aso")
 }
 
 // Write writes the JUnit report to the specified file path.
@@ -66,7 +66,7 @@ func (r *JUnitReport) WriteTo(w io.Writer) (int64, error) {
 func (r *JUnitReport) Marshal() ([]byte, error) {
 	name := r.Name
 	if name == "" {
-		name = "asc"
+		name = "aso"
 	}
 
 	tests := len(r.Tests)

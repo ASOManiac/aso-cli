@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // GameCenterLeaderboardLocalizationsCommand returns the leaderboard localizations command group.
@@ -19,17 +19,17 @@ func GameCenterLeaderboardLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc game-center leaderboards localizations <subcommand> [flags]",
+		ShortUsage: "aso game-center leaderboards localizations <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center leaderboard localizations.",
 		LongHelp: `Manage Game Center leaderboard localizations.
 
 Examples:
-  asc game-center leaderboards localizations list --leaderboard-id "LEADERBOARD_ID"
-  asc game-center leaderboards localizations get --id "LOCALIZATION_ID"
-  asc game-center leaderboards localizations create --leaderboard-id "LEADERBOARD_ID" --locale en-US --name "High Score"
-  asc game-center leaderboards localizations update --id "LOCALIZATION_ID" --name "Top Score"
-  asc game-center leaderboards localizations delete --id "LOCALIZATION_ID" --confirm
-  asc game-center leaderboards localizations image get --id "LOCALIZATION_ID"`,
+  aso game-center leaderboards localizations list --leaderboard-id "LEADERBOARD_ID"
+  aso game-center leaderboards localizations get --id "LOCALIZATION_ID"
+  aso game-center leaderboards localizations create --leaderboard-id "LEADERBOARD_ID" --locale en-US --name "High Score"
+  aso game-center leaderboards localizations update --id "LOCALIZATION_ID" --name "Top Score"
+  aso game-center leaderboards localizations delete --id "LOCALIZATION_ID" --confirm
+  aso game-center leaderboards localizations image get --id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -58,14 +58,14 @@ func GameCenterLeaderboardLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center leaderboards localizations list --leaderboard-id \"LEADERBOARD_ID\"",
+		ShortUsage: "aso game-center leaderboards localizations list --leaderboard-id \"LEADERBOARD_ID\"",
 		ShortHelp:  "List localizations for a Game Center leaderboard.",
 		LongHelp: `List localizations for a Game Center leaderboard.
 
 Examples:
-  asc game-center leaderboards localizations list --leaderboard-id "LEADERBOARD_ID"
-  asc game-center leaderboards localizations list --leaderboard-id "LEADERBOARD_ID" --limit 50
-  asc game-center leaderboards localizations list --leaderboard-id "LEADERBOARD_ID" --paginate`,
+  aso game-center leaderboards localizations list --leaderboard-id "LEADERBOARD_ID"
+  aso game-center leaderboards localizations list --leaderboard-id "LEADERBOARD_ID" --limit 50
+  aso game-center leaderboards localizations list --leaderboard-id "LEADERBOARD_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -131,12 +131,12 @@ func GameCenterLeaderboardLocalizationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center leaderboards localizations get --id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso game-center leaderboards localizations get --id \"LOCALIZATION_ID\"",
 		ShortHelp:  "Get a Game Center leaderboard localization by ID.",
 		LongHelp: `Get a Game Center leaderboard localization by ID.
 
 Examples:
-  asc game-center leaderboards localizations get --id "LOCALIZATION_ID"`,
+  aso game-center leaderboards localizations get --id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -179,13 +179,13 @@ func GameCenterLeaderboardLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center leaderboards localizations create [flags]",
+		ShortUsage: "aso game-center leaderboards localizations create [flags]",
 		ShortHelp:  "Create a new Game Center leaderboard localization.",
 		LongHelp: `Create a new Game Center leaderboard localization.
 
 Examples:
-  asc game-center leaderboards localizations create --leaderboard-id "LEADERBOARD_ID" --locale en-US --name "High Score"
-  asc game-center leaderboards localizations create --leaderboard-id "LEADERBOARD_ID" --locale de-DE --name "Highscore" --formatter-suffix " Punkte"`,
+  aso game-center leaderboards localizations create --leaderboard-id "LEADERBOARD_ID" --locale en-US --name "High Score"
+  aso game-center leaderboards localizations create --leaderboard-id "LEADERBOARD_ID" --locale de-DE --name "Highscore" --formatter-suffix " Punkte"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -268,13 +268,13 @@ func GameCenterLeaderboardLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center leaderboards localizations update [flags]",
+		ShortUsage: "aso game-center leaderboards localizations update [flags]",
 		ShortHelp:  "Update a Game Center leaderboard localization.",
 		LongHelp: `Update a Game Center leaderboard localization.
 
 Examples:
-  asc game-center leaderboards localizations update --id "LOCALIZATION_ID" --name "Top Score"
-  asc game-center leaderboards localizations update --id "LOCALIZATION_ID" --formatter-suffix " pts"`,
+  aso game-center leaderboards localizations update --id "LOCALIZATION_ID" --name "Top Score"
+  aso game-center leaderboards localizations update --id "LOCALIZATION_ID" --formatter-suffix " pts"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -350,12 +350,12 @@ func GameCenterLeaderboardLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center leaderboards localizations delete --id \"LOCALIZATION_ID\" --confirm",
+		ShortUsage: "aso game-center leaderboards localizations delete --id \"LOCALIZATION_ID\" --confirm",
 		ShortHelp:  "Delete a Game Center leaderboard localization.",
 		LongHelp: `Delete a Game Center leaderboard localization.
 
 Examples:
-  asc game-center leaderboards localizations delete --id "LOCALIZATION_ID" --confirm`,
+  aso game-center leaderboards localizations delete --id "LOCALIZATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -397,12 +397,12 @@ func GameCenterLeaderboardLocalizationImageCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "image",
-		ShortUsage: "asc game-center leaderboards localizations image get --id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso game-center leaderboards localizations image get --id \"LOCALIZATION_ID\"",
 		ShortHelp:  "Get the image for a leaderboard localization.",
 		LongHelp: `Get the image for a leaderboard localization.
 
 Examples:
-  asc game-center leaderboards localizations image get --id "LOCALIZATION_ID"`,
+  aso game-center leaderboards localizations image get --id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -423,12 +423,12 @@ func GameCenterLeaderboardLocalizationImageGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center leaderboards localizations image get --id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso game-center leaderboards localizations image get --id \"LOCALIZATION_ID\"",
 		ShortHelp:  "Get a leaderboard localization image.",
 		LongHelp: `Get a leaderboard localization image.
 
 Examples:
-  asc game-center leaderboards localizations image get --id "LOCALIZATION_ID"`,
+  aso game-center leaderboards localizations image get --id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

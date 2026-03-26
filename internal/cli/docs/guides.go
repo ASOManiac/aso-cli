@@ -3,7 +3,7 @@ package docs
 import (
 	"strings"
 
-	docsembed "github.com/rudrankriyam/App-Store-Connect-CLI/docs"
+	docsembed "github.com/ASOManiac/aso-cli/docs"
 )
 
 type guideEntry struct {
@@ -25,7 +25,7 @@ var guideRegistry = []guideEntry{
 	},
 	{
 		Slug:        "reference",
-		Description: "ASC CLI command reference (also available via 'asc init')",
+		Description: "ASC CLI command reference (also available via 'aso init')",
 		Content:     ascTemplate,
 	},
 }

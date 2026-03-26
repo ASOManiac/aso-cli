@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 type validateSubscriptionsOptions struct {
@@ -21,7 +21,7 @@ type validateSubscriptionsOptions struct {
 	Pretty bool
 }
 
-// ValidateSubscriptionsCommand returns the asc validate subscriptions subcommand.
+// ValidateSubscriptionsCommand returns the aso validate subscriptions subcommand.
 func ValidateSubscriptionsCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("subscriptions", flag.ExitOnError)
 
@@ -31,7 +31,7 @@ func ValidateSubscriptionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "subscriptions",
-		ShortUsage: "asc validate subscriptions --app \"APP_ID\" [flags]",
+		ShortUsage: "aso validate subscriptions --app \"APP_ID\" [flags]",
 		ShortHelp:  "Validate subscription review readiness and promotional image guidance.",
 		LongHelp: `Validate review readiness for auto-renewable subscriptions.
 
@@ -41,9 +41,9 @@ promotion, offer-code redemption pages, and win-back offers. Use --strict to
 gate on warnings in CI.
 
 Examples:
-  asc validate subscriptions --app "APP_ID"
-  asc validate subscriptions --app "APP_ID" --output table
-  asc validate subscriptions --app "APP_ID" --strict`,
+  aso validate subscriptions --app "APP_ID"
+  aso validate subscriptions --app "APP_ID" --output table
+  aso validate subscriptions --app "APP_ID" --strict`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -43,7 +43,7 @@ def parse_documented_commands(path: Path) -> set[str]:
 
 def extract_top_level_command(line: str) -> str | None:
     tokens = line.strip().split()
-    if len(tokens) < 2 or tokens[0] != "asc":
+    if len(tokens) < 2 or tokens[0] != "aso":
         return None
 
     i = 1
@@ -69,7 +69,7 @@ def validate_readme_examples(live_commands: set[str]) -> list[str]:
     errors: list[str] = []
     for line_number, line in enumerate(README_PATH.read_text().splitlines(), start=1):
         stripped = line.strip()
-        if not stripped.startswith("asc "):
+        if not stripped.startswith("aso "):
             continue
         command = extract_top_level_command(stripped)
         if command is None:

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SubscriptionsImagesCommand returns the subscription images command group.
@@ -19,13 +19,13 @@ func SubscriptionsImagesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "images",
-		ShortUsage: "asc subscriptions images <subcommand> [flags]",
+		ShortUsage: "aso subscriptions images <subcommand> [flags]",
 		ShortHelp:  "Manage subscription images.",
 		LongHelp: `Manage subscription images.
 
 Examples:
-  asc subscriptions images list --subscription-id "SUB_ID"
-  asc subscriptions images create --subscription-id "SUB_ID" --file "./image.png"`,
+  aso subscriptions images list --subscription-id "SUB_ID"
+  aso subscriptions images create --subscription-id "SUB_ID" --file "./image.png"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -53,13 +53,13 @@ func SubscriptionsImagesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc subscriptions images list [flags]",
+		ShortUsage: "aso subscriptions images list [flags]",
 		ShortHelp:  "List subscription images.",
 		LongHelp: `List subscription images.
 
 Examples:
-  asc subscriptions images list --subscription-id "SUB_ID"
-  asc subscriptions images list --subscription-id "SUB_ID" --paginate`,
+  aso subscriptions images list --subscription-id "SUB_ID"
+  aso subscriptions images list --subscription-id "SUB_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -125,12 +125,12 @@ func SubscriptionsImagesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc subscriptions images get --id \"IMAGE_ID\"",
+		ShortUsage: "aso subscriptions images get --id \"IMAGE_ID\"",
 		ShortHelp:  "Get a subscription image by ID.",
 		LongHelp: `Get a subscription image by ID.
 
 Examples:
-  asc subscriptions images get --id "IMAGE_ID"`,
+  aso subscriptions images get --id "IMAGE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -168,12 +168,12 @@ func SubscriptionsImagesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc subscriptions images create [flags]",
+		ShortUsage: "aso subscriptions images create [flags]",
 		ShortHelp:  "Upload a subscription image.",
 		LongHelp: `Upload a subscription image.
 
 Examples:
-  asc subscriptions images create --subscription-id "SUB_ID" --file "./image.png"`,
+  aso subscriptions images create --subscription-id "SUB_ID" --file "./image.png"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -251,12 +251,12 @@ func SubscriptionsImagesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc subscriptions images update [flags]",
+		ShortUsage: "aso subscriptions images update [flags]",
 		ShortHelp:  "Update a subscription image.",
 		LongHelp: `Update a subscription image.
 
 Examples:
-  asc subscriptions images update --id "IMAGE_ID" --uploaded true --checksum "HASH"`,
+  aso subscriptions images update --id "IMAGE_ID" --uploaded true --checksum "HASH"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -309,12 +309,12 @@ func SubscriptionsImagesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc subscriptions images delete --id \"IMAGE_ID\" --confirm",
+		ShortUsage: "aso subscriptions images delete --id \"IMAGE_ID\" --confirm",
 		ShortHelp:  "Delete a subscription image.",
 		LongHelp: `Delete a subscription image.
 
 Examples:
-  asc subscriptions images delete --id "IMAGE_ID" --confirm`,
+  aso subscriptions images delete --id "IMAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

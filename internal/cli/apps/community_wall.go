@@ -14,8 +14,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -40,16 +40,16 @@ func AppsWallCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "wall",
-		ShortUsage: "asc apps wall [flags]",
+		ShortUsage: "aso apps wall [flags]",
 		ShortHelp:  "Show or contribute to the community Wall of Apps.",
 		LongHelp: `Show the community Wall of Apps from project metadata.
 
 Examples:
-  asc apps wall
-  asc apps wall --output markdown
-  asc apps wall --limit 20
-  asc apps wall --sort -name
-  asc apps wall submit --app "1234567890" --confirm`,
+  aso apps wall
+  aso apps wall --output markdown
+  aso apps wall --limit 20
+  aso apps wall --sort -name
+  aso apps wall submit --app "1234567890" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{

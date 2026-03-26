@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // MarketplaceSearchDetailsCommand returns the marketplace search details command group.
@@ -19,15 +19,15 @@ func MarketplaceSearchDetailsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "search-details",
-		ShortUsage: "asc marketplace search-details <subcommand> [flags]",
+		ShortUsage: "aso marketplace search-details <subcommand> [flags]",
 		ShortHelp:  "Manage marketplace search details.",
 		LongHelp: `Manage marketplace search details.
 
 Examples:
-  asc marketplace search-details get --app "APP_ID"
-  asc marketplace search-details create --app "APP_ID" --catalog-url "https://example.com"
-  asc marketplace search-details update --search-detail-id "DETAIL_ID" --catalog-url "https://example.com"
-  asc marketplace search-details delete --search-detail-id "DETAIL_ID" --confirm`,
+  aso marketplace search-details get --app "APP_ID"
+  aso marketplace search-details create --app "APP_ID" --catalog-url "https://example.com"
+  aso marketplace search-details update --search-detail-id "DETAIL_ID" --catalog-url "https://example.com"
+  aso marketplace search-details delete --search-detail-id "DETAIL_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -52,12 +52,12 @@ func MarketplaceSearchDetailsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc marketplace search-details get --app \"APP_ID\" [flags]",
+		ShortUsage: "aso marketplace search-details get --app \"APP_ID\" [flags]",
 		ShortHelp:  "Get marketplace search details for an app.",
 		LongHelp: `Get marketplace search details for an app.
 
 Examples:
-  asc marketplace search-details get --app "APP_ID"`,
+  aso marketplace search-details get --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -100,12 +100,12 @@ func MarketplaceSearchDetailsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc marketplace search-details create --app \"APP_ID\" --catalog-url \"URL\" [flags]",
+		ShortUsage: "aso marketplace search-details create --app \"APP_ID\" --catalog-url \"URL\" [flags]",
 		ShortHelp:  "Create marketplace search details for an app.",
 		LongHelp: `Create marketplace search details for an app.
 
 Examples:
-  asc marketplace search-details create --app "APP_ID" --catalog-url "https://example.com"`,
+  aso marketplace search-details create --app "APP_ID" --catalog-url "https://example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -149,12 +149,12 @@ func MarketplaceSearchDetailsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc marketplace search-details update --search-detail-id \"DETAIL_ID\" --catalog-url \"URL\" [flags]",
+		ShortUsage: "aso marketplace search-details update --search-detail-id \"DETAIL_ID\" --catalog-url \"URL\" [flags]",
 		ShortHelp:  "Update marketplace search details.",
 		LongHelp: `Update marketplace search details.
 
 Examples:
-  asc marketplace search-details update --search-detail-id "DETAIL_ID" --catalog-url "https://example.com"`,
+  aso marketplace search-details update --search-detail-id "DETAIL_ID" --catalog-url "https://example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -208,12 +208,12 @@ func MarketplaceSearchDetailsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc marketplace search-details delete --search-detail-id \"DETAIL_ID\" --confirm",
+		ShortUsage: "aso marketplace search-details delete --search-detail-id \"DETAIL_ID\" --confirm",
 		ShortHelp:  "Delete marketplace search details.",
 		LongHelp: `Delete marketplace search details.
 
 Examples:
-  asc marketplace search-details delete --search-detail-id "DETAIL_ID" --confirm`,
+  aso marketplace search-details delete --search-detail-id "DETAIL_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

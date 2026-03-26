@@ -329,7 +329,7 @@ func subscriptionPricingCoverageChecks(subs []Subscription, availableTerritories
 					ResourceType: "subscription",
 					ResourceID:   strings.TrimSpace(sub.ID),
 					Message:      fmt.Sprintf("%s has pricing for %d of %d subscription availability territories; missing: %s", label, len(priceTerritories), len(subscriptionAvailabilityTerritories), strings.Join(missing, ",")),
-					Remediation:  "Set prices for all subscription availability territories using `asc subscriptions pricing equalize` or `asc subscriptions pricing prices set`; missing territory pricing blocks App Store submission",
+					Remediation:  "Set prices for all subscription availability territories using `aso subscriptions pricing equalize` or `aso subscriptions pricing prices set`; missing territory pricing blocks App Store submission",
 				})
 				continue
 			}
@@ -343,7 +343,7 @@ func subscriptionPricingCoverageChecks(subs []Subscription, availableTerritories
 				ResourceType: "subscription",
 				ResourceID:   strings.TrimSpace(sub.ID),
 				Message:      fmt.Sprintf("%s has pricing for %d of %d subscription availability territories", label, sub.PriceCount, len(subscriptionAvailabilityTerritories)),
-				Remediation:  "Set prices for all subscription availability territories using `asc subscriptions pricing equalize` or `asc subscriptions pricing prices set`; missing territory pricing blocks App Store submission",
+				Remediation:  "Set prices for all subscription availability territories using `aso subscriptions pricing equalize` or `aso subscriptions pricing prices set`; missing territory pricing blocks App Store submission",
 			})
 			continue
 		}
@@ -359,7 +359,7 @@ func subscriptionPricingCoverageChecks(subs []Subscription, availableTerritories
 				ResourceType: "subscription",
 				ResourceID:   strings.TrimSpace(sub.ID),
 				Message:      fmt.Sprintf("%s has pricing for %d of %d app availability territories; missing: %s", label, len(priceTerritories), len(appAvailableTerritories), strings.Join(missing, ",")),
-				Remediation:  "Set prices for all app availability territories using `asc subscriptions pricing equalize` or `asc subscriptions pricing prices set`; missing territory pricing blocks App Store submission",
+				Remediation:  "Set prices for all app availability territories using `aso subscriptions pricing equalize` or `aso subscriptions pricing prices set`; missing territory pricing blocks App Store submission",
 			})
 			continue
 		}
@@ -373,7 +373,7 @@ func subscriptionPricingCoverageChecks(subs []Subscription, availableTerritories
 			ResourceType: "subscription",
 			ResourceID:   strings.TrimSpace(sub.ID),
 			Message:      fmt.Sprintf("%s has pricing for %d of %d available territories", label, sub.PriceCount, availableTerritories),
-			Remediation:  "Set prices for all available territories using `asc subscriptions pricing equalize` or `asc subscriptions pricing prices set`; missing territory pricing blocks App Store submission",
+			Remediation:  "Set prices for all available territories using `aso subscriptions pricing equalize` or `aso subscriptions pricing prices set`; missing territory pricing blocks App Store submission",
 		})
 	}
 
@@ -426,7 +426,7 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 					ResourceType: "subscriptionGroup",
 					ResourceID:   groupID,
 					Message:      fmt.Sprintf("Subscription group %s has no localizations", groupLabel),
-					Remediation:  "Create at least one subscription group localization (with group display name) via App Store Connect or `asc subscriptions groups localizations create`; this is a common cause of MISSING_METADATA",
+					Remediation:  "Create at least one subscription group localization (with group display name) via App Store Connect or `aso subscriptions groups localizations create`; this is a common cause of MISSING_METADATA",
 				})
 			} else {
 				for _, loc := range sub.GroupLocalizations {
@@ -473,7 +473,7 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 				ResourceType: "subscription",
 				ResourceID:   strings.TrimSpace(sub.ID),
 				Message:      fmt.Sprintf("%s has no localizations (display name and description)", label),
-				Remediation:  "Create at least one subscription localization with display name and description via App Store Connect or `asc subscriptions localizations create`",
+				Remediation:  "Create at least one subscription localization with display name and description via App Store Connect or `aso subscriptions localizations create`",
 			})
 		} else {
 			for _, loc := range sub.Localizations {
@@ -526,7 +526,7 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 				ResourceType: "subscription",
 				ResourceID:   strings.TrimSpace(sub.ID),
 				Message:      fmt.Sprintf("%s has no App Review screenshot", label),
-				Remediation:  "Upload a subscription App Review screenshot via `asc subscriptions review screenshots create`",
+				Remediation:  "Upload a subscription App Review screenshot via `aso subscriptions review screenshots create`",
 			})
 		}
 
@@ -552,7 +552,7 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 				ResourceType: "subscription",
 				ResourceID:   strings.TrimSpace(sub.ID),
 				Message:      fmt.Sprintf("%s has no subscription availability configured", label),
-				Remediation:  "Configure subscription availability via `asc subscriptions availability edit`",
+				Remediation:  "Configure subscription availability via `aso subscriptions availability edit`",
 			})
 		} else if len(sortedUniqueNonEmpty(sub.AvailabilityTerritories)) == 0 {
 			checks = append(checks, CheckResult{
@@ -562,7 +562,7 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 				ResourceType: "subscription",
 				ResourceID:   strings.TrimSpace(sub.ID),
 				Message:      fmt.Sprintf("%s has subscription availability configured but no available territories", label),
-				Remediation:  "Enable at least one subscription availability territory via `asc subscriptions availability edit`",
+				Remediation:  "Enable at least one subscription availability territory via `aso subscriptions availability edit`",
 			})
 		}
 
@@ -588,7 +588,7 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 				ResourceType: "subscription",
 				ResourceID:   strings.TrimSpace(sub.ID),
 				Message:      fmt.Sprintf("%s has no territory prices configured", label),
-				Remediation:  "Set prices for all available territories using `asc subscriptions pricing equalize` or `asc subscriptions pricing prices set`",
+				Remediation:  "Set prices for all available territories using `aso subscriptions pricing equalize` or `aso subscriptions pricing prices set`",
 			})
 		} else if !sub.AvailabilityCheckSkipped && strings.TrimSpace(sub.AvailabilityID) != "" && len(sub.AvailabilityTerritories) > 0 {
 			missing := missingValues(sub.AvailabilityTerritories, sub.PriceTerritories)
@@ -600,7 +600,7 @@ func subscriptionMetadataDiagnostics(subs []Subscription) []CheckResult {
 					ResourceType: "subscription",
 					ResourceID:   strings.TrimSpace(sub.ID),
 					Message:      fmt.Sprintf("%s is missing price records for subscription availability territories: %s", label, strings.Join(missing, ",")),
-					Remediation:  "Set prices for each subscription availability territory using `asc subscriptions pricing equalize` or `asc subscriptions pricing prices set`",
+					Remediation:  "Set prices for each subscription availability territory using `aso subscriptions pricing equalize` or `aso subscriptions pricing prices set`",
 				})
 			}
 		}

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ReviewsCommand returns the reviews command with subcommands.
@@ -28,7 +28,7 @@ func ReviewsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "reviews",
-		ShortUsage: "asc reviews [flags] | asc reviews <subcommand> [flags]",
+		ShortUsage: "aso reviews [flags] | aso reviews <subcommand> [flags]",
 		ShortHelp:  "List and manage App Store customer reviews.",
 		LongHelp: `List and manage App Store customer reviews.
 
@@ -38,19 +38,19 @@ helping you understand user feedback and sentiment.
 When invoked with --app, lists reviews. Subcommands allow responding to reviews.
 
 Examples:
-  asc reviews --app "123456789"
-  asc reviews --app "123456789" --stars 1 --territory US
-  asc reviews --app "123456789" --sort -createdDate --limit 5
-  asc reviews --next "<links.next>"
-  asc reviews --app "123456789" --paginate
-  asc reviews get --id "REVIEW_ID"
-  asc reviews ratings --app "123456789"
-  asc reviews ratings --app "123456789" --all
-  asc reviews summarizations --app "123456789" --platform IOS --territory US
-  asc reviews respond --review-id "REVIEW_ID" --response "Thanks!"
-  asc reviews response get --id "RESPONSE_ID"
-  asc reviews response delete --id "RESPONSE_ID" --confirm
-  asc reviews response for-review --review-id "REVIEW_ID"`,
+  aso reviews --app "123456789"
+  aso reviews --app "123456789" --stars 1 --territory US
+  aso reviews --app "123456789" --sort -createdDate --limit 5
+  aso reviews --next "<links.next>"
+  aso reviews --app "123456789" --paginate
+  aso reviews get --id "REVIEW_ID"
+  aso reviews ratings --app "123456789"
+  aso reviews ratings --app "123456789" --all
+  aso reviews summarizations --app "123456789" --platform IOS --territory US
+  aso reviews respond --review-id "REVIEW_ID" --response "Thanks!"
+  aso reviews response get --id "RESPONSE_ID"
+  aso reviews response delete --id "RESPONSE_ID" --confirm
+  aso reviews response for-review --review-id "REVIEW_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -90,16 +90,16 @@ func ReviewsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc reviews list [flags]",
+		ShortUsage: "aso reviews list [flags]",
 		ShortHelp:  "List App Store customer reviews.",
 		LongHelp: `List App Store customer reviews.
 
 Examples:
-  asc reviews list --app "123456789"
-  asc reviews list --app "123456789" --stars 5
-  asc reviews list --app "123456789" --territory US --sort -createdDate
-  asc reviews list --next "<links.next>"
-  asc reviews list --app "123456789" --paginate`,
+  aso reviews list --app "123456789"
+  aso reviews list --app "123456789" --stars 5
+  aso reviews list --app "123456789" --territory US --sort -createdDate
+  aso reviews list --next "<links.next>"
+  aso reviews list --app "123456789" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

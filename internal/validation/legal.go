@@ -25,7 +25,7 @@ func legalChecks(copyright string, hasActiveMonetization bool, hasReviewRelevant
 			Field:        "copyright",
 			ResourceType: "appStoreVersion",
 			Message:      "copyright is required",
-			Remediation:  "Set copyright via: asc versions update --version-id VERSION_ID --copyright \"2026 Your Company\"",
+			Remediation:  "Set copyright via: aso versions update --version-id VERSION_ID --copyright \"2026 Your Company\"",
 		})
 	}
 

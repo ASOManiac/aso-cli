@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BetaNotificationsCommand returns the beta notifications command group.
@@ -17,12 +17,12 @@ func BetaNotificationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "beta-notifications",
-		ShortUsage: "asc testflight beta-notifications <subcommand> [flags]",
+		ShortUsage: "aso testflight beta-notifications <subcommand> [flags]",
 		ShortHelp:  "Send TestFlight beta build notifications.",
 		LongHelp: `Send TestFlight beta build notifications.
 
 Examples:
-  asc testflight beta-notifications create --build "BUILD_ID"`,
+  aso testflight beta-notifications create --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -43,12 +43,12 @@ func BetaNotificationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc testflight beta-notifications create --build \"BUILD_ID\"",
+		ShortUsage: "aso testflight beta-notifications create --build \"BUILD_ID\"",
 		ShortHelp:  "Send a beta notification for a build.",
 		LongHelp: `Send a beta notification for a build.
 
 Examples:
-  asc testflight beta-notifications create --build "BUILD_ID"`,
+  aso testflight beta-notifications create --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

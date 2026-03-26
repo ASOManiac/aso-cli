@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // LocalizationsUpdateCommand returns the update localizations subcommand.
@@ -42,15 +42,15 @@ func LocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc localizations update [flags]",
+		ShortUsage: "aso localizations update [flags]",
 		ShortHelp:  "Update localization fields directly.",
 		LongHelp: `Update localization fields directly without file preparation.
 
 For app-info localizations (name, subtitle, privacy URLs):
-  asc localizations update --app "APP_ID" --type app-info --locale "en-US" --subtitle "My App"
+  aso localizations update --app "APP_ID" --type app-info --locale "en-US" --subtitle "My App"
 
 For version localizations (description, keywords, whatsNew):
-  asc localizations update --version "VERSION_ID" --locale "en-US" --description "Updated description"
+  aso localizations update --version "VERSION_ID" --locale "en-US" --description "Updated description"
 
 At least one field flag must be provided.`,
 		FlagSet:   fs,

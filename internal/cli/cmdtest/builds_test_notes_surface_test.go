@@ -106,7 +106,7 @@ func TestDeprecatedBuildsTestNotesGetAliasWarnsAndMatchesViewOutput(t *testing.T
 	if canonicalStderr != "" {
 		t.Fatalf("expected canonical command to avoid warnings, got %q", canonicalStderr)
 	}
-	if !strings.Contains(aliasStderr, "Warning: `asc builds test-notes get` is deprecated. Use `asc builds test-notes view`.") {
+	if !strings.Contains(aliasStderr, "Warning: `aso builds test-notes get` is deprecated. Use `aso builds test-notes view`.") {
 		t.Fatalf("expected deprecation warning, got %q", aliasStderr)
 	}
 
@@ -169,7 +169,7 @@ func TestDeprecatedBetaBuildLocalizationsGetWarnsAndMatchesCanonicalViewOutput(t
 	if canonicalStderr != "" {
 		t.Fatalf("expected canonical command to avoid warnings, got %q", canonicalStderr)
 	}
-	if !strings.Contains(aliasStderr, "Warning: `asc beta-build-localizations get` is deprecated. Use `asc builds test-notes view`") {
+	if !strings.Contains(aliasStderr, "Warning: `aso beta-build-localizations get` is deprecated. Use `aso builds test-notes view`") {
 		t.Fatalf("expected deprecation warning, got %q", aliasStderr)
 	}
 

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func TestWorkflowsCommandHierarchy(t *testing.T) {

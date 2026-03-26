@@ -3,7 +3,7 @@ package apps
 import (
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 func TestSelectLatestAppStoreVersion(t *testing.T) {

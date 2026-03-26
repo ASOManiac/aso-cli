@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppEventsSubmitCommand returns the app events submit subcommand.
@@ -25,13 +25,13 @@ func AppEventsSubmitCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submit",
-		ShortUsage: "asc app-events submit [flags]",
+		ShortUsage: "aso app-events submit [flags]",
 		ShortHelp:  "Submit an in-app event for review.",
 		LongHelp: `Submit an in-app event for review.
 
 Examples:
-  asc app-events submit --event-id "EVENT_ID" --app "APP_ID" --confirm
-  asc app-events submit --event-id "EVENT_ID" --app "APP_ID" --platform IOS --confirm`,
+  aso app-events submit --event-id "EVENT_ID" --app "APP_ID" --confirm
+  aso app-events submit --event-id "EVENT_ID" --app "APP_ID" --platform IOS --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

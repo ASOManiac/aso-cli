@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type listCommandFlags struct {
@@ -158,19 +158,19 @@ func runListCommand(ctx context.Context, config shared.ListCommandConfig, flags 
 func CrashesCommand() *ffcli.Command {
 	return NewListCommand(shared.ListCommandConfig{
 		Name:       "crashes",
-		ShortUsage: "asc testflight crashes list [flags]",
-		ShortHelp:  "DEPRECATED: use `asc testflight crashes list`.",
-		LongHelp: `DEPRECATED: use ` + "`asc testflight crashes list`" + `.
+		ShortUsage: "aso testflight crashes list [flags]",
+		ShortHelp:  "DEPRECATED: use `aso testflight crashes list`.",
+		LongHelp: `DEPRECATED: use ` + "`aso testflight crashes list`" + `.
 
 This compatibility shim preserves the legacy root crash list behavior while
-the canonical TestFlight surface moves under ` + "`asc testflight crashes ...`" + `.
+the canonical TestFlight surface moves under ` + "`aso testflight crashes ...`" + `.
 
 Examples:
-  asc testflight crashes list --app "123456789"
-  asc testflight crashes list --app "123456789" --device-model "iPhone15,3" --os-version "17.2"
-  asc testflight crashes list --next "<links.next>"`,
+  aso testflight crashes list --app "123456789"
+  aso testflight crashes list --app "123456789" --device-model "iPhone15,3" --os-version "17.2"
+  aso testflight crashes list --next "<links.next>"`,
 		ErrorPrefix:       "crashes",
-		DeprecatedWarning: "Warning: `asc crashes` is deprecated. Use `asc testflight crashes list`.",
+		DeprecatedWarning: "Warning: `aso crashes` is deprecated. Use `aso testflight crashes list`.",
 		UsageFunc:         shared.DeprecatedUsageFunc,
 	})
 }

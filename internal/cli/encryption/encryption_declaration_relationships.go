@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // EncryptionDeclarationsAppCommand returns the declarations app subcommand group.
@@ -17,12 +17,12 @@ func EncryptionDeclarationsAppCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app",
-		ShortUsage: "asc encryption declarations app <subcommand> [flags]",
+		ShortUsage: "aso encryption declarations app <subcommand> [flags]",
 		ShortHelp:  "Access the app for an encryption declaration.",
 		LongHelp: `Access the app for an encryption declaration.
 
 Examples:
-  asc encryption declarations app get --id "DECL_ID"`,
+  aso encryption declarations app get --id "DECL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -43,12 +43,12 @@ func EncryptionDeclarationsAppGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc encryption declarations app get --id \"DECL_ID\"",
+		ShortUsage: "aso encryption declarations app get --id \"DECL_ID\"",
 		ShortHelp:  "Get the app for an encryption declaration.",
 		LongHelp: `Get the app for an encryption declaration.
 
 Examples:
-  asc encryption declarations app get --id "DECL_ID"`,
+  aso encryption declarations app get --id "DECL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -82,12 +82,12 @@ func EncryptionDeclarationsDeclarationDocumentCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-encryption-declaration-document",
-		ShortUsage: "asc encryption declarations app-encryption-declaration-document <subcommand> [flags]",
+		ShortUsage: "aso encryption declarations app-encryption-declaration-document <subcommand> [flags]",
 		ShortHelp:  "Access the document for an encryption declaration.",
 		LongHelp: `Access the document for an encryption declaration.
 
 Examples:
-  asc encryption declarations app-encryption-declaration-document get --id "DECL_ID"`,
+  aso encryption declarations app-encryption-declaration-document get --id "DECL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -108,12 +108,12 @@ func EncryptionDeclarationsDeclarationDocumentGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc encryption declarations app-encryption-declaration-document get --id \"DECL_ID\"",
+		ShortUsage: "aso encryption declarations app-encryption-declaration-document get --id \"DECL_ID\"",
 		ShortHelp:  "Get the document for an encryption declaration.",
 		LongHelp: `Get the document for an encryption declaration.
 
 Examples:
-  asc encryption declarations app-encryption-declaration-document get --id "DECL_ID"`,
+  aso encryption declarations app-encryption-declaration-document get --id "DECL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

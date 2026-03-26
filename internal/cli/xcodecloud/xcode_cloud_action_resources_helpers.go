@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type xcodeCloudActionResourceGroupConfig struct {
@@ -175,24 +175,24 @@ func newXcodeCloudActionResourceCommand(config xcodeCloudActionResourceCommandCo
 
 var xcodeCloudIssuesCommandConfig = xcodeCloudActionResourceCommandConfig{
 	Name:       "issues",
-	ShortUsage: "asc xcode-cloud issues <subcommand> [flags]",
+	ShortUsage: "aso xcode-cloud issues <subcommand> [flags]",
 	ShortHelp:  "List Xcode Cloud build issues.",
 	LongHelp: `List Xcode Cloud build issues.
 
 Examples:
-  asc xcode-cloud issues list --action-id "ACTION_ID"
-  asc xcode-cloud issues list --run-id "BUILD_RUN_ID"
-  asc xcode-cloud issues get --id "ISSUE_ID"`,
-	ListShortUsage: "asc xcode-cloud issues list [flags]",
+  aso xcode-cloud issues list --action-id "ACTION_ID"
+  aso xcode-cloud issues list --run-id "BUILD_RUN_ID"
+  aso xcode-cloud issues get --id "ISSUE_ID"`,
+	ListShortUsage: "aso xcode-cloud issues list [flags]",
 	ListShortHelp:  "List issues for a build action.",
 	ListLongHelp: `List issues for a build action.
 
 Examples:
-  asc xcode-cloud issues list --action-id "ACTION_ID"
-  asc xcode-cloud issues list --run-id "BUILD_RUN_ID"
-  asc xcode-cloud issues list --action-id "ACTION_ID" --output table
-  asc xcode-cloud issues list --action-id "ACTION_ID" --limit 50
-  asc xcode-cloud issues list --action-id "ACTION_ID" --paginate`,
+  aso xcode-cloud issues list --action-id "ACTION_ID"
+  aso xcode-cloud issues list --run-id "BUILD_RUN_ID"
+  aso xcode-cloud issues list --action-id "ACTION_ID" --output table
+  aso xcode-cloud issues list --action-id "ACTION_ID" --limit 50
+  aso xcode-cloud issues list --action-id "ACTION_ID" --paginate`,
 	ListActionUsage: "Build action ID to list issues for",
 	ListRunUsage:    "Build run ID to resolve a single issue action from",
 	ListErrorPrefix: "xcode-cloud issues list",
@@ -203,13 +203,13 @@ Examples:
 		)
 	},
 	ListAggregateFromRun: aggregateXcodeCloudIssuesFromRun,
-	GetShortUsage:        "asc xcode-cloud issues get --id \"ISSUE_ID\"",
+	GetShortUsage:        "aso xcode-cloud issues get --id \"ISSUE_ID\"",
 	GetShortHelp:         "Get details for a build issue.",
 	GetLongHelp: `Get details for a build issue.
 
 Examples:
-  asc xcode-cloud issues get --id "ISSUE_ID"
-  asc xcode-cloud issues get --id "ISSUE_ID" --output table`,
+  aso xcode-cloud issues get --id "ISSUE_ID"
+  aso xcode-cloud issues get --id "ISSUE_ID" --output table`,
 	GetIDUsage:     "Issue ID",
 	GetErrorPrefix: "xcode-cloud issues get",
 	GetFetch: func(ctx context.Context, client *asc.Client, id string) (any, error) {
@@ -219,24 +219,24 @@ Examples:
 
 var xcodeCloudTestResultsCommandConfig = xcodeCloudActionResourceCommandConfig{
 	Name:       "test-results",
-	ShortUsage: "asc xcode-cloud test-results <subcommand> [flags]",
+	ShortUsage: "aso xcode-cloud test-results <subcommand> [flags]",
 	ShortHelp:  "List Xcode Cloud test results.",
 	LongHelp: `List Xcode Cloud test results.
 
 Examples:
-  asc xcode-cloud test-results list --action-id "ACTION_ID"
-  asc xcode-cloud test-results list --run-id "BUILD_RUN_ID"
-  asc xcode-cloud test-results get --id "TEST_RESULT_ID"`,
-	ListShortUsage: "asc xcode-cloud test-results list [flags]",
+  aso xcode-cloud test-results list --action-id "ACTION_ID"
+  aso xcode-cloud test-results list --run-id "BUILD_RUN_ID"
+  aso xcode-cloud test-results get --id "TEST_RESULT_ID"`,
+	ListShortUsage: "aso xcode-cloud test-results list [flags]",
 	ListShortHelp:  "List test results for a build action.",
 	ListLongHelp: `List test results for a build action.
 
 Examples:
-  asc xcode-cloud test-results list --action-id "ACTION_ID"
-  asc xcode-cloud test-results list --run-id "BUILD_RUN_ID"
-  asc xcode-cloud test-results list --action-id "ACTION_ID" --output table
-  asc xcode-cloud test-results list --action-id "ACTION_ID" --limit 50
-  asc xcode-cloud test-results list --action-id "ACTION_ID" --paginate`,
+  aso xcode-cloud test-results list --action-id "ACTION_ID"
+  aso xcode-cloud test-results list --run-id "BUILD_RUN_ID"
+  aso xcode-cloud test-results list --action-id "ACTION_ID" --output table
+  aso xcode-cloud test-results list --action-id "ACTION_ID" --limit 50
+  aso xcode-cloud test-results list --action-id "ACTION_ID" --paginate`,
 	ListActionUsage: "Build action ID to list test results for",
 	ListRunUsage:    "Build run ID to resolve a single test-result action from",
 	ListErrorPrefix: "xcode-cloud test-results list",
@@ -247,13 +247,13 @@ Examples:
 		)
 	},
 	ListAggregateFromRun: aggregateXcodeCloudTestResultsFromRun,
-	GetShortUsage:        "asc xcode-cloud test-results get --id \"TEST_RESULT_ID\"",
+	GetShortUsage:        "aso xcode-cloud test-results get --id \"TEST_RESULT_ID\"",
 	GetShortHelp:         "Get details for a test result.",
 	GetLongHelp: `Get details for a test result.
 
 Examples:
-  asc xcode-cloud test-results get --id "TEST_RESULT_ID"
-  asc xcode-cloud test-results get --id "TEST_RESULT_ID" --output table`,
+  aso xcode-cloud test-results get --id "TEST_RESULT_ID"
+  aso xcode-cloud test-results get --id "TEST_RESULT_ID" --output table`,
 	GetIDUsage:     "Test result ID",
 	GetErrorPrefix: "xcode-cloud test-results get",
 	GetFetch: func(ctx context.Context, client *asc.Client, id string) (any, error) {
@@ -351,7 +351,7 @@ func resolveSingleBuildActionIDForRun(ctx context.Context, client *asc.Client, r
 	}
 
 	if len(actions) > 1 {
-		return "", shared.UsageErrorf("--run-id %q matched multiple build actions; use --action-id or inspect asc xcode-cloud actions --run-id %q", runID, runID)
+		return "", shared.UsageErrorf("--run-id %q matched multiple build actions; use --action-id or inspect aso xcode-cloud actions --run-id %q", runID, runID)
 	}
 
 	return strings.TrimSpace(actions[0].ID), nil

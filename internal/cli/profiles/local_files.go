@@ -3,7 +3,7 @@ package profiles
 import (
 	"bytes"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func writeProfileFile(path string, content []byte, force bool) error {

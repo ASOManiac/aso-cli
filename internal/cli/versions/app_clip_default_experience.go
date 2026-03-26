@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // VersionsAppClipDefaultExperienceCommand returns the app clip default experience command group.
@@ -17,12 +17,12 @@ func VersionsAppClipDefaultExperienceCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-clip-default-experience",
-		ShortUsage: "asc versions app-clip-default-experience <subcommand> [flags]",
+		ShortUsage: "aso versions app-clip-default-experience <subcommand> [flags]",
 		ShortHelp:  "Manage App Clip default experience for a version.",
 		LongHelp: `Manage App Clip default experience for a version.
 
 Examples:
-  asc versions app-clip-default-experience get --version-id "VERSION_ID"`,
+  aso versions app-clip-default-experience get --version-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -43,12 +43,12 @@ func VersionsAppClipDefaultExperienceGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc versions app-clip-default-experience get --version-id \"VERSION_ID\"",
+		ShortUsage: "aso versions app-clip-default-experience get --version-id \"VERSION_ID\"",
 		ShortHelp:  "Get App Clip default experience for an app store version.",
 		LongHelp: `Get App Clip default experience for an app store version.
 
 Examples:
-  asc versions app-clip-default-experience get --version-id "VERSION_ID"`,
+  aso versions app-clip-default-experience get --version-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

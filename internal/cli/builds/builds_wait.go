@@ -11,8 +11,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -38,7 +38,7 @@ func BuildsWaitCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "wait",
-		ShortUsage: "asc builds wait [flags]",
+		ShortUsage: "aso builds wait [flags]",
 		ShortHelp:  "Wait for a build to finish processing.",
 		LongHelp: `Wait for a build to finish processing.
 
@@ -54,12 +54,12 @@ Build selector modes (mutually exclusive):
       [--version VERSION] [--build-number NUMBER] [--since RFC3339] [--platform IOS]
 
 Examples:
-  asc builds wait --build "BUILD_ID"
-  asc builds wait --build "BUILD_ID" --timeout 20m --poll-interval 15s
-  asc builds wait --app "1500196580" --newest
-  asc builds wait --app "1500196580" --version "2.4.0" --build-number "2"
-  asc builds wait --app "1500196580" --since "2026-03-02T18:00:00Z"
-  asc builds wait --app "123456789" --build-number "42" --platform MAC_OS --fail-on-invalid`,
+  aso builds wait --build "BUILD_ID"
+  aso builds wait --build "BUILD_ID" --timeout 20m --poll-interval 15s
+  aso builds wait --app "1500196580" --newest
+  aso builds wait --app "1500196580" --version "2.4.0" --build-number "2"
+  aso builds wait --app "1500196580" --since "2026-03-02T18:00:00Z"
+  aso builds wait --app "123456789" --build-number "42" --platform MAC_OS --fail-on-invalid`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

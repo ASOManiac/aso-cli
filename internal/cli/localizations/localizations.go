@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // LocalizationsCommand returns the localizations command with subcommands.
@@ -19,19 +19,19 @@ func LocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc localizations <subcommand> [flags]",
+		ShortUsage: "aso localizations <subcommand> [flags]",
 		ShortHelp:  "Manage App Store localization metadata.",
 		LongHelp: `Manage App Store localization metadata.
 
 Examples:
-  asc localizations list --version "VERSION_ID"
-  asc localizations create --version "VERSION_ID" --locale "ja"
-  asc localizations search-keywords list --localization-id "LOCALIZATION_ID"
-  asc localizations preview-sets list --localization-id "LOCALIZATION_ID"
-  asc localizations preview-sets get --id "PREVIEW_SET_ID"
-  asc localizations screenshot-sets get --id "SCREENSHOT_SET_ID"
-  asc localizations download --version "VERSION_ID" --path "./localizations"
-  asc localizations upload --version "VERSION_ID" --path "./localizations"`,
+  aso localizations list --version "VERSION_ID"
+  aso localizations create --version "VERSION_ID" --locale "ja"
+  aso localizations search-keywords list --localization-id "LOCALIZATION_ID"
+  aso localizations preview-sets list --localization-id "LOCALIZATION_ID"
+  aso localizations preview-sets get --id "PREVIEW_SET_ID"
+  aso localizations screenshot-sets get --id "SCREENSHOT_SET_ID"
+  aso localizations download --version "VERSION_ID" --path "./localizations"
+  aso localizations upload --version "VERSION_ID" --path "./localizations"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -66,15 +66,15 @@ func LocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc localizations list [flags]",
+		ShortUsage: "aso localizations list [flags]",
 		ShortHelp:  "List localization metadata for an app or version.",
 		LongHelp: `List localization metadata for an app or version.
 
 Examples:
-  asc localizations list --version "VERSION_ID"
-  asc localizations list --app "APP_ID" --type app-info
-  asc localizations list --version "VERSION_ID" --locale "en-US,ja"
-  asc localizations list --version "VERSION_ID" --paginate`,
+  aso localizations list --version "VERSION_ID"
+  aso localizations list --app "APP_ID" --type app-info
+  aso localizations list --version "VERSION_ID" --locale "en-US,ja"
+  aso localizations list --version "VERSION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -213,15 +213,15 @@ func LocalizationsDownloadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "download",
-		ShortUsage: "asc localizations download [flags]",
+		ShortUsage: "aso localizations download [flags]",
 		ShortHelp:  "Download localizations to .strings files.",
 		LongHelp: `Download localizations to .strings files.
 
 Examples:
-  asc localizations download --version "VERSION_ID" --path "./localizations"
-  asc localizations download --app "APP_ID" --type app-info --path "./localizations"
-  asc localizations download --version "VERSION_ID" --locale "en-US" --path "en-US.strings"
-  asc localizations download --version "VERSION_ID" --paginate --path "./localizations"`,
+  aso localizations download --version "VERSION_ID" --path "./localizations"
+  aso localizations download --app "APP_ID" --type app-info --path "./localizations"
+  aso localizations download --version "VERSION_ID" --locale "en-US" --path "en-US.strings"
+  aso localizations download --version "VERSION_ID" --paginate --path "./localizations"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -418,15 +418,15 @@ func LocalizationsUploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload",
-		ShortUsage: "asc localizations upload [flags]",
+		ShortUsage: "aso localizations upload [flags]",
 		ShortHelp:  "Upload localizations from .strings files.",
 		LongHelp: `Upload localizations from .strings files.
 
 Examples:
-  asc localizations upload --version "VERSION_ID" --path "./localizations"
-  asc localizations upload --app "APP_ID" --type app-info --path "./localizations"
-  asc localizations upload --version "VERSION_ID" --locale "en-US" --path "en-US.strings"
-  asc localizations upload --version "VERSION_ID" --path "./localizations" --dry-run`,
+  aso localizations upload --version "VERSION_ID" --path "./localizations"
+  aso localizations upload --app "APP_ID" --type app-info --path "./localizations"
+  aso localizations upload --version "VERSION_ID" --locale "en-US" --path "en-US.strings"
+  aso localizations upload --version "VERSION_ID" --path "./localizations" --dry-run`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -12,6 +12,8 @@
 *.dll
 *.so
 *.dylib
+/aso
+/aso-debug
 /asc
 /asc-debug
 
@@ -45,5 +47,5 @@ _bmad/
 _bmad-output/
 worktrees/
 
-# asc screenshots capture output (root-level only; internal/screenshots is code)
+# aso screenshots capture output (root-level only; internal/screenshots is code)
 /screenshots/

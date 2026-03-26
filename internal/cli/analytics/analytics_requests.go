@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AnalyticsRequestCommand creates a new analytics report request.
@@ -23,13 +23,13 @@ func AnalyticsRequestCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "request",
-		ShortUsage: "asc analytics request [flags]",
+		ShortUsage: "aso analytics request [flags]",
 		ShortHelp:  "Create an analytics report request.",
 		LongHelp: `Create an analytics report request.
 
 Examples:
-  asc analytics request --app "123456789" --access-type ONGOING
-  asc analytics request --app "123456789" --access-type ONE_TIME_SNAPSHOT`,
+  aso analytics request --app "123456789" --access-type ONGOING
+  aso analytics request --app "123456789" --access-type ONE_TIME_SNAPSHOT`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -87,17 +87,17 @@ func AnalyticsRequestsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "requests",
-		ShortUsage: "asc analytics requests [flags]",
+		ShortUsage: "aso analytics requests [flags]",
 		ShortHelp:  "List and manage analytics report requests.",
 		LongHelp: `List analytics report requests.
 
 Examples:
-  asc analytics requests --app "123456789"
-  asc analytics requests --app "123456789" --state COMPLETED
-  asc analytics requests --app "123456789" --request-id "REQUEST_ID"
-  asc analytics requests --next "<links.next>"
-  asc analytics requests --app "123456789" --paginate
-  asc analytics requests delete --request-id "REQUEST_ID" --confirm`,
+  aso analytics requests --app "123456789"
+  aso analytics requests --app "123456789" --state COMPLETED
+  aso analytics requests --app "123456789" --request-id "REQUEST_ID"
+  aso analytics requests --next "<links.next>"
+  aso analytics requests --app "123456789" --paginate
+  aso analytics requests delete --request-id "REQUEST_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -199,12 +199,12 @@ func AnalyticsRequestsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc analytics requests delete --request-id \"REQUEST_ID\" --confirm",
+		ShortUsage: "aso analytics requests delete --request-id \"REQUEST_ID\" --confirm",
 		ShortHelp:  "Delete an analytics report request.",
 		LongHelp: `Delete an analytics report request by ID.
 
 Examples:
-  asc analytics requests delete --request-id "REQUEST_ID" --confirm`,
+  aso analytics requests delete --request-id "REQUEST_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -258,15 +258,15 @@ func AnalyticsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc analytics get [flags]",
+		ShortUsage: "aso analytics get [flags]",
 		ShortHelp:  "Get analytics reports for a request.",
 		LongHelp: `Get analytics reports for a request.
 
 Examples:
-  asc analytics get --request-id "REQUEST_ID"
-  asc analytics get --request-id "REQUEST_ID" --include-segments
-  asc analytics get --request-id "REQUEST_ID" --instance-id "INSTANCE_ID"
-  asc analytics get --request-id "REQUEST_ID" --date "2024-01-20" --paginate`,
+  aso analytics get --request-id "REQUEST_ID"
+  aso analytics get --request-id "REQUEST_ID" --include-segments
+  aso analytics get --request-id "REQUEST_ID" --instance-id "INSTANCE_ID"
+  aso analytics get --request-id "REQUEST_ID" --date "2024-01-20" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -408,14 +408,14 @@ func AnalyticsDownloadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "download",
-		ShortUsage: "asc analytics download [flags]",
+		ShortUsage: "aso analytics download [flags]",
 		ShortHelp:  "Download analytics report data.",
 		LongHelp: `Download analytics report data.
 
 Examples:
-  asc analytics download --request-id "REQUEST_ID" --instance-id "INSTANCE_ID"
-  asc analytics download --request-id "REQUEST_ID" --instance-id "INSTANCE_ID" --decompress
-  asc analytics download --request-id "REQUEST_ID" --instance-id "INSTANCE_ID" --segment-id "SEGMENT_ID"`,
+  aso analytics download --request-id "REQUEST_ID" --instance-id "INSTANCE_ID"
+  aso analytics download --request-id "REQUEST_ID" --instance-id "INSTANCE_ID" --decompress
+  aso analytics download --request-id "REQUEST_ID" --instance-id "INSTANCE_ID" --segment-id "SEGMENT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

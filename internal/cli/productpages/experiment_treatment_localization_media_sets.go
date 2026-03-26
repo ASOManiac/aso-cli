@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ExperimentTreatmentLocalizationPreviewSetsCommand returns the preview sets command group.
@@ -19,12 +19,12 @@ func ExperimentTreatmentLocalizationPreviewSetsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "preview-sets",
-		ShortUsage: "asc product-pages experiments treatments localizations preview-sets <subcommand> [flags]",
+		ShortUsage: "aso product-pages experiments treatments localizations preview-sets <subcommand> [flags]",
 		ShortHelp:  "Manage preview sets for a treatment localization.",
 		LongHelp: `Manage preview sets for a treatment localization.
 
 Examples:
-  asc product-pages experiments treatments localizations preview-sets list --localization-id "LOCALIZATION_ID"`,
+  aso product-pages experiments treatments localizations preview-sets list --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -48,12 +48,12 @@ func ExperimentTreatmentLocalizationPreviewSetsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc product-pages experiments treatments localizations preview-sets list --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso product-pages experiments treatments localizations preview-sets list --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:  "List preview sets for a treatment localization.",
 		LongHelp: `List preview sets for a treatment localization.
 
 Examples:
-  asc product-pages experiments treatments localizations preview-sets list --localization-id "LOCALIZATION_ID"`,
+  aso product-pages experiments treatments localizations preview-sets list --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -116,12 +116,12 @@ func ExperimentTreatmentLocalizationScreenshotSetsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "screenshot-sets",
-		ShortUsage: "asc product-pages experiments treatments localizations screenshot-sets <subcommand> [flags]",
+		ShortUsage: "aso product-pages experiments treatments localizations screenshot-sets <subcommand> [flags]",
 		ShortHelp:  "Manage screenshot sets for a treatment localization.",
 		LongHelp: `Manage screenshot sets for a treatment localization.
 
 Examples:
-  asc product-pages experiments treatments localizations screenshot-sets list --localization-id "LOCALIZATION_ID"`,
+  aso product-pages experiments treatments localizations screenshot-sets list --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -145,12 +145,12 @@ func ExperimentTreatmentLocalizationScreenshotSetsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc product-pages experiments treatments localizations screenshot-sets list --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso product-pages experiments treatments localizations screenshot-sets list --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:  "List screenshot sets for a treatment localization.",
 		LongHelp: `List screenshot sets for a treatment localization.
 
 Examples:
-  asc product-pages experiments treatments localizations screenshot-sets list --localization-id "LOCALIZATION_ID"`,
+  aso product-pages experiments treatments localizations screenshot-sets list --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

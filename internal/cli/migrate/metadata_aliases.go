@@ -8,8 +8,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	metadatacmd "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/metadata"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	metadatacmd "github.com/ASOManiac/aso-cli/internal/cli/metadata"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // MigrateMetadataCommand provides migration-friendly aliases for metadata workflows.
@@ -18,17 +18,17 @@ func MigrateMetadataCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "metadata",
-		ShortUsage: "asc migrate metadata <pull|push|validate> [flags]",
-		ShortHelp:  "Compatibility aliases for asc metadata commands.",
-		LongHelp: `Compatibility aliases for asc metadata commands.
+		ShortUsage: "aso migrate metadata <pull|push|validate> [flags]",
+		ShortHelp:  "Compatibility aliases for aso metadata commands.",
+		LongHelp: `Compatibility aliases for aso metadata commands.
 
 These aliases help teams move from fastlane/deliver conventions while
-adopting native asc metadata workflows.
+adopting native aso metadata workflows.
 
 Prefer direct commands for new scripts:
-  asc metadata pull ...
-  asc metadata push ...
-  asc metadata validate ...`,
+  aso metadata pull ...
+  aso metadata push ...
+  aso metadata validate ...`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -37,7 +37,7 @@ Prefer direct commands for new scripts:
 			metadatacmd.MetadataValidateCommand(),
 		},
 		Exec: func(ctx context.Context, args []string) error {
-			fmt.Fprintln(os.Stderr, "Tip: use `asc metadata ...`; `asc migrate metadata ...` is a compatibility alias.")
+			fmt.Fprintln(os.Stderr, "Tip: use `aso metadata ...`; `aso migrate metadata ...` is a compatibility alias.")
 			return flag.ErrHelp
 		},
 	}

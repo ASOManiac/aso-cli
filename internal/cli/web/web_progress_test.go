@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func stubWebProgressLabels(t *testing.T) *[]string {

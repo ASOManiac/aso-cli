@@ -6,7 +6,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // DiffCommand returns the root diff command group.
@@ -15,13 +15,13 @@ func DiffCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "diff",
-		ShortUsage: "asc diff <subcommand> [flags]",
+		ShortUsage: "aso diff <subcommand> [flags]",
 		ShortHelp:  "Generate deterministic non-mutating diff plans.",
 		LongHelp: `Generate deterministic non-mutating diff plans.
 
 Examples:
-  asc diff localizations --app "APP_ID" --path "./metadata/localizations" --version "VERSION_ID"
-  asc diff localizations --app "APP_ID" --from-version "VERSION_ID_A" --to-version "VERSION_ID_B"`,
+  aso diff localizations --app "APP_ID" --path "./metadata/localizations" --version "VERSION_ID"
+  aso diff localizations --app "APP_ID" --from-version "VERSION_ID_A" --to-version "VERSION_ID_B"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{

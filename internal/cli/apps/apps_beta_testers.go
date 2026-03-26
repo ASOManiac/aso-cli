@@ -8,8 +8,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppsRemoveBetaTestersCommand returns the apps remove-beta-testers subcommand.
@@ -23,13 +23,13 @@ func AppsRemoveBetaTestersCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "remove-beta-testers",
-		ShortUsage: "asc apps remove-beta-testers --app \"APP_ID\" --tester \"TESTER_ID[,TESTER_ID...]\" --confirm",
+		ShortUsage: "aso apps remove-beta-testers --app \"APP_ID\" --tester \"TESTER_ID[,TESTER_ID...]\" --confirm",
 		ShortHelp:  "Remove beta testers from an app.",
 		LongHelp: `Remove beta testers from an app.
 
 Examples:
-  asc apps remove-beta-testers --app "APP_ID" --tester "TESTER_ID" --confirm
-  asc apps remove-beta-testers --app "APP_ID" --tester "TESTER_ID1,TESTER_ID2" --confirm`,
+  aso apps remove-beta-testers --app "APP_ID" --tester "TESTER_ID" --confirm
+  aso apps remove-beta-testers --app "APP_ID" --tester "TESTER_ID1,TESTER_ID2" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

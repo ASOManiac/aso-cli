@@ -19,9 +19,9 @@ import (
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"golang.org/x/term"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/auth"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/auth"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 // ANSI escape codes for bold text
@@ -462,9 +462,9 @@ func resolveCredentialsForProfile(profileOverride string) (resolvedCredentials, 
 
 	if actualKeyID == "" || actualIssuerID == "" || (actualKeyPath == "" && actualKeyPEM == "") {
 		if path, err := config.Path(); err == nil {
-			return resolvedCredentials{}, missingAuthError{msg: fmt.Sprintf("missing authentication. Run 'asc auth login' or create %s (see 'asc auth init')", path)}
+			return resolvedCredentials{}, missingAuthError{msg: fmt.Sprintf("missing authentication. Run 'aso auth login' or create %s (see 'aso auth init')", path)}
 		}
-		return resolvedCredentials{}, missingAuthError{msg: "missing authentication. Run 'asc auth login' or 'asc auth init'"}
+		return resolvedCredentials{}, missingAuthError{msg: "missing authentication. Run 'aso auth login' or 'aso auth init'"}
 	}
 	if err := checkMixedCredentialSources(sources); err != nil {
 		return resolvedCredentials{}, err
@@ -511,9 +511,9 @@ func resolveCredentialsMetadataForProfile(profileOverride string) (ResolvedAuthC
 	}
 
 	if path, pathErr := config.Path(); pathErr == nil {
-		return ResolvedAuthCredentials{}, missingAuthError{msg: fmt.Sprintf("missing authentication. Run 'asc auth login' or create %s (see 'asc auth init')", path)}
+		return ResolvedAuthCredentials{}, missingAuthError{msg: fmt.Sprintf("missing authentication. Run 'aso auth login' or create %s (see 'aso auth init')", path)}
 	}
-	return ResolvedAuthCredentials{}, missingAuthError{msg: "missing authentication. Run 'asc auth login' or 'asc auth init'"}
+	return ResolvedAuthCredentials{}, missingAuthError{msg: "missing authentication. Run 'aso auth login' or 'aso auth init'"}
 }
 
 func resolveStoredCredentialsMetadataFallback(profile string) (ResolvedAuthCredentials, error) {

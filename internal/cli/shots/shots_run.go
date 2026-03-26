@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshots"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/screenshots"
 )
 
 // ShotsRunCommand returns the screenshots run subcommand.
@@ -24,7 +24,7 @@ func ShotsRunCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "run",
-		ShortUsage: "asc screenshots run [--plan .asc/screenshots.json] [flags]",
+		ShortUsage: "aso screenshots run [--plan .asc/screenshots.json] [flags]",
 		ShortHelp:  "[experimental] Run a deterministic screenshot sequence from JSON.",
 		LongHelp: `Run a deterministic screenshot automation sequence (experimental).
 

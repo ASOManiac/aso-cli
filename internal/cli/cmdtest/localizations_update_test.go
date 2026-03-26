@@ -220,7 +220,7 @@ func TestLocalizationsUpdateAppInfoFailsWhenAppInfoIsAmbiguous(t *testing.T) {
 	}
 	for _, want := range []string{
 		`multiple app infos found for app "app-1"`,
-		`asc apps info list --app "app-1"`,
+		`aso apps info list --app "app-1"`,
 		"READY_FOR_SALE",
 		"REJECTED",
 	} {

@@ -6,8 +6,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func xcodeCloudActionsListFlags(fs *flag.FlagSet) (runID *string, limit *int, next *string, paginate *bool, output *string, pretty *bool) {
@@ -29,7 +29,7 @@ func XcodeCloudActionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "actions",
-		ShortUsage: "asc xcode-cloud actions [flags]",
+		ShortUsage: "aso xcode-cloud actions [flags]",
 		ShortHelp:  "Manage build actions for an Xcode Cloud build run.",
 		LongHelp: `Manage build actions for an Xcode Cloud build run.
 
@@ -37,13 +37,13 @@ Build actions show the individual steps of a build run (e.g., "Resolve Dependenc
 "Archive", "Upload") and their status, which helps diagnose why builds failed.
 
 Examples:
-  asc xcode-cloud actions --run-id "BUILD_RUN_ID"
-  asc xcode-cloud actions list --run-id "BUILD_RUN_ID"
-  asc xcode-cloud actions get --id "ACTION_ID"
-  asc xcode-cloud actions build-run --id "ACTION_ID"
-  asc xcode-cloud actions --run-id "BUILD_RUN_ID" --output table
-  asc xcode-cloud actions --run-id "BUILD_RUN_ID" --limit 50
-  asc xcode-cloud actions --run-id "BUILD_RUN_ID" --paginate`,
+  aso xcode-cloud actions --run-id "BUILD_RUN_ID"
+  aso xcode-cloud actions list --run-id "BUILD_RUN_ID"
+  aso xcode-cloud actions get --id "ACTION_ID"
+  aso xcode-cloud actions build-run --id "ACTION_ID"
+  aso xcode-cloud actions --run-id "BUILD_RUN_ID" --output table
+  aso xcode-cloud actions --run-id "BUILD_RUN_ID" --limit 50
+  aso xcode-cloud actions --run-id "BUILD_RUN_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -64,15 +64,15 @@ func XcodeCloudActionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc xcode-cloud actions list [flags]",
+		ShortUsage: "aso xcode-cloud actions list [flags]",
 		ShortHelp:  "List build actions for an Xcode Cloud build run.",
 		LongHelp: `List build actions for an Xcode Cloud build run.
 
 Examples:
-  asc xcode-cloud actions list --run-id "BUILD_RUN_ID"
-  asc xcode-cloud actions list --run-id "BUILD_RUN_ID" --output table
-  asc xcode-cloud actions list --run-id "BUILD_RUN_ID" --limit 50
-  asc xcode-cloud actions list --run-id "BUILD_RUN_ID" --paginate`,
+  aso xcode-cloud actions list --run-id "BUILD_RUN_ID"
+  aso xcode-cloud actions list --run-id "BUILD_RUN_ID" --output table
+  aso xcode-cloud actions list --run-id "BUILD_RUN_ID" --limit 50
+  aso xcode-cloud actions list --run-id "BUILD_RUN_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -85,13 +85,13 @@ func XcodeCloudActionsGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "get",
 		Name:        "get",
-		ShortUsage:  "asc xcode-cloud actions get --id \"ACTION_ID\"",
+		ShortUsage:  "aso xcode-cloud actions get --id \"ACTION_ID\"",
 		ShortHelp:   "Get details for a build action.",
 		LongHelp: `Get details for a build action.
 
 Examples:
-  asc xcode-cloud actions get --id "ACTION_ID"
-  asc xcode-cloud actions get --id "ACTION_ID" --output table`,
+  aso xcode-cloud actions get --id "ACTION_ID"
+  aso xcode-cloud actions get --id "ACTION_ID" --output table`,
 		IDFlag:      "id",
 		IDUsage:     "Build action ID",
 		ErrorPrefix: "xcode-cloud actions get",
@@ -108,13 +108,13 @@ func XcodeCloudActionsBuildRunCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "build-run",
 		Name:        "build-run",
-		ShortUsage:  "asc xcode-cloud actions build-run --id \"ACTION_ID\"",
+		ShortUsage:  "aso xcode-cloud actions build-run --id \"ACTION_ID\"",
 		ShortHelp:   "Get the build run for a build action.",
 		LongHelp: `Get the build run for a build action.
 
 Examples:
-  asc xcode-cloud actions build-run --id "ACTION_ID"
-  asc xcode-cloud actions build-run --id "ACTION_ID" --output table`,
+  aso xcode-cloud actions build-run --id "ACTION_ID"
+  aso xcode-cloud actions build-run --id "ACTION_ID" --output table`,
 		IDFlag:      "id",
 		IDUsage:     "Build action ID",
 		ErrorPrefix: "xcode-cloud actions build-run",

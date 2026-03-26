@@ -13,8 +13,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 var (
@@ -125,16 +125,16 @@ func MetadataPushCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "push",
-		ShortUsage: "asc metadata push --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" [--app-info \"APP_INFO_ID\"] [--dry-run]",
+		ShortUsage: "aso metadata push --app \"APP_ID\" --version \"1.2.3\" --dir \"./metadata\" [--app-info \"APP_INFO_ID\"] [--dry-run]",
 		ShortHelp:  "Push metadata changes from canonical files.",
 		LongHelp: `Push metadata changes from canonical files.
 
 Examples:
-  asc metadata push --app "APP_ID" --version "1.2.3" --dir "./metadata" --dry-run
-  asc metadata push --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata" --dry-run
-  asc metadata push --app "APP_ID" --app-info "APP_INFO_ID" --version "1.2.3" --platform IOS --dir "./metadata" --dry-run
-  asc metadata push --app "APP_ID" --version "1.2.3" --dir "./metadata"
-  asc metadata push --app "APP_ID" --version "1.2.3" --dir "./metadata" --allow-deletes --confirm
+  aso metadata push --app "APP_ID" --version "1.2.3" --dir "./metadata" --dry-run
+  aso metadata push --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata" --dry-run
+  aso metadata push --app "APP_ID" --app-info "APP_INFO_ID" --version "1.2.3" --platform IOS --dir "./metadata" --dry-run
+  aso metadata push --app "APP_ID" --version "1.2.3" --dir "./metadata"
+  aso metadata push --app "APP_ID" --version "1.2.3" --dir "./metadata" --allow-deletes --confirm
 
 Notes:
   - default.json fallback is applied only when --allow-deletes is not set.
@@ -321,7 +321,7 @@ func resolveMetadataAppInfoID(
 	}
 	exampleCommand := buildExample(appID, version, platform, dir, exampleAppInfoID)
 	return "", shared.UsageErrorf(
-		"multiple app infos found for app %q (%s). Run `asc apps info list --app %q` to inspect candidates, then re-run with --app-info. Example: %s",
+		"multiple app infos found for app %q (%s). Run `aso apps info list --app %q` to inspect candidates, then re-run with --app-info. Example: %s",
 		appID,
 		asc.FormatAppInfoCandidates(candidates),
 		appID,
@@ -331,7 +331,7 @@ func resolveMetadataAppInfoID(
 
 func buildMetadataAppInfoExample(command, appID, version, platform, dir, appInfoID string) string {
 	parts := []string{
-		fmt.Sprintf("asc metadata %s", command),
+		fmt.Sprintf("aso metadata %s", command),
 		fmt.Sprintf(`--app %q`, appID),
 		fmt.Sprintf(`--version %q`, version),
 	}

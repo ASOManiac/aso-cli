@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // OfferCodeCustomCodesCommand returns the custom codes command group.
@@ -19,15 +19,15 @@ func OfferCodeCustomCodesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "custom-codes",
-		ShortUsage: "asc offer-codes custom-codes <subcommand> [flags]",
+		ShortUsage: "aso offer-codes custom-codes <subcommand> [flags]",
 		ShortHelp:  "Manage custom offer codes.",
 		LongHelp: `Manage custom offer codes.
 
 Examples:
-  asc offer-codes custom-codes list --offer-code-id "OFFER_CODE_ID"
-  asc offer-codes custom-codes get --custom-code-id "CUSTOM_CODE_ID"
-  asc offer-codes custom-codes create --offer-code-id "OFFER_CODE_ID" --code "SPRING2026" --quantity 10
-  asc offer-codes custom-codes update --custom-code-id "CUSTOM_CODE_ID" --active false`,
+  aso offer-codes custom-codes list --offer-code-id "OFFER_CODE_ID"
+  aso offer-codes custom-codes get --custom-code-id "CUSTOM_CODE_ID"
+  aso offer-codes custom-codes create --offer-code-id "OFFER_CODE_ID" --code "SPRING2026" --quantity 10
+  aso offer-codes custom-codes update --custom-code-id "CUSTOM_CODE_ID" --active false`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -47,14 +47,14 @@ func OfferCodeCustomCodesListCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "list",
 		Name:        "list",
-		ShortUsage:  "asc offer-codes custom-codes list [flags]",
+		ShortUsage:  "aso offer-codes custom-codes list [flags]",
 		ShortHelp:   "List custom codes for a subscription offer.",
 		LongHelp: `List custom codes for a subscription offer.
 
 Examples:
-  asc offer-codes custom-codes list --offer-code-id "OFFER_CODE_ID"
-  asc offer-codes custom-codes list --offer-code-id "OFFER_CODE_ID" --limit 50
-  asc offer-codes custom-codes list --offer-code-id "OFFER_CODE_ID" --paginate`,
+  aso offer-codes custom-codes list --offer-code-id "OFFER_CODE_ID"
+  aso offer-codes custom-codes list --offer-code-id "OFFER_CODE_ID" --limit 50
+  aso offer-codes custom-codes list --offer-code-id "OFFER_CODE_ID" --paginate`,
 		ParentFlag:  "offer-code-id",
 		ParentUsage: "Subscription offer code ID (required)",
 		LimitMax:    offerCodesMaxLimit,
@@ -78,12 +78,12 @@ func OfferCodeCustomCodesGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "get",
 		Name:        "get",
-		ShortUsage:  "asc offer-codes custom-codes get --custom-code-id ID",
+		ShortUsage:  "aso offer-codes custom-codes get --custom-code-id ID",
 		ShortHelp:   "Get a custom code by ID.",
 		LongHelp: `Get a custom code by ID.
 
 Examples:
-  asc offer-codes custom-codes get --custom-code-id "CUSTOM_CODE_ID"`,
+  aso offer-codes custom-codes get --custom-code-id "CUSTOM_CODE_ID"`,
 		IDFlag:      "custom-code-id",
 		IDUsage:     "Custom code ID (required)",
 		ErrorPrefix: "offer-codes custom-codes get",
@@ -105,13 +105,13 @@ func OfferCodeCustomCodesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc offer-codes custom-codes create [flags]",
+		ShortUsage: "aso offer-codes custom-codes create [flags]",
 		ShortHelp:  "Create custom codes for a subscription offer.",
 		LongHelp: `Create custom codes for a subscription offer.
 
 Examples:
-  asc offer-codes custom-codes create --offer-code-id "OFFER_CODE_ID" --code "SPRING2026" --quantity 10
-  asc offer-codes custom-codes create --offer-code-id "OFFER_CODE_ID" --code "SPRING2026" --quantity 10 --expiration-date "2026-02-01"`,
+  aso offer-codes custom-codes create --offer-code-id "OFFER_CODE_ID" --code "SPRING2026" --quantity 10
+  aso offer-codes custom-codes create --offer-code-id "OFFER_CODE_ID" --code "SPRING2026" --quantity 10 --expiration-date "2026-02-01"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -184,12 +184,12 @@ func OfferCodeCustomCodesUpdateCommand() *ffcli.Command {
 	return newActiveUpdateCommand(activeUpdateCommandConfig{
 		FlagSetName: "update",
 		Name:        "update",
-		ShortUsage:  "asc offer-codes custom-codes update [flags]",
+		ShortUsage:  "aso offer-codes custom-codes update [flags]",
 		ShortHelp:   "Update a custom code.",
 		LongHelp: `Update a custom code.
 
 Examples:
-  asc offer-codes custom-codes update --custom-code-id "CUSTOM_CODE_ID" --active false`,
+  aso offer-codes custom-codes update --custom-code-id "CUSTOM_CODE_ID" --active false`,
 		IDFlag:      "custom-code-id",
 		IDUsage:     "Custom code ID (required)",
 		ErrorPrefix: "offer-codes custom-codes update",

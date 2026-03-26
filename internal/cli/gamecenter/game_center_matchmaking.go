@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // GameCenterMatchmakingCommand returns the matchmaking command group.
@@ -20,16 +20,16 @@ func GameCenterMatchmakingCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "matchmaking",
-		ShortUsage: "asc game-center matchmaking <subcommand> [flags]",
+		ShortUsage: "aso game-center matchmaking <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center matchmaking resources.",
 		LongHelp: `Manage Game Center matchmaking resources.
 
 Examples:
-  asc game-center matchmaking queues list
-  asc game-center matchmaking rule-sets list
-  asc game-center matchmaking rules list --rule-set-id "RULE_SET_ID"
-  asc game-center matchmaking teams list --rule-set-id "RULE_SET_ID"
-  asc game-center matchmaking metrics queue-requests --queue-id "QUEUE_ID" --granularity P1D`,
+  aso game-center matchmaking queues list
+  aso game-center matchmaking rule-sets list
+  aso game-center matchmaking rules list --rule-set-id "RULE_SET_ID"
+  aso game-center matchmaking teams list --rule-set-id "RULE_SET_ID"
+  aso game-center matchmaking metrics queue-requests --queue-id "QUEUE_ID" --granularity P1D`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -52,16 +52,16 @@ func GameCenterMatchmakingQueuesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "queues",
-		ShortUsage: "asc game-center matchmaking queues <subcommand> [flags]",
+		ShortUsage: "aso game-center matchmaking queues <subcommand> [flags]",
 		ShortHelp:  "Manage matchmaking queues.",
 		LongHelp: `Manage matchmaking queues.
 
 Examples:
-  asc game-center matchmaking queues list
-  asc game-center matchmaking queues get --id "QUEUE_ID"
-  asc game-center matchmaking queues create --reference-name "Queue 1" --rule-set-id "RULE_SET_ID"
-  asc game-center matchmaking queues update --id "QUEUE_ID" --classic-bundle-ids "com.example.app"
-  asc game-center matchmaking queues delete --id "QUEUE_ID" --confirm`,
+  aso game-center matchmaking queues list
+  aso game-center matchmaking queues get --id "QUEUE_ID"
+  aso game-center matchmaking queues create --reference-name "Queue 1" --rule-set-id "RULE_SET_ID"
+  aso game-center matchmaking queues update --id "QUEUE_ID" --classic-bundle-ids "com.example.app"
+  aso game-center matchmaking queues delete --id "QUEUE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -88,14 +88,14 @@ func GameCenterMatchmakingQueuesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center matchmaking queues list [flags]",
+		ShortUsage: "aso game-center matchmaking queues list [flags]",
 		ShortHelp:  "List matchmaking queues.",
 		LongHelp: `List matchmaking queues.
 
 Examples:
-  asc game-center matchmaking queues list
-  asc game-center matchmaking queues list --limit 50
-  asc game-center matchmaking queues list --paginate`,
+  aso game-center matchmaking queues list
+  aso game-center matchmaking queues list --limit 50
+  aso game-center matchmaking queues list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -155,12 +155,12 @@ func GameCenterMatchmakingQueuesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center matchmaking queues get --id \"QUEUE_ID\"",
+		ShortUsage: "aso game-center matchmaking queues get --id \"QUEUE_ID\"",
 		ShortHelp:  "Get a matchmaking queue by ID.",
 		LongHelp: `Get a matchmaking queue by ID.
 
 Examples:
-  asc game-center matchmaking queues get --id "QUEUE_ID"`,
+  aso game-center matchmaking queues get --id "QUEUE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -200,13 +200,13 @@ func GameCenterMatchmakingQueuesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center matchmaking queues create --reference-name \"Queue\" --rule-set-id \"RULE_SET_ID\"",
+		ShortUsage: "aso game-center matchmaking queues create --reference-name \"Queue\" --rule-set-id \"RULE_SET_ID\"",
 		ShortHelp:  "Create a matchmaking queue.",
 		LongHelp: `Create a matchmaking queue.
 
 Examples:
-  asc game-center matchmaking queues create --reference-name "Queue" --rule-set-id "RULE_SET_ID"
-  asc game-center matchmaking queues create --reference-name "Queue" --rule-set-id "RULE_SET_ID" --classic-bundle-ids "com.example.app"`,
+  aso game-center matchmaking queues create --reference-name "Queue" --rule-set-id "RULE_SET_ID"
+  aso game-center matchmaking queues create --reference-name "Queue" --rule-set-id "RULE_SET_ID" --classic-bundle-ids "com.example.app"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -256,13 +256,13 @@ func GameCenterMatchmakingQueuesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center matchmaking queues update --id \"QUEUE_ID\" [flags]",
+		ShortUsage: "aso game-center matchmaking queues update --id \"QUEUE_ID\" [flags]",
 		ShortHelp:  "Update a matchmaking queue.",
 		LongHelp: `Update a matchmaking queue.
 
 Examples:
-  asc game-center matchmaking queues update --id "QUEUE_ID" --classic-bundle-ids "com.example.app"
-  asc game-center matchmaking queues update --id "QUEUE_ID" --rule-set-id "RULE_SET_ID"`,
+  aso game-center matchmaking queues update --id "QUEUE_ID" --classic-bundle-ids "com.example.app"
+  aso game-center matchmaking queues update --id "QUEUE_ID" --rule-set-id "RULE_SET_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -312,12 +312,12 @@ func GameCenterMatchmakingQueuesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center matchmaking queues delete --id \"QUEUE_ID\" --confirm",
+		ShortUsage: "aso game-center matchmaking queues delete --id \"QUEUE_ID\" --confirm",
 		ShortHelp:  "Delete a matchmaking queue.",
 		LongHelp: `Delete a matchmaking queue.
 
 Examples:
-  asc game-center matchmaking queues delete --id "QUEUE_ID" --confirm`,
+  aso game-center matchmaking queues delete --id "QUEUE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -359,17 +359,17 @@ func GameCenterMatchmakingRuleSetsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "rule-sets",
-		ShortUsage: "asc game-center matchmaking rule-sets <subcommand> [flags]",
+		ShortUsage: "aso game-center matchmaking rule-sets <subcommand> [flags]",
 		ShortHelp:  "Manage matchmaking rule sets.",
 		LongHelp: `Manage matchmaking rule sets.
 
 Examples:
-  asc game-center matchmaking rule-sets list
-  asc game-center matchmaking rule-sets get --id "RULE_SET_ID"
-  asc game-center matchmaking rule-sets create --reference-name "Rules" --rule-language-version 1 --min-players 2 --max-players 8
-  asc game-center matchmaking rule-sets update --id "RULE_SET_ID" --min-players 2
-  asc game-center matchmaking rule-sets delete --id "RULE_SET_ID" --confirm
-  asc game-center matchmaking rule-sets queues list --rule-set-id "RULE_SET_ID"`,
+  aso game-center matchmaking rule-sets list
+  aso game-center matchmaking rule-sets get --id "RULE_SET_ID"
+  aso game-center matchmaking rule-sets create --reference-name "Rules" --rule-language-version 1 --min-players 2 --max-players 8
+  aso game-center matchmaking rule-sets update --id "RULE_SET_ID" --min-players 2
+  aso game-center matchmaking rule-sets delete --id "RULE_SET_ID" --confirm
+  aso game-center matchmaking rule-sets queues list --rule-set-id "RULE_SET_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -397,14 +397,14 @@ func GameCenterMatchmakingRuleSetsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center matchmaking rule-sets list [flags]",
+		ShortUsage: "aso game-center matchmaking rule-sets list [flags]",
 		ShortHelp:  "List matchmaking rule sets.",
 		LongHelp: `List matchmaking rule sets.
 
 Examples:
-  asc game-center matchmaking rule-sets list
-  asc game-center matchmaking rule-sets list --limit 50
-  asc game-center matchmaking rule-sets list --paginate`,
+  aso game-center matchmaking rule-sets list
+  aso game-center matchmaking rule-sets list --limit 50
+  aso game-center matchmaking rule-sets list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -464,12 +464,12 @@ func GameCenterMatchmakingRuleSetsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center matchmaking rule-sets get --id \"RULE_SET_ID\"",
+		ShortUsage: "aso game-center matchmaking rule-sets get --id \"RULE_SET_ID\"",
 		ShortHelp:  "Get a matchmaking rule set by ID.",
 		LongHelp: `Get a matchmaking rule set by ID.
 
 Examples:
-  asc game-center matchmaking rule-sets get --id "RULE_SET_ID"`,
+  aso game-center matchmaking rule-sets get --id "RULE_SET_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -509,12 +509,12 @@ func GameCenterMatchmakingRuleSetsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center matchmaking rule-sets create --reference-name \"Rules\" --rule-language-version 1 --min-players 2 --max-players 8",
+		ShortUsage: "aso game-center matchmaking rule-sets create --reference-name \"Rules\" --rule-language-version 1 --min-players 2 --max-players 8",
 		ShortHelp:  "Create a matchmaking rule set.",
 		LongHelp: `Create a matchmaking rule set.
 
 Examples:
-  asc game-center matchmaking rule-sets create --reference-name "Rules" --rule-language-version 1 --min-players 2 --max-players 8`,
+  aso game-center matchmaking rule-sets create --reference-name "Rules" --rule-language-version 1 --min-players 2 --max-players 8`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -568,13 +568,13 @@ func GameCenterMatchmakingRuleSetsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center matchmaking rule-sets update --id \"RULE_SET_ID\" [flags]",
+		ShortUsage: "aso game-center matchmaking rule-sets update --id \"RULE_SET_ID\" [flags]",
 		ShortHelp:  "Update a matchmaking rule set.",
 		LongHelp: `Update a matchmaking rule set.
 
 Examples:
-  asc game-center matchmaking rule-sets update --id "RULE_SET_ID" --min-players 2
-  asc game-center matchmaking rule-sets update --id "RULE_SET_ID" --max-players 8`,
+  aso game-center matchmaking rule-sets update --id "RULE_SET_ID" --min-players 2
+  aso game-center matchmaking rule-sets update --id "RULE_SET_ID" --max-players 8`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -631,12 +631,12 @@ func GameCenterMatchmakingRuleSetsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center matchmaking rule-sets delete --id \"RULE_SET_ID\" --confirm",
+		ShortUsage: "aso game-center matchmaking rule-sets delete --id \"RULE_SET_ID\" --confirm",
 		ShortHelp:  "Delete a matchmaking rule set.",
 		LongHelp: `Delete a matchmaking rule set.
 
 Examples:
-  asc game-center matchmaking rule-sets delete --id "RULE_SET_ID" --confirm`,
+  aso game-center matchmaking rule-sets delete --id "RULE_SET_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -678,12 +678,12 @@ func GameCenterMatchmakingRuleSetQueuesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "queues",
-		ShortUsage: "asc game-center matchmaking rule-sets queues list --rule-set-id \"RULE_SET_ID\"",
+		ShortUsage: "aso game-center matchmaking rule-sets queues list --rule-set-id \"RULE_SET_ID\"",
 		ShortHelp:  "List matchmaking queues for a rule set.",
 		LongHelp: `List matchmaking queues for a rule set.
 
 Examples:
-  asc game-center matchmaking rule-sets queues list --rule-set-id "RULE_SET_ID"`,
+  aso game-center matchmaking rule-sets queues list --rule-set-id "RULE_SET_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -707,14 +707,14 @@ func GameCenterMatchmakingRuleSetQueuesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center matchmaking rule-sets queues list --rule-set-id \"RULE_SET_ID\"",
+		ShortUsage: "aso game-center matchmaking rule-sets queues list --rule-set-id \"RULE_SET_ID\"",
 		ShortHelp:  "List queues for a matchmaking rule set.",
 		LongHelp: `List queues for a matchmaking rule set.
 
 Examples:
-  asc game-center matchmaking rule-sets queues list --rule-set-id "RULE_SET_ID"
-  asc game-center matchmaking rule-sets queues list --rule-set-id "RULE_SET_ID" --limit 50
-  asc game-center matchmaking rule-sets queues list --rule-set-id "RULE_SET_ID" --paginate`,
+  aso game-center matchmaking rule-sets queues list --rule-set-id "RULE_SET_ID"
+  aso game-center matchmaking rule-sets queues list --rule-set-id "RULE_SET_ID" --limit 50
+  aso game-center matchmaking rule-sets queues list --rule-set-id "RULE_SET_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -777,15 +777,15 @@ func GameCenterMatchmakingRulesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "rules",
-		ShortUsage: "asc game-center matchmaking rules <subcommand> [flags]",
+		ShortUsage: "aso game-center matchmaking rules <subcommand> [flags]",
 		ShortHelp:  "Manage matchmaking rules.",
 		LongHelp: `Manage matchmaking rules.
 
 Examples:
-  asc game-center matchmaking rules list --rule-set-id "RULE_SET_ID"
-  asc game-center matchmaking rules create --rule-set-id "RULE_SET_ID" --reference-name "Rule" --description "Match" --type MATCH --expression "player.level > 1"
-  asc game-center matchmaking rules update --id "RULE_ID" --description "New description"
-  asc game-center matchmaking rules delete --id "RULE_ID" --confirm`,
+  aso game-center matchmaking rules list --rule-set-id "RULE_SET_ID"
+  aso game-center matchmaking rules create --rule-set-id "RULE_SET_ID" --reference-name "Rule" --description "Match" --type MATCH --expression "player.level > 1"
+  aso game-center matchmaking rules update --id "RULE_ID" --description "New description"
+  aso game-center matchmaking rules delete --id "RULE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -812,14 +812,14 @@ func GameCenterMatchmakingRulesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center matchmaking rules list --rule-set-id \"RULE_SET_ID\"",
+		ShortUsage: "aso game-center matchmaking rules list --rule-set-id \"RULE_SET_ID\"",
 		ShortHelp:  "List matchmaking rules for a rule set.",
 		LongHelp: `List matchmaking rules for a rule set.
 
 Examples:
-  asc game-center matchmaking rules list --rule-set-id "RULE_SET_ID"
-  asc game-center matchmaking rules list --rule-set-id "RULE_SET_ID" --limit 50
-  asc game-center matchmaking rules list --rule-set-id "RULE_SET_ID" --paginate`,
+  aso game-center matchmaking rules list --rule-set-id "RULE_SET_ID"
+  aso game-center matchmaking rules list --rule-set-id "RULE_SET_ID" --limit 50
+  aso game-center matchmaking rules list --rule-set-id "RULE_SET_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -890,12 +890,12 @@ func GameCenterMatchmakingRulesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center matchmaking rules create --rule-set-id \"RULE_SET_ID\" --reference-name \"Rule\" --description \"Match\" --type MATCH --expression \"player.level > 1\"",
+		ShortUsage: "aso game-center matchmaking rules create --rule-set-id \"RULE_SET_ID\" --reference-name \"Rule\" --description \"Match\" --type MATCH --expression \"player.level > 1\"",
 		ShortHelp:  "Create a matchmaking rule.",
 		LongHelp: `Create a matchmaking rule.
 
 Examples:
-  asc game-center matchmaking rules create --rule-set-id "RULE_SET_ID" --reference-name "Rule" --description "Match" --type MATCH --expression "player.level > 1"`,
+  aso game-center matchmaking rules create --rule-set-id "RULE_SET_ID" --reference-name "Rule" --description "Match" --type MATCH --expression "player.level > 1"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -971,13 +971,13 @@ func GameCenterMatchmakingRulesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center matchmaking rules update --id \"RULE_ID\" [flags]",
+		ShortUsage: "aso game-center matchmaking rules update --id \"RULE_ID\" [flags]",
 		ShortHelp:  "Update a matchmaking rule.",
 		LongHelp: `Update a matchmaking rule.
 
 Examples:
-  asc game-center matchmaking rules update --id "RULE_ID" --description "New description"
-  asc game-center matchmaking rules update --id "RULE_ID" --weight 0.5`,
+  aso game-center matchmaking rules update --id "RULE_ID" --description "New description"
+  aso game-center matchmaking rules update --id "RULE_ID" --weight 0.5`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1043,12 +1043,12 @@ func GameCenterMatchmakingRulesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center matchmaking rules delete --id \"RULE_ID\" --confirm",
+		ShortUsage: "aso game-center matchmaking rules delete --id \"RULE_ID\" --confirm",
 		ShortHelp:  "Delete a matchmaking rule.",
 		LongHelp: `Delete a matchmaking rule.
 
 Examples:
-  asc game-center matchmaking rules delete --id "RULE_ID" --confirm`,
+  aso game-center matchmaking rules delete --id "RULE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1090,15 +1090,15 @@ func GameCenterMatchmakingTeamsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "teams",
-		ShortUsage: "asc game-center matchmaking teams <subcommand> [flags]",
+		ShortUsage: "aso game-center matchmaking teams <subcommand> [flags]",
 		ShortHelp:  "Manage matchmaking teams.",
 		LongHelp: `Manage matchmaking teams.
 
 Examples:
-  asc game-center matchmaking teams list --rule-set-id "RULE_SET_ID"
-  asc game-center matchmaking teams create --rule-set-id "RULE_SET_ID" --reference-name "Team" --min-players 1 --max-players 4
-  asc game-center matchmaking teams update --id "TEAM_ID" --min-players 1
-  asc game-center matchmaking teams delete --id "TEAM_ID" --confirm`,
+  aso game-center matchmaking teams list --rule-set-id "RULE_SET_ID"
+  aso game-center matchmaking teams create --rule-set-id "RULE_SET_ID" --reference-name "Team" --min-players 1 --max-players 4
+  aso game-center matchmaking teams update --id "TEAM_ID" --min-players 1
+  aso game-center matchmaking teams delete --id "TEAM_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1125,14 +1125,14 @@ func GameCenterMatchmakingTeamsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center matchmaking teams list --rule-set-id \"RULE_SET_ID\"",
+		ShortUsage: "aso game-center matchmaking teams list --rule-set-id \"RULE_SET_ID\"",
 		ShortHelp:  "List matchmaking teams for a rule set.",
 		LongHelp: `List matchmaking teams for a rule set.
 
 Examples:
-  asc game-center matchmaking teams list --rule-set-id "RULE_SET_ID"
-  asc game-center matchmaking teams list --rule-set-id "RULE_SET_ID" --limit 50
-  asc game-center matchmaking teams list --rule-set-id "RULE_SET_ID" --paginate`,
+  aso game-center matchmaking teams list --rule-set-id "RULE_SET_ID"
+  aso game-center matchmaking teams list --rule-set-id "RULE_SET_ID" --limit 50
+  aso game-center matchmaking teams list --rule-set-id "RULE_SET_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1201,12 +1201,12 @@ func GameCenterMatchmakingTeamsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center matchmaking teams create --rule-set-id \"RULE_SET_ID\" --reference-name \"Team\" --min-players 1 --max-players 4",
+		ShortUsage: "aso game-center matchmaking teams create --rule-set-id \"RULE_SET_ID\" --reference-name \"Team\" --min-players 1 --max-players 4",
 		ShortHelp:  "Create a matchmaking team.",
 		LongHelp: `Create a matchmaking team.
 
 Examples:
-  asc game-center matchmaking teams create --rule-set-id "RULE_SET_ID" --reference-name "Team" --min-players 1 --max-players 4`,
+  aso game-center matchmaking teams create --rule-set-id "RULE_SET_ID" --reference-name "Team" --min-players 1 --max-players 4`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1260,13 +1260,13 @@ func GameCenterMatchmakingTeamsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center matchmaking teams update --id \"TEAM_ID\" [flags]",
+		ShortUsage: "aso game-center matchmaking teams update --id \"TEAM_ID\" [flags]",
 		ShortHelp:  "Update a matchmaking team.",
 		LongHelp: `Update a matchmaking team.
 
 Examples:
-  asc game-center matchmaking teams update --id "TEAM_ID" --min-players 1
-  asc game-center matchmaking teams update --id "TEAM_ID" --max-players 4`,
+  aso game-center matchmaking teams update --id "TEAM_ID" --min-players 1
+  aso game-center matchmaking teams update --id "TEAM_ID" --max-players 4`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1321,12 +1321,12 @@ func GameCenterMatchmakingTeamsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center matchmaking teams delete --id \"TEAM_ID\" --confirm",
+		ShortUsage: "aso game-center matchmaking teams delete --id \"TEAM_ID\" --confirm",
 		ShortHelp:  "Delete a matchmaking team.",
 		LongHelp: `Delete a matchmaking team.
 
 Examples:
-  asc game-center matchmaking teams delete --id "TEAM_ID" --confirm`,
+  aso game-center matchmaking teams delete --id "TEAM_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1368,14 +1368,14 @@ func GameCenterMatchmakingMetricsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "metrics",
-		ShortUsage: "asc game-center matchmaking metrics <subcommand> [flags]",
+		ShortUsage: "aso game-center matchmaking metrics <subcommand> [flags]",
 		ShortHelp:  "Fetch Game Center matchmaking metrics.",
 		LongHelp: `Fetch Game Center matchmaking metrics.
 
 Examples:
-  asc game-center matchmaking metrics queue-sizes --queue-id "QUEUE_ID" --granularity P1D
-  asc game-center matchmaking metrics queue-requests --queue-id "QUEUE_ID" --granularity P1D --group-by result
-  asc game-center matchmaking metrics rule-errors --rule-id "RULE_ID" --granularity P1D`,
+  aso game-center matchmaking metrics queue-sizes --queue-id "QUEUE_ID" --granularity P1D
+  aso game-center matchmaking metrics queue-requests --queue-id "QUEUE_ID" --granularity P1D --group-by result
+  aso game-center matchmaking metrics rule-errors --rule-id "RULE_ID" --granularity P1D`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1548,12 +1548,12 @@ func GameCenterMatchmakingRuleErrorsCommand() *ffcli.Command {
 func metricsQueueCommand(name string, fs *flag.FlagSet, queueID *string, granularity *string, sort *string, limit *int, next *string, paginate *bool, output *string, pretty *bool, fetch func(ctx context.Context, id string, opts ...asc.GCMatchmakingMetricsOption) (*asc.GameCenterMatchmakingQueueSizesResponse, error)) *ffcli.Command {
 	return &ffcli.Command{
 		Name:       name,
-		ShortUsage: "asc game-center matchmaking metrics " + name + " --queue-id \"QUEUE_ID\" --granularity P1D",
+		ShortUsage: "aso game-center matchmaking metrics " + name + " --queue-id \"QUEUE_ID\" --granularity P1D",
 		ShortHelp:  "Fetch matchmaking queue metrics.",
 		LongHelp: `Fetch matchmaking queue metrics.
 
 Examples:
-  asc game-center matchmaking metrics ` + name + ` --queue-id "QUEUE_ID" --granularity P1D`,
+  aso game-center matchmaking metrics ` + name + ` --queue-id "QUEUE_ID" --granularity P1D`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1565,12 +1565,12 @@ Examples:
 func metricsQueueCommandWithFilters(name string, fs *flag.FlagSet, queueID *string, granularity *string, groupBy *string, filterResult *string, filterDetail *string, sort *string, limit *int, next *string, paginate *bool, output *string, pretty *bool, fetch func(ctx context.Context, id string, opts ...asc.GCMatchmakingMetricsOption) (*asc.GameCenterMatchmakingQueueRequestsResponse, error)) *ffcli.Command {
 	return &ffcli.Command{
 		Name:       name,
-		ShortUsage: "asc game-center matchmaking metrics " + name + " --queue-id \"QUEUE_ID\" --granularity P1D",
+		ShortUsage: "aso game-center matchmaking metrics " + name + " --queue-id \"QUEUE_ID\" --granularity P1D",
 		ShortHelp:  "Fetch matchmaking queue request metrics.",
 		LongHelp: `Fetch matchmaking queue request metrics.
 
 Examples:
-  asc game-center matchmaking metrics ` + name + ` --queue-id "QUEUE_ID" --granularity P1D --group-by result`,
+  aso game-center matchmaking metrics ` + name + ` --queue-id "QUEUE_ID" --granularity P1D --group-by result`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1582,12 +1582,12 @@ Examples:
 func metricsRuleCommand(name string, fs *flag.FlagSet, ruleID *string, granularity *string, groupBy *string, filterResult *string, filterQueue *string, sort *string, limit *int, next *string, paginate *bool, output *string, pretty *bool, fetch func(ctx context.Context, id string, opts ...asc.GCMatchmakingMetricsOption) (*asc.GameCenterMatchmakingBooleanRuleResultsResponse, error)) *ffcli.Command {
 	return &ffcli.Command{
 		Name:       name,
-		ShortUsage: "asc game-center matchmaking metrics " + name + " --rule-id \"RULE_ID\" --granularity P1D",
+		ShortUsage: "aso game-center matchmaking metrics " + name + " --rule-id \"RULE_ID\" --granularity P1D",
 		ShortHelp:  "Fetch matchmaking rule metrics.",
 		LongHelp: `Fetch matchmaking rule metrics.
 
 Examples:
-  asc game-center matchmaking metrics ` + name + ` --rule-id "RULE_ID" --granularity P1D --group-by result`,
+  aso game-center matchmaking metrics ` + name + ` --rule-id "RULE_ID" --granularity P1D --group-by result`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1737,12 +1737,12 @@ func GameCenterMatchmakingRuleSetTestsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "rule-set-tests",
-		ShortUsage: "asc game-center matchmaking rule-set-tests create --file payload.json",
+		ShortUsage: "aso game-center matchmaking rule-set-tests create --file payload.json",
 		ShortHelp:  "Run matchmaking rule set tests.",
 		LongHelp: `Run matchmaking rule set tests.
 
 Examples:
-  asc game-center matchmaking rule-set-tests create --file payload.json`,
+  aso game-center matchmaking rule-set-tests create --file payload.json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1763,12 +1763,12 @@ func GameCenterMatchmakingRuleSetTestsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center matchmaking rule-set-tests create --file payload.json",
+		ShortUsage: "aso game-center matchmaking rule-set-tests create --file payload.json",
 		ShortHelp:  "Create a matchmaking rule set test.",
 		LongHelp: `Create a matchmaking rule set test from a JSON payload.
 
 Examples:
-  asc game-center matchmaking rule-set-tests create --file payload.json`,
+  aso game-center matchmaking rule-set-tests create --file payload.json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

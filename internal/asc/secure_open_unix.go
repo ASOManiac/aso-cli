@@ -5,7 +5,7 @@ package asc
 import (
 	"os"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/secureopen"
+	"github.com/ASOManiac/aso-cli/internal/secureopen"
 )
 
 func openExistingNoFollow(path string) (*os.File, error) {

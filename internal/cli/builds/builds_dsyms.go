@@ -11,8 +11,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // dsymHTTPClient is the HTTP client used for dSYM downloads.
@@ -58,7 +58,7 @@ func BuildsDsymsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "dsyms",
-		ShortUsage: "asc builds dsyms [--build BUILD_ID | --app APP --latest | --app APP --build-number NUM] [flags]",
+		ShortUsage: "aso builds dsyms [--build BUILD_ID | --app APP --latest | --app APP --build-number NUM] [flags]",
 		ShortHelp:  "Download dSYM files for a build.",
 		LongHelp: `Download dSYM debug symbol files for a build.
 
@@ -73,12 +73,12 @@ Build selection (one of):
   --app APP --version VER --latest    Latest build for a version
 
 Examples:
-  asc builds dsyms --build "BUILD_ID"
-  asc builds dsyms --app "com.example.app" --latest
-  asc builds dsyms --app "com.example.app" --latest --platform IOS
-  asc builds dsyms --app "com.example.app" --version "1.2.3" --latest
-  asc builds dsyms --app "com.example.app" --build-number "42"
-  asc builds dsyms --app "com.example.app" --build-number "42" --output-dir "./dsyms"`,
+  aso builds dsyms --build "BUILD_ID"
+  aso builds dsyms --app "com.example.app" --latest
+  aso builds dsyms --app "com.example.app" --latest --platform IOS
+  aso builds dsyms --app "com.example.app" --version "1.2.3" --latest
+  aso builds dsyms --app "com.example.app" --build-number "42"
+  aso builds dsyms --app "com.example.app" --build-number "42" --output-dir "./dsyms"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

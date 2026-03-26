@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // MerchantIDsCommand returns the merchant IDs command with subcommands.
@@ -19,17 +19,17 @@ func MerchantIDsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "merchant-ids",
-		ShortUsage: "asc merchant-ids <subcommand> [flags]",
+		ShortUsage: "aso merchant-ids <subcommand> [flags]",
 		ShortHelp:  "Manage merchant IDs and certificates.",
 		LongHelp: `Manage merchant IDs and certificates.
 
 Examples:
-  asc merchant-ids list
-  asc merchant-ids get --merchant-id "MERCHANT_ID"
-  asc merchant-ids create --identifier "merchant.com.example" --name "Example"
-  asc merchant-ids update --merchant-id "MERCHANT_ID" --name "New Name"
-  asc merchant-ids delete --merchant-id "MERCHANT_ID" --confirm
-  asc merchant-ids certificates list --merchant-id "MERCHANT_ID"`,
+  aso merchant-ids list
+  aso merchant-ids get --merchant-id "MERCHANT_ID"
+  aso merchant-ids create --identifier "merchant.com.example" --name "Example"
+  aso merchant-ids update --merchant-id "MERCHANT_ID" --name "New Name"
+  aso merchant-ids delete --merchant-id "MERCHANT_ID" --confirm
+  aso merchant-ids certificates list --merchant-id "MERCHANT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -64,15 +64,15 @@ func MerchantIDsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc merchant-ids list [flags]",
+		ShortUsage: "aso merchant-ids list [flags]",
 		ShortHelp:  "List merchant IDs.",
 		LongHelp: `List merchant IDs.
 
 Examples:
-  asc merchant-ids list
-  asc merchant-ids list --identifier "merchant.com.example"
-  asc merchant-ids list --name "Example"
-  asc merchant-ids list --paginate`,
+  aso merchant-ids list
+  aso merchant-ids list --identifier "merchant.com.example"
+  aso merchant-ids list --name "Example"
+  aso merchant-ids list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -174,12 +174,12 @@ func MerchantIDsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc merchant-ids get --merchant-id \"MERCHANT_ID\"",
+		ShortUsage: "aso merchant-ids get --merchant-id \"MERCHANT_ID\"",
 		ShortHelp:  "Get a merchant ID by ID.",
 		LongHelp: `Get a merchant ID by ID.
 
 Examples:
-  asc merchant-ids get --merchant-id "MERCHANT_ID"`,
+  aso merchant-ids get --merchant-id "MERCHANT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -248,12 +248,12 @@ func MerchantIDsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc merchant-ids create --identifier \"merchant.com.example\" --name \"Example\"",
+		ShortUsage: "aso merchant-ids create --identifier \"merchant.com.example\" --name \"Example\"",
 		ShortHelp:  "Create a merchant ID.",
 		LongHelp: `Create a merchant ID.
 
 Examples:
-  asc merchant-ids create --identifier "merchant.com.example" --name "Example"`,
+  aso merchant-ids create --identifier "merchant.com.example" --name "Example"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -301,12 +301,12 @@ func MerchantIDsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc merchant-ids update --merchant-id \"MERCHANT_ID\" --name \"New Name\"",
+		ShortUsage: "aso merchant-ids update --merchant-id \"MERCHANT_ID\" --name \"New Name\"",
 		ShortHelp:  "Update a merchant ID.",
 		LongHelp: `Update a merchant ID.
 
 Examples:
-  asc merchant-ids update --merchant-id "MERCHANT_ID" --name "New Name"`,
+  aso merchant-ids update --merchant-id "MERCHANT_ID" --name "New Name"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -358,12 +358,12 @@ func MerchantIDsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc merchant-ids delete --merchant-id \"MERCHANT_ID\" --confirm",
+		ShortUsage: "aso merchant-ids delete --merchant-id \"MERCHANT_ID\" --confirm",
 		ShortHelp:  "Delete a merchant ID.",
 		LongHelp: `Delete a merchant ID.
 
 Examples:
-  asc merchant-ids delete --merchant-id "MERCHANT_ID" --confirm`,
+  aso merchant-ids delete --merchant-id "MERCHANT_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

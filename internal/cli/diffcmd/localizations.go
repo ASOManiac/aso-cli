@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type localizationDiffEndpoint struct {
@@ -53,16 +53,16 @@ func DiffLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc diff localizations [flags]",
+		ShortUsage: "aso diff localizations [flags]",
 		ShortHelp:  "Diff localization metadata from local files or remote versions.",
 		LongHelp: `Diff localization metadata from local files or remote versions.
 
 Modes:
   Local vs remote:
-    asc diff localizations --app "APP_ID" --path "./metadata/localizations" --version "VERSION_ID"
+    aso diff localizations --app "APP_ID" --path "./metadata/localizations" --version "VERSION_ID"
 
   Remote vs remote:
-    asc diff localizations --app "APP_ID" --from-version "VERSION_ID_A" --to-version "VERSION_ID_B"`,
+    aso diff localizations --app "APP_ID" --from-version "VERSION_ID_A" --to-version "VERSION_ID_B"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

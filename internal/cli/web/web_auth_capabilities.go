@@ -9,10 +9,10 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
-	webref "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web/reference"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
+	webref "github.com/ASOManiac/aso-cli/internal/web/reference"
 )
 
 var (
@@ -113,12 +113,12 @@ func WebAuthCapabilitiesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "capabilities",
-		ShortUsage: "asc web auth capabilities [--key-id ID] [flags]",
+		ShortUsage: "aso web auth capabilities [--key-id ID] [flags]",
 		ShortHelp:  "[experimental] Show exact web-visible API key roles and full documented capability metadata.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
 Return exact role metadata for an App Store Connect API key using Apple web-session endpoints, then map those roles to the bundled Apple capability reference.
-Unlike "asc auth capabilities", which probes effective public-API access, this command reads the web-visible key role assignment directly and expands it with documented role capabilities.
+Unlike "aso auth capabilities", which probes effective public-API access, this command reads the web-visible key role assignment directly and expands it with documented role capabilities.
 
 JSON output includes:
   - exact role codes and role details
@@ -128,16 +128,16 @@ JSON output includes:
   - key-specific notes and scope metadata
   - reference limitations and verification date
 
-If --key-id is omitted, the command resolves the current API key ID from the selected asc auth metadata and uses the active web session only for the exact web lookup.
+If --key-id is omitted, the command resolves the current API key ID from the selected aso auth metadata and uses the active web session only for the exact web lookup.
 That metadata-only resolution avoids loading private key material just to pick the key ID.
-For deterministic cache selection, prefer passing --apple-id like other "asc web" commands.
+For deterministic cache selection, prefer passing --apple-id like other "aso web" commands.
 
 ` + webWarningText + `
 
 Examples:
-  asc web auth capabilities --apple-id "user@example.com"
-  asc web auth capabilities --apple-id "user@example.com" --output json
-  asc web auth capabilities --apple-id "user@example.com" --key-id "39MX87M9Y4" --output table`,
+  aso web auth capabilities --apple-id "user@example.com"
+  aso web auth capabilities --apple-id "user@example.com" --output json
+  aso web auth capabilities --apple-id "user@example.com" --key-id "39MX87M9Y4" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -154,14 +154,14 @@ Examples:
 			if resolvedKeyID == "" {
 				resolved, err := resolveWebAuthCredentialsFn("")
 				if err != nil {
-					return shared.UsageErrorf("unable to resolve current API key ID; run 'asc auth login' or provide --key-id (%v)", err)
+					return shared.UsageErrorf("unable to resolve current API key ID; run 'aso auth login' or provide --key-id (%v)", err)
 				}
 				resolvedKeyID = strings.TrimSpace(resolved.KeyID)
 				profile = strings.TrimSpace(resolved.Profile)
 				resolvedFrom = "auth"
 			}
 			if resolvedKeyID == "" {
-				return shared.UsageError("unable to resolve current API key ID; run 'asc auth login' or provide --key-id")
+				return shared.UsageError("unable to resolve current API key ID; run 'aso auth login' or provide --key-id")
 			}
 
 			requestCtx, cancel := shared.ContextWithTimeout(ctx)

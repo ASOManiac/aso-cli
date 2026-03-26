@@ -11,9 +11,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func webXcodeCloudEnvVarsCommand() *ffcli.Command {
@@ -21,7 +21,7 @@ func webXcodeCloudEnvVarsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "env-vars",
-		ShortUsage: "asc web xcode-cloud env-vars <subcommand> [flags]",
+		ShortUsage: "aso web xcode-cloud env-vars <subcommand> [flags]",
 		ShortHelp:  "[experimental] Manage Xcode Cloud environment variables.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -34,12 +34,12 @@ Use "shared" subcommand for product-level shared variables.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud env-vars list --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"
-  asc web xcode-cloud env-vars set --product-id "UUID" --workflow-id "WF-UUID" --name MY_VAR --value hello --apple-id "user@example.com"
-  asc web xcode-cloud env-vars set --product-id "UUID" --workflow-id "WF-UUID" --name MY_SECRET --value s3cret --secret --apple-id "user@example.com"
-  asc web xcode-cloud env-vars delete --product-id "UUID" --workflow-id "WF-UUID" --name MY_VAR --confirm --apple-id "user@example.com"
-  asc web xcode-cloud env-vars shared list --product-id "UUID" --apple-id "user@example.com"
-  asc web xcode-cloud env-vars shared set --product-id "UUID" --name MY_VAR --value hello --apple-id "user@example.com"`,
+  aso web xcode-cloud env-vars list --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"
+  aso web xcode-cloud env-vars set --product-id "UUID" --workflow-id "WF-UUID" --name MY_VAR --value hello --apple-id "user@example.com"
+  aso web xcode-cloud env-vars set --product-id "UUID" --workflow-id "WF-UUID" --name MY_SECRET --value s3cret --secret --apple-id "user@example.com"
+  aso web xcode-cloud env-vars delete --product-id "UUID" --workflow-id "WF-UUID" --name MY_VAR --confirm --apple-id "user@example.com"
+  aso web xcode-cloud env-vars shared list --product-id "UUID" --apple-id "user@example.com"
+  aso web xcode-cloud env-vars shared set --product-id "UUID" --name MY_VAR --value hello --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -86,7 +86,7 @@ func webXcodeCloudEnvVarsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc web xcode-cloud env-vars list --product-id ID --workflow-id ID [flags]",
+		ShortUsage: "aso web xcode-cloud env-vars list --product-id ID --workflow-id ID [flags]",
 		ShortHelp:  "[experimental] List workflow environment variables.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -96,8 +96,8 @@ Plaintext variables show their values; secret variables show "(redacted)".
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud env-vars list --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"
-  asc web xcode-cloud env-vars list --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com" --output table`,
+  aso web xcode-cloud env-vars list --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"
+  aso web xcode-cloud env-vars list --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -169,7 +169,7 @@ func webXcodeCloudEnvVarsSetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc web xcode-cloud env-vars set --product-id ID --workflow-id ID --name NAME --value VALUE [--secret] [flags]",
+		ShortUsage: "aso web xcode-cloud env-vars set --product-id ID --workflow-id ID --name NAME --value VALUE [--secret] [flags]",
 		ShortHelp:  "[experimental] Set a workflow environment variable.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -180,8 +180,8 @@ If a variable with the same name already exists, it will be updated.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud env-vars set --product-id "UUID" --workflow-id "WF-UUID" --name MY_VAR --value hello --apple-id "user@example.com"
-  asc web xcode-cloud env-vars set --product-id "UUID" --workflow-id "WF-UUID" --name MY_SECRET --value s3cret --secret --apple-id "user@example.com"`,
+  aso web xcode-cloud env-vars set --product-id "UUID" --workflow-id "WF-UUID" --name MY_VAR --value hello --apple-id "user@example.com"
+  aso web xcode-cloud env-vars set --product-id "UUID" --workflow-id "WF-UUID" --name MY_SECRET --value s3cret --secret --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -313,7 +313,7 @@ func webXcodeCloudEnvVarsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc web xcode-cloud env-vars delete --product-id ID --workflow-id ID --name NAME --confirm [flags]",
+		ShortUsage: "aso web xcode-cloud env-vars delete --product-id ID --workflow-id ID --name NAME --confirm [flags]",
 		ShortHelp:  "[experimental] Delete a workflow environment variable.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -322,7 +322,7 @@ Delete an environment variable from an Xcode Cloud workflow by name.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud env-vars delete --product-id "UUID" --workflow-id "WF-UUID" --name MY_VAR --confirm --apple-id "user@example.com"`,
+  aso web xcode-cloud env-vars delete --product-id "UUID" --workflow-id "WF-UUID" --name MY_VAR --confirm --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

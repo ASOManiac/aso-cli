@@ -16,9 +16,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 const (
@@ -1115,7 +1115,7 @@ func WebPrivacyCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "privacy",
-		ShortUsage: "asc web privacy <subcommand> [flags]",
+		ShortUsage: "aso web privacy <subcommand> [flags]",
 		ShortHelp:  "[experimental] App privacy declaration workflows.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -1154,7 +1154,7 @@ func WebPrivacyCatalogCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "catalog",
-		ShortUsage: "asc web privacy catalog [flags]",
+		ShortUsage: "aso web privacy catalog [flags]",
 		ShortHelp:  "[experimental] List app privacy catalog values.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -1162,7 +1162,7 @@ Fetch category, purpose, and data-protection tokens that can be used in
 privacy declaration files.
 
 Examples:
-  asc web privacy catalog --apple-id "user@example.com"`,
+  aso web privacy catalog --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1230,7 +1230,7 @@ func WebPrivacyPullCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "pull",
-		ShortUsage: "asc web privacy pull --app APP_ID [--out FILE] [flags]",
+		ShortUsage: "aso web privacy pull --app APP_ID [--out FILE] [flags]",
 		ShortHelp:  "[experimental] Pull app privacy declaration state.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -1238,8 +1238,8 @@ Fetch current app data usage declarations from web-session endpoints and emit
 canonical JSON that can be used with plan/apply.
 
 Examples:
-  asc web privacy pull --app "123456789"
-  asc web privacy pull --app "123456789" --out "./privacy.json"`,
+  aso web privacy pull --app "123456789"
+  aso web privacy pull --app "123456789" --out "./privacy.json"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1316,7 +1316,7 @@ func WebPrivacyPlanCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "plan",
-		ShortUsage: "asc web privacy plan --app APP_ID --file FILE [flags]",
+		ShortUsage: "aso web privacy plan --app APP_ID --file FILE [flags]",
 		ShortHelp:  "[experimental] Plan app privacy declaration changes.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -1324,7 +1324,7 @@ Compute a deterministic diff between local declaration JSON and remote
 app data usage tuples.
 
 Examples:
-  asc web privacy plan --app "123456789" --file "./privacy.json"`,
+  aso web privacy plan --app "123456789" --file "./privacy.json"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1395,7 +1395,7 @@ func WebPrivacyApplyCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "apply",
-		ShortUsage: "asc web privacy apply --app APP_ID --file FILE [--allow-deletes --confirm] [flags]",
+		ShortUsage: "aso web privacy apply --app APP_ID --file FILE [--allow-deletes --confirm] [flags]",
 		ShortHelp:  "[experimental] Apply app privacy declaration changes.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -1403,8 +1403,8 @@ Apply local declaration tuples to remote app data usages.
 This command never publishes automatically.
 
 Examples:
-  asc web privacy apply --app "123456789" --file "./privacy.json"
-  asc web privacy apply --app "123456789" --file "./privacy.json" --allow-deletes --confirm`,
+  aso web privacy apply --app "123456789" --file "./privacy.json"
+  aso web privacy apply --app "123456789" --file "./privacy.json" --allow-deletes --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1501,14 +1501,14 @@ func WebPrivacyPublishCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "publish",
-		ShortUsage: "asc web privacy publish --app APP_ID --confirm [flags]",
+		ShortUsage: "aso web privacy publish --app APP_ID --confirm [flags]",
 		ShortHelp:  "[experimental] Publish app privacy declarations.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
 Explicitly publish app data usage declarations after apply.
 
 Examples:
-  asc web privacy publish --app "123456789" --confirm`,
+  aso web privacy publish --app "123456789" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

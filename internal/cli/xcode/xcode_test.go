@@ -19,8 +19,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	localxcode "github.com/rudrankriyam/App-Store-Connect-CLI/internal/xcode"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	localxcode "github.com/ASOManiac/aso-cli/internal/xcode"
 )
 
 func TestXcodeExportWaitRequiresDirectUpload(t *testing.T) {

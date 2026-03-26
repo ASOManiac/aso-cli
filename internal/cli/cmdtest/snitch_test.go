@@ -548,7 +548,7 @@ func TestSnitchFlushFormatsEntries(t *testing.T) {
 	root.FlagSet.SetOutput(io.Discard)
 
 	_, _ = captureOutput(t, func() {
-		if err := root.Parse([]string{"snitch", "--local", "--repro", `asc status --app "com.example.app"`, "status command needs bundle ID support"}); err != nil {
+		if err := root.Parse([]string{"snitch", "--local", "--repro", `aso status --app "com.example.app"`, "status command needs bundle ID support"}); err != nil {
 			t.Fatalf("parse error: %v", err)
 		}
 		if err := root.Run(context.Background()); err != nil {
@@ -574,7 +574,7 @@ func TestSnitchFlushFormatsEntries(t *testing.T) {
 	if !strings.Contains(stdout, "[1] bug: status command needs bundle ID support") {
 		t.Fatalf("expected formatted flush output, got %q", stdout)
 	}
-	if !strings.Contains(stdout, `asc status --app "com.example.app"`) {
+	if !strings.Contains(stdout, `aso status --app "com.example.app"`) {
 		t.Fatalf("expected reproduction details in flush output, got %q", stdout)
 	}
 }

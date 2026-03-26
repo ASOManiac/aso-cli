@@ -12,8 +12,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // CertificatesCommand returns the certificates command with subcommands.
@@ -22,19 +22,19 @@ func CertificatesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "certificates",
-		ShortUsage: "asc certificates <subcommand> [flags]",
+		ShortUsage: "aso certificates <subcommand> [flags]",
 		ShortHelp:  "Manage signing certificates.",
 		LongHelp: `Manage signing certificates.
 
 Examples:
-  asc certificates list
-  asc certificates list --certificate-type IOS_DISTRIBUTION
-  asc certificates get --id "CERT_ID" --include passTypeId
-  asc certificates create --certificate-type IOS_DISTRIBUTION --csr "./cert.csr"
-  asc certificates update --id "CERT_ID" --activated true
-  asc certificates update --id "CERT_ID" --activated false
-  asc certificates revoke --id "CERT_ID" --confirm
-  asc certificates links pass-type-id --id "CERT_ID"`,
+  aso certificates list
+  aso certificates list --certificate-type IOS_DISTRIBUTION
+  aso certificates get --id "CERT_ID" --include passTypeId
+  aso certificates create --certificate-type IOS_DISTRIBUTION --csr "./cert.csr"
+  aso certificates update --id "CERT_ID" --activated true
+  aso certificates update --id "CERT_ID" --activated false
+  aso certificates revoke --id "CERT_ID" --confirm
+  aso certificates links pass-type-id --id "CERT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -65,14 +65,14 @@ func CertificatesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc certificates list [flags]",
+		ShortUsage: "aso certificates list [flags]",
 		ShortHelp:  "List signing certificates.",
 		LongHelp: `List signing certificates.
 
 Examples:
-  asc certificates list
-  asc certificates list --certificate-type IOS_DISTRIBUTION
-  asc certificates list --paginate`,
+  aso certificates list
+  aso certificates list --certificate-type IOS_DISTRIBUTION
+  aso certificates list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -138,13 +138,13 @@ func CertificatesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc certificates get --id \"CERT_ID\" [flags]",
+		ShortUsage: "aso certificates get --id \"CERT_ID\" [flags]",
 		ShortHelp:  "Get a signing certificate by ID.",
 		LongHelp: `Get a signing certificate by ID.
 
 Examples:
-  asc certificates get --id "CERT_ID"
-  asc certificates get --id "CERT_ID" --include passTypeId`,
+  aso certificates get --id "CERT_ID"
+  aso certificates get --id "CERT_ID" --include passTypeId`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -192,12 +192,12 @@ func CertificatesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc certificates create --certificate-type TYPE --csr ./cert.csr",
+		ShortUsage: "aso certificates create --certificate-type TYPE --csr ./cert.csr",
 		ShortHelp:  "Create a signing certificate.",
 		LongHelp: `Create a signing certificate.
 
 Examples:
-  asc certificates create --certificate-type IOS_DISTRIBUTION --csr "./cert.csr"`,
+  aso certificates create --certificate-type IOS_DISTRIBUTION --csr "./cert.csr"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -245,13 +245,13 @@ func CertificatesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc certificates update --id \"CERT_ID\" --activated true",
+		ShortUsage: "aso certificates update --id \"CERT_ID\" --activated true",
 		ShortHelp:  "Update a signing certificate.",
 		LongHelp: `Update a signing certificate.
 
 Examples:
-  asc certificates update --id "CERT_ID" --activated true
-  asc certificates update --id "CERT_ID" --activated false`,
+  aso certificates update --id "CERT_ID" --activated true
+  aso certificates update --id "CERT_ID" --activated false`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -300,12 +300,12 @@ func CertificatesRevokeCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "revoke",
-		ShortUsage: "asc certificates revoke --id \"CERT_ID\" --confirm",
+		ShortUsage: "aso certificates revoke --id \"CERT_ID\" --confirm",
 		ShortHelp:  "Revoke a signing certificate.",
 		LongHelp: `Revoke a signing certificate.
 
 Examples:
-  asc certificates revoke --id "CERT_ID" --confirm`,
+  aso certificates revoke --id "CERT_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

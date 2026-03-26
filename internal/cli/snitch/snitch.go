@@ -19,8 +19,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -71,7 +71,7 @@ func (f *stringListFlag) Set(value string) error {
 func SnitchCommand(version string) *ffcli.Command {
 	fs := flag.NewFlagSet("snitch", flag.ExitOnError)
 
-	repro := fs.String("repro", "", "Reproduction command (e.g., the exact asc command that failed)")
+	repro := fs.String("repro", "", "Reproduction command (e.g., the exact aso command that failed)")
 	expected := fs.String("expected", "", "Expected behavior")
 	actual := fs.String("actual", "", "Actual behavior or error message")
 	severity := fs.String("severity", "bug", "Severity: bug, friction, or feature-request")
@@ -83,23 +83,23 @@ func SnitchCommand(version string) *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "snitch",
-		ShortUsage: `asc snitch [flags] "description"`,
+		ShortUsage: `aso snitch [flags] "description"`,
 		ShortHelp:  "Report CLI friction as a GitHub issue.",
 		LongHelp: `Report CLI friction directly from the terminal.
 
 Searches for duplicate issues when GITHUB_TOKEN or GH_TOKEN is available.
 Without --confirm, snitch prints a preview only. Use --local to log friction
-offline for later review with "asc snitch flush".
+offline for later review with "aso snitch flush".
 Place flags before the description. If the description itself contains text
 that looks like a flag (for example, "--app"), wrap the full description in quotes.
 
 Examples:
-  asc snitch --repro 'asc crashes --app "com.example"' --expected "Should resolve bundle ID" --actual "Error: AppId is invalid" --confirm "crashes --app doesn't support bundle ID"
-  asc snitch --label enhancement --label p3 "support extra snitch labels"
-  asc snitch --dry-run "group name ambiguity"
-  asc snitch --local "status command needs bundle ID support"
-  asc snitch flush
-  asc snitch flush --file .asc/snitch.log`,
+  aso snitch --repro 'aso crashes --app "com.example"' --expected "Should resolve bundle ID" --actual "Error: AppId is invalid" --confirm "crashes --app doesn't support bundle ID"
+  aso snitch --label enhancement --label p3 "support extra snitch labels"
+  aso snitch --dry-run "group name ambiguity"
+  aso snitch --local "status command needs bundle ID support"
+  aso snitch flush
+  aso snitch flush --file .asc/snitch.log`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -262,17 +262,17 @@ func flushCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "flush",
-		ShortUsage: "asc snitch flush [--file PATH]",
+		ShortUsage: "aso snitch flush [--file PATH]",
 		ShortHelp:  "Review locally logged friction entries.",
 		LongHelp: `Review friction entries logged with --local.
 
 Prints all entries from .asc/snitch.log (or --file path) in a readable format.
-Filing from flush is manual: copy the description and rerun "asc snitch"
+Filing from flush is manual: copy the description and rerun "aso snitch"
 with --confirm when you're ready to create the issue.
 
 Examples:
-  asc snitch flush
-  asc snitch flush --file .asc/snitch.log`,
+  aso snitch flush
+  aso snitch flush --file .asc/snitch.log`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -384,7 +384,7 @@ func issueBody(e LogEntry) string {
 	b.WriteString("\n## Environment\n\n")
 	b.WriteString(fmt.Sprintf("- **asc version:** %s\n", e.ASCVersion))
 	b.WriteString(fmt.Sprintf("- **OS:** %s\n", e.OS))
-	b.WriteString(fmt.Sprintf("- **Filed via:** `asc snitch`\n"))
+	b.WriteString(fmt.Sprintf("- **Filed via:** `aso snitch`\n"))
 
 	return b.String()
 }

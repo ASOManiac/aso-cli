@@ -17,8 +17,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -66,13 +66,13 @@ func NotifyCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "notify",
-		ShortUsage: "asc notify <subcommand> [flags]",
+		ShortUsage: "aso notify <subcommand> [flags]",
 		ShortHelp:  "Send notifications to external services.",
 		LongHelp: `Send notifications to external services.
 
 Examples:
-  asc notify slack --webhook $WEBHOOK --message "Build uploaded"
-  ASC_SLACK_WEBHOOK=$WEBHOOK asc notify slack --message "Done"`,
+  aso notify slack --webhook $WEBHOOK --message "Build uploaded"
+  ASC_SLACK_WEBHOOK=$WEBHOOK aso notify slack --message "Done"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -91,7 +91,7 @@ func SlackCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "slack",
-		ShortUsage: "asc notify slack --webhook URL --message TEXT",
+		ShortUsage: "aso notify slack --webhook URL --message TEXT",
 		ShortHelp:  "Send a message to Slack via webhook.",
 		LongHelp: `Send a message to Slack via incoming webhook.
 
@@ -103,13 +103,13 @@ For --thread-ts, use the parent message ts from Slack APIs/events (webhook POST 
 --pretext and --success are attachment options and require --payload-json/--payload-file.
 
 Examples:
-  asc notify slack --webhook "https://hooks.slack.com/..." --message "Build uploaded"
-  asc notify slack --message "Done" --channel "#deployments"
-  ASC_SLACK_WEBHOOK=$WEBHOOK asc notify slack --message "Release v2.1 ready"
-  asc notify slack --message "Release ready" --blocks-json '[{"type":"section","text":{"type":"mrkdwn","text":"*Release* ready"}}]'
-  asc notify slack --message "Release ready" --blocks-file ./blocks.json
-  asc notify slack --message "Release update" --thread-ts "1733977745.12345"
-  asc notify slack --message "Release submitted" --payload-json '{"app":"MyApp","version":"1.2.3","build":"42"}'`,
+  aso notify slack --webhook "https://hooks.slack.com/..." --message "Build uploaded"
+  aso notify slack --message "Done" --channel "#deployments"
+  ASC_SLACK_WEBHOOK=$WEBHOOK aso notify slack --message "Release v2.1 ready"
+  aso notify slack --message "Release ready" --blocks-json '[{"type":"section","text":{"type":"mrkdwn","text":"*Release* ready"}}]'
+  aso notify slack --message "Release ready" --blocks-file ./blocks.json
+  aso notify slack --message "Release update" --thread-ts "1733977745.12345"
+  aso notify slack --message "Release submitted" --payload-json '{"app":"MyApp","version":"1.2.3","build":"42"}'`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

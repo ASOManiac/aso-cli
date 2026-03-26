@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // LocalizationsCreateCommand returns the create localizations subcommand.
@@ -29,14 +29,14 @@ func LocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc localizations create --version \"VERSION_ID\" --locale \"LOCALE\" [flags]",
+		ShortUsage: "aso localizations create --version \"VERSION_ID\" --locale \"LOCALE\" [flags]",
 		ShortHelp:  "Create a new locale for an app store version.",
 		LongHelp: `Create a new locale for an app store version.
 
 Examples:
-  asc localizations create --version "VERSION_ID" --locale "ja"
-  asc localizations create --version "VERSION_ID" --locale "es-MX" --description "Mi app" --keywords "palabra,clave"
-  asc localizations create --version "VERSION_ID" --locale "de-DE" --description "Meine App" --support-url "https://example.com/support"`,
+  aso localizations create --version "VERSION_ID" --locale "ja"
+  aso localizations create --version "VERSION_ID" --locale "es-MX" --description "Mi app" --keywords "palabra,clave"
+  aso localizations create --version "VERSION_ID" --locale "de-DE" --description "Meine App" --support-url "https://example.com/support"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

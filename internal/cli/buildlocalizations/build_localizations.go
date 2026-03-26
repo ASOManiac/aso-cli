@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildLocalizationsCommand returns the build-localizations command group.
@@ -19,16 +19,16 @@ func BuildLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "build-localizations",
-		ShortUsage: "asc build-localizations <subcommand> [flags]",
+		ShortUsage: "aso build-localizations <subcommand> [flags]",
 		ShortHelp:  "Manage build release notes localizations.",
 		LongHelp: `Manage localized release notes by build.
 
 Examples:
-  asc build-localizations list --build "BUILD_ID"
-  asc build-localizations get --id "LOCALIZATION_ID"
-  asc build-localizations create --build "BUILD_ID" --locale "en-US" --whats-new "Bug fixes"
-  asc build-localizations update --id "LOCALIZATION_ID" --whats-new "New features"
-  asc build-localizations delete --id "LOCALIZATION_ID" --confirm`,
+  aso build-localizations list --build "BUILD_ID"
+  aso build-localizations get --id "LOCALIZATION_ID"
+  aso build-localizations create --build "BUILD_ID" --locale "en-US" --whats-new "Bug fixes"
+  aso build-localizations update --id "LOCALIZATION_ID" --whats-new "New features"
+  aso build-localizations delete --id "LOCALIZATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -57,14 +57,14 @@ func BuildLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc build-localizations list [flags]",
+		ShortUsage: "aso build-localizations list [flags]",
 		ShortHelp:  "List release note localizations for a build.",
 		LongHelp: `List release note localizations for a build.
 
 Examples:
-  asc build-localizations list --build "BUILD_ID"
-  asc build-localizations list --build "BUILD_ID" --locale "en-US,ja"
-  asc build-localizations list --build "BUILD_ID" --paginate`,
+  aso build-localizations list --build "BUILD_ID"
+  aso build-localizations list --build "BUILD_ID" --locale "en-US,ja"
+  aso build-localizations list --build "BUILD_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -141,12 +141,12 @@ func BuildLocalizationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc build-localizations get [flags]",
+		ShortUsage: "aso build-localizations get [flags]",
 		ShortHelp:  "Get a localization by ID.",
 		LongHelp: `Get a localization by ID.
 
 Examples:
-  asc build-localizations get --id "LOCALIZATION_ID"`,
+  aso build-localizations get --id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -185,13 +185,13 @@ func BuildLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc build-localizations create [flags]",
+		ShortUsage: "aso build-localizations create [flags]",
 		ShortHelp:  "Create a localization for a build.",
 		LongHelp: `Create a localization for a build.
 
 Examples:
-  asc build-localizations create --build "BUILD_ID" --locale "en-US"
-  asc build-localizations create --build "BUILD_ID" --locale "en-US" --whats-new "Bug fixes"`,
+  aso build-localizations create --build "BUILD_ID" --locale "en-US"
+  aso build-localizations create --build "BUILD_ID" --locale "en-US" --whats-new "Bug fixes"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -252,12 +252,12 @@ func BuildLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc build-localizations update [flags]",
+		ShortUsage: "aso build-localizations update [flags]",
 		ShortHelp:  "Update a localization by ID.",
 		LongHelp: `Update a localization by ID.
 
 Examples:
-  asc build-localizations update --id "LOCALIZATION_ID" --whats-new "New features"`,
+  aso build-localizations update --id "LOCALIZATION_ID" --whats-new "New features"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -305,12 +305,12 @@ func BuildLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc build-localizations delete [flags]",
+		ShortUsage: "aso build-localizations delete [flags]",
 		ShortHelp:  "Delete a localization by ID.",
 		LongHelp: `Delete a localization by ID.
 
 Examples:
-  asc build-localizations delete --id "LOCALIZATION_ID" --confirm`,
+  aso build-localizations delete --id "LOCALIZATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

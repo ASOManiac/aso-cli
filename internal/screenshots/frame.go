@@ -15,7 +15,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 	"golang.org/x/mod/semver"
 	"gopkg.in/yaml.v3"
 )
@@ -80,7 +80,7 @@ type frameDeviceKoubouSpec struct {
 	Canvas      bool // true = plain canvas, no device bezel; screenshot scaled to fill
 }
 
-// Keeps the existing asc device slugs while delegating rendering to pinned
+// Keeps the existing aso device slugs while delegating rendering to pinned
 // Koubou v0.18.1 frame names.
 var frameDeviceKoubouSpecs = map[FrameDevice]frameDeviceKoubouSpec{
 	FrameDeviceIPhoneAir: {

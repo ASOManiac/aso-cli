@@ -10,7 +10,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const defaultSkillsPackage = "rudrankriyam/asc-skills"
@@ -27,12 +27,12 @@ func InstallSkillsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "install-skills",
-		ShortUsage: "asc install-skills",
-		ShortHelp:  "Install the asc skill pack for App Store Connect workflows.",
-		LongHelp: `Install the asc skill pack for App Store Connect workflows.
+		ShortUsage: "aso install-skills",
+		ShortHelp:  "Install the aso skill pack for App Store Connect workflows.",
+		LongHelp: `Install the aso skill pack for App Store Connect workflows.
 
 Examples:
-  asc install-skills`,
+  aso install-skills`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

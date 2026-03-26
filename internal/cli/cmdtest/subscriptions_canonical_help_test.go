@@ -66,10 +66,10 @@ func TestSubscriptionsHelpShowsCanonicalCommerceSubcommands(t *testing.T) {
 		t.Fatal("expected subscriptions pricing prices command")
 	}
 	pricesUsage := pricesCmd.UsageFunc(pricesCmd)
-	if !strings.Contains(pricesUsage, `asc subscriptions pricing prices list --subscription-id "SUB_ID"`) {
+	if !strings.Contains(pricesUsage, `aso subscriptions pricing prices list --subscription-id "SUB_ID"`) {
 		t.Fatalf("expected subscriptions pricing prices help to show canonical subscription selector, got %q", pricesUsage)
 	}
-	if strings.Contains(pricesUsage, `asc subscriptions pricing prices list --id "SUB_ID"`) {
+	if strings.Contains(pricesUsage, `aso subscriptions pricing prices list --id "SUB_ID"`) {
 		t.Fatalf("expected subscriptions pricing prices help to drop legacy --id example, got %q", pricesUsage)
 	}
 
@@ -78,16 +78,16 @@ func TestSubscriptionsHelpShowsCanonicalCommerceSubcommands(t *testing.T) {
 		t.Fatal("expected subscriptions pricing availability command")
 	}
 	availabilityUsage := availabilityCmd.UsageFunc(availabilityCmd)
-	if !strings.Contains(availabilityUsage, `asc subscriptions pricing availability view --availability-id "AVAILABILITY_ID"`) {
+	if !strings.Contains(availabilityUsage, `aso subscriptions pricing availability view --availability-id "AVAILABILITY_ID"`) {
 		t.Fatalf("expected subscriptions pricing availability help to show canonical availability selector, got %q", availabilityUsage)
 	}
-	if !strings.Contains(availabilityUsage, `asc subscriptions pricing availability edit --subscription-id "SUB_ID" --territories "USA,CAN"`) {
+	if !strings.Contains(availabilityUsage, `aso subscriptions pricing availability edit --subscription-id "SUB_ID" --territories "USA,CAN"`) {
 		t.Fatalf("expected subscriptions pricing availability help to show canonical territory flags, got %q", availabilityUsage)
 	}
-	if strings.Contains(availabilityUsage, `asc subscriptions pricing availability get --availability-id "AVAILABILITY_ID"`) {
+	if strings.Contains(availabilityUsage, `aso subscriptions pricing availability get --availability-id "AVAILABILITY_ID"`) {
 		t.Fatalf("expected subscriptions pricing availability help to hide deprecated get alias, got %q", availabilityUsage)
 	}
-	if strings.Contains(availabilityUsage, `asc subscriptions pricing availability set --subscription-id "SUB_ID" --territories "USA,CAN"`) {
+	if strings.Contains(availabilityUsage, `aso subscriptions pricing availability set --subscription-id "SUB_ID" --territories "USA,CAN"`) {
 		t.Fatalf("expected subscriptions pricing availability help to hide deprecated set alias, got %q", availabilityUsage)
 	}
 
@@ -96,13 +96,13 @@ func TestSubscriptionsHelpShowsCanonicalCommerceSubcommands(t *testing.T) {
 		t.Fatal("expected subscriptions pricing price-points command")
 	}
 	pricePointsUsage := pricePointsCmd.UsageFunc(pricePointsCmd)
-	if !strings.Contains(pricePointsUsage, `asc subscriptions pricing price-points view --price-point-id "PRICE_POINT_ID"`) {
+	if !strings.Contains(pricePointsUsage, `aso subscriptions pricing price-points view --price-point-id "PRICE_POINT_ID"`) {
 		t.Fatalf("expected subscriptions pricing price-points help to show canonical price point selector, got %q", pricePointsUsage)
 	}
-	if !strings.Contains(pricePointsUsage, `asc subscriptions pricing price-points equalizations --price-point-id "PRICE_POINT_ID"`) {
+	if !strings.Contains(pricePointsUsage, `aso subscriptions pricing price-points equalizations --price-point-id "PRICE_POINT_ID"`) {
 		t.Fatalf("expected subscriptions pricing price-points help to show canonical equalizations selector, got %q", pricePointsUsage)
 	}
-	if strings.Contains(pricePointsUsage, `asc subscriptions pricing price-points get --id "PRICE_POINT_ID"`) {
+	if strings.Contains(pricePointsUsage, `aso subscriptions pricing price-points get --id "PRICE_POINT_ID"`) {
 		t.Fatalf("expected subscriptions pricing price-points help to drop legacy --id example, got %q", pricePointsUsage)
 	}
 
@@ -166,7 +166,7 @@ func TestSubscriptionsHelpShowsCanonicalCommerceSubcommands(t *testing.T) {
 	if strings.Contains(subscriptionsPromotedPurchasesUsage, "--product-type SUBSCRIPTION") {
 		t.Fatalf("expected subscriptions promoted-purchases help to avoid stale generic create example, got %q", subscriptionsPromotedPurchasesUsage)
 	}
-	if !strings.Contains(subscriptionsPromotedPurchasesUsage, `asc subscriptions promoted-purchases create --app "APP_ID" --product-id "SUB_ID" --visible-for-all-users true`) {
+	if !strings.Contains(subscriptionsPromotedPurchasesUsage, `aso subscriptions promoted-purchases create --app "APP_ID" --product-id "SUB_ID" --visible-for-all-users true`) {
 		t.Fatalf("expected subscriptions promoted-purchases help to show scoped create example, got %q", subscriptionsPromotedPurchasesUsage)
 	}
 
@@ -193,7 +193,7 @@ func TestSubscriptionsHelpShowsCanonicalCommerceSubcommands(t *testing.T) {
 	if strings.Contains(iapPromotedPurchasesUsage, "--product-type SUBSCRIPTION") {
 		t.Fatalf("expected iap promoted-purchases help to avoid stale subscription create example, got %q", iapPromotedPurchasesUsage)
 	}
-	if !strings.Contains(iapPromotedPurchasesUsage, `asc iap promoted-purchases create --app "APP_ID" --product-id "IAP_ID" --visible-for-all-users true`) {
+	if !strings.Contains(iapPromotedPurchasesUsage, `aso iap promoted-purchases create --app "APP_ID" --product-id "IAP_ID" --visible-for-all-users true`) {
 		t.Fatalf("expected iap promoted-purchases help to show scoped create example, got %q", iapPromotedPurchasesUsage)
 	}
 }

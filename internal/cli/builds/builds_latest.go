@@ -13,8 +13,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildsLatestCommand returns the builds latest subcommand.
@@ -33,7 +33,7 @@ func BuildsLatestCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "latest",
-		ShortUsage: "asc builds latest [flags]",
+		ShortUsage: "aso builds latest [flags]",
 		ShortHelp:  "Get the latest build for an app.",
 		LongHelp: `Get the latest build for an app.
 
@@ -61,29 +61,29 @@ Next build number mode:
 
 Examples:
   # Get latest build (JSON output for AI agents)
-  asc builds latest --app "123456789"
+  aso builds latest --app "123456789"
 
   # Get latest build for a specific version and platform (recommended)
-  asc builds latest --app "123456789" --version "1.2.3" --platform IOS
+  aso builds latest --app "123456789" --version "1.2.3" --platform IOS
 
   # Get latest build for a platform (any version)
-  asc builds latest --app "123456789" --platform IOS
+  aso builds latest --app "123456789" --platform IOS
 
   # Get latest build for a version (any platform - nondeterministic if multi-platform)
-  asc builds latest --app "123456789" --version "1.2.3"
+  aso builds latest --app "123456789" --version "1.2.3"
 
   # Get latest build constrained to processing states
-  asc builds latest --app "123456789" --processing-state "PROCESSING,VALID"
+  aso builds latest --app "123456789" --processing-state "PROCESSING,VALID"
 
   # Human-readable output
-  asc builds latest --app "123456789" --output table
+  aso builds latest --app "123456789" --output table
 
   # Collision-safe next build number for CI
-  asc builds latest --app "123456789" --version "1.2.3" --platform IOS --next
+  aso builds latest --app "123456789" --version "1.2.3" --platform IOS --next
 
   # Exclude expired builds when resolving latest or next
-  asc builds latest --app "123456789" --version "1.2.3" --platform IOS --next --exclude-expired
-  asc builds latest --app "123456789" --version "1.2.3" --platform IOS --not-expired`,
+  aso builds latest --app "123456789" --version "1.2.3" --platform IOS --next --exclude-expired
+  aso builds latest --app "123456789" --version "1.2.3" --platform IOS --not-expired`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

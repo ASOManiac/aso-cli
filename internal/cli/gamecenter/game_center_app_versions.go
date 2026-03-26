@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // GameCenterAppVersionsCommand returns the app versions command group.
@@ -19,17 +19,17 @@ func GameCenterAppVersionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-versions",
-		ShortUsage: "asc game-center app-versions <subcommand> [flags]",
+		ShortUsage: "aso game-center app-versions <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center app versions.",
 		LongHelp: `Manage Game Center app versions.
 
 Examples:
-  asc game-center app-versions list --app "APP_ID"
-  asc game-center app-versions get --id "GC_APP_VERSION_ID"
-  asc game-center app-versions create --app-store-version-id "APP_STORE_VERSION_ID"
-  asc game-center app-versions update --id "GC_APP_VERSION_ID" --enabled true
-  asc game-center app-versions compatibility list --id "GC_APP_VERSION_ID"
-  asc game-center app-versions app-store-version get --id "GC_APP_VERSION_ID"`,
+  aso game-center app-versions list --app "APP_ID"
+  aso game-center app-versions get --id "GC_APP_VERSION_ID"
+  aso game-center app-versions create --app-store-version-id "APP_STORE_VERSION_ID"
+  aso game-center app-versions update --id "GC_APP_VERSION_ID" --enabled true
+  aso game-center app-versions compatibility list --id "GC_APP_VERSION_ID"
+  aso game-center app-versions app-store-version get --id "GC_APP_VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -58,14 +58,14 @@ func GameCenterAppVersionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center app-versions list [flags]",
+		ShortUsage: "aso game-center app-versions list [flags]",
 		ShortHelp:  "List Game Center app versions.",
 		LongHelp: `List Game Center app versions.
 
 Examples:
-  asc game-center app-versions list --app "APP_ID"
-  asc game-center app-versions list --app "APP_ID" --limit 50
-  asc game-center app-versions list --app "APP_ID" --paginate`,
+  aso game-center app-versions list --app "APP_ID"
+  aso game-center app-versions list --app "APP_ID" --limit 50
+  aso game-center app-versions list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -144,12 +144,12 @@ func GameCenterAppVersionsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center app-versions get --id \"GC_APP_VERSION_ID\"",
+		ShortUsage: "aso game-center app-versions get --id \"GC_APP_VERSION_ID\"",
 		ShortHelp:  "Get a Game Center app version by ID.",
 		LongHelp: `Get a Game Center app version by ID.
 
 Examples:
-  asc game-center app-versions get --id "GC_APP_VERSION_ID"`,
+  aso game-center app-versions get --id "GC_APP_VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -186,12 +186,12 @@ func GameCenterAppVersionsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center app-versions create --app-store-version-id \"APP_STORE_VERSION_ID\"",
+		ShortUsage: "aso game-center app-versions create --app-store-version-id \"APP_STORE_VERSION_ID\"",
 		ShortHelp:  "Create a Game Center app version.",
 		LongHelp: `Create a Game Center app version.
 
 Examples:
-  asc game-center app-versions create --app-store-version-id "APP_STORE_VERSION_ID"`,
+  aso game-center app-versions create --app-store-version-id "APP_STORE_VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -229,13 +229,13 @@ func GameCenterAppVersionsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center app-versions update --id \"GC_APP_VERSION_ID\" --enabled true",
+		ShortUsage: "aso game-center app-versions update --id \"GC_APP_VERSION_ID\" --enabled true",
 		ShortHelp:  "Update a Game Center app version.",
 		LongHelp: `Update a Game Center app version.
 
 Examples:
-  asc game-center app-versions update --id "GC_APP_VERSION_ID" --enabled true
-  asc game-center app-versions update --id "GC_APP_VERSION_ID" --enabled false`,
+  aso game-center app-versions update --id "GC_APP_VERSION_ID" --enabled true
+  aso game-center app-versions update --id "GC_APP_VERSION_ID" --enabled false`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -288,12 +288,12 @@ func GameCenterAppVersionCompatibilityCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "compatibility",
-		ShortUsage: "asc game-center app-versions compatibility list --id \"GC_APP_VERSION_ID\"",
+		ShortUsage: "aso game-center app-versions compatibility list --id \"GC_APP_VERSION_ID\"",
 		ShortHelp:  "List compatible Game Center app versions.",
 		LongHelp: `List compatible Game Center app versions.
 
 Examples:
-  asc game-center app-versions compatibility list --id "GC_APP_VERSION_ID"`,
+  aso game-center app-versions compatibility list --id "GC_APP_VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -317,14 +317,14 @@ func GameCenterAppVersionCompatibilityListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center app-versions compatibility list --id \"GC_APP_VERSION_ID\"",
+		ShortUsage: "aso game-center app-versions compatibility list --id \"GC_APP_VERSION_ID\"",
 		ShortHelp:  "List compatible Game Center app versions.",
 		LongHelp: `List compatible Game Center app versions.
 
 Examples:
-  asc game-center app-versions compatibility list --id "GC_APP_VERSION_ID"
-  asc game-center app-versions compatibility list --id "GC_APP_VERSION_ID" --limit 50
-  asc game-center app-versions compatibility list --id "GC_APP_VERSION_ID" --paginate`,
+  aso game-center app-versions compatibility list --id "GC_APP_VERSION_ID"
+  aso game-center app-versions compatibility list --id "GC_APP_VERSION_ID" --limit 50
+  aso game-center app-versions compatibility list --id "GC_APP_VERSION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -391,12 +391,12 @@ func GameCenterAppVersionAppStoreVersionCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-store-version",
-		ShortUsage: "asc game-center app-versions app-store-version get --id \"GC_APP_VERSION_ID\"",
+		ShortUsage: "aso game-center app-versions app-store-version get --id \"GC_APP_VERSION_ID\"",
 		ShortHelp:  "Get the App Store version for a Game Center app version.",
 		LongHelp: `Get the App Store version for a Game Center app version.
 
 Examples:
-  asc game-center app-versions app-store-version get --id "GC_APP_VERSION_ID"`,
+  aso game-center app-versions app-store-version get --id "GC_APP_VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -417,12 +417,12 @@ func GameCenterAppVersionAppStoreVersionGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center app-versions app-store-version get --id \"GC_APP_VERSION_ID\"",
+		ShortUsage: "aso game-center app-versions app-store-version get --id \"GC_APP_VERSION_ID\"",
 		ShortHelp:  "Get the App Store version for a Game Center app version.",
 		LongHelp: `Get the App Store version for a Game Center app version.
 
 Examples:
-  asc game-center app-versions app-store-version get --id "GC_APP_VERSION_ID"`,
+  aso game-center app-versions app-store-version get --id "GC_APP_VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

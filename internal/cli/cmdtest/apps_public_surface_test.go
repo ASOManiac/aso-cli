@@ -12,7 +12,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/itunes"
+	"github.com/ASOManiac/aso-cli/internal/itunes"
 )
 
 type publicPricesPayload struct {

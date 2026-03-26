@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshotcatalog"
+	"github.com/ASOManiac/aso-cli/internal/screenshotcatalog"
 )
 
 func screenshotChecks(platform string, sets []ScreenshotSet) []CheckResult {

@@ -39,7 +39,7 @@ func TestMetadataHelpShowsKeywordsWorkflow(t *testing.T) {
 			t.Fatalf("expected metadata keywords help to list %s, got %q", subcommand, keywordsUsage)
 		}
 	}
-	if !strings.Contains(keywordsUsage, "asc apps search-keywords") {
+	if !strings.Contains(keywordsUsage, "aso apps search-keywords") {
 		t.Fatalf("expected metadata keywords help to point to raw relationship commands, got %q", keywordsUsage)
 	}
 }
@@ -52,7 +52,7 @@ func TestRawSearchKeywordsHelpPointsToMetadataKeywords(t *testing.T) {
 		t.Fatal("expected apps search-keywords command")
 	}
 	appsUsage := appsCmd.UsageFunc(appsCmd)
-	if !strings.Contains(appsUsage, "asc metadata keywords") {
+	if !strings.Contains(appsUsage, "aso metadata keywords") {
 		t.Fatalf("expected apps search-keywords help to point to metadata keywords, got %q", appsUsage)
 	}
 
@@ -61,7 +61,7 @@ func TestRawSearchKeywordsHelpPointsToMetadataKeywords(t *testing.T) {
 		t.Fatal("expected localizations search-keywords command")
 	}
 	localizationsUsage := localizationsCmd.UsageFunc(localizationsCmd)
-	if !strings.Contains(localizationsUsage, "asc metadata keywords") {
+	if !strings.Contains(localizationsUsage, "aso metadata keywords") {
 		t.Fatalf("expected localizations search-keywords help to point to metadata keywords, got %q", localizationsUsage)
 	}
 }

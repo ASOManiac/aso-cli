@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppsInfoListCommand returns the list subcommand for apps info.
@@ -20,7 +20,7 @@ func AppsInfoListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc apps info list [flags]",
+		ShortUsage: "aso apps info list [flags]",
 		ShortHelp:  "List all app info records for an app.",
 		LongHelp: `List all app info records for an app.
 
@@ -29,9 +29,9 @@ command to find the specific app info ID when you encounter "multiple app infos
 found" errors in other commands.
 
 Examples:
-  asc apps info list --app "APP_ID"
-  asc apps info list --app "APP_ID" --output table
-  asc apps info list --app "APP_ID" --output markdown`,
+  aso apps info list --app "APP_ID"
+  aso apps info list --app "APP_ID" --output table
+  aso apps info list --app "APP_ID" --output markdown`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,9 +9,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 type validateOptions struct {
@@ -29,7 +29,7 @@ var (
 	fetchScreenshotSetsFn = fetchScreenshotSets
 )
 
-// ValidateCommand returns the asc validate command.
+// ValidateCommand returns the aso validate command.
 func ValidateCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("validate", flag.ExitOnError)
 
@@ -42,7 +42,7 @@ func ValidateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "validate",
-		ShortUsage: "asc validate --app \"APP_ID\" (--version-id \"VERSION_ID\" | --version \"VERSION\") [flags]",
+		ShortUsage: "aso validate --app \"APP_ID\" (--version-id \"VERSION_ID\" | --version \"VERSION\") [flags]",
 		ShortHelp:  "Validate App Store version readiness before submission.",
 		LongHelp: `Validate pre-submission readiness for an App Store version.
 
@@ -58,19 +58,19 @@ Checks:
   - Age rating completeness
 
 Examples:
-  asc validate --app "APP_ID" --version-id "VERSION_ID"
-  asc validate --app "APP_ID" --version "1.0.0" --platform IOS
-  asc validate --app "APP_ID" --version-id "VERSION_ID" --platform IOS --output table
-  asc validate --app "APP_ID" --version-id "VERSION_ID" --strict
+  aso validate --app "APP_ID" --version-id "VERSION_ID"
+  aso validate --app "APP_ID" --version "1.0.0" --platform IOS
+  aso validate --app "APP_ID" --version-id "VERSION_ID" --platform IOS --output table
+  aso validate --app "APP_ID" --version-id "VERSION_ID" --strict
 
 TestFlight:
-  asc validate testflight --app "APP_ID" --build "BUILD_ID"
+  aso validate testflight --app "APP_ID" --build "BUILD_ID"
 
 In-App Purchases:
-  asc validate iap --app "APP_ID"
+  aso validate iap --app "APP_ID"
 
 Subscriptions:
-  asc validate subscriptions --app "APP_ID"`,
+  aso validate subscriptions --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{

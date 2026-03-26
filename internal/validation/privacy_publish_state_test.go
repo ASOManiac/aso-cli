@@ -24,7 +24,7 @@ func TestPrivacyPublishStateChecks_PublicOnlyInfoAdvisory(t *testing.T) {
 	if !strings.Contains(check.Remediation, "https://appstoreconnect.apple.com/apps/app-1/appPrivacy") {
 		t.Fatalf("expected App Privacy page remediation, got %q", check.Remediation)
 	}
-	for _, disallowed := range []string{"asc web", "web privacy", "private/web"} {
+	for _, disallowed := range []string{"aso web", "web privacy", "private/web"} {
 		if strings.Contains(strings.ToLower(check.Remediation), disallowed) {
 			t.Fatalf("did not expect %q in remediation, got %q", disallowed, check.Remediation)
 		}

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // GameCenterLeaderboardSetsV2Command returns the leaderboard-sets v2 command group.
@@ -19,17 +19,17 @@ func GameCenterLeaderboardSetsV2Command() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "v2",
-		ShortUsage: "asc game-center leaderboard-sets v2 <subcommand> [flags]",
+		ShortUsage: "aso game-center leaderboard-sets v2 <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center leaderboard sets v2 resources.",
 		LongHelp: `Manage Game Center leaderboard sets v2 resources.
 
 Examples:
-  asc game-center leaderboard-sets v2 list --app "APP_ID"
-  asc game-center leaderboard-sets v2 get --id "SET_ID"
-  asc game-center leaderboard-sets v2 create --app "APP_ID" --reference-name "Season 1" --vendor-id "com.example.season1"
-  asc game-center leaderboard-sets v2 members list --set-id "SET_ID"
-  asc game-center leaderboard-sets v2 versions list --set-id "SET_ID"
-  asc game-center leaderboard-sets v2 localizations list --version-id "VER_ID"`,
+  aso game-center leaderboard-sets v2 list --app "APP_ID"
+  aso game-center leaderboard-sets v2 get --id "SET_ID"
+  aso game-center leaderboard-sets v2 create --app "APP_ID" --reference-name "Season 1" --vendor-id "com.example.season1"
+  aso game-center leaderboard-sets v2 members list --set-id "SET_ID"
+  aso game-center leaderboard-sets v2 versions list --set-id "SET_ID"
+  aso game-center leaderboard-sets v2 localizations list --version-id "VER_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -62,14 +62,14 @@ func GameCenterLeaderboardSetsV2ListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center leaderboard-sets v2 list [flags]",
+		ShortUsage: "aso game-center leaderboard-sets v2 list [flags]",
 		ShortHelp:  "List Game Center leaderboard sets (v2) for an app or group.",
 		LongHelp: `List Game Center leaderboard sets (v2) for an app or group.
 
 Examples:
-  asc game-center leaderboard-sets v2 list --app "APP_ID"
-  asc game-center leaderboard-sets v2 list --group-id "GROUP_ID"
-  asc game-center leaderboard-sets v2 list --app "APP_ID" --paginate`,
+  aso game-center leaderboard-sets v2 list --app "APP_ID"
+  aso game-center leaderboard-sets v2 list --group-id "GROUP_ID"
+  aso game-center leaderboard-sets v2 list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -151,12 +151,12 @@ func GameCenterLeaderboardSetsV2GetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center leaderboard-sets v2 get --id \"SET_ID\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 get --id \"SET_ID\"",
 		ShortHelp:  "Get a Game Center leaderboard set (v2) by ID.",
 		LongHelp: `Get a Game Center leaderboard set (v2) by ID.
 
 Examples:
-  asc game-center leaderboard-sets v2 get --id "SET_ID"`,
+  aso game-center leaderboard-sets v2 get --id "SET_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -196,13 +196,13 @@ func GameCenterLeaderboardSetsV2CreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center leaderboard-sets v2 create [flags]",
+		ShortUsage: "aso game-center leaderboard-sets v2 create [flags]",
 		ShortHelp:  "Create a new Game Center leaderboard set (v2).",
 		LongHelp: `Create a new Game Center leaderboard set (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 create --app "APP_ID" --reference-name "Season 1" --vendor-id "com.example.season1"
-  asc game-center leaderboard-sets v2 create --group-id "GROUP_ID" --reference-name "Group Season" --vendor-id "grp.com.example.groupseason"`,
+  aso game-center leaderboard-sets v2 create --app "APP_ID" --reference-name "Season 1" --vendor-id "com.example.season1"
+  aso game-center leaderboard-sets v2 create --group-id "GROUP_ID" --reference-name "Group Season" --vendor-id "grp.com.example.groupseason"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -276,12 +276,12 @@ func GameCenterLeaderboardSetsV2UpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center leaderboard-sets v2 update [flags]",
+		ShortUsage: "aso game-center leaderboard-sets v2 update [flags]",
 		ShortHelp:  "Update a Game Center leaderboard set (v2).",
 		LongHelp: `Update a Game Center leaderboard set (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 update --id "SET_ID" --reference-name "Season 1 - Updated"`,
+  aso game-center leaderboard-sets v2 update --id "SET_ID" --reference-name "Season 1 - Updated"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -333,12 +333,12 @@ func GameCenterLeaderboardSetsV2DeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center leaderboard-sets v2 delete --id \"SET_ID\" --confirm",
+		ShortUsage: "aso game-center leaderboard-sets v2 delete --id \"SET_ID\" --confirm",
 		ShortHelp:  "Delete a Game Center leaderboard set (v2).",
 		LongHelp: `Delete a Game Center leaderboard set (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 delete --id "SET_ID" --confirm`,
+  aso game-center leaderboard-sets v2 delete --id "SET_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -380,13 +380,13 @@ func GameCenterLeaderboardSetMembersV2Command() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "members",
-		ShortUsage: "asc game-center leaderboard-sets v2 members <subcommand> [flags]",
+		ShortUsage: "aso game-center leaderboard-sets v2 members <subcommand> [flags]",
 		ShortHelp:  "Manage leaderboard set members (v2).",
 		LongHelp: `Manage leaderboard set members (v2). Members are the leaderboards that belong to a leaderboard set.
 
 Examples:
-  asc game-center leaderboard-sets v2 members list --set-id "SET_ID"
-  asc game-center leaderboard-sets v2 members set --set-id "SET_ID" --leaderboard-ids "id1,id2,id3"`,
+  aso game-center leaderboard-sets v2 members list --set-id "SET_ID"
+  aso game-center leaderboard-sets v2 members set --set-id "SET_ID" --leaderboard-ids "id1,id2,id3"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -411,13 +411,13 @@ func GameCenterLeaderboardSetMembersV2ListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center leaderboard-sets v2 members list --set-id \"SET_ID\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 members list --set-id \"SET_ID\"",
 		ShortHelp:  "List leaderboards in a leaderboard set (v2).",
 		LongHelp: `List leaderboards in a leaderboard set (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 members list --set-id "SET_ID"
-  asc game-center leaderboard-sets v2 members list --set-id "SET_ID" --paginate`,
+  aso game-center leaderboard-sets v2 members list --set-id "SET_ID"
+  aso game-center leaderboard-sets v2 members list --set-id "SET_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -484,13 +484,13 @@ func GameCenterLeaderboardSetMembersV2SetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc game-center leaderboard-sets v2 members set --set-id \"SET_ID\" --leaderboard-ids \"id1,id2,id3\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 members set --set-id \"SET_ID\" --leaderboard-ids \"id1,id2,id3\"",
 		ShortHelp:  "Set leaderboard members for a leaderboard set (v2).",
 		LongHelp: `Set leaderboard members for a leaderboard set (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 members set --set-id "SET_ID" --leaderboard-ids "id1,id2,id3"
-  asc game-center leaderboard-sets v2 members set --set-id "SET_ID" --leaderboard-ids ""`,
+  aso game-center leaderboard-sets v2 members set --set-id "SET_ID" --leaderboard-ids "id1,id2,id3"
+  aso game-center leaderboard-sets v2 members set --set-id "SET_ID" --leaderboard-ids ""`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -531,14 +531,14 @@ func GameCenterLeaderboardSetVersionsV2Command() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "versions",
-		ShortUsage: "asc game-center leaderboard-sets v2 versions <subcommand> [flags]",
+		ShortUsage: "aso game-center leaderboard-sets v2 versions <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center leaderboard set versions (v2).",
 		LongHelp: `Manage Game Center leaderboard set versions (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 versions list --set-id "SET_ID"
-  asc game-center leaderboard-sets v2 versions get --id "VERSION_ID"
-  asc game-center leaderboard-sets v2 versions create --set-id "SET_ID"`,
+  aso game-center leaderboard-sets v2 versions list --set-id "SET_ID"
+  aso game-center leaderboard-sets v2 versions get --id "VERSION_ID"
+  aso game-center leaderboard-sets v2 versions create --set-id "SET_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -564,13 +564,13 @@ func GameCenterLeaderboardSetVersionsV2ListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center leaderboard-sets v2 versions list --set-id \"SET_ID\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 versions list --set-id \"SET_ID\"",
 		ShortHelp:  "List versions for a leaderboard set (v2).",
 		LongHelp: `List versions for a leaderboard set (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 versions list --set-id "SET_ID"
-  asc game-center leaderboard-sets v2 versions list --set-id "SET_ID" --paginate`,
+  aso game-center leaderboard-sets v2 versions list --set-id "SET_ID"
+  aso game-center leaderboard-sets v2 versions list --set-id "SET_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -636,12 +636,12 @@ func GameCenterLeaderboardSetVersionsV2GetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center leaderboard-sets v2 versions get --id \"VERSION_ID\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 versions get --id \"VERSION_ID\"",
 		ShortHelp:  "Get a Game Center leaderboard set version (v2) by ID.",
 		LongHelp: `Get a Game Center leaderboard set version (v2) by ID.
 
 Examples:
-  asc game-center leaderboard-sets v2 versions get --id "VERSION_ID"`,
+  aso game-center leaderboard-sets v2 versions get --id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -678,12 +678,12 @@ func GameCenterLeaderboardSetVersionsV2CreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center leaderboard-sets v2 versions create --set-id \"SET_ID\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 versions create --set-id \"SET_ID\"",
 		ShortHelp:  "Create a new Game Center leaderboard set version (v2).",
 		LongHelp: `Create a new Game Center leaderboard set version (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 versions create --set-id "SET_ID"`,
+  aso game-center leaderboard-sets v2 versions create --set-id "SET_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -717,13 +717,13 @@ func GameCenterLeaderboardSetLocalizationsV2Command() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc game-center leaderboard-sets v2 localizations <subcommand> [flags]",
+		ShortUsage: "aso game-center leaderboard-sets v2 localizations <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center leaderboard set localizations (v2).",
 		LongHelp: `Manage Game Center leaderboard set localizations (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 localizations list --version-id "VER_ID"
-  asc game-center leaderboard-sets v2 localizations create --version-id "VER_ID" --locale en-US --name "Season 1"`,
+  aso game-center leaderboard-sets v2 localizations list --version-id "VER_ID"
+  aso game-center leaderboard-sets v2 localizations create --version-id "VER_ID" --locale en-US --name "Season 1"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -751,13 +751,13 @@ func GameCenterLeaderboardSetLocalizationsV2ListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center leaderboard-sets v2 localizations list --version-id \"VER_ID\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 localizations list --version-id \"VER_ID\"",
 		ShortHelp:  "List localizations for a leaderboard set version (v2).",
 		LongHelp: `List localizations for a leaderboard set version (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 localizations list --version-id "VER_ID"
-  asc game-center leaderboard-sets v2 localizations list --version-id "VER_ID" --paginate`,
+  aso game-center leaderboard-sets v2 localizations list --version-id "VER_ID"
+  aso game-center leaderboard-sets v2 localizations list --version-id "VER_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -823,12 +823,12 @@ func GameCenterLeaderboardSetLocalizationsV2GetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center leaderboard-sets v2 localizations get --id \"LOC_ID\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 localizations get --id \"LOC_ID\"",
 		ShortHelp:  "Get a Game Center leaderboard set localization (v2) by ID.",
 		LongHelp: `Get a Game Center leaderboard set localization (v2) by ID.
 
 Examples:
-  asc game-center leaderboard-sets v2 localizations get --id "LOC_ID"`,
+  aso game-center leaderboard-sets v2 localizations get --id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -867,12 +867,12 @@ func GameCenterLeaderboardSetLocalizationsV2CreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center leaderboard-sets v2 localizations create --version-id \"VER_ID\" --locale \"LOCALE\" --name \"NAME\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 localizations create --version-id \"VER_ID\" --locale \"LOCALE\" --name \"NAME\"",
 		ShortHelp:  "Create a new Game Center leaderboard set localization (v2).",
 		LongHelp: `Create a new Game Center leaderboard set localization (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 localizations create --version-id "VER_ID" --locale en-US --name "Season 1"`,
+  aso game-center leaderboard-sets v2 localizations create --version-id "VER_ID" --locale en-US --name "Season 1"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -927,12 +927,12 @@ func GameCenterLeaderboardSetLocalizationsV2UpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center leaderboard-sets v2 localizations update --id \"LOC_ID\" --name \"NAME\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 localizations update --id \"LOC_ID\" --name \"NAME\"",
 		ShortHelp:  "Update a Game Center leaderboard set localization (v2).",
 		LongHelp: `Update a Game Center leaderboard set localization (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 localizations update --id "LOC_ID" --name "New Name"`,
+  aso game-center leaderboard-sets v2 localizations update --id "LOC_ID" --name "New Name"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -980,12 +980,12 @@ func GameCenterLeaderboardSetLocalizationsV2DeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center leaderboard-sets v2 localizations delete --id \"LOC_ID\" --confirm",
+		ShortUsage: "aso game-center leaderboard-sets v2 localizations delete --id \"LOC_ID\" --confirm",
 		ShortHelp:  "Delete a Game Center leaderboard set localization (v2).",
 		LongHelp: `Delete a Game Center leaderboard set localization (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 localizations delete --id "LOC_ID" --confirm`,
+  aso game-center leaderboard-sets v2 localizations delete --id "LOC_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1027,15 +1027,15 @@ func GameCenterLeaderboardSetImagesV2Command() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "images",
-		ShortUsage: "asc game-center leaderboard-sets v2 images <subcommand> [flags]",
+		ShortUsage: "aso game-center leaderboard-sets v2 images <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center leaderboard set images (v2).",
 		LongHelp: `Manage Game Center leaderboard set images (v2). Images are attached to leaderboard set localizations.
 
 Examples:
-  asc game-center leaderboard-sets v2 images upload --localization-id "LOC_ID" --file path/to/image.png
-  asc game-center leaderboard-sets v2 images get --id "IMAGE_ID"
-  asc game-center leaderboard-sets v2 images get --localization-id "LOC_ID"
-  asc game-center leaderboard-sets v2 images delete --id "IMAGE_ID" --confirm`,
+  aso game-center leaderboard-sets v2 images upload --localization-id "LOC_ID" --file path/to/image.png
+  aso game-center leaderboard-sets v2 images get --id "IMAGE_ID"
+  aso game-center leaderboard-sets v2 images get --localization-id "LOC_ID"
+  aso game-center leaderboard-sets v2 images delete --id "IMAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1059,14 +1059,14 @@ func GameCenterLeaderboardSetImagesV2UploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload",
-		ShortUsage: "asc game-center leaderboard-sets v2 images upload --localization-id \"LOC_ID\" --file path/to/image.png",
+		ShortUsage: "aso game-center leaderboard-sets v2 images upload --localization-id \"LOC_ID\" --file path/to/image.png",
 		ShortHelp:  "Upload an image for a Game Center leaderboard set localization (v2).",
 		LongHelp: `Upload an image for a Game Center leaderboard set localization (v2).
 
 This command performs the full upload flow: reserves the upload, uploads the file, and commits.
 
 Examples:
-  asc game-center leaderboard-sets v2 images upload --localization-id "LOC_ID" --file path/to/image.png`,
+  aso game-center leaderboard-sets v2 images upload --localization-id "LOC_ID" --file path/to/image.png`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1110,13 +1110,13 @@ func GameCenterLeaderboardSetImagesV2GetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center leaderboard-sets v2 images get --id \"IMAGE_ID\" | --localization-id \"LOC_ID\"",
+		ShortUsage: "aso game-center leaderboard-sets v2 images get --id \"IMAGE_ID\" | --localization-id \"LOC_ID\"",
 		ShortHelp:  "Get a Game Center leaderboard set image (v2).",
 		LongHelp: `Get a Game Center leaderboard set image (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 images get --id "IMAGE_ID"
-  asc game-center leaderboard-sets v2 images get --localization-id "LOC_ID"`,
+  aso game-center leaderboard-sets v2 images get --id "IMAGE_ID"
+  aso game-center leaderboard-sets v2 images get --localization-id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1167,12 +1167,12 @@ func GameCenterLeaderboardSetImagesV2DeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center leaderboard-sets v2 images delete --id \"IMAGE_ID\" --confirm",
+		ShortUsage: "aso game-center leaderboard-sets v2 images delete --id \"IMAGE_ID\" --confirm",
 		ShortHelp:  "Delete a Game Center leaderboard set image (v2).",
 		LongHelp: `Delete a Game Center leaderboard set image (v2).
 
 Examples:
-  asc game-center leaderboard-sets v2 images delete --id "IMAGE_ID" --confirm`,
+  aso game-center leaderboard-sets v2 images delete --id "IMAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -3,8 +3,8 @@
 ## Start Here
 
 - Quick start and troubleshooting: [README.md](README.md)
-- Questions and workflow help: [GitHub Discussions](https://github.com/rudrankriyam/App-Store-Connect-CLI/discussions)
-- Bugs and feature requests: [GitHub Issues](https://github.com/rudrankriyam/App-Store-Connect-CLI/issues)
+- Questions and workflow help: [GitHub Discussions](https://github.com/ASOManiac/aso-cli/discussions)
+- Bugs and feature requests: [GitHub Issues](https://github.com/ASOManiac/aso-cli/issues)
 
 ## Use Discussions For
 

@@ -8,8 +8,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	localxcode "github.com/rudrankriyam/App-Store-Connect-CLI/internal/xcode"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	localxcode "github.com/ASOManiac/aso-cli/internal/xcode"
 )
 
 var (
@@ -24,7 +24,7 @@ func XcodeVersionCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "version",
-		ShortUsage: "asc xcode version <subcommand> [flags]",
+		ShortUsage: "aso xcode version <subcommand> [flags]",
 		ShortHelp:  "Read and modify Xcode project version numbers.",
 		LongHelp: `Read and modify Xcode project version and build numbers using agvtool.
 
@@ -32,16 +32,16 @@ Requires Apple Generic Versioning to be enabled in the Xcode project.
 macOS only.
 
 Examples:
-  asc xcode version view
-  asc xcode version view --project-dir ./MyApp
-  asc xcode version view --project ./MyApp/App.xcodeproj
-  asc xcode version edit --version "1.3.0"
-  asc xcode version edit --build-number "42"
-  asc xcode version edit --version "1.3.0" --build-number "42"
-  asc xcode version bump --type patch
-  asc xcode version bump --type minor
-  asc xcode version bump --type major
-  asc xcode version bump --type build`,
+  aso xcode version view
+  aso xcode version view --project-dir ./MyApp
+  aso xcode version view --project ./MyApp/App.xcodeproj
+  aso xcode version edit --version "1.3.0"
+  aso xcode version edit --build-number "42"
+  aso xcode version edit --version "1.3.0" --build-number "42"
+  aso xcode version bump --type patch
+  aso xcode version bump --type minor
+  aso xcode version bump --type major
+  aso xcode version bump --type build`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -76,7 +76,7 @@ func xcodeVersionViewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "view",
-		ShortUsage: "asc xcode version view [--project XCODEPROJ] [--project-dir DIR] [--target NAME]",
+		ShortUsage: "aso xcode version view [--project XCODEPROJ] [--project-dir DIR] [--target NAME]",
 		ShortHelp:  "View current version and build number.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,
@@ -119,7 +119,7 @@ func xcodeVersionEditCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "edit",
-		ShortUsage: "asc xcode version edit [--version VER] [--build-number NUM] [--project XCODEPROJ] [--project-dir DIR]",
+		ShortUsage: "aso xcode version edit [--version VER] [--build-number NUM] [--project XCODEPROJ] [--project-dir DIR]",
 		ShortHelp:  "Edit version and/or build number.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,
@@ -159,7 +159,7 @@ func xcodeVersionBumpCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "bump",
-		ShortUsage: "asc xcode version bump --type TYPE [--project XCODEPROJ] [--project-dir DIR] [--target NAME]",
+		ShortUsage: "aso xcode version bump --type TYPE [--project XCODEPROJ] [--project-dir DIR] [--target NAME]",
 		ShortHelp:  "Increment version or build number.",
 		LongHelp: `Increment the version or build number in an Xcode project.
 
@@ -177,11 +177,11 @@ Note:
   whole project, matching agvtool behavior.
 
 Examples:
-  asc xcode version bump --type patch
-  asc xcode version bump --type patch --project ./MyApp/App.xcodeproj
-  asc xcode version bump --type patch --target Extension
-  asc xcode version bump --type minor --project-dir ./MyApp
-  asc xcode version bump --type build`,
+  aso xcode version bump --type patch
+  aso xcode version bump --type patch --project ./MyApp/App.xcodeproj
+  aso xcode version bump --type patch --target Extension
+  aso xcode version bump --type minor --project-dir ./MyApp
+  aso xcode version bump --type build`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

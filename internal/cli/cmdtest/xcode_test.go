@@ -83,12 +83,12 @@ func TestXcodeVersionHelpShowsCanonicalSubcommands(t *testing.T) {
 	if stdout != "" {
 		t.Fatalf("expected empty stdout, got %q", stdout)
 	}
-	for _, want := range []string{"view", "edit", "bump", "asc xcode version view", "asc xcode version edit"} {
+	for _, want := range []string{"view", "edit", "bump", "aso xcode version view", "aso xcode version edit"} {
 		if !strings.Contains(stderr, want) {
 			t.Fatalf("expected help to contain %q, got %q", want, stderr)
 		}
 	}
-	for _, hidden := range []string{"\n  get", "\n  set", "asc xcode version get", "asc xcode version set"} {
+	for _, hidden := range []string{"\n  get", "\n  set", "aso xcode version get", "aso xcode version set"} {
 		if strings.Contains(stderr, hidden) {
 			t.Fatalf("expected help to hide %q, got %q", hidden, stderr)
 		}

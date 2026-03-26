@@ -12,8 +12,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SubmissionHistoryEntry is the assembled result for one submission.
@@ -54,7 +54,7 @@ func ReviewHistoryCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "history",
-		ShortUsage: "asc review history [flags]",
+		ShortUsage: "aso review history [flags]",
 		ShortHelp:  "Show enriched review submission history for an app.",
 		LongHelp: `Show enriched review submission history for an app.
 
@@ -62,10 +62,10 @@ Each entry includes the submission state, platform, version string, submitted
 date, and a derived outcome (approved, rejected, or the raw state).
 
 Examples:
-  asc review history --app "123456789"
-  asc review history --app "123456789" --platform IOS --state COMPLETE
-  asc review history --app "123456789" --version "1.2.0"
-  asc review history --app "123456789" --paginate`,
+  aso review history --app "123456789"
+  aso review history --app "123456789" --platform IOS --state COMPLETE
+  aso review history --app "123456789" --version "1.2.0"
+  aso review history --app "123456789" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

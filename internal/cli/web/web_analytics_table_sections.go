@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 type analyticsTableSection struct {

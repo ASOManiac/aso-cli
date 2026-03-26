@@ -17,10 +17,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/metadata"
-	validatecli "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/validate"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/metadata"
+	validatecli "github.com/ASOManiac/aso-cli/internal/cli/validate"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 type releaseRoundTripFunc func(*http.Request) (*http.Response, error)

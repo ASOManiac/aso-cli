@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshots"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/screenshots"
 )
 
 // ShotsReviewApproveCommand returns screenshots review-approve subcommand.
@@ -27,7 +27,7 @@ func ShotsReviewApproveCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "review-approve",
-		ShortUsage: "asc screenshots review-approve [--all-ready | --key key1,key2 | --id home] [flags]",
+		ShortUsage: "aso screenshots review-approve [--all-ready | --key key1,key2 | --id home] [flags]",
 		ShortHelp:  "[experimental] Write/update approved.json from review manifest selectors.",
 		LongHelp: `Approve review entries and persist to approved.json (experimental).
 

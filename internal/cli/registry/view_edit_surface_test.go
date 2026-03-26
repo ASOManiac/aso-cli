@@ -17,10 +17,10 @@ func TestVisibleLeafCommandsPreferViewOverGet(t *testing.T) {
 	}
 
 	mustContain := []string{
-		"asc apps view",
-		"asc age-rating view",
-		"asc pricing availability edit",
-		"asc app-setup availability edit",
+		"aso apps view",
+		"aso age-rating view",
+		"aso pricing availability edit",
+		"aso app-setup availability edit",
 	}
 	for _, want := range mustContain {
 		if !containsPath(paths, want) {
@@ -29,10 +29,10 @@ func TestVisibleLeafCommandsPreferViewOverGet(t *testing.T) {
 	}
 
 	mustNotContain := []string{
-		"asc apps get",
-		"asc age-rating set",
-		"asc pricing availability set",
-		"asc app-setup availability set",
+		"aso apps get",
+		"aso age-rating set",
+		"aso pricing availability set",
+		"aso app-setup availability set",
 	}
 	for _, banned := range mustNotContain {
 		if containsPath(paths, banned) {
@@ -45,10 +45,10 @@ func TestDeprecatedAliasesRetainLegacyPaths(t *testing.T) {
 	subs := Subcommands("dev")
 
 	legacyPaths := []string{
-		"asc apps get",
-		"asc age-rating set",
-		"asc pricing availability set",
-		"asc app-setup availability set",
+		"aso apps get",
+		"aso age-rating set",
+		"aso pricing availability set",
+		"aso app-setup availability set",
 	}
 	for _, legacyPath := range legacyPaths {
 		cmd := findCommandByPath(subs, legacyPath)
@@ -70,22 +70,22 @@ func TestHelpHidesDeprecatedLegacyVerbs(t *testing.T) {
 		mustNotContain []string
 	}{
 		{
-			path:           "asc apps",
+			path:           "aso apps",
 			mustContain:    []string{"view"},
 			mustNotContain: []string{"get"},
 		},
 		{
-			path:           "asc age-rating",
+			path:           "aso age-rating",
 			mustContain:    []string{"view", "edit"},
 			mustNotContain: []string{"get", "set"},
 		},
 		{
-			path:           "asc pricing availability",
+			path:           "aso pricing availability",
 			mustContain:    []string{"edit"},
 			mustNotContain: []string{"set"},
 		},
 		{
-			path:           "asc app-setup availability",
+			path:           "aso app-setup availability",
 			mustContain:    []string{"edit"},
 			mustNotContain: []string{"set"},
 		},
@@ -121,11 +121,11 @@ func TestHelpRetainsCanonicalCommandsThatMentionLegacyAliases(t *testing.T) {
 		subcommands []string
 	}{
 		{
-			path:        "asc web auth",
+			path:        "aso web auth",
 			subcommands: []string{"login", "status", "capabilities", "logout"},
 		},
 		{
-			path:        "asc web apps",
+			path:        "aso web apps",
 			subcommands: []string{"create", "availability"},
 		},
 	}
@@ -150,7 +150,7 @@ func TestHelpRetainsCanonicalCommandsThatMentionLegacyAliases(t *testing.T) {
 func visibleLeafPaths(rootSubcommands []*ffcli.Command) []string {
 	paths := make([]string, 0)
 	for _, root := range rootSubcommands {
-		collectVisibleLeafPaths(root, "asc", &paths)
+		collectVisibleLeafPaths(root, "aso", &paths)
 	}
 	return paths
 }
@@ -173,7 +173,7 @@ func collectVisibleLeafPaths(cmd *ffcli.Command, prefix string, paths *[]string)
 
 func findCommandByPath(rootSubcommands []*ffcli.Command, want string) *ffcli.Command {
 	for _, root := range rootSubcommands {
-		if cmd := findCommandByPathRecursive(root, "asc", want); cmd != nil {
+		if cmd := findCommandByPathRecursive(root, "aso", want); cmd != nil {
 			return cmd
 		}
 	}

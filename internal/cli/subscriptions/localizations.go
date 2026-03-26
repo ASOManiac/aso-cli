@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SubscriptionsLocalizationsCommand returns the subscription localizations command group.
@@ -19,13 +19,13 @@ func SubscriptionsLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc subscriptions localizations <subcommand> [flags]",
+		ShortUsage: "aso subscriptions localizations <subcommand> [flags]",
 		ShortHelp:  "Manage subscription localizations.",
 		LongHelp: `Manage subscription localizations.
 
 Examples:
-  asc subscriptions localizations list --subscription-id "SUB_ID"
-  asc subscriptions localizations create --subscription-id "SUB_ID" --locale "en-US" --name "Pro"`,
+  aso subscriptions localizations list --subscription-id "SUB_ID"
+  aso subscriptions localizations create --subscription-id "SUB_ID" --locale "en-US" --name "Pro"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -53,13 +53,13 @@ func SubscriptionsLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc subscriptions localizations list [flags]",
+		ShortUsage: "aso subscriptions localizations list [flags]",
 		ShortHelp:  "List subscription localizations.",
 		LongHelp: `List subscription localizations.
 
 Examples:
-  asc subscriptions localizations list --subscription-id "SUB_ID"
-  asc subscriptions localizations list --subscription-id "SUB_ID" --paginate`,
+  aso subscriptions localizations list --subscription-id "SUB_ID"
+  aso subscriptions localizations list --subscription-id "SUB_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -125,12 +125,12 @@ func SubscriptionsLocalizationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc subscriptions localizations get --id \"LOC_ID\"",
+		ShortUsage: "aso subscriptions localizations get --id \"LOC_ID\"",
 		ShortHelp:  "Get a subscription localization by ID.",
 		LongHelp: `Get a subscription localization by ID.
 
 Examples:
-  asc subscriptions localizations get --id "LOC_ID"`,
+  aso subscriptions localizations get --id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -170,12 +170,12 @@ func SubscriptionsLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc subscriptions localizations create [flags]",
+		ShortUsage: "aso subscriptions localizations create [flags]",
 		ShortHelp:  "Create a subscription localization.",
 		LongHelp: `Create a subscription localization.
 
 Examples:
-  asc subscriptions localizations create --subscription-id "SUB_ID" --locale "en-US" --name "Pro"`,
+  aso subscriptions localizations create --subscription-id "SUB_ID" --locale "en-US" --name "Pro"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -234,12 +234,12 @@ func SubscriptionsLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc subscriptions localizations update [flags]",
+		ShortUsage: "aso subscriptions localizations update [flags]",
 		ShortHelp:  "Update a subscription localization.",
 		LongHelp: `Update a subscription localization.
 
 Examples:
-  asc subscriptions localizations update --id "LOC_ID" --name "Pro+"`,
+  aso subscriptions localizations update --id "LOC_ID" --name "Pro+"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -292,12 +292,12 @@ func SubscriptionsLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc subscriptions localizations delete --id \"LOC_ID\" --confirm",
+		ShortUsage: "aso subscriptions localizations delete --id \"LOC_ID\" --confirm",
 		ShortHelp:  "Delete a subscription localization.",
 		LongHelp: `Delete a subscription localization.
 
 Examples:
-  asc subscriptions localizations delete --id "LOC_ID" --confirm`,
+  aso subscriptions localizations delete --id "LOC_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

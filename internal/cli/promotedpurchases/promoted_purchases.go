@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PromotedPurchasesCommand returns the promoted purchases command with subcommands.
@@ -19,17 +19,17 @@ func PromotedPurchasesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "promoted-purchases",
-		ShortUsage: "asc promoted-purchases <subcommand> [flags]",
+		ShortUsage: "aso promoted-purchases <subcommand> [flags]",
 		ShortHelp:  "Manage promoted purchases for subscriptions and in-app purchases.",
 		LongHelp: `Manage promoted purchases for subscriptions and in-app purchases.
 
 Examples:
-  asc promoted-purchases list --app "APP_ID"
-  asc promoted-purchases get --promoted-purchase-id "PROMO_ID"
-  asc promoted-purchases create --app "APP_ID" --product-id "PRODUCT_ID" --product-type SUBSCRIPTION --visible-for-all-users
-  asc promoted-purchases update --promoted-purchase-id "PROMO_ID" --enabled false
-  asc promoted-purchases delete --promoted-purchase-id "PROMO_ID" --confirm
-  asc promoted-purchases link --app "APP_ID" --promoted-purchase-id "PROMO_ID"`,
+  aso promoted-purchases list --app "APP_ID"
+  aso promoted-purchases get --promoted-purchase-id "PROMO_ID"
+  aso promoted-purchases create --app "APP_ID" --product-id "PRODUCT_ID" --product-type SUBSCRIPTION --visible-for-all-users
+  aso promoted-purchases update --promoted-purchase-id "PROMO_ID" --enabled false
+  aso promoted-purchases delete --promoted-purchase-id "PROMO_ID" --confirm
+  aso promoted-purchases link --app "APP_ID" --promoted-purchase-id "PROMO_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -58,14 +58,14 @@ func PromotedPurchasesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc promoted-purchases list --app APP_ID [flags]",
+		ShortUsage: "aso promoted-purchases list --app APP_ID [flags]",
 		ShortHelp:  "List promoted purchases for an app.",
 		LongHelp: `List promoted purchases for an app.
 
 Examples:
-  asc promoted-purchases list --app "APP_ID"
-  asc promoted-purchases list --app "APP_ID" --limit 10
-  asc promoted-purchases list --app "APP_ID" --paginate`,
+  aso promoted-purchases list --app "APP_ID"
+  aso promoted-purchases list --app "APP_ID" --limit 10
+  aso promoted-purchases list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -132,12 +132,12 @@ func PromotedPurchasesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc promoted-purchases get --promoted-purchase-id PROMO_ID",
+		ShortUsage: "aso promoted-purchases get --promoted-purchase-id PROMO_ID",
 		ShortHelp:  "Get a promoted purchase by ID.",
 		LongHelp: `Get a promoted purchase by ID.
 
 Examples:
-  asc promoted-purchases get --promoted-purchase-id "PROMO_ID"`,
+  aso promoted-purchases get --promoted-purchase-id "PROMO_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -180,13 +180,13 @@ func PromotedPurchasesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc promoted-purchases create --app APP_ID --product-id PRODUCT_ID --product-type SUBSCRIPTION --visible-for-all-users",
+		ShortUsage: "aso promoted-purchases create --app APP_ID --product-id PRODUCT_ID --product-type SUBSCRIPTION --visible-for-all-users",
 		ShortHelp:  "Create a promoted purchase.",
 		LongHelp: `Create a promoted purchase for a subscription or in-app purchase.
 
 Examples:
-  asc promoted-purchases create --app "APP_ID" --product-id "PRODUCT_ID" --product-type SUBSCRIPTION --visible-for-all-users
-  asc promoted-purchases create --app "APP_ID" --product-id "PRODUCT_ID" --product-type IN_APP_PURCHASE --visible-for-all-users --enabled true`,
+  aso promoted-purchases create --app "APP_ID" --product-id "PRODUCT_ID" --product-type SUBSCRIPTION --visible-for-all-users
+  aso promoted-purchases create --app "APP_ID" --product-id "PRODUCT_ID" --product-type IN_APP_PURCHASE --visible-for-all-users --enabled true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -284,13 +284,13 @@ func PromotedPurchasesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc promoted-purchases update --promoted-purchase-id PROMO_ID [--visible-for-all-users true|false] [--enabled true|false]",
+		ShortUsage: "aso promoted-purchases update --promoted-purchase-id PROMO_ID [--visible-for-all-users true|false] [--enabled true|false]",
 		ShortHelp:  "Update a promoted purchase.",
 		LongHelp: `Update a promoted purchase.
 
 Examples:
-  asc promoted-purchases update --promoted-purchase-id "PROMO_ID" --visible-for-all-users false
-  asc promoted-purchases update --promoted-purchase-id "PROMO_ID" --enabled true`,
+  aso promoted-purchases update --promoted-purchase-id "PROMO_ID" --visible-for-all-users false
+  aso promoted-purchases update --promoted-purchase-id "PROMO_ID" --enabled true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -342,12 +342,12 @@ func PromotedPurchasesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc promoted-purchases delete --promoted-purchase-id PROMO_ID --confirm",
+		ShortUsage: "aso promoted-purchases delete --promoted-purchase-id PROMO_ID --confirm",
 		ShortHelp:  "Delete a promoted purchase.",
 		LongHelp: `Delete a promoted purchase by ID.
 
 Examples:
-  asc promoted-purchases delete --promoted-purchase-id "PROMO_ID" --confirm`,
+  aso promoted-purchases delete --promoted-purchase-id "PROMO_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -396,14 +396,14 @@ func PromotedPurchasesLinkCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "link",
-		ShortUsage: "asc promoted-purchases link --app APP_ID --promoted-purchase-id PROMO_ID[,PROMO_ID...]",
+		ShortUsage: "aso promoted-purchases link --app APP_ID --promoted-purchase-id PROMO_ID[,PROMO_ID...]",
 		ShortHelp:  "Link or clear promoted purchases for an app.",
 		LongHelp: `Link promoted purchases to an app.
 
 Examples:
-  asc promoted-purchases link --app "APP_ID" --promoted-purchase-id "PROMO_ID"
-  asc promoted-purchases link --app "APP_ID" --promoted-purchase-id "PROMO_1,PROMO_2"
-  asc promoted-purchases link --app "APP_ID" --clear --confirm`,
+  aso promoted-purchases link --app "APP_ID" --promoted-purchase-id "PROMO_ID"
+  aso promoted-purchases link --app "APP_ID" --promoted-purchase-id "PROMO_1,PROMO_2"
+  aso promoted-purchases link --app "APP_ID" --clear --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

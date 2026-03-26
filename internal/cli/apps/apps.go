@@ -10,9 +10,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	cliweb "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	cliweb "github.com/ASOManiac/aso-cli/internal/cli/web"
 )
 
 func appsListFlags(fs *flag.FlagSet) (output shared.OutputFlags, bundleID *string, name *string, sku *string, sort *string, limit *int, next *string, paginate *bool) {
@@ -35,32 +35,32 @@ func AppsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "apps",
-		ShortUsage: "asc apps <subcommand> [flags]",
+		ShortUsage: "aso apps <subcommand> [flags]",
 		ShortHelp:  "List and manage apps in App Store Connect.",
 		LongHelp: `List and manage apps in App Store Connect.
 
 Examples:
-  asc apps
-  asc apps list --bundle-id "com.example.app"
-  asc web apps create --name "My App" --bundle-id "com.example.app" --sku "MYAPP123"
-  asc apps wall
-  asc apps wall submit --app "1234567890" --confirm
-  asc apps public view --app "1234567890"
-  asc apps public search --term "focus" --country us
-  asc apps public storefronts list
-  asc apps get --id "APP_ID"
-  asc apps info view --app "APP_ID"
-  asc apps info edit --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"
-  asc apps ci-product get --id "APP_ID"
-  asc apps update --id "APP_ID" --bundle-id "com.example.app"
-  asc apps update --id "APP_ID" --primary-locale "en-US"
-  asc apps subscription-grace-period get --app "APP_ID"
-  asc apps content-rights edit --app "APP_ID" --uses-third-party-content=false
-  asc apps --limit 10
-  asc apps --sort name
-  asc apps --output table
-  asc apps --next "<links.next>"
-  asc apps --paginate`,
+  aso apps
+  aso apps list --bundle-id "com.example.app"
+  aso web apps create --name "My App" --bundle-id "com.example.app" --sku "MYAPP123"
+  aso apps wall
+  aso apps wall submit --app "1234567890" --confirm
+  aso apps public view --app "1234567890"
+  aso apps public search --term "focus" --country us
+  aso apps public storefronts list
+  aso apps get --id "APP_ID"
+  aso apps info view --app "APP_ID"
+  aso apps info edit --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"
+  aso apps ci-product get --id "APP_ID"
+  aso apps update --id "APP_ID" --bundle-id "com.example.app"
+  aso apps update --id "APP_ID" --primary-locale "en-US"
+  aso apps subscription-grace-period get --app "APP_ID"
+  aso apps content-rights edit --app "APP_ID" --uses-third-party-content=false
+  aso apps --limit 10
+  aso apps --sort name
+  aso apps --output table
+  aso apps --next "<links.next>"
+  aso apps --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -96,19 +96,19 @@ func AppsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc apps list [flags]",
+		ShortUsage: "aso apps list [flags]",
 		ShortHelp:  "List apps from App Store Connect.",
 		LongHelp: `List apps from App Store Connect.
 
 Examples:
-  asc apps list
-  asc apps list --bundle-id "com.example.app"
-  asc apps list --name "My App"
-  asc apps list --limit 10
-  asc apps list --sort name
-  asc apps list --output table
-  asc apps list --next "<links.next>"
-  asc apps list --paginate`,
+  aso apps list
+  aso apps list --bundle-id "com.example.app"
+  aso apps list --name "My App"
+  aso apps list --limit 10
+  aso apps list --sort name
+  aso apps list --output table
+  aso apps list --next "<links.next>"
+  aso apps list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -126,13 +126,13 @@ func AppsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc apps get --id APP_ID",
+		ShortUsage: "aso apps get --id APP_ID",
 		ShortHelp:  "Get app details by ID.",
 		LongHelp: `Get app details by ID.
 
 Examples:
-  asc apps get --id "APP_ID"
-  asc apps get --id "APP_ID" --output table`,
+  aso apps get --id "APP_ID"
+  aso apps get --id "APP_ID" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -163,8 +163,8 @@ Examples:
 var runAppsCreateShimFn = cliweb.RunAppsCreate
 
 const (
-	appsCreateDeprecationWarning = "Warning: `asc apps create` is deprecated and will be removed after one release cycle."
-	appsCreateMigrationGuidance  = "Use `asc web apps create` instead. Legacy ASC_IRIS_SESSION_CACHE entries are imported into the web session cache automatically during the transition."
+	appsCreateDeprecationWarning = "Warning: `aso apps create` is deprecated and will be removed after one release cycle."
+	appsCreateMigrationGuidance  = "Use `aso web apps create` instead. Legacy ASC_IRIS_SESSION_CACHE entries are imported into the web session cache automatically during the transition."
 )
 
 // AppsCreateCommand returns the apps create subcommand.
@@ -188,9 +188,9 @@ func AppsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc apps create [flags]",
+		ShortUsage: "aso apps create [flags]",
 		ShortHelp:  "[deprecated] Create a new app via the unofficial web-session shim.",
-		LongHelp: `DEPRECATED: Use ` + "`asc web apps create`" + `.
+		LongHelp: `DEPRECATED: Use ` + "`aso web apps create`" + `.
 
 This compatibility shim forwards to the canonical unofficial web-session app
 creation flow and will be removed after one release cycle.
@@ -204,14 +204,14 @@ session cache automatically during the deprecation window.
 
 If flags are not provided, an interactive prompt will guide you through the required fields.
 This deprecated shim preserves the old Apple-ID-only contract and assumes the
-bundle ID already exists. Use ` + "`asc web apps create`" + ` if you want the
+bundle ID already exists. Use ` + "`aso web apps create`" + ` if you want the
 new official-auth bundle-ID preflight and auto-create behavior.
 
 Examples:
-  asc web apps create
-  asc web apps create --name "My App" --bundle-id "com.example.myapp" --sku "MYAPP123"
-  asc apps create --name "My App" --bundle-id "com.example.myapp" --sku "MYAPP123"
-  asc apps create --apple-id "user@example.com" --password`,
+  aso web apps create
+  aso web apps create --name "My App" --bundle-id "com.example.myapp" --sku "MYAPP123"
+  aso apps create --name "My App" --bundle-id "com.example.myapp" --sku "MYAPP123"
+  aso apps create --apple-id "user@example.com" --password`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -255,14 +255,14 @@ func AppsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc apps update --id APP_ID [--bundle-id BUNDLE_ID] [--primary-locale LOCALE] [--content-rights DECLARATION]",
+		ShortUsage: "aso apps update --id APP_ID [--bundle-id BUNDLE_ID] [--primary-locale LOCALE] [--content-rights DECLARATION]",
 		ShortHelp:  "Update an app's bundle ID, primary locale, or content rights declaration.",
 		LongHelp: `Update an app's bundle ID, primary locale, or content rights declaration.
 
 Examples:
-  asc apps update --id "APP_ID" --bundle-id "com.example.app"
-  asc apps update --id "APP_ID" --primary-locale "en-US"
-  asc apps update --id "APP_ID" --content-rights "DOES_NOT_USE_THIRD_PARTY_CONTENT"`,
+  aso apps update --id "APP_ID" --bundle-id "com.example.app"
+  aso apps update --id "APP_ID" --primary-locale "en-US"
+  aso apps update --id "APP_ID" --content-rights "DOES_NOT_USE_THIRD_PARTY_CONTENT"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

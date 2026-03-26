@@ -12,8 +12,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type buildExpireCandidate struct {
@@ -35,7 +35,7 @@ func BuildsExpireAllCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "expire-all",
-		ShortUsage: "asc builds expire-all [flags]",
+		ShortUsage: "aso builds expire-all [flags]",
 		ShortHelp:  "Expire multiple TestFlight builds for an app.",
 		LongHelp: `Expire multiple TestFlight builds for an app.
 
@@ -44,10 +44,10 @@ Use --older-than to expire builds older than a duration or date, and optionally
 expiring.
 
 Examples:
-  asc builds expire-all --app "123456789" --older-than 90d --dry-run
-  asc builds expire-all --app "123456789" --older-than 30d --confirm
-  asc builds expire-all --app "123456789" --keep-latest 5 --confirm
-  asc builds expire-all --app "123456789" --older-than "2025-01-01" --confirm`,
+  aso builds expire-all --app "123456789" --older-than 90d --dry-run
+  aso builds expire-all --app "123456789" --older-than 30d --confirm
+  aso builds expire-all --app "123456789" --keep-latest 5 --confirm
+  aso builds expire-all --app "123456789" --older-than "2025-01-01" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

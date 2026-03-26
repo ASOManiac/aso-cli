@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-const deprecatedBetaBuildLocalizationsCreateUpsertWarning = "Warning: `asc beta-build-localizations create` is deprecated. Use `asc builds test-notes create`"
+const deprecatedBetaBuildLocalizationsCreateUpsertWarning = "Warning: `aso beta-build-localizations create` is deprecated. Use `aso builds test-notes create`"
 
 func TestBetaBuildLocalizationsCreateUpsertUpdatesExistingLocale(t *testing.T) {
 	setupAuth(t)

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ReviewsSummarizationsCommand returns the review summarizations command.
@@ -30,15 +30,15 @@ func ReviewsSummarizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "summarizations",
-		ShortUsage: "asc reviews summarizations [flags]",
+		ShortUsage: "aso reviews summarizations [flags]",
 		ShortHelp:  "List App Store review summarizations.",
 		LongHelp: `List App Store review summarizations for an app.
 
 Examples:
-  asc reviews summarizations --app "APP_ID"
-  asc reviews summarizations --app "APP_ID" --platform IOS --territory USA
-  asc reviews summarizations --app "APP_ID" --limit 50
-  asc reviews summarizations --next "<links.next>"`,
+  aso reviews summarizations --app "APP_ID"
+  aso reviews summarizations --app "APP_ID" --platform IOS --territory USA
+  aso reviews summarizations --app "APP_ID" --limit 50
+  aso reviews summarizations --next "<links.next>"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

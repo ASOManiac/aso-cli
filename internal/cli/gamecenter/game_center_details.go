@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // GameCenterDetailsCommand returns the details command group.
@@ -19,20 +19,20 @@ func GameCenterDetailsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "details",
-		ShortUsage: "asc game-center details <subcommand> [flags]",
+		ShortUsage: "aso game-center details <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center details and related resources.",
 		LongHelp: `Manage Game Center details and related resources.
 
 Examples:
-  asc game-center details list --app "APP_ID"
-  asc game-center details get --id "DETAIL_ID"
-  asc game-center details create --app "APP_ID"
-  asc game-center details update --id "DETAIL_ID" --game-center-group-id "GROUP_ID"
-  asc game-center details app-versions list --id "DETAIL_ID"
-  asc game-center details group get --id "DETAIL_ID"
-  asc game-center details achievements-v2 list --id "DETAIL_ID"
-  asc game-center details leaderboard-releases list --id "DETAIL_ID"
-  asc game-center details metrics classic-matchmaking --id "DETAIL_ID" --granularity P1D`,
+  aso game-center details list --app "APP_ID"
+  aso game-center details get --id "DETAIL_ID"
+  aso game-center details create --app "APP_ID"
+  aso game-center details update --id "DETAIL_ID" --game-center-group-id "GROUP_ID"
+  aso game-center details app-versions list --id "DETAIL_ID"
+  aso game-center details group get --id "DETAIL_ID"
+  aso game-center details achievements-v2 list --id "DETAIL_ID"
+  aso game-center details leaderboard-releases list --id "DETAIL_ID"
+  aso game-center details metrics classic-matchmaking --id "DETAIL_ID" --granularity P1D`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -68,13 +68,13 @@ func GameCenterDetailsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center details list [flags]",
+		ShortUsage: "aso game-center details list [flags]",
 		ShortHelp:  "List Game Center details.",
 		LongHelp: `List Game Center details.
 
 Examples:
-  asc game-center details list --app "APP_ID"
-  asc game-center details list --app "APP_ID" --paginate`,
+  aso game-center details list --app "APP_ID"
+  aso game-center details list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -111,7 +111,7 @@ Examples:
 			if detailID == "" {
 				// App Store Connect returns 200 with an empty id when no detail exists yet.
 				// Treat this as an empty list rather than attempting /v1/gameCenterDetails/.
-				fmt.Fprintln(os.Stderr, `Warning: no Game Center detail exists for this app. Run "asc game-center details create --app <APP_ID>" to create one.`)
+				fmt.Fprintln(os.Stderr, `Warning: no Game Center detail exists for this app. Run "aso game-center details create --app <APP_ID>" to create one.`)
 				resp := &asc.GameCenterDetailsResponse{
 					Data:  []asc.Resource[asc.GameCenterDetailAttributes]{},
 					Links: asc.Links{},
@@ -145,12 +145,12 @@ func GameCenterDetailsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center details get --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details get --id \"DETAIL_ID\"",
 		ShortHelp:  "Get a Game Center detail by ID.",
 		LongHelp: `Get a Game Center detail by ID.
 
 Examples:
-  asc game-center details get --id "DETAIL_ID"`,
+  aso game-center details get --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -188,12 +188,12 @@ func GameCenterDetailsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center details create --app \"APP_ID\"",
+		ShortUsage: "aso game-center details create --app \"APP_ID\"",
 		ShortHelp:  "Create a Game Center detail for an app.",
 		LongHelp: `Create a Game Center detail for an app.
 
 Examples:
-  asc game-center details create --app "APP_ID"`,
+  aso game-center details create --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -239,13 +239,13 @@ func GameCenterDetailsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center details update --id \"DETAIL_ID\" [flags]",
+		ShortUsage: "aso game-center details update --id \"DETAIL_ID\" [flags]",
 		ShortHelp:  "Update a Game Center detail.",
 		LongHelp: `Update a Game Center detail.
 
 Examples:
-  asc game-center details update --id "DETAIL_ID" --game-center-group-id "GROUP_ID"
-  asc game-center details update --id "DETAIL_ID" --default-leaderboard-id "LEADERBOARD_ID"`,
+  aso game-center details update --id "DETAIL_ID" --game-center-group-id "GROUP_ID"
+  aso game-center details update --id "DETAIL_ID" --default-leaderboard-id "LEADERBOARD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -321,12 +321,12 @@ func GameCenterDetailsAppVersionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-versions",
-		ShortUsage: "asc game-center details app-versions list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details app-versions list --id \"DETAIL_ID\"",
 		ShortHelp:  "List Game Center app versions for a detail.",
 		LongHelp: `List Game Center app versions for a detail.
 
 Examples:
-  asc game-center details app-versions list --id "DETAIL_ID"`,
+  aso game-center details app-versions list --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -350,14 +350,14 @@ func GameCenterDetailsAppVersionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center details app-versions list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details app-versions list --id \"DETAIL_ID\"",
 		ShortHelp:  "List Game Center app versions for a detail.",
 		LongHelp: `List Game Center app versions for a detail.
 
 Examples:
-  asc game-center details app-versions list --id "DETAIL_ID"
-  asc game-center details app-versions list --id "DETAIL_ID" --limit 50
-  asc game-center details app-versions list --id "DETAIL_ID" --paginate`,
+  aso game-center details app-versions list --id "DETAIL_ID"
+  aso game-center details app-versions list --id "DETAIL_ID" --limit 50
+  aso game-center details app-versions list --id "DETAIL_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -424,12 +424,12 @@ func GameCenterDetailsGroupCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "group",
-		ShortUsage: "asc game-center details group get --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details group get --id \"DETAIL_ID\"",
 		ShortHelp:  "Get the Game Center group for a detail.",
 		LongHelp: `Get the Game Center group for a detail.
 
 Examples:
-  asc game-center details group get --id "DETAIL_ID"`,
+  aso game-center details group get --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -450,12 +450,12 @@ func GameCenterDetailsGroupGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center details group get --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details group get --id \"DETAIL_ID\"",
 		ShortHelp:  "Get the Game Center group for a detail.",
 		LongHelp: `Get the Game Center group for a detail.
 
 Examples:
-  asc game-center details group get --id "DETAIL_ID"`,
+  aso game-center details group get --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -489,12 +489,12 @@ func GameCenterDetailsAchievementsV2Command() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "achievements-v2",
-		ShortUsage: "asc game-center details achievements-v2 list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details achievements-v2 list --id \"DETAIL_ID\"",
 		ShortHelp:  "List v2 achievements for a Game Center detail.",
 		LongHelp: `List v2 achievements for a Game Center detail.
 
 Examples:
-  asc game-center details achievements-v2 list --id "DETAIL_ID"`,
+  aso game-center details achievements-v2 list --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -518,14 +518,14 @@ func GameCenterDetailsAchievementsV2ListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center details achievements-v2 list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details achievements-v2 list --id \"DETAIL_ID\"",
 		ShortHelp:  "List v2 achievements for a Game Center detail.",
 		LongHelp: `List v2 achievements for a Game Center detail.
 
 Examples:
-  asc game-center details achievements-v2 list --id "DETAIL_ID"
-  asc game-center details achievements-v2 list --id "DETAIL_ID" --limit 50
-  asc game-center details achievements-v2 list --id "DETAIL_ID" --paginate`,
+  aso game-center details achievements-v2 list --id "DETAIL_ID"
+  aso game-center details achievements-v2 list --id "DETAIL_ID" --limit 50
+  aso game-center details achievements-v2 list --id "DETAIL_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -588,12 +588,12 @@ func GameCenterDetailsLeaderboardsV2Command() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "leaderboards-v2",
-		ShortUsage: "asc game-center details leaderboards-v2 list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details leaderboards-v2 list --id \"DETAIL_ID\"",
 		ShortHelp:  "List v2 leaderboards for a Game Center detail.",
 		LongHelp: `List v2 leaderboards for a Game Center detail.
 
 Examples:
-  asc game-center details leaderboards-v2 list --id "DETAIL_ID"`,
+  aso game-center details leaderboards-v2 list --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -617,14 +617,14 @@ func GameCenterDetailsLeaderboardsV2ListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center details leaderboards-v2 list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details leaderboards-v2 list --id \"DETAIL_ID\"",
 		ShortHelp:  "List v2 leaderboards for a Game Center detail.",
 		LongHelp: `List v2 leaderboards for a Game Center detail.
 
 Examples:
-  asc game-center details leaderboards-v2 list --id "DETAIL_ID"
-  asc game-center details leaderboards-v2 list --id "DETAIL_ID" --limit 50
-  asc game-center details leaderboards-v2 list --id "DETAIL_ID" --paginate`,
+  aso game-center details leaderboards-v2 list --id "DETAIL_ID"
+  aso game-center details leaderboards-v2 list --id "DETAIL_ID" --limit 50
+  aso game-center details leaderboards-v2 list --id "DETAIL_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -687,12 +687,12 @@ func GameCenterDetailsLeaderboardSetsV2Command() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "leaderboard-sets-v2",
-		ShortUsage: "asc game-center details leaderboard-sets-v2 list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details leaderboard-sets-v2 list --id \"DETAIL_ID\"",
 		ShortHelp:  "List v2 leaderboard sets for a Game Center detail.",
 		LongHelp: `List v2 leaderboard sets for a Game Center detail.
 
 Examples:
-  asc game-center details leaderboard-sets-v2 list --id "DETAIL_ID"`,
+  aso game-center details leaderboard-sets-v2 list --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -716,14 +716,14 @@ func GameCenterDetailsLeaderboardSetsV2ListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center details leaderboard-sets-v2 list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details leaderboard-sets-v2 list --id \"DETAIL_ID\"",
 		ShortHelp:  "List v2 leaderboard sets for a Game Center detail.",
 		LongHelp: `List v2 leaderboard sets for a Game Center detail.
 
 Examples:
-  asc game-center details leaderboard-sets-v2 list --id "DETAIL_ID"
-  asc game-center details leaderboard-sets-v2 list --id "DETAIL_ID" --limit 50
-  asc game-center details leaderboard-sets-v2 list --id "DETAIL_ID" --paginate`,
+  aso game-center details leaderboard-sets-v2 list --id "DETAIL_ID"
+  aso game-center details leaderboard-sets-v2 list --id "DETAIL_ID" --limit 50
+  aso game-center details leaderboard-sets-v2 list --id "DETAIL_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -786,12 +786,12 @@ func GameCenterDetailsAchievementReleasesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "achievement-releases",
-		ShortUsage: "asc game-center details achievement-releases list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details achievement-releases list --id \"DETAIL_ID\"",
 		ShortHelp:  "List achievement releases for a Game Center detail.",
 		LongHelp: `List achievement releases for a Game Center detail.
 
 Examples:
-  asc game-center details achievement-releases list --id "DETAIL_ID"`,
+  aso game-center details achievement-releases list --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -815,14 +815,14 @@ func GameCenterDetailsAchievementReleasesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center details achievement-releases list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details achievement-releases list --id \"DETAIL_ID\"",
 		ShortHelp:  "List achievement releases for a Game Center detail.",
 		LongHelp: `List achievement releases for a Game Center detail.
 
 Examples:
-  asc game-center details achievement-releases list --id "DETAIL_ID"
-  asc game-center details achievement-releases list --id "DETAIL_ID" --limit 50
-  asc game-center details achievement-releases list --id "DETAIL_ID" --paginate`,
+  aso game-center details achievement-releases list --id "DETAIL_ID"
+  aso game-center details achievement-releases list --id "DETAIL_ID" --limit 50
+  aso game-center details achievement-releases list --id "DETAIL_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -885,12 +885,12 @@ func GameCenterDetailsLeaderboardReleasesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "leaderboard-releases",
-		ShortUsage: "asc game-center details leaderboard-releases list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details leaderboard-releases list --id \"DETAIL_ID\"",
 		ShortHelp:  "List leaderboard releases for a Game Center detail.",
 		LongHelp: `List leaderboard releases for a Game Center detail.
 
 Examples:
-  asc game-center details leaderboard-releases list --id "DETAIL_ID"`,
+  aso game-center details leaderboard-releases list --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -914,14 +914,14 @@ func GameCenterDetailsLeaderboardReleasesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center details leaderboard-releases list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details leaderboard-releases list --id \"DETAIL_ID\"",
 		ShortHelp:  "List leaderboard releases for a Game Center detail.",
 		LongHelp: `List leaderboard releases for a Game Center detail.
 
 Examples:
-  asc game-center details leaderboard-releases list --id "DETAIL_ID"
-  asc game-center details leaderboard-releases list --id "DETAIL_ID" --limit 50
-  asc game-center details leaderboard-releases list --id "DETAIL_ID" --paginate`,
+  aso game-center details leaderboard-releases list --id "DETAIL_ID"
+  aso game-center details leaderboard-releases list --id "DETAIL_ID" --limit 50
+  aso game-center details leaderboard-releases list --id "DETAIL_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -984,12 +984,12 @@ func GameCenterDetailsLeaderboardSetReleasesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "leaderboard-set-releases",
-		ShortUsage: "asc game-center details leaderboard-set-releases list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details leaderboard-set-releases list --id \"DETAIL_ID\"",
 		ShortHelp:  "List leaderboard set releases for a Game Center detail.",
 		LongHelp: `List leaderboard set releases for a Game Center detail.
 
 Examples:
-  asc game-center details leaderboard-set-releases list --id "DETAIL_ID"`,
+  aso game-center details leaderboard-set-releases list --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1013,14 +1013,14 @@ func GameCenterDetailsLeaderboardSetReleasesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center details leaderboard-set-releases list --id \"DETAIL_ID\"",
+		ShortUsage: "aso game-center details leaderboard-set-releases list --id \"DETAIL_ID\"",
 		ShortHelp:  "List leaderboard set releases for a Game Center detail.",
 		LongHelp: `List leaderboard set releases for a Game Center detail.
 
 Examples:
-  asc game-center details leaderboard-set-releases list --id "DETAIL_ID"
-  asc game-center details leaderboard-set-releases list --id "DETAIL_ID" --limit 50
-  asc game-center details leaderboard-set-releases list --id "DETAIL_ID" --paginate`,
+  aso game-center details leaderboard-set-releases list --id "DETAIL_ID"
+  aso game-center details leaderboard-set-releases list --id "DETAIL_ID" --limit 50
+  aso game-center details leaderboard-set-releases list --id "DETAIL_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1083,13 +1083,13 @@ func GameCenterDetailsMetricsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "metrics",
-		ShortUsage: "asc game-center details metrics <subcommand> [flags]",
+		ShortUsage: "aso game-center details metrics <subcommand> [flags]",
 		ShortHelp:  "Fetch Game Center details metrics.",
 		LongHelp: `Fetch Game Center details metrics.
 
 Examples:
-  asc game-center details metrics classic-matchmaking --id "DETAIL_ID" --granularity P1D
-  asc game-center details metrics rule-based-matchmaking --id "DETAIL_ID" --granularity P1D --group-by result`,
+  aso game-center details metrics classic-matchmaking --id "DETAIL_ID" --granularity P1D
+  aso game-center details metrics rule-based-matchmaking --id "DETAIL_ID" --granularity P1D --group-by result`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1143,12 +1143,12 @@ func GameCenterDetailsRuleBasedMatchmakingCommand() *ffcli.Command {
 func detailsMetricsCommand(name string, fs *flag.FlagSet, detailID *string, granularity *string, groupBy *string, filterResult *string, sort *string, limit *int, next *string, paginate *bool, output *string, pretty *bool, fetch func(ctx context.Context, id string, opts ...asc.GCMatchmakingMetricsOption) (*asc.GameCenterMetricsResponse, error)) *ffcli.Command {
 	return &ffcli.Command{
 		Name:       name,
-		ShortUsage: "asc game-center details metrics " + name + " --id \"DETAIL_ID\" --granularity P1D",
+		ShortUsage: "aso game-center details metrics " + name + " --id \"DETAIL_ID\" --granularity P1D",
 		ShortHelp:  "Fetch Game Center details metrics.",
 		LongHelp: `Fetch Game Center details metrics.
 
 Examples:
-  asc game-center details metrics ` + name + ` --id "DETAIL_ID" --granularity P1D`,
+  aso game-center details metrics ` + name + ` --id "DETAIL_ID" --granularity P1D`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/docs"
+	"github.com/ASOManiac/aso-cli/internal/cli/docs"
 )
 
 func TestDocsInitCreatesReferenceAndLinks(t *testing.T) {
@@ -104,19 +104,19 @@ func runInitCreatesReferenceAndLinks(t *testing.T, args []string) {
 	if err != nil {
 		t.Fatalf("read ASC.md error: %v", err)
 	}
-	if !strings.Contains(string(ascData), "# asc cli reference") {
+	if !strings.Contains(string(ascData), "# aso cli reference") {
 		t.Fatalf("expected ASC.md to contain header, got %q", string(ascData))
 	}
-	if !strings.Contains(string(ascData), "Release (full pipeline)") || !strings.Contains(string(ascData), "asc release run") {
+	if !strings.Contains(string(ascData), "Release (full pipeline)") || !strings.Contains(string(ascData), "aso release run") {
 		t.Fatalf("expected ASC.md to contain release-first guidance, got %q", string(ascData))
 	}
-	if !strings.Contains(string(ascData), "Stage a release (pre-submit)") || !strings.Contains(string(ascData), "asc release stage") {
+	if !strings.Contains(string(ascData), "Stage a release (pre-submit)") || !strings.Contains(string(ascData), "aso release stage") {
 		t.Fatalf("expected ASC.md to contain release staging guidance, got %q", string(ascData))
 	}
-	if !strings.Contains(string(ascData), `asc status --app "APP_ID"`) {
+	if !strings.Contains(string(ascData), `aso status --app "APP_ID"`) {
 		t.Fatalf("expected ASC.md to mention release status monitoring, got %q", string(ascData))
 	}
-	if !strings.Contains(string(ascData), "Submit for review (low-level)") || !strings.Contains(string(ascData), "asc submit create") {
+	if !strings.Contains(string(ascData), "Submit for review (low-level)") || !strings.Contains(string(ascData), "aso submit create") {
 		t.Fatalf("expected ASC.md to retain low-level submit guidance, got %q", string(ascData))
 	}
 

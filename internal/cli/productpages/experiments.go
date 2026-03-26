@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ExperimentsCommand returns the experiments command group.
@@ -20,15 +20,15 @@ func ExperimentsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "experiments",
-		ShortUsage: "asc product-pages experiments <subcommand> [flags]",
+		ShortUsage: "aso product-pages experiments <subcommand> [flags]",
 		ShortHelp:  "Manage product page optimization experiments.",
 		LongHelp: `Manage product page optimization experiments.
 
 Examples:
-  asc product-pages experiments list --version-id "VERSION_ID"
-  asc product-pages experiments list --v2 --app "APP_ID"
-  asc product-pages experiments create --version-id "VERSION_ID" --name "Icon Test" --traffic-proportion 25
-  asc product-pages experiments create --v2 --app "APP_ID" --platform IOS --name "Icon Test" --traffic-proportion 25`,
+  aso product-pages experiments list --version-id "VERSION_ID"
+  aso product-pages experiments list --v2 --app "APP_ID"
+  aso product-pages experiments create --version-id "VERSION_ID" --name "Icon Test" --traffic-proportion 25
+  aso product-pages experiments create --v2 --app "APP_ID" --platform IOS --name "Icon Test" --traffic-proportion 25`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -60,15 +60,15 @@ func ExperimentsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc product-pages experiments list [--version-id \"VERSION_ID\" | --v2 --app \"APP_ID\"] [flags]",
+		ShortUsage: "aso product-pages experiments list [--version-id \"VERSION_ID\" | --v2 --app \"APP_ID\"] [flags]",
 		ShortHelp:  "List product page optimization experiments.",
 		LongHelp: `List product page optimization experiments.
 
 Examples:
-  asc product-pages experiments list --version-id "VERSION_ID"
-  asc product-pages experiments list --v2 --app "APP_ID"
-  asc product-pages experiments list --version-id "VERSION_ID" --state IN_REVIEW
-  asc product-pages experiments list --v2 --app "APP_ID" --paginate`,
+  aso product-pages experiments list --version-id "VERSION_ID"
+  aso product-pages experiments list --v2 --app "APP_ID"
+  aso product-pages experiments list --version-id "VERSION_ID" --state IN_REVIEW
+  aso product-pages experiments list --v2 --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -188,13 +188,13 @@ func ExperimentsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc product-pages experiments get --experiment-id \"EXPERIMENT_ID\" [--v2]",
+		ShortUsage: "aso product-pages experiments get --experiment-id \"EXPERIMENT_ID\" [--v2]",
 		ShortHelp:  "Get an experiment by ID.",
 		LongHelp: `Get an experiment by ID.
 
 Examples:
-  asc product-pages experiments get --experiment-id "EXPERIMENT_ID"
-  asc product-pages experiments get --experiment-id "EXPERIMENT_ID" --v2`,
+  aso product-pages experiments get --experiment-id "EXPERIMENT_ID"
+  aso product-pages experiments get --experiment-id "EXPERIMENT_ID" --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -244,13 +244,13 @@ func ExperimentsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc product-pages experiments create --name \"NAME\" --traffic-proportion 25 [--version-id \"VERSION_ID\" | --v2 --app \"APP_ID\" --platform IOS]",
+		ShortUsage: "aso product-pages experiments create --name \"NAME\" --traffic-proportion 25 [--version-id \"VERSION_ID\" | --v2 --app \"APP_ID\" --platform IOS]",
 		ShortHelp:  "Create an experiment.",
 		LongHelp: `Create an experiment.
 
 Examples:
-  asc product-pages experiments create --version-id "VERSION_ID" --name "Icon Test" --traffic-proportion 25
-  asc product-pages experiments create --v2 --app "APP_ID" --platform IOS --name "Icon Test" --traffic-proportion 25`,
+  aso product-pages experiments create --version-id "VERSION_ID" --name "Icon Test" --traffic-proportion 25
+  aso product-pages experiments create --v2 --app "APP_ID" --platform IOS --name "Icon Test" --traffic-proportion 25`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -333,15 +333,15 @@ func ExperimentsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc product-pages experiments update --experiment-id \"EXPERIMENT_ID\" [--name \"NAME\"] [--traffic-proportion 25] [--started true|false] [--v2]",
+		ShortUsage: "aso product-pages experiments update --experiment-id \"EXPERIMENT_ID\" [--name \"NAME\"] [--traffic-proportion 25] [--started true|false] [--v2]",
 		ShortHelp:  "Update an experiment.",
 		LongHelp: `Update an experiment.
 
 Examples:
-  asc product-pages experiments update --experiment-id "EXPERIMENT_ID" --name "Updated"
-  asc product-pages experiments update --experiment-id "EXPERIMENT_ID" --traffic-proportion 50
-  asc product-pages experiments update --experiment-id "EXPERIMENT_ID" --started true
-  asc product-pages experiments update --experiment-id "EXPERIMENT_ID" --v2 --name "Updated"`,
+  aso product-pages experiments update --experiment-id "EXPERIMENT_ID" --name "Updated"
+  aso product-pages experiments update --experiment-id "EXPERIMENT_ID" --traffic-proportion 50
+  aso product-pages experiments update --experiment-id "EXPERIMENT_ID" --started true
+  aso product-pages experiments update --experiment-id "EXPERIMENT_ID" --v2 --name "Updated"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -429,13 +429,13 @@ func ExperimentsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc product-pages experiments delete --experiment-id \"EXPERIMENT_ID\" --confirm [--v2]",
+		ShortUsage: "aso product-pages experiments delete --experiment-id \"EXPERIMENT_ID\" --confirm [--v2]",
 		ShortHelp:  "Delete an experiment.",
 		LongHelp: `Delete an experiment.
 
 Examples:
-  asc product-pages experiments delete --experiment-id "EXPERIMENT_ID" --confirm
-  asc product-pages experiments delete --experiment-id "EXPERIMENT_ID" --confirm --v2`,
+  aso product-pages experiments delete --experiment-id "EXPERIMENT_ID" --confirm
+  aso product-pages experiments delete --experiment-id "EXPERIMENT_ID" --confirm --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

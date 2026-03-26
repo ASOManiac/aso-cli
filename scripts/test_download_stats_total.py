@@ -49,10 +49,10 @@ def main() -> int:
             os.environ["GITHUB_TOKEN"] = original_token
 
     block_cases: list[tuple[dict[str, object], int]] = [
-        ({"asc": 3, "asc --HEAD": 1}, 4),
-        ({"asc": "3", "asc --HEAD": "1"}, 4),
-        ({"asc": 3.0, "asc --HEAD": "1.0"}, 4),
-        ({"asc": True, "other": None, "bad": "oops", "partial": 2.5}, 0),
+        ({"aso": 3, "aso --HEAD": 1}, 4),
+        ({"aso": "3", "aso --HEAD": "1"}, 4),
+        ({"aso": 3.0, "aso --HEAD": "1.0"}, 4),
+        ({"aso": True, "other": None, "bad": "oops", "partial": 2.5}, 0),
     ]
     for block, want in block_cases:
         got = sum_counts(block)

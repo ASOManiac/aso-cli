@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppsSubscriptionGracePeriodCommand returns the subscription grace period command group.
@@ -16,12 +16,12 @@ func AppsSubscriptionGracePeriodCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "subscription-grace-period",
-		ShortUsage: "asc apps subscription-grace-period <subcommand> [flags]",
+		ShortUsage: "aso apps subscription-grace-period <subcommand> [flags]",
 		ShortHelp:  "Inspect an app's subscription grace period.",
 		LongHelp: `Inspect an app's subscription grace period.
 
 Examples:
-  asc apps subscription-grace-period get --app "APP_ID"`,
+  aso apps subscription-grace-period get --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -42,12 +42,12 @@ func AppsSubscriptionGracePeriodGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc apps subscription-grace-period get --app \"APP_ID\"",
+		ShortUsage: "aso apps subscription-grace-period get --app \"APP_ID\"",
 		ShortHelp:  "Get an app's subscription grace period.",
 		LongHelp: `Get an app's subscription grace period.
 
 Examples:
-  asc apps subscription-grace-period get --app "APP_ID"`,
+  aso apps subscription-grace-period get --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

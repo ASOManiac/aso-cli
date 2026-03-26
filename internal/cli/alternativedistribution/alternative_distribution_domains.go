@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AlternativeDistributionDomainsCommand returns the domains command group.
@@ -19,15 +19,15 @@ func AlternativeDistributionDomainsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "domains",
-		ShortUsage: "asc alternative-distribution domains <subcommand> [flags]",
+		ShortUsage: "aso alternative-distribution domains <subcommand> [flags]",
 		ShortHelp:  "Manage alternative distribution domains.",
 		LongHelp: `Manage alternative distribution domains.
 
 Examples:
-  asc alternative-distribution domains list
-  asc alternative-distribution domains get --domain-id "DOMAIN_ID"
-  asc alternative-distribution domains create --domain "example.com" --reference-name "Example"
-  asc alternative-distribution domains delete --domain-id "DOMAIN_ID" --confirm`,
+  aso alternative-distribution domains list
+  aso alternative-distribution domains get --domain-id "DOMAIN_ID"
+  aso alternative-distribution domains create --domain "example.com" --reference-name "Example"
+  aso alternative-distribution domains delete --domain-id "DOMAIN_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -53,14 +53,14 @@ func AlternativeDistributionDomainsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc alternative-distribution domains list [flags]",
+		ShortUsage: "aso alternative-distribution domains list [flags]",
 		ShortHelp:  "List alternative distribution domains.",
 		LongHelp: `List alternative distribution domains.
 
 Examples:
-  asc alternative-distribution domains list
-  asc alternative-distribution domains list --limit 50
-  asc alternative-distribution domains list --paginate`,
+  aso alternative-distribution domains list
+  aso alternative-distribution domains list --limit 50
+  aso alternative-distribution domains list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -120,12 +120,12 @@ func AlternativeDistributionDomainsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc alternative-distribution domains get --domain-id \"DOMAIN_ID\"",
+		ShortUsage: "aso alternative-distribution domains get --domain-id \"DOMAIN_ID\"",
 		ShortHelp:  "Get an alternative distribution domain.",
 		LongHelp: `Get an alternative distribution domain.
 
 Examples:
-  asc alternative-distribution domains get --domain-id "DOMAIN_ID"`,
+  aso alternative-distribution domains get --domain-id "DOMAIN_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -163,12 +163,12 @@ func AlternativeDistributionDomainsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc alternative-distribution domains create --domain \"example.com\" --reference-name \"Example\"",
+		ShortUsage: "aso alternative-distribution domains create --domain \"example.com\" --reference-name \"Example\"",
 		ShortHelp:  "Create an alternative distribution domain.",
 		LongHelp: `Create an alternative distribution domain.
 
 Examples:
-  asc alternative-distribution domains create --domain "example.com" --reference-name "Example"`,
+  aso alternative-distribution domains create --domain "example.com" --reference-name "Example"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -212,12 +212,12 @@ func AlternativeDistributionDomainsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc alternative-distribution domains delete --domain-id \"DOMAIN_ID\" --confirm",
+		ShortUsage: "aso alternative-distribution domains delete --domain-id \"DOMAIN_ID\" --confirm",
 		ShortHelp:  "Delete an alternative distribution domain.",
 		LongHelp: `Delete an alternative distribution domain.
 
 Examples:
-  asc alternative-distribution domains delete --domain-id "DOMAIN_ID" --confirm`,
+  aso alternative-distribution domains delete --domain-id "DOMAIN_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

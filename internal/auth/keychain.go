@@ -17,7 +17,7 @@ import (
 
 	"github.com/99designs/keyring"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 // ErrKeychainAccessDenied is returned when a keychain backend is available but

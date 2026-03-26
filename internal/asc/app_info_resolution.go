@@ -63,7 +63,7 @@ func (c *Client) ResolveAppInfoIDForAppStoreVersion(ctx context.Context, version
 	}
 
 	return "", fmt.Errorf(
-		"multiple app infos found for app %q (%s); run `asc apps info list --app %q` to inspect candidates and use the app-info based age-rating flow explicitly",
+		"multiple app infos found for app %q (%s); run `aso apps info list --app %q` to inspect candidates and use the app-info based age-rating flow explicitly",
 		appID,
 		FormatAppInfoCandidates(candidates),
 		appID,

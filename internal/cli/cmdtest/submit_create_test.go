@@ -746,7 +746,7 @@ func TestSubmitCreateWarnsForSubscriptionPreflightStates(t *testing.T) {
 	if !strings.Contains(stderr, "Monthly Missing") {
 		t.Fatalf("expected missing metadata subscription name, got %q", stderr)
 	}
-	if !strings.Contains(stderr, "Run `asc validate subscriptions` for details on what's missing.") {
+	if !strings.Contains(stderr, "Run `aso validate subscriptions` for details on what's missing.") {
 		t.Fatalf("expected validate subscriptions guidance, got %q", stderr)
 	}
 	if !strings.Contains(stderr, "Warning: the following subscriptions are READY_TO_SUBMIT") {
@@ -755,10 +755,10 @@ func TestSubmitCreateWarnsForSubscriptionPreflightStates(t *testing.T) {
 	if !strings.Contains(stderr, "Monthly Ready") {
 		t.Fatalf("expected ready-to-submit subscription name, got %q", stderr)
 	}
-	if !strings.Contains(stderr, "asc web review subscriptions attach-group --app \"APP_ID\" --group-id \"GROUP_ID\" --confirm") {
+	if !strings.Contains(stderr, "aso web review subscriptions attach-group --app \"APP_ID\" --group-id \"GROUP_ID\" --confirm") {
 		t.Fatalf("expected experimental web group attach guidance, got %q", stderr)
 	}
-	if !strings.Contains(stderr, "asc subscriptions review submit --subscription-id \"SUB_ID\" --confirm") {
+	if !strings.Contains(stderr, "aso subscriptions review submit --subscription-id \"SUB_ID\" --confirm") {
 		t.Fatalf("expected corrected submit command guidance, got %q", stderr)
 	}
 	if stdout == "" {
@@ -1445,10 +1445,10 @@ func TestSubmitCreatePrintsHintsWhenAnotherSubmissionIsStillInProgress(t *testin
 		t.Fatalf("expected empty stdout on failure, got %q", stdout)
 	}
 	for _, want := range []string{
-		"Hint: Check the active submission: asc submit status --id active-submission-1",
-		"Hint: Inspect the active submission payload: asc review submissions-get --id active-submission-1",
-		"Hint: Re-run readiness validation: asc validate --app app-1 --version-id version-1",
-		"Hint: Re-run submit preflight: asc submit preflight --app app-1 --version 1.0 --platform IOS",
+		"Hint: Check the active submission: aso submit status --id active-submission-1",
+		"Hint: Inspect the active submission payload: aso review submissions-get --id active-submission-1",
+		"Hint: Re-run readiness validation: aso validate --app app-1 --version-id version-1",
+		"Hint: Re-run submit preflight: aso submit preflight --app app-1 --version 1.0 --platform IOS",
 	} {
 		if !strings.Contains(stderr, want) {
 			t.Fatalf("expected stderr to contain %q, got %q", want, stderr)

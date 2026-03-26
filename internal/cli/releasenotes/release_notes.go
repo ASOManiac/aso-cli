@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	notes "github.com/rudrankriyam/App-Store-Connect-CLI/internal/releasenotes"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	notes "github.com/ASOManiac/aso-cli/internal/releasenotes"
 )
 
 // ReleaseNotesCommand returns the release-notes command group.
@@ -20,14 +20,14 @@ func ReleaseNotesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "release-notes",
-		ShortUsage: "asc release-notes <subcommand> [flags]",
+		ShortUsage: "aso release-notes <subcommand> [flags]",
 		ShortHelp:  "Generate and manage App Store release notes.",
 		LongHelp: `Generate release notes (What's New) text from git history.
 
 Examples:
-  asc release-notes generate --since-tag "v1.2.2"
-  asc release-notes generate --since-tag "v1.2.2" --until-ref "HEAD" --output markdown
-  asc release-notes generate --since-ref "origin/main" --until-ref "HEAD" --max-chars 4000`,
+  aso release-notes generate --since-tag "v1.2.2"
+  aso release-notes generate --since-tag "v1.2.2" --until-ref "HEAD" --output markdown
+  aso release-notes generate --since-ref "origin/main" --until-ref "HEAD" --max-chars 4000`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -65,16 +65,16 @@ func ReleaseNotesGenerateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "generate",
-		ShortUsage: "asc release-notes generate [flags]",
+		ShortUsage: "aso release-notes generate [flags]",
 		ShortHelp:  "Generate release notes from git history.",
 		LongHelp: `Generate release notes (What's New) from local git history.
 
 Exactly one of --since-tag or --since-ref is required.
 
 Examples:
-  asc release-notes generate --since-tag "v1.2.2"
-  asc release-notes generate --since-tag "v1.2.2" --output markdown
-  asc release-notes generate --since-ref "origin/main" --until-ref "HEAD" --max-chars 4000`,
+  aso release-notes generate --since-tag "v1.2.2"
+  aso release-notes generate --since-tag "v1.2.2" --output markdown
+  aso release-notes generate --since-ref "origin/main" --until-ref "HEAD" --max-chars 4000`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

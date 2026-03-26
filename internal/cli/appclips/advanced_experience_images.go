@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppClipAdvancedExperienceImagesCommand returns the images command group.
@@ -19,14 +19,14 @@ func AppClipAdvancedExperienceImagesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "images",
-		ShortUsage: "asc app-clips advanced-experiences images <subcommand> [flags]",
+		ShortUsage: "aso app-clips advanced-experiences images <subcommand> [flags]",
 		ShortHelp:  "Manage App Clip advanced experience images.",
 		LongHelp: `Manage App Clip advanced experience images.
 
 Examples:
-  asc app-clips advanced-experiences images get --id "IMAGE_ID"
-  asc app-clips advanced-experiences images create --experience-id "EXP_ID" --file path/to/image.png
-  asc app-clips advanced-experiences images delete --id "IMAGE_ID" --confirm`,
+  aso app-clips advanced-experiences images get --id "IMAGE_ID"
+  aso app-clips advanced-experiences images create --experience-id "EXP_ID" --file path/to/image.png
+  aso app-clips advanced-experiences images delete --id "IMAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -49,12 +49,12 @@ func AppClipAdvancedExperienceImagesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-clips advanced-experiences images get --id \"IMAGE_ID\"",
+		ShortUsage: "aso app-clips advanced-experiences images get --id \"IMAGE_ID\"",
 		ShortHelp:  "Get an advanced experience image by ID.",
 		LongHelp: `Get an advanced experience image by ID.
 
 Examples:
-  asc app-clips advanced-experiences images get --id "IMAGE_ID"`,
+  aso app-clips advanced-experiences images get --id "IMAGE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -92,7 +92,7 @@ func AppClipAdvancedExperienceImagesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc app-clips advanced-experiences images create --experience-id \"EXP_ID\" --file path/to/image.png",
+		ShortUsage: "aso app-clips advanced-experiences images create --experience-id \"EXP_ID\" --file path/to/image.png",
 		ShortHelp:  "Upload an image for an advanced experience.",
 		LongHelp: `Upload an image for an advanced experience.
 
@@ -100,7 +100,7 @@ The upload process reserves an upload slot, uploads the image, commits the uploa
 and associates the image with the experience.
 
 Examples:
-  asc app-clips advanced-experiences images create --experience-id "EXP_ID" --file path/to/image.png`,
+  aso app-clips advanced-experiences images create --experience-id "EXP_ID" --file path/to/image.png`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -149,12 +149,12 @@ func AppClipAdvancedExperienceImagesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc app-clips advanced-experiences images delete --id \"IMAGE_ID\" --confirm",
+		ShortUsage: "aso app-clips advanced-experiences images delete --id \"IMAGE_ID\" --confirm",
 		ShortHelp:  "Delete an advanced experience image.",
 		LongHelp: `Delete an advanced experience image.
 
 Examples:
-  asc app-clips advanced-experiences images delete --id "IMAGE_ID" --confirm`,
+  aso app-clips advanced-experiences images delete --id "IMAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

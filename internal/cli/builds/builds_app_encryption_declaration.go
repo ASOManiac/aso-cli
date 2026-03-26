@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildsAppEncryptionDeclarationCommand returns the builds app-encryption-declaration command group.
@@ -17,12 +17,12 @@ func BuildsAppEncryptionDeclarationCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-encryption-declaration",
-		ShortUsage: "asc builds app-encryption-declaration <subcommand> [flags]",
+		ShortUsage: "aso builds app-encryption-declaration <subcommand> [flags]",
 		ShortHelp:  "Get the app encryption declaration for a build.",
 		LongHelp: `Get the app encryption declaration for a build.
 
 Examples:
-  asc builds app-encryption-declaration get --id "BUILD_ID"`,
+  aso builds app-encryption-declaration get --id "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -43,12 +43,12 @@ func BuildsAppEncryptionDeclarationGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc builds app-encryption-declaration get --id \"BUILD_ID\"",
+		ShortUsage: "aso builds app-encryption-declaration get --id \"BUILD_ID\"",
 		ShortHelp:  "Get the encryption declaration for a build.",
 		LongHelp: `Get the encryption declaration for a build.
 
 Examples:
-  asc builds app-encryption-declaration get --id "BUILD_ID"`,
+  aso builds app-encryption-declaration get --id "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

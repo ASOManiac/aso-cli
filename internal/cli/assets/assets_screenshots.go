@@ -11,8 +11,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 var focusedScreenshotDisplayTypes = []string{
@@ -46,12 +46,12 @@ func AssetsScreenshotsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc screenshots list --version-localization \"LOC_ID\"",
+		ShortUsage: "aso screenshots list --version-localization \"LOC_ID\"",
 		ShortHelp:  "List screenshots for a localization.",
 		LongHelp: `List screenshots for a localization.
 
 Examples:
-  asc screenshots list --version-localization "LOC_ID"`,
+  aso screenshots list --version-localization "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -105,7 +105,7 @@ func AssetsScreenshotsSizesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "sizes",
-		ShortUsage: "asc screenshots sizes [--display-type \"APP_IPHONE_65\" | --all]",
+		ShortUsage: "aso screenshots sizes [--display-type \"APP_IPHONE_65\" | --all]",
 		ShortHelp:  "List supported screenshot display sizes.",
 		LongHelp: `List supported screenshot display sizes.
 
@@ -113,10 +113,10 @@ By default this command focuses on common iOS submission slots:
 APP_IPHONE_65 and APP_IPAD_PRO_3GEN_129.
 
 Examples:
-  asc screenshots sizes
-  asc screenshots sizes --all
-  asc screenshots sizes --display-type "APP_IPHONE_65"
-  asc screenshots sizes --output table`,
+  aso screenshots sizes
+  aso screenshots sizes --all
+  aso screenshots sizes --display-type "APP_IPHONE_65"
+  aso screenshots sizes --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -162,17 +162,17 @@ func AssetsScreenshotsUploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload",
-		ShortUsage: "asc screenshots upload --version-localization \"LOC_ID\" --path \"./screenshots\" --device-type \"IPHONE_65\"",
+		ShortUsage: "aso screenshots upload --version-localization \"LOC_ID\" --path \"./screenshots\" --device-type \"IPHONE_65\"",
 		ShortHelp:  "Upload screenshots for a localization.",
 		LongHelp: `Upload screenshots for a localization.
 
 Examples:
-  asc screenshots upload --version-localization "LOC_ID" --path "./screenshots" --device-type "IPHONE_65"
-  asc screenshots upload --version-localization "LOC_ID" --path "./screenshots" --device-type "IPHONE_65" --skip-existing
-  asc screenshots upload --version-localization "LOC_ID" --path "./screenshots" --device-type "IPHONE_65" --replace
-  asc screenshots upload --version-localization "LOC_ID" --path "./screenshots" --device-type "IPHONE_65" --skip-existing --dry-run
-  asc screenshots upload --version-localization "LOC_ID" --path "./screenshots" --device-type "IPAD_PRO_3GEN_129"
-  asc screenshots upload --version-localization "LOC_ID" --path "./screenshots/en-US.png" --device-type "IPHONE_65"`,
+  aso screenshots upload --version-localization "LOC_ID" --path "./screenshots" --device-type "IPHONE_65"
+  aso screenshots upload --version-localization "LOC_ID" --path "./screenshots" --device-type "IPHONE_65" --skip-existing
+  aso screenshots upload --version-localization "LOC_ID" --path "./screenshots" --device-type "IPHONE_65" --replace
+  aso screenshots upload --version-localization "LOC_ID" --path "./screenshots" --device-type "IPHONE_65" --skip-existing --dry-run
+  aso screenshots upload --version-localization "LOC_ID" --path "./screenshots" --device-type "IPAD_PRO_3GEN_129"
+  aso screenshots upload --version-localization "LOC_ID" --path "./screenshots/en-US.png" --device-type "IPHONE_65"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -270,14 +270,14 @@ func AssetsScreenshotsDownloadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "download",
-		ShortUsage: "asc screenshots download (--id \"SCREENSHOT_ID\" --output \"./screenshot.png\") | (--version-localization \"LOC_ID\" --output-dir \"./screenshots\")",
+		ShortUsage: "aso screenshots download (--id \"SCREENSHOT_ID\" --output \"./screenshot.png\") | (--version-localization \"LOC_ID\" --output-dir \"./screenshots\")",
 		ShortHelp:  "Download App Store screenshots to disk.",
 		LongHelp: `Download App Store screenshots to disk.
 
 Examples:
-  asc screenshots download --id "SCREENSHOT_ID" --output "./screenshot.png"
-  asc screenshots download --version-localization "LOC_ID" --output-dir "./screenshots"
-  asc screenshots download --version-localization "LOC_ID" --output-dir "./screenshots" --overwrite`,
+  aso screenshots download --id "SCREENSHOT_ID" --output "./screenshot.png"
+  aso screenshots download --version-localization "LOC_ID" --output-dir "./screenshots"
+  aso screenshots download --version-localization "LOC_ID" --output-dir "./screenshots" --overwrite`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -569,12 +569,12 @@ func AssetsScreenshotsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc screenshots delete --id \"SCREENSHOT_ID\" --confirm",
+		ShortUsage: "aso screenshots delete --id \"SCREENSHOT_ID\" --confirm",
 		ShortHelp:  "Delete a screenshot by ID.",
 		LongHelp: `Delete a screenshot by ID.
 
 Examples:
-  asc screenshots delete --id "SCREENSHOT_ID" --confirm`,
+  aso screenshots delete --id "SCREENSHOT_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

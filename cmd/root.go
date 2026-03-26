@@ -10,9 +10,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/registry"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared/suggest"
+	"github.com/ASOManiac/aso-cli/internal/cli/registry"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared/suggest"
 )
 
 var versionRequested bool
@@ -22,11 +22,11 @@ func RootCommand(version string) *ffcli.Command {
 	versionRequested = false
 	subcommands := registry.Subcommands(version)
 	root := &ffcli.Command{
-		Name:        "asc",
-		ShortUsage:  "asc <subcommand> [flags]",
-		ShortHelp:   "Unofficial. asc is a fast, lightweight cli for App Store Connect. Built by AI agents, for AI agents.",
+		Name:        "aso",
+		ShortUsage:  "aso <subcommand> [flags]",
+		ShortHelp:   "ASO CLI — App Store Optimization + App Store Connect.",
 		LongHelp:    "",
-		FlagSet:     flag.NewFlagSet("asc", flag.ExitOnError),
+		FlagSet:     flag.NewFlagSet("aso", flag.ExitOnError),
 		UsageFunc:   RootUsageFunc,
 		Subcommands: subcommands,
 	}

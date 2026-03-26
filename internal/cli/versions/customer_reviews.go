@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // VersionsCustomerReviewsCommand returns the customer reviews command group.
@@ -19,12 +19,12 @@ func VersionsCustomerReviewsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "customer-reviews",
-		ShortUsage: "asc versions customer-reviews <subcommand> [flags]",
+		ShortUsage: "aso versions customer-reviews <subcommand> [flags]",
 		ShortHelp:  "Manage App Store version customer reviews.",
 		LongHelp: `Manage App Store version customer reviews.
 
 Examples:
-  asc versions customer-reviews list --version-id "VERSION_ID"`,
+  aso versions customer-reviews list --version-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -48,13 +48,13 @@ func VersionsCustomerReviewsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc versions customer-reviews list --version-id \"VERSION_ID\" [flags]",
+		ShortUsage: "aso versions customer-reviews list --version-id \"VERSION_ID\" [flags]",
 		ShortHelp:  "List customer reviews for an app store version.",
 		LongHelp: `List customer reviews for an app store version.
 
 Examples:
-  asc versions customer-reviews list --version-id "VERSION_ID"
-  asc versions customer-reviews list --version-id "VERSION_ID" --paginate`,
+  aso versions customer-reviews list --version-id "VERSION_ID"
+  aso versions customer-reviews list --version-id "VERSION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

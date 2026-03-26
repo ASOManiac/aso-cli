@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 type appLookupClient interface {

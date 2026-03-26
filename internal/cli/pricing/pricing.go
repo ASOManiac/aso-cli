@@ -10,36 +10,36 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PricingCommand returns the pricing command group.
 func PricingCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "pricing",
-		ShortUsage: "asc pricing <subcommand> [flags]",
+		ShortUsage: "aso pricing <subcommand> [flags]",
 		ShortHelp:  "Manage app pricing and availability.",
 		LongHelp: `Manage app pricing and availability.
 
 Examples:
-  asc pricing territories list
-  asc pricing price-points --app "123456789"
-  asc pricing price-points --app "123456789" --territory "USA"
-  asc pricing price-points get --price-point "PRICE_POINT_ID"
-  asc pricing price-points equalizations --price-point "PRICE_POINT_ID"
-  asc pricing tiers --app "123456789" --territory "USA"
-  asc pricing schedule get --app "123456789"
-  asc pricing schedule get --id "SCHEDULE_ID"
-  asc pricing schedule create --app "123456789" --price-point "PRICE_POINT_ID" --base-territory "USA" --start-date "2024-03-01"
-  asc pricing schedule create --app "123456789" --free --base-territory "USA" --start-date "2024-03-01"
-  asc pricing schedule manual-prices --schedule "SCHEDULE_ID"
-  asc pricing schedule automatic-prices --schedule "SCHEDULE_ID"
-  asc pricing availability get --app "123456789"
-  asc pricing availability get --id "AVAILABILITY_ID"
-  asc pricing availability set --app "123456789" --territory "USA,GBR,DEU" --available true --available-in-new-territories true
-  asc pricing availability set --app "123456789" --all-territories --available true --available-in-new-territories true
-  asc pricing availability territory-availabilities --availability "AVAILABILITY_ID"`,
+  aso pricing territories list
+  aso pricing price-points --app "123456789"
+  aso pricing price-points --app "123456789" --territory "USA"
+  aso pricing price-points get --price-point "PRICE_POINT_ID"
+  aso pricing price-points equalizations --price-point "PRICE_POINT_ID"
+  aso pricing tiers --app "123456789" --territory "USA"
+  aso pricing schedule get --app "123456789"
+  aso pricing schedule get --id "SCHEDULE_ID"
+  aso pricing schedule create --app "123456789" --price-point "PRICE_POINT_ID" --base-territory "USA" --start-date "2024-03-01"
+  aso pricing schedule create --app "123456789" --free --base-territory "USA" --start-date "2024-03-01"
+  aso pricing schedule manual-prices --schedule "SCHEDULE_ID"
+  aso pricing schedule automatic-prices --schedule "SCHEDULE_ID"
+  aso pricing availability get --app "123456789"
+  aso pricing availability get --id "AVAILABILITY_ID"
+  aso pricing availability set --app "123456789" --territory "USA,GBR,DEU" --available true --available-in-new-territories true
+  aso pricing availability set --app "123456789" --all-territories --available true --available-in-new-territories true
+  aso pricing availability territory-availabilities --availability "AVAILABILITY_ID"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			PricingTerritoriesCommand(),
@@ -58,12 +58,12 @@ Examples:
 func PricingTerritoriesCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "territories",
-		ShortUsage: "asc pricing territories <subcommand> [flags]",
+		ShortUsage: "aso pricing territories <subcommand> [flags]",
 		ShortHelp:  "List pricing territories.",
 		LongHelp: `List pricing territories.
 
 Examples:
-  asc pricing territories list`,
+  aso pricing territories list`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			PricingTerritoriesListCommand(),
@@ -85,13 +85,13 @@ func PricingTerritoriesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc pricing territories list [flags]",
+		ShortUsage: "aso pricing territories list [flags]",
 		ShortHelp:  "List territories in App Store Connect.",
 		LongHelp: `List territories in App Store Connect.
 
 Examples:
-  asc pricing territories list
-  asc pricing territories list --paginate`,
+  aso pricing territories list
+  aso pricing territories list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -155,16 +155,16 @@ func PricingPricePointsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "price-points",
-		ShortUsage: "asc pricing price-points [subcommand] [flags]",
+		ShortUsage: "aso pricing price-points [subcommand] [flags]",
 		ShortHelp:  "List and inspect app price points.",
 		LongHelp: `List app price points for an app.
 
 Examples:
-  asc pricing price-points --app "123456789"
-  asc pricing price-points --app "123456789" --territory "USA"
-  asc pricing price-points --app "123456789" --paginate
-  asc pricing price-points get --price-point "PRICE_POINT_ID"
-  asc pricing price-points equalizations --price-point "PRICE_POINT_ID"`,
+  aso pricing price-points --app "123456789"
+  aso pricing price-points --app "123456789" --territory "USA"
+  aso pricing price-points --app "123456789" --paginate
+  aso pricing price-points get --price-point "PRICE_POINT_ID"
+  aso pricing price-points equalizations --price-point "PRICE_POINT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -235,12 +235,12 @@ func PricingPricePointsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc pricing price-points get --price-point PRICE_POINT_ID",
+		ShortUsage: "aso pricing price-points get --price-point PRICE_POINT_ID",
 		ShortHelp:  "Get a single app price point.",
 		LongHelp: `Get a single app price point.
 
 Examples:
-  asc pricing price-points get --price-point "PRICE_POINT_ID"`,
+  aso pricing price-points get --price-point "PRICE_POINT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -277,12 +277,12 @@ func PricingPricePointsEqualizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "equalizations",
-		ShortUsage: "asc pricing price-points equalizations --price-point PRICE_POINT_ID",
+		ShortUsage: "aso pricing price-points equalizations --price-point PRICE_POINT_ID",
 		ShortHelp:  "List equalized price points for a price point.",
 		LongHelp: `List equalized price points for a price point.
 
 Examples:
-  asc pricing price-points equalizations --price-point "PRICE_POINT_ID"`,
+  aso pricing price-points equalizations --price-point "PRICE_POINT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -314,17 +314,17 @@ Examples:
 func PricingScheduleCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "schedule",
-		ShortUsage: "asc pricing schedule <subcommand> [flags]",
+		ShortUsage: "aso pricing schedule <subcommand> [flags]",
 		ShortHelp:  "Manage app price schedules.",
 		LongHelp: `Manage app price schedules.
 
 Examples:
-  asc pricing schedule get --app "123456789"
-  asc pricing schedule get --id "SCHEDULE_ID"
-  asc pricing schedule create --app "123456789" --price-point "PRICE_POINT_ID" --start-date "2024-03-01"
-  asc pricing schedule create --app "123456789" --free --base-territory "USA" --start-date "2024-03-01"
-  asc pricing schedule manual-prices --schedule "SCHEDULE_ID"
-  asc pricing schedule automatic-prices --schedule "SCHEDULE_ID"`,
+  aso pricing schedule get --app "123456789"
+  aso pricing schedule get --id "SCHEDULE_ID"
+  aso pricing schedule create --app "123456789" --price-point "PRICE_POINT_ID" --start-date "2024-03-01"
+  aso pricing schedule create --app "123456789" --free --base-territory "USA" --start-date "2024-03-01"
+  aso pricing schedule manual-prices --schedule "SCHEDULE_ID"
+  aso pricing schedule automatic-prices --schedule "SCHEDULE_ID"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			PricingScheduleGetCommand(),
@@ -348,13 +348,13 @@ func PricingScheduleGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc pricing schedule get --app \"APP_ID\" | asc pricing schedule get --id \"SCHEDULE_ID\"",
+		ShortUsage: "aso pricing schedule get --app \"APP_ID\" | aso pricing schedule get --id \"SCHEDULE_ID\"",
 		ShortHelp:  "Get the current app price schedule.",
 		LongHelp: `Get the current app price schedule.
 
 Examples:
-  asc pricing schedule get --app "123456789"
-  asc pricing schedule get --id "SCHEDULE_ID"`,
+  aso pricing schedule get --app "123456789"
+  aso pricing schedule get --id "SCHEDULE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -400,13 +400,13 @@ func PricingScheduleCreateCommand() *ffcli.Command {
 	return shared.NewPricingSetCommand(shared.PricingSetCommandConfig{
 		FlagSetName: "pricing schedule create",
 		CommandName: "create",
-		ShortUsage:  "asc pricing schedule create [flags]",
+		ShortUsage:  "aso pricing schedule create [flags]",
 		ShortHelp:   "Create an app price schedule.",
 		LongHelp: `Create an app price schedule.
 
 Examples:
-  asc pricing schedule create --app "123456789" --price-point "PRICE_POINT_ID" --base-territory "USA" --start-date "2024-03-01"
-  asc pricing schedule create --app "123456789" --free --base-territory "USA" --start-date "2024-03-01"`,
+  aso pricing schedule create --app "123456789" --price-point "PRICE_POINT_ID" --base-territory "USA" --start-date "2024-03-01"
+  aso pricing schedule create --app "123456789" --free --base-territory "USA" --start-date "2024-03-01"`,
 		ErrorPrefix:          "pricing schedule create",
 		StartDateHelp:        "Start date (YYYY-MM-DD)",
 		RequireBaseTerritory: true,
@@ -422,12 +422,12 @@ func PricingScheduleManualPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "manual-prices",
-		ShortUsage: "asc pricing schedule manual-prices --schedule SCHEDULE_ID",
+		ShortUsage: "aso pricing schedule manual-prices --schedule SCHEDULE_ID",
 		ShortHelp:  "List manual prices for a schedule.",
 		LongHelp: `List manual prices for a schedule.
 
 Examples:
-  asc pricing schedule manual-prices --schedule "SCHEDULE_ID"`,
+  aso pricing schedule manual-prices --schedule "SCHEDULE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -464,12 +464,12 @@ func PricingScheduleAutomaticPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "automatic-prices",
-		ShortUsage: "asc pricing schedule automatic-prices --schedule SCHEDULE_ID",
+		ShortUsage: "aso pricing schedule automatic-prices --schedule SCHEDULE_ID",
 		ShortHelp:  "List automatic prices for a schedule.",
 		LongHelp: `List automatic prices for a schedule.
 
 Examples:
-  asc pricing schedule automatic-prices --schedule "SCHEDULE_ID"`,
+  aso pricing schedule automatic-prices --schedule "SCHEDULE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -501,21 +501,21 @@ Examples:
 func PricingAvailabilityCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "availability",
-		ShortUsage: "asc pricing availability <subcommand> [flags]",
+		ShortUsage: "aso pricing availability <subcommand> [flags]",
 		ShortHelp:  "Manage app availability.",
 		LongHelp: `Manage app availability.
 
 Examples:
-  asc pricing availability get --app "123456789"
-  asc pricing availability get --id "AVAILABILITY_ID"
-  asc pricing availability set --app "123456789" --territory "USA,GBR,DEU" --available true --available-in-new-territories true
-  asc pricing availability set --app "123456789" --all-territories --available true --available-in-new-territories true
-  asc pricing availability territory-availabilities --availability "AVAILABILITY_ID"
+  aso pricing availability get --app "123456789"
+  aso pricing availability get --id "AVAILABILITY_ID"
+  aso pricing availability set --app "123456789" --territory "USA,GBR,DEU" --available true --available-in-new-territories true
+  aso pricing availability set --app "123456789" --all-territories --available true --available-in-new-territories true
+  aso pricing availability territory-availabilities --availability "AVAILABILITY_ID"
 
 Note:
   Pricing availability commands operate on existing availability records.
   For initial bootstrap, use App Store Connect or the experimental
-  "asc web apps availability create" flow.`,
+  "aso web apps availability create" flow.`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			PricingAvailabilityGetCommand(),
@@ -538,13 +538,13 @@ func PricingAvailabilityGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc pricing availability get --app \"APP_ID\" | asc pricing availability get --id \"AVAILABILITY_ID\"",
+		ShortUsage: "aso pricing availability get --app \"APP_ID\" | aso pricing availability get --id \"AVAILABILITY_ID\"",
 		ShortHelp:  "Get app availability.",
 		LongHelp: `Get app availability.
 
 Examples:
-  asc pricing availability get --app "123456789"
-  asc pricing availability get --id "AVAILABILITY_ID"`,
+  aso pricing availability get --app "123456789"
+  aso pricing availability get --id "AVAILABILITY_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -593,15 +593,15 @@ func PricingAvailabilityTerritoryAvailabilitiesCommand() *ffcli.Command {
 	cmd := shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "pricing availability territory-availabilities",
 		Name:        "territory-availabilities",
-		ShortUsage:  "asc pricing availability territory-availabilities --availability AVAILABILITY_ID [--limit N] [--next URL] [--paginate]",
+		ShortUsage:  "aso pricing availability territory-availabilities --availability AVAILABILITY_ID [--limit N] [--next URL] [--paginate]",
 		ShortHelp:   "List territory availabilities for an app availability.",
 		LongHelp: `List territory availabilities for an app availability.
 
 Examples:
-  asc pricing availability territory-availabilities --availability "AVAILABILITY_ID"
-  asc pricing availability territory-availabilities --availability "AVAILABILITY_ID" --limit 175
-  asc pricing availability territory-availabilities --availability "AVAILABILITY_ID" --paginate
-  asc pricing availability territory-availabilities --next "NEXT_URL"`,
+  aso pricing availability territory-availabilities --availability "AVAILABILITY_ID"
+  aso pricing availability territory-availabilities --availability "AVAILABILITY_ID" --limit 175
+  aso pricing availability territory-availabilities --availability "AVAILABILITY_ID" --paginate
+  aso pricing availability territory-availabilities --next "NEXT_URL"`,
 		ParentFlag:  "availability",
 		ParentUsage: "App availability ID",
 		LimitMax:    200,
@@ -644,18 +644,18 @@ func PricingAvailabilitySetCommand() *ffcli.Command {
 	return shared.NewAvailabilitySetCommand(shared.AvailabilitySetCommandConfig{
 		FlagSetName: "pricing availability set",
 		CommandName: "set",
-		ShortUsage:  "asc pricing availability set [flags]",
+		ShortUsage:  "aso pricing availability set [flags]",
 		ShortHelp:   "Set app availability for territories.",
 		LongHelp: `Set app availability for territories.
 
 Examples:
-  asc pricing availability set --app "123456789" --territory "USA,GBR,DEU" --available true --available-in-new-territories true
-  asc pricing availability set --app "123456789" --all-territories --available true --available-in-new-territories true
+  aso pricing availability set --app "123456789" --territory "USA,GBR,DEU" --available true --available-in-new-territories true
+  aso pricing availability set --app "123456789" --all-territories --available true --available-in-new-territories true
 
 Note:
   This command only updates an existing app availability. If the app has no
   availability record yet, initialize availability in App Store Connect first,
-  or use the experimental "asc web apps availability create" flow.`,
+  or use the experimental "aso web apps availability create" flow.`,
 		ErrorPrefix:                      "pricing availability set",
 		IncludeAvailableInNewTerritories: true,
 	})

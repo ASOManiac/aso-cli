@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/xcode"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/xcode"
 )
 
 // PublishDefaultPollInterval is the default polling interval for build discovery.

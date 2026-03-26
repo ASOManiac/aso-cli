@@ -9,9 +9,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func webXcodeCloudEnvVarsSharedCommand() *ffcli.Command {
@@ -19,7 +19,7 @@ func webXcodeCloudEnvVarsSharedCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "shared",
-		ShortUsage: "asc web xcode-cloud env-vars shared <subcommand> [flags]",
+		ShortUsage: "aso web xcode-cloud env-vars shared <subcommand> [flags]",
 		ShortHelp:  "[experimental] Manage shared (product-level) environment variables.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -31,10 +31,10 @@ Shared env vars are scoped to a product and can be linked to specific workflows.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud env-vars shared list --product-id "UUID" --apple-id "user@example.com"
-  asc web xcode-cloud env-vars shared set --product-id "UUID" --name MY_VAR --value hello --apple-id "user@example.com"
-  asc web xcode-cloud env-vars shared set --product-id "UUID" --name MY_SECRET --value s3cret --secret --locked --apple-id "user@example.com"
-  asc web xcode-cloud env-vars shared delete --product-id "UUID" --name MY_VAR --confirm --apple-id "user@example.com"`,
+  aso web xcode-cloud env-vars shared list --product-id "UUID" --apple-id "user@example.com"
+  aso web xcode-cloud env-vars shared set --product-id "UUID" --name MY_VAR --value hello --apple-id "user@example.com"
+  aso web xcode-cloud env-vars shared set --product-id "UUID" --name MY_SECRET --value s3cret --secret --locked --apple-id "user@example.com"
+  aso web xcode-cloud env-vars shared delete --product-id "UUID" --name MY_VAR --confirm --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -78,7 +78,7 @@ func webXcodeCloudEnvVarsSharedListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc web xcode-cloud env-vars shared list --product-id ID [flags]",
+		ShortUsage: "aso web xcode-cloud env-vars shared list --product-id ID [flags]",
 		ShortHelp:  "[experimental] List shared (product-level) environment variables.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -88,8 +88,8 @@ Plaintext variables show their values; secret variables show "(redacted)".
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud env-vars shared list --product-id "UUID" --apple-id "user@example.com"
-  asc web xcode-cloud env-vars shared list --product-id "UUID" --apple-id "user@example.com" --output table`,
+  aso web xcode-cloud env-vars shared list --product-id "UUID" --apple-id "user@example.com"
+  aso web xcode-cloud env-vars shared list --product-id "UUID" --apple-id "user@example.com" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -153,7 +153,7 @@ func webXcodeCloudEnvVarsSharedSetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc web xcode-cloud env-vars shared set --product-id ID --name NAME --value VALUE [--secret] [--locked] [--workflow-ids IDS] [flags]",
+		ShortUsage: "aso web xcode-cloud env-vars shared set --product-id ID --name NAME --value VALUE [--secret] [--locked] [--workflow-ids IDS] [flags]",
 		ShortHelp:  "[experimental] Set a shared (product-level) environment variable.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -166,9 +166,9 @@ If a variable with the same name already exists, it will be updated.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud env-vars shared set --product-id "UUID" --name MY_VAR --value hello --apple-id "user@example.com"
-  asc web xcode-cloud env-vars shared set --product-id "UUID" --name MY_SECRET --value s3cret --secret --locked --apple-id "user@example.com"
-  asc web xcode-cloud env-vars shared set --product-id "UUID" --name MY_VAR --value hello --workflow-ids "wf-1,wf-2" --apple-id "user@example.com"`,
+  aso web xcode-cloud env-vars shared set --product-id "UUID" --name MY_VAR --value hello --apple-id "user@example.com"
+  aso web xcode-cloud env-vars shared set --product-id "UUID" --name MY_SECRET --value s3cret --secret --locked --apple-id "user@example.com"
+  aso web xcode-cloud env-vars shared set --product-id "UUID" --name MY_VAR --value hello --workflow-ids "wf-1,wf-2" --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -294,7 +294,7 @@ func webXcodeCloudEnvVarsSharedDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc web xcode-cloud env-vars shared delete --product-id ID --name NAME --confirm [flags]",
+		ShortUsage: "aso web xcode-cloud env-vars shared delete --product-id ID --name NAME --confirm [flags]",
 		ShortHelp:  "[experimental] Delete a shared (product-level) environment variable.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -303,7 +303,7 @@ Delete a shared environment variable from an Xcode Cloud product by name.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud env-vars shared delete --product-id "UUID" --name MY_VAR --confirm --apple-id "user@example.com"`,
+  aso web xcode-cloud env-vars shared delete --product-id "UUID" --name MY_VAR --confirm --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

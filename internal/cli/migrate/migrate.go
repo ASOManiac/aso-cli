@@ -11,9 +11,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 // MigrateCommand returns the migrate command with subcommands.
@@ -22,16 +22,16 @@ func MigrateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "migrate",
-		ShortUsage: "asc migrate <subcommand> [flags]",
+		ShortUsage: "aso migrate <subcommand> [flags]",
 		ShortHelp:  "Migrate metadata from/to fastlane format.",
 		LongHelp: `Migrate metadata from/to fastlane directory structure.
 
 This enables transitioning from fastlane's deliver tool to asc.
 
 Examples:
-  asc migrate import --app "APP_ID" --version "VERSION_ID" --fastlane-dir ./fastlane
-  asc migrate export --app "APP_ID" --version "VERSION_ID" --output-dir ./fastlane
-  asc migrate metadata pull --app "APP_ID" --version "1.2.3" --dir "./metadata"`,
+  aso migrate import --app "APP_ID" --version "VERSION_ID" --fastlane-dir ./fastlane
+  aso migrate export --app "APP_ID" --version "VERSION_ID" --output-dir ./fastlane
+  aso migrate metadata pull --app "APP_ID" --version "1.2.3" --dir "./metadata"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -58,7 +58,7 @@ func MigrateImportCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "import",
-		ShortUsage: "asc migrate import [flags]",
+		ShortUsage: "aso migrate import [flags]",
 		ShortHelp:  "Import metadata from fastlane directory structure.",
 		LongHelp: `Import metadata from fastlane directory structure.
 
@@ -92,8 +92,8 @@ or conventional metadata/ and screenshots/ directories:
   │   │   └── ...
 
 Examples:
-  asc migrate import --app "APP_ID" --version-id "VERSION_ID" --fastlane-dir ./fastlane
-  asc migrate import --app "APP_ID" --version-id "VERSION_ID" --fastlane-dir ./fastlane --dry-run`,
+  aso migrate import --app "APP_ID" --version-id "VERSION_ID" --fastlane-dir ./fastlane
+  aso migrate import --app "APP_ID" --version-id "VERSION_ID" --fastlane-dir ./fastlane --dry-run`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -276,14 +276,14 @@ func MigrateExportCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "export",
-		ShortUsage: "asc migrate export [flags]",
+		ShortUsage: "aso migrate export [flags]",
 		ShortHelp:  "Export metadata to fastlane directory structure.",
 		LongHelp: `Export current App Store metadata to fastlane directory structure.
 
 Creates the standard fastlane structure with all localizations.
 
 Examples:
-  asc migrate export --app "APP_ID" --version-id "VERSION_ID" --output-dir ./fastlane`,
+  aso migrate export --app "APP_ID" --version-id "VERSION_ID" --output-dir ./fastlane`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -708,7 +708,7 @@ func MigrateValidateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "validate",
-		ShortUsage: "asc migrate validate [flags]",
+		ShortUsage: "aso migrate validate [flags]",
 		ShortHelp:  "Validate fastlane metadata without uploading.",
 		LongHelp: `Validate fastlane metadata without making any API calls.
 
@@ -721,8 +721,8 @@ Checks character limits for App Store Connect metadata:
   - Subtitle: 30 characters
 
 Examples:
-  asc migrate validate --fastlane-dir ./fastlane
-  asc migrate validate --fastlane-dir ./fastlane --output table`,
+  aso migrate validate --fastlane-dir ./fastlane
+  aso migrate validate --fastlane-dir ./fastlane --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

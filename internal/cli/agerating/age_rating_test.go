@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 func TestAgeRatingCommandShape(t *testing.T) {
@@ -73,7 +73,7 @@ func TestCompatAgeRatingGetAliasShape(t *testing.T) {
 	if cmd.Name != "get" {
 		t.Fatalf("unexpected alias command name: %q", cmd.Name)
 	}
-	if cmd.ShortHelp != "Compatibility alias for `asc age-rating view`." {
+	if cmd.ShortHelp != "Compatibility alias for `aso age-rating view`." {
 		t.Fatalf("unexpected alias short help: %q", cmd.ShortHelp)
 	}
 }

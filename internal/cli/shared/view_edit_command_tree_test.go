@@ -17,12 +17,12 @@ func TestRenameLeafVerbKeepsDeprecatedAliasFlagSetPath(t *testing.T) {
 
 	cmd := &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc apps get --id APP_ID",
+		ShortUsage: "aso apps get --id APP_ID",
 		ShortHelp:  "Get an app.",
 		FlagSet:    fs,
 	}
 
-	alias, _ := renameLeafVerb(cmd, "asc apps get", "view")
+	alias, _ := renameLeafVerb(cmd, "aso apps get", "view")
 	if alias == nil {
 		t.Fatal("expected deprecated alias command")
 	}
@@ -54,11 +54,11 @@ func TestRenameLeafVerbKeepsDeprecatedAliasFlagSetPath(t *testing.T) {
 	fs.StringVar(&id, "id", "", "App ID")
 	cmd = &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc apps get --id APP_ID",
+		ShortUsage: "aso apps get --id APP_ID",
 		ShortHelp:  "Get an app.",
 		FlagSet:    fs,
 	}
-	alias, _ = renameLeafVerb(cmd, "asc apps get", "view")
+	alias, _ = renameLeafVerb(cmd, "aso apps get", "view")
 	if alias == nil || alias.FlagSet == nil {
 		t.Fatal("expected fresh deprecated alias flagset for usage test")
 	}
@@ -70,11 +70,11 @@ func TestRenameLeafVerbKeepsDeprecatedAliasFlagSetPath(t *testing.T) {
 func TestNormalizeViewEditCommandTreeAliasUsesRewrittenCanonicalErrors(t *testing.T) {
 	root := &ffcli.Command{
 		Name:       "apps",
-		ShortUsage: "asc apps <subcommand> [flags]",
+		ShortUsage: "aso apps <subcommand> [flags]",
 		Subcommands: []*ffcli.Command{
 			{
 				Name:       "get",
-				ShortUsage: "asc apps get --id APP_ID",
+				ShortUsage: "aso apps get --id APP_ID",
 				ShortHelp:  "Get an app.",
 				FlagSet:    flag.NewFlagSet("apps get", flag.ContinueOnError),
 				Exec: func(context.Context, []string) error {
@@ -104,7 +104,7 @@ func TestNormalizeViewEditCommandTreeAliasUsesRewrittenCanonicalErrors(t *testin
 	if runErr == nil {
 		t.Fatal("expected alias execution to return rewritten error")
 	}
-	if !strings.Contains(stderr, "Warning: `asc apps get` is deprecated. Use `asc apps view`.") {
+	if !strings.Contains(stderr, "Warning: `aso apps get` is deprecated. Use `aso apps view`.") {
 		t.Fatalf("expected deprecated alias warning, got %q", stderr)
 	}
 	if !strings.Contains(runErr.Error(), "apps view: failed to fetch app") {

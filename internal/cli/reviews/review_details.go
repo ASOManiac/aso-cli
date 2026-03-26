@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -30,12 +30,12 @@ func ReviewDetailsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "details-get",
-		ShortUsage: "asc review details-get --id \"DETAIL_ID\"",
+		ShortUsage: "aso review details-get --id \"DETAIL_ID\"",
 		ShortHelp:  "Get an App Store review detail by ID.",
 		LongHelp: `Get an App Store review detail by ID.
 
 Examples:
-  asc review details-get --id "DETAIL_ID"`,
+  aso review details-get --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -72,12 +72,12 @@ func ReviewDetailsForVersionCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "details-for-version",
-		ShortUsage: "asc review details-for-version --version-id \"VERSION_ID\"",
+		ShortUsage: "aso review details-for-version --version-id \"VERSION_ID\"",
 		ShortHelp:  "Get the review detail for a version.",
 		LongHelp: `Get the review detail for a specific App Store version.
 
 Examples:
-  asc review details-for-version --version-id "VERSION_ID"`,
+  aso review details-for-version --version-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -122,7 +122,7 @@ func ReviewDetailsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "details-create",
-		ShortUsage: "asc review details-create --version-id \"VERSION_ID\" [flags]",
+		ShortUsage: "aso review details-create --version-id \"VERSION_ID\" [flags]",
 		ShortHelp:  "Create App Store review details for a version.",
 		LongHelp: `Create App Store review details for a version.
 
@@ -131,8 +131,8 @@ Use ` + "`--demo-account-required=true`" + ` only when App Review needs demo cre
 Do not use placeholder demo credentials just to satisfy the field shape.
 
 Examples:
-  asc review details-create --version-id "VERSION_ID" --contact-first-name "Dev" --contact-last-name "Support" --contact-email "dev@example.com" --contact-phone "+1 555 0100" --notes "Reviewer can use the guest flow from the welcome screen."
-  asc review details-create --version-id "VERSION_ID" --contact-first-name "Dev" --contact-last-name "Support" --contact-email "dev@example.com" --contact-phone "+1 555 0100" --demo-account-required=true --demo-account-name "reviewer@example.com" --demo-account-password "app-specific-password" --notes "2FA is disabled for this review account."`,
+  aso review details-create --version-id "VERSION_ID" --contact-first-name "Dev" --contact-last-name "Support" --contact-email "dev@example.com" --contact-phone "+1 555 0100" --notes "Reviewer can use the guest flow from the welcome screen."
+  aso review details-create --version-id "VERSION_ID" --contact-first-name "Dev" --contact-last-name "Support" --contact-email "dev@example.com" --contact-phone "+1 555 0100" --demo-account-required=true --demo-account-name "reviewer@example.com" --demo-account-password "app-specific-password" --notes "2FA is disabled for this review account."`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -226,7 +226,7 @@ func ReviewDetailsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "details-update",
-		ShortUsage: "asc review details-update --id \"DETAIL_ID\" [flags]",
+		ShortUsage: "aso review details-update --id \"DETAIL_ID\" [flags]",
 		ShortHelp:  "Update App Store review details.",
 		LongHelp: `Update App Store review details.
 
@@ -235,8 +235,8 @@ Use ` + "`--demo-account-required=true`" + ` only when App Review needs demo cre
 Do not use placeholder demo credentials just to satisfy the field shape.
 
 Examples:
-  asc review details-update --id "DETAIL_ID" --notes "Reviewer can use the guest flow from the welcome screen."
-  asc review details-update --id "DETAIL_ID" --demo-account-required=true --demo-account-name "reviewer@example.com" --demo-account-password "rotated-password" --notes "This account has full reviewer access."`,
+  aso review details-update --id "DETAIL_ID" --notes "Reviewer can use the guest flow from the welcome screen."
+  aso review details-update --id "DETAIL_ID" --demo-account-required=true --demo-account-name "reviewer@example.com" --demo-account-password "rotated-password" --notes "This account has full reviewer access."`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

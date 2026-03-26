@@ -9,10 +9,10 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	crashescmd "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/crashes"
-	feedbackcmd "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/feedback"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	crashescmd "github.com/ASOManiac/aso-cli/internal/cli/crashes"
+	feedbackcmd "github.com/ASOManiac/aso-cli/internal/cli/feedback"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func TestFlightFeedbackCommand() *ffcli.Command {
@@ -20,14 +20,14 @@ func TestFlightFeedbackCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "feedback",
-		ShortUsage: "asc testflight feedback <subcommand> [flags]",
+		ShortUsage: "aso testflight feedback <subcommand> [flags]",
 		ShortHelp:  "Manage TestFlight feedback.",
 		LongHelp: `Manage TestFlight feedback.
 
 Examples:
-  asc testflight feedback list --app "APP_ID"
-  asc testflight feedback view --submission-id "SUBMISSION_ID"
-  asc testflight feedback delete --submission-id "SUBMISSION_ID" --confirm`,
+  aso testflight feedback list --app "APP_ID"
+  aso testflight feedback view --submission-id "SUBMISSION_ID"
+  aso testflight feedback delete --submission-id "SUBMISSION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: testflightVisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -44,16 +44,16 @@ Examples:
 func TestFlightFeedbackListCommand() *ffcli.Command {
 	return feedbackcmd.NewListCommand(shared.ListCommandConfig{
 		Name:       "list",
-		ShortUsage: "asc testflight feedback list [flags]",
+		ShortUsage: "aso testflight feedback list [flags]",
 		ShortHelp:  "List TestFlight feedback.",
 		LongHelp: `List TestFlight feedback.
 
 Examples:
-  asc testflight feedback list --app "123456789"
-  asc testflight feedback list --app "123456789" --include-screenshots
-  asc testflight feedback list --app "123456789" --device-model "iPhone15,3" --os-version "17.2"
-  asc testflight feedback list --next "<links.next>"
-  asc testflight feedback list --app "123456789" --paginate`,
+  aso testflight feedback list --app "123456789"
+  aso testflight feedback list --app "123456789" --include-screenshots
+  aso testflight feedback list --app "123456789" --device-model "iPhone15,3" --os-version "17.2"
+  aso testflight feedback list --next "<links.next>"
+  aso testflight feedback list --app "123456789" --paginate`,
 		ErrorPrefix: "testflight feedback list",
 	})
 }
@@ -66,12 +66,12 @@ func TestFlightFeedbackViewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "view",
-		ShortUsage: "asc testflight feedback view --submission-id \"SUBMISSION_ID\"",
+		ShortUsage: "aso testflight feedback view --submission-id \"SUBMISSION_ID\"",
 		ShortHelp:  "View a feedback submission by ID.",
 		LongHelp: `View a feedback submission by ID.
 
 Examples:
-  asc testflight feedback view --submission-id "SUBMISSION_ID"`,
+  aso testflight feedback view --submission-id "SUBMISSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -94,12 +94,12 @@ func TestFlightFeedbackDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc testflight feedback delete --submission-id \"SUBMISSION_ID\" --confirm",
+		ShortUsage: "aso testflight feedback delete --submission-id \"SUBMISSION_ID\" --confirm",
 		ShortHelp:  "Delete a feedback submission by ID.",
 		LongHelp: `Delete a feedback submission by ID.
 
 Examples:
-  asc testflight feedback delete --submission-id "SUBMISSION_ID" --confirm`,
+  aso testflight feedback delete --submission-id "SUBMISSION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -122,16 +122,16 @@ func TestFlightCrashesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "crashes",
-		ShortUsage: "asc testflight crashes <subcommand> [flags]",
+		ShortUsage: "aso testflight crashes <subcommand> [flags]",
 		ShortHelp:  "Manage TestFlight crash submissions.",
 		LongHelp: `Manage TestFlight crash submissions.
 
 Examples:
-  asc testflight crashes list --app "APP_ID"
-  asc testflight crashes view --submission-id "SUBMISSION_ID"
-  asc testflight crashes delete --submission-id "SUBMISSION_ID" --confirm
-  asc testflight crashes log --submission-id "SUBMISSION_ID"
-  asc testflight crashes log --crash-log-id "CRASH_LOG_ID"`,
+  aso testflight crashes list --app "APP_ID"
+  aso testflight crashes view --submission-id "SUBMISSION_ID"
+  aso testflight crashes delete --submission-id "SUBMISSION_ID" --confirm
+  aso testflight crashes log --submission-id "SUBMISSION_ID"
+  aso testflight crashes log --crash-log-id "CRASH_LOG_ID"`,
 		FlagSet:   fs,
 		UsageFunc: testflightVisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -149,15 +149,15 @@ Examples:
 func TestFlightCrashesListCommand() *ffcli.Command {
 	return crashescmd.NewListCommand(shared.ListCommandConfig{
 		Name:       "list",
-		ShortUsage: "asc testflight crashes list [flags]",
+		ShortUsage: "aso testflight crashes list [flags]",
 		ShortHelp:  "List TestFlight crash submissions.",
 		LongHelp: `List TestFlight crash submissions.
 
 Examples:
-  asc testflight crashes list --app "123456789"
-  asc testflight crashes list --app "123456789" --device-model "iPhone15,3" --os-version "17.2"
-  asc testflight crashes list --next "<links.next>"
-  asc testflight crashes list --app "123456789" --paginate`,
+  aso testflight crashes list --app "123456789"
+  aso testflight crashes list --app "123456789" --device-model "iPhone15,3" --os-version "17.2"
+  aso testflight crashes list --next "<links.next>"
+  aso testflight crashes list --app "123456789" --paginate`,
 		ErrorPrefix: "testflight crashes list",
 	})
 }
@@ -170,12 +170,12 @@ func TestFlightCrashesViewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "view",
-		ShortUsage: "asc testflight crashes view --submission-id \"SUBMISSION_ID\"",
+		ShortUsage: "aso testflight crashes view --submission-id \"SUBMISSION_ID\"",
 		ShortHelp:  "View a crash submission by ID.",
 		LongHelp: `View a crash submission by ID.
 
 Examples:
-  asc testflight crashes view --submission-id "SUBMISSION_ID"`,
+  aso testflight crashes view --submission-id "SUBMISSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -198,12 +198,12 @@ func TestFlightCrashesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc testflight crashes delete --submission-id \"SUBMISSION_ID\" --confirm",
+		ShortUsage: "aso testflight crashes delete --submission-id \"SUBMISSION_ID\" --confirm",
 		ShortHelp:  "Delete a crash submission by ID.",
 		LongHelp: `Delete a crash submission by ID.
 
 Examples:
-  asc testflight crashes delete --submission-id "SUBMISSION_ID" --confirm`,
+  aso testflight crashes delete --submission-id "SUBMISSION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -230,13 +230,13 @@ func TestFlightCrashesLogCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "log",
-		ShortUsage: "asc testflight crashes log [--submission-id SUBMISSION_ID | --crash-log-id CRASH_LOG_ID]",
+		ShortUsage: "aso testflight crashes log [--submission-id SUBMISSION_ID | --crash-log-id CRASH_LOG_ID]",
 		ShortHelp:  "Fetch a crash log by submission ID or crash log ID.",
 		LongHelp: `Fetch a crash log by submission ID or crash log ID.
 
 Examples:
-  asc testflight crashes log --submission-id "SUBMISSION_ID"
-  asc testflight crashes log --crash-log-id "CRASH_LOG_ID"`,
+  aso testflight crashes log --submission-id "SUBMISSION_ID"
+  aso testflight crashes log --crash-log-id "CRASH_LOG_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -259,13 +259,13 @@ func DeprecatedBetaFeedbackAliasCommand() *ffcli.Command {
 
 	cmd := &ffcli.Command{
 		Name:       "beta-feedback",
-		ShortUsage: "asc testflight feedback <subcommand> | asc testflight crashes <subcommand>",
+		ShortUsage: "aso testflight feedback <subcommand> | aso testflight crashes <subcommand>",
 		ShortHelp:  "Compatibility aliases for older feedback paths.",
 		LongHelp: `Compatibility aliases for older feedback and crash paths.
 
 Prefer:
-  asc testflight feedback ...
-  asc testflight crashes ...`,
+  aso testflight feedback ...
+  aso testflight crashes ...`,
 		FlagSet:   fs,
 		UsageFunc: shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -286,9 +286,9 @@ func deprecatedBetaFeedbackCrashSubmissionsAliasCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "crash-submissions",
-		ShortUsage: "asc testflight crashes <view|delete> [flags]",
-		ShortHelp:  "Compatibility alias: use `asc testflight crashes ...`.",
-		LongHelp:   `Compatibility alias: use ` + "`asc testflight crashes view`" + ` and ` + "`asc testflight crashes delete`" + `.`,
+		ShortUsage: "aso testflight crashes <view|delete> [flags]",
+		ShortHelp:  "Compatibility alias: use `aso testflight crashes ...`.",
+		LongHelp:   `Compatibility alias: use ` + "`aso testflight crashes view`" + ` and ` + "`aso testflight crashes delete`" + `.`,
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -310,9 +310,9 @@ func deprecatedBetaFeedbackCrashSubmissionsGetAliasCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight crashes view --submission-id \"SUBMISSION_ID\"",
-		ShortHelp:  "Compatibility alias: use `asc testflight crashes view`.",
-		LongHelp:   "Compatibility alias: use `asc testflight crashes view --submission-id SUBMISSION_ID`.",
+		ShortUsage: "aso testflight crashes view --submission-id \"SUBMISSION_ID\"",
+		ShortHelp:  "Compatibility alias: use `aso testflight crashes view`.",
+		LongHelp:   "Compatibility alias: use `aso testflight crashes view --submission-id SUBMISSION_ID`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -340,9 +340,9 @@ func deprecatedBetaFeedbackCrashSubmissionsDeleteAliasCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc testflight crashes delete --submission-id \"SUBMISSION_ID\" --confirm",
-		ShortHelp:  "Compatibility alias: use `asc testflight crashes delete`.",
-		LongHelp:   "Compatibility alias: use `asc testflight crashes delete --submission-id SUBMISSION_ID --confirm`.",
+		ShortUsage: "aso testflight crashes delete --submission-id \"SUBMISSION_ID\" --confirm",
+		ShortHelp:  "Compatibility alias: use `aso testflight crashes delete`.",
+		LongHelp:   "Compatibility alias: use `aso testflight crashes delete --submission-id SUBMISSION_ID --confirm`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -369,9 +369,9 @@ func deprecatedBetaFeedbackScreenshotSubmissionsAliasCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "screenshot-submissions",
-		ShortUsage: "asc testflight feedback <view|delete> [flags]",
-		ShortHelp:  "Compatibility alias: use `asc testflight feedback ...`.",
-		LongHelp:   "Compatibility alias: use `asc testflight feedback view` and `asc testflight feedback delete`.",
+		ShortUsage: "aso testflight feedback <view|delete> [flags]",
+		ShortHelp:  "Compatibility alias: use `aso testflight feedback ...`.",
+		LongHelp:   "Compatibility alias: use `aso testflight feedback view` and `aso testflight feedback delete`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -393,9 +393,9 @@ func deprecatedBetaFeedbackScreenshotSubmissionsGetAliasCommand() *ffcli.Command
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight feedback view --submission-id \"SUBMISSION_ID\"",
-		ShortHelp:  "Compatibility alias: use `asc testflight feedback view`.",
-		LongHelp:   "Compatibility alias: use `asc testflight feedback view --submission-id SUBMISSION_ID`.",
+		ShortUsage: "aso testflight feedback view --submission-id \"SUBMISSION_ID\"",
+		ShortHelp:  "Compatibility alias: use `aso testflight feedback view`.",
+		LongHelp:   "Compatibility alias: use `aso testflight feedback view --submission-id SUBMISSION_ID`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -423,9 +423,9 @@ func deprecatedBetaFeedbackScreenshotSubmissionsDeleteAliasCommand() *ffcli.Comm
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc testflight feedback delete --submission-id \"SUBMISSION_ID\" --confirm",
-		ShortHelp:  "Compatibility alias: use `asc testflight feedback delete`.",
-		LongHelp:   "Compatibility alias: use `asc testflight feedback delete --submission-id SUBMISSION_ID --confirm`.",
+		ShortUsage: "aso testflight feedback delete --submission-id \"SUBMISSION_ID\" --confirm",
+		ShortHelp:  "Compatibility alias: use `aso testflight feedback delete`.",
+		LongHelp:   "Compatibility alias: use `aso testflight feedback delete --submission-id SUBMISSION_ID --confirm`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -452,9 +452,9 @@ func deprecatedBetaFeedbackCrashLogAliasCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "crash-log",
-		ShortUsage: "asc testflight crashes log [flags]",
-		ShortHelp:  "Compatibility alias: use `asc testflight crashes log`.",
-		LongHelp:   "Compatibility alias: use `asc testflight crashes log --submission-id SUBMISSION_ID`.",
+		ShortUsage: "aso testflight crashes log [flags]",
+		ShortHelp:  "Compatibility alias: use `aso testflight crashes log`.",
+		LongHelp:   "Compatibility alias: use `aso testflight crashes log --submission-id SUBMISSION_ID`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -475,9 +475,9 @@ func deprecatedBetaFeedbackCrashLogGetAliasCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight crashes log --submission-id \"SUBMISSION_ID\"",
-		ShortHelp:  "Compatibility alias: use `asc testflight crashes log`.",
-		LongHelp:   "Compatibility alias: use `asc testflight crashes log --submission-id SUBMISSION_ID`.",
+		ShortUsage: "aso testflight crashes log --submission-id \"SUBMISSION_ID\"",
+		ShortHelp:  "Compatibility alias: use `aso testflight crashes log`.",
+		LongHelp:   "Compatibility alias: use `aso testflight crashes log --submission-id SUBMISSION_ID`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

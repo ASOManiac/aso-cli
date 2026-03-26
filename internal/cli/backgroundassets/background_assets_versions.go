@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BackgroundAssetsVersionsCommand returns the versions command group.
@@ -19,14 +19,14 @@ func BackgroundAssetsVersionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "versions",
-		ShortUsage: "asc background-assets versions <subcommand> [flags]",
+		ShortUsage: "aso background-assets versions <subcommand> [flags]",
 		ShortHelp:  "Manage background asset versions.",
 		LongHelp: `Manage background asset versions.
 
 Examples:
-  asc background-assets versions list --background-asset-id "ASSET_ID"
-  asc background-assets versions get --version-id "VERSION_ID"
-  asc background-assets versions create --background-asset-id "ASSET_ID"`,
+  aso background-assets versions list --background-asset-id "ASSET_ID"
+  aso background-assets versions get --version-id "VERSION_ID"
+  aso background-assets versions create --background-asset-id "ASSET_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -52,13 +52,13 @@ func BackgroundAssetsVersionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc background-assets versions list --background-asset-id \"ASSET_ID\"",
+		ShortUsage: "aso background-assets versions list --background-asset-id \"ASSET_ID\"",
 		ShortHelp:  "List versions for a background asset.",
 		LongHelp: `List versions for a background asset.
 
 Examples:
-  asc background-assets versions list --background-asset-id "ASSET_ID"
-  asc background-assets versions list --background-asset-id "ASSET_ID" --paginate`,
+  aso background-assets versions list --background-asset-id "ASSET_ID"
+  aso background-assets versions list --background-asset-id "ASSET_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -123,12 +123,12 @@ func BackgroundAssetsVersionsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc background-assets versions get --version-id \"VERSION_ID\"",
+		ShortUsage: "aso background-assets versions get --version-id \"VERSION_ID\"",
 		ShortHelp:  "Get a background asset version by ID.",
 		LongHelp: `Get a background asset version by ID.
 
 Examples:
-  asc background-assets versions get --version-id "VERSION_ID"`,
+  aso background-assets versions get --version-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -165,12 +165,12 @@ func BackgroundAssetsVersionsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc background-assets versions create --background-asset-id \"ASSET_ID\"",
+		ShortUsage: "aso background-assets versions create --background-asset-id \"ASSET_ID\"",
 		ShortHelp:  "Create a background asset version.",
 		LongHelp: `Create a background asset version.
 
 Examples:
-  asc background-assets versions create --background-asset-id "ASSET_ID"`,
+  aso background-assets versions create --background-asset-id "ASSET_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshots"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/screenshots"
 )
 
 const (
@@ -29,7 +29,7 @@ func ShotsReviewGenerateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "review-generate",
-		ShortUsage: "asc screenshots review-generate [flags]",
+		ShortUsage: "aso screenshots review-generate [flags]",
 		ShortHelp:  "[experimental] Generate HTML side-by-side review and JSON manifest.",
 		LongHelp: `Generate review artifacts for screenshots (experimental):
 

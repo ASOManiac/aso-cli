@@ -2,14 +2,14 @@
 
 ## GitHub Actions
 
-Install `asc` using the official setup action:
+Install `aso` using the official setup action:
 
 ```yaml
 - uses: rudrankriyam/setup-asc@v1
   with:
     version: latest
 
-- run: asc --help
+- run: aso --help
 ```
 
 For end-to-end examples, see:
@@ -26,7 +26,7 @@ include:
       stage: deploy
       job_prefix: release
       asc_version: latest
-      command: asc --help
+      command: aso --help
 ```
 
 For install/run templates and self-managed examples:
@@ -44,7 +44,7 @@ workflows:
         inputs:
         - mode: run
         - version: latest
-        - command: asc --help
+        - command: aso --help
 ```
 
 ## CircleCI

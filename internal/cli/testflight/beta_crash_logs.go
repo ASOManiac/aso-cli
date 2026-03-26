@@ -9,7 +9,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func DeprecatedBetaCrashLogsAliasCommand() *ffcli.Command {
@@ -17,9 +17,9 @@ func DeprecatedBetaCrashLogsAliasCommand() *ffcli.Command {
 
 	cmd := &ffcli.Command{
 		Name:       "beta-crash-logs",
-		ShortUsage: "asc testflight crashes log --crash-log-id \"CRASH_LOG_ID\"",
+		ShortUsage: "aso testflight crashes log --crash-log-id \"CRASH_LOG_ID\"",
 		ShortHelp:  "Compatibility alias for direct crash-log lookups.",
-		LongHelp:   "Compatibility alias: use `asc testflight crashes log --crash-log-id CRASH_LOG_ID`.",
+		LongHelp:   "Compatibility alias: use `aso testflight crashes log --crash-log-id CRASH_LOG_ID`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -42,9 +42,9 @@ func deprecatedBetaCrashLogsGetAliasCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight crashes log --crash-log-id \"CRASH_LOG_ID\"",
-		ShortHelp:  "Compatibility alias: use `asc testflight crashes log`.",
-		LongHelp:   "Compatibility alias: use `asc testflight crashes log --crash-log-id CRASH_LOG_ID`.",
+		ShortUsage: "aso testflight crashes log --crash-log-id \"CRASH_LOG_ID\"",
+		ShortHelp:  "Compatibility alias: use `aso testflight crashes log`.",
+		LongHelp:   "Compatibility alias: use `aso testflight crashes log --crash-log-id CRASH_LOG_ID`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,7 +9,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // LocalizationsSearchKeywordsCommand returns the search keywords command group.
@@ -18,7 +18,7 @@ func LocalizationsSearchKeywordsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "search-keywords",
-		ShortUsage: "asc localizations search-keywords <subcommand> [flags]",
+		ShortUsage: "aso localizations search-keywords <subcommand> [flags]",
 		ShortHelp:  "Manage raw search-keyword relationships for an App Store localization.",
 		LongHelp: `Manage raw search-keyword relationships for an App Store localization.
 
@@ -26,12 +26,12 @@ This command wraps the low-level App Store Connect ` + "`searchKeywords`" + `
 relationship API for App Store version localizations.
 
 For canonical version-localization keyword workflows, use
-` + "`asc metadata keywords ...`" + ` instead.
+` + "`aso metadata keywords ...`" + ` instead.
 
 Examples:
-  asc localizations search-keywords list --localization-id "LOCALIZATION_ID"
-  asc localizations search-keywords add --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2"
-  asc localizations search-keywords delete --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2" --confirm`,
+  aso localizations search-keywords list --localization-id "LOCALIZATION_ID"
+  aso localizations search-keywords add --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2"
+  aso localizations search-keywords delete --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -54,12 +54,12 @@ func LocalizationsSearchKeywordsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc localizations search-keywords list --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso localizations search-keywords list --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:  "List search keywords for an App Store localization.",
 		LongHelp: `List search keywords for an App Store localization.
 
 Examples:
-  asc localizations search-keywords list --localization-id "LOCALIZATION_ID"`,
+  aso localizations search-keywords list --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -97,12 +97,12 @@ func LocalizationsSearchKeywordsAddCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "add",
-		ShortUsage: "asc localizations search-keywords add --localization-id \"LOCALIZATION_ID\" --keywords \"kw1,kw2\"",
+		ShortUsage: "aso localizations search-keywords add --localization-id \"LOCALIZATION_ID\" --keywords \"kw1,kw2\"",
 		ShortHelp:  "Add search keywords to an App Store localization.",
 		LongHelp: `Add search keywords to an App Store localization.
 
 Examples:
-  asc localizations search-keywords add --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2"`,
+  aso localizations search-keywords add --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -146,12 +146,12 @@ func LocalizationsSearchKeywordsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc localizations search-keywords delete --localization-id \"LOCALIZATION_ID\" --keywords \"kw1,kw2\" --confirm",
+		ShortUsage: "aso localizations search-keywords delete --localization-id \"LOCALIZATION_ID\" --keywords \"kw1,kw2\" --confirm",
 		ShortHelp:  "Delete search keywords from an App Store localization.",
 		LongHelp: `Delete search keywords from an App Store localization.
 
 Examples:
-  asc localizations search-keywords delete --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2" --confirm`,
+  aso localizations search-keywords delete --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

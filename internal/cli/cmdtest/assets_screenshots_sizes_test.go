@@ -16,7 +16,7 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 func TestAssetsScreenshotsSizesOutput(t *testing.T) {
@@ -336,7 +336,7 @@ func TestAssetsScreenshotsUploadRejectsInvalidDimensionsBeforeNetwork(t *testing
 	if !strings.Contains(message, "640x960") {
 		t.Fatalf("expected allowed size in error, got %q", message)
 	}
-	if !strings.Contains(message, "asc screenshots sizes") {
+	if !strings.Contains(message, "aso screenshots sizes") {
 		t.Fatalf("expected hint in error, got %q", message)
 	}
 	if atomic.LoadInt32(&calls) != 0 {

@@ -13,8 +13,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const defaultLocalUDIDCommandTimeout = 10 * time.Second
@@ -33,16 +33,16 @@ func DevicesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "devices",
-		ShortUsage: "asc devices <subcommand> [flags]",
+		ShortUsage: "aso devices <subcommand> [flags]",
 		ShortHelp:  "Manage devices in App Store Connect.",
 		LongHelp: `Manage devices in App Store Connect.
 
 Examples:
-  asc devices list
-  asc devices get --id "DEVICE_ID"
-  asc devices local-udid
-  asc devices register --name "iPhone 15" --udid "UDID" --platform IOS
-  asc devices update --id "DEVICE_ID" --status DISABLED`,
+  aso devices list
+  aso devices get --id "DEVICE_ID"
+  aso devices local-udid
+  aso devices register --name "iPhone 15" --udid "UDID" --platform IOS
+  aso devices update --id "DEVICE_ID" --status DISABLED`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -76,18 +76,18 @@ func DevicesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc devices list [flags]",
+		ShortUsage: "aso devices list [flags]",
 		ShortHelp:  "List devices in App Store Connect.",
 		LongHelp: `List devices in App Store Connect.
 
 Examples:
-  asc devices list
-  asc devices list --platform IOS
-  asc devices list --status ENABLED
-  asc devices list --udid "UDID1,UDID2"
-  asc devices list --fields "name,udid,platform,status"
-  asc devices list --limit 50
-  asc devices list --paginate`,
+  aso devices list
+  aso devices list --platform IOS
+  aso devices list --status ENABLED
+  aso devices list --udid "UDID1,UDID2"
+  aso devices list --fields "name,udid,platform,status"
+  aso devices list --limit 50
+  aso devices list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -181,13 +181,13 @@ func DevicesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc devices get --id DEVICE_ID",
+		ShortUsage: "aso devices get --id DEVICE_ID",
 		ShortHelp:  "Get a device by ID.",
 		LongHelp: `Get a device by ID.
 
 Examples:
-  asc devices get --id "DEVICE_ID"
-  asc devices get --id "DEVICE_ID" --fields "name,udid,platform,status"`,
+  aso devices get --id "DEVICE_ID"
+  aso devices get --id "DEVICE_ID" --fields "name,udid,platform,status"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -228,13 +228,13 @@ func DevicesLocalUDIDCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "local-udid",
-		ShortUsage: "asc devices local-udid [flags]",
+		ShortUsage: "aso devices local-udid [flags]",
 		ShortHelp:  "Get the local macOS hardware UDID.",
 		LongHelp: `Get the local macOS hardware UDID.
 
 Examples:
-  asc devices local-udid
-  asc devices local-udid --output table`,
+  aso devices local-udid
+  aso devices local-udid --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -265,13 +265,13 @@ func DevicesRegisterCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "register",
-		ShortUsage: "asc devices register --name NAME --udid UDID --platform " + strings.Join(devicePlatformList(), "|"),
+		ShortUsage: "aso devices register --name NAME --udid UDID --platform " + strings.Join(devicePlatformList(), "|"),
 		ShortHelp:  "Register a new device.",
 		LongHelp: `Register a new device.
 
 Examples:
-  asc devices register --name "iPhone 15" --udid "UDID" --platform IOS
-  asc devices register --name "My Mac" --udid-from-system --platform MAC_OS`,
+  aso devices register --name "iPhone 15" --udid "UDID" --platform IOS
+  aso devices register --name "My Mac" --udid-from-system --platform MAC_OS`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -351,13 +351,13 @@ func DevicesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc devices update --id DEVICE_ID [--name NAME] [--status ENABLED|DISABLED]",
+		ShortUsage: "aso devices update --id DEVICE_ID [--name NAME] [--status ENABLED|DISABLED]",
 		ShortHelp:  "Update a device.",
 		LongHelp: `Update a device by ID.
 
 Examples:
-  asc devices update --id "DEVICE_ID" --name "My iPhone"
-  asc devices update --id "DEVICE_ID" --status DISABLED`,
+  aso devices update --id "DEVICE_ID" --name "My iPhone"
+  aso devices update --id "DEVICE_ID" --status DISABLED`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

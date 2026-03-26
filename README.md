@@ -1,16 +1,16 @@
 # Unofficial App Store Connect CLI
 
 <p align="center">
-  <a href="https://github.com/rudrankriyam/App-Store-Connect-CLI/releases/latest"><img src="https://img.shields.io/github/v/release/rudrankriyam/App-Store-Connect-CLI?style=for-the-badge&color=blue" alt="Latest Release"></a>
-  <a href="https://github.com/rudrankriyam/App-Store-Connect-CLI/stargazers"><img src="https://img.shields.io/github/stars/rudrankriyam/App-Store-Connect-CLI?style=for-the-badge" alt="GitHub Stars"></a>
+  <a href="https://github.com/ASOManiac/aso-cli/releases/latest"><img src="https://img.shields.io/github/v/release/ASOManiac/aso-cli?style=for-the-badge&color=blue" alt="Latest Release"></a>
+  <a href="https://github.com/ASOManiac/aso-cli/stargazers"><img src="https://img.shields.io/github/stars/ASOManiac/aso-cli?style=for-the-badge" alt="GitHub Stars"></a>
   <img src="https://img.shields.io/badge/Go-1.26+-00ADD8?style=for-the-badge&logo=go" alt="Go Version">
   <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/Homebrew-compatible-blue?style=for-the-badge" alt="Homebrew">
-  <a href="https://github.com/rudrankriyam/App-Store-Connect-CLI/releases" title="GitHub release assets (all-time) + Homebrew installs (365d), see docs/badges/README.md"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Frudrankriyam%2FApp-Store-Connect-CLI%2Fmain%2Fdocs%2Fbadges%2Finstalls-total.json&amp;style=for-the-badge&amp;color=brightgreen" alt="Estimated total downloads"></a>
+  <a href="https://github.com/ASOManiac/aso-cli/releases" title="GitHub release assets (all-time) + Homebrew installs (365d), see docs/badges/README.md"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Frudrankriyam%2FApp-Store-Connect-CLI%2Fmain%2Fdocs%2Fbadges%2Finstalls-total.json&amp;style=for-the-badge&amp;color=brightgreen" alt="Estimated total downloads"></a>
 </p>
 
 <p align="center">
-  <img src="docs/images/banner.png" alt="asc -- App Store Connect CLI" width="600">
+  <img src="docs/images/banner.png" alt="aso -- ASO CLI" width="600">
 </p>
 
 A fast, lightweight, and scriptable CLI for the App Store Connect API.
@@ -18,7 +18,7 @@ Automate iOS, macOS, tvOS, and visionOS release workflows from your terminal, ID
 
 ## Table of Contents
 
-- [asc skills](#asc-skills)
+- [aso skills](#aso-skills)
 - [Sponsors](#sponsors)
 - [Quick Start](#quick-start)
 - [Troubleshooting](#troubleshooting)
@@ -30,9 +30,9 @@ Automate iOS, macOS, tvOS, and visionOS release workflows from your terminal, ID
 - [Contributing](#contributing)
 - [License](#license)
 
-## asc skills
+## aso skills
 
-Agent Skills for automating `asc` workflows including builds, TestFlight, metadata sync, submissions, and signing:
+Agent Skills for automating `aso` workflows including builds, TestFlight, metadata sync, submissions, and signing:
 https://github.com/rudrankriyam/app-store-connect-cli-skills
 
 ## Sponsors
@@ -56,15 +56,15 @@ https://github.com/rudrankriyam/app-store-connect-cli-skills
 If you want to confirm the binary works before configuring authentication:
 
 ```bash
-asc version
-asc --help
+aso version
+aso --help
 ```
 
 ### 1. Install
 
 ```bash
 # Homebrew (recommended)
-brew install asc
+brew install aso
 
 # Install script (macOS/Linux)
 curl -fsSL https://asccli.sh/install | bash
@@ -75,7 +75,7 @@ For source builds and contributor setup, see [CONTRIBUTING.md](CONTRIBUTING.md).
 ### 2. Authenticate
 
 ```bash
-asc auth login \
+aso auth login \
   --name "MyApp" \
   --key-id "ABC123" \
   --issuer-id "DEF456" \
@@ -89,7 +89,7 @@ https://appstoreconnect.apple.com/access/integrations/api
 If you are running in CI, a headless shell, or a machine where keychain access is not available, use config-backed auth instead:
 
 ```bash
-asc auth login \
+aso auth login \
   --bypass-keychain \
   --name "MyCIKey" \
   --key-id "ABC123" \
@@ -100,20 +100,20 @@ asc auth login \
 ### 3. Validate auth
 
 ```bash
-asc auth status --validate
-asc auth doctor
+aso auth status --validate
+aso auth doctor
 ```
 
 ### 4. First command
 
 ```bash
-asc apps list --output table
-asc apps list --output json --pretty
+aso apps list --output table
+aso apps list --output json --pretty
 ```
 
 ### Output defaults (TTY-aware)
 
-`asc` chooses a default `--output` based on where stdout is connected:
+`aso` chooses a default `--output` based on where stdout is connected:
 
 - Interactive terminal (TTY): `table`
 - Non-interactive output (pipes/files/CI): `json`
@@ -127,139 +127,139 @@ export ASC_DEFAULT_OUTPUT=markdown
 And explicit flags always win:
 
 ```bash
-asc apps list --output json
+aso apps list --output json
 ```
 
 ## Troubleshooting
 
 ### Homebrew
 
-- Refresh Homebrew first: `brew update && brew upgrade asc`
-- Check which binary you are running: `which asc`
-- Confirm the installed version: `asc version`
+- Refresh Homebrew first: `brew update && brew upgrade aso`
+- Check which binary you are running: `which aso`
+- Confirm the installed version: `aso version`
 - If Homebrew is behind the latest GitHub release, use the install script from `https://asccli.sh/install`
 
 ### Authentication
 
-- Validate the active profile: `asc auth status --validate`
-- Run the auth health check: `asc auth doctor`
-- If keychain access is blocked, retry with `ASC_BYPASS_KEYCHAIN=1` or re-run `asc auth login --bypass-keychain`
-- Use `asc auth login --local --bypass-keychain ...` when you want repo-local credentials in `./.asc/config.json`
+- Validate the active profile: `aso auth status --validate`
+- Run the auth health check: `aso auth doctor`
+- If keychain access is blocked, retry with `ASC_BYPASS_KEYCHAIN=1` or re-run `aso auth login --bypass-keychain`
+- Use `aso auth login --local --bypass-keychain ...` when you want repo-local credentials in `./.asc/config.json`
 
 ### Output
 
-- `asc` defaults to `table` in an interactive terminal and `json` in pipes, files, and CI
+- `aso` defaults to `table` in an interactive terminal and `json` in pipes, files, and CI
 - Use an explicit format when scripting or sharing repro steps: `--output json`, `--output table`, or `--output markdown`
 - Use `--pretty` with JSON when you want readable output in terminals or bug reports
 - Set a personal default with `ASC_DEFAULT_OUTPUT`, but remember `--output` always wins
 
 ## Support
 
-- Use [GitHub Discussions](https://github.com/rudrankriyam/App-Store-Connect-CLI/discussions) for install help, authentication setup, workflow advice, and "how do I...?" questions
-- Use [GitHub Issues](https://github.com/rudrankriyam/App-Store-Connect-CLI/issues) for reproducible bugs and concrete feature requests
+- Use [GitHub Discussions](https://github.com/ASOManiac/aso-cli/discussions) for install help, authentication setup, workflow advice, and "how do I...?" questions
+- Use [GitHub Issues](https://github.com/ASOManiac/aso-cli/issues) for reproducible bugs and concrete feature requests
 - See [SUPPORT.md](SUPPORT.md) for the support policy and bug-report checklist
-- Before filing an auth or API bug, retry with `ASC_BYPASS_KEYCHAIN=1`; if it is safe to do so, include redacted output from `ASC_DEBUG=api asc ...` or `asc --api-debug ...`
+- Before filing an auth or API bug, retry with `ASC_BYPASS_KEYCHAIN=1`; if it is safe to do so, include redacted output from `ASC_DEBUG=api aso ...` or `aso --api-debug ...`
 
 ## Wall of Apps
 
 [See the Wall of Apps →](https://asccli.sh/#wall-of-apps)
 
 Want to add yours?
-`asc apps wall submit --app "1234567890" --confirm`
+`aso apps wall submit --app "1234567890" --confirm`
 
 The command uses your authenticated `gh` session to fork the repo and open a pull request that updates `docs/wall-of-apps.json`.
 It resolves the public App Store name, URL, and icon from the app ID automatically. For manual entries that are not on the public App Store yet, use `--link` with `--name`.
-Use `asc apps wall submit --dry-run` to preview the fork, branch, and PR plan before creating anything.
+Use `aso apps wall submit --dry-run` to preview the fork, branch, and PR plan before creating anything.
 
 ## Common Workflows
 
 ### TestFlight feedback and crashes
 
 ```bash
-asc testflight feedback list --app "123456789" --paginate
-asc testflight crashes list --app "123456789" --sort -createdDate --limit 10
-asc testflight crashes log --submission-id "SUBMISSION_ID"
+aso testflight feedback list --app "123456789" --paginate
+aso testflight crashes list --app "123456789" --sort -createdDate --limit 10
+aso testflight crashes log --submission-id "SUBMISSION_ID"
 ```
 
 ### Builds and distribution
 
 ```bash
-asc builds upload --app "123456789" --ipa "/path/to/MyApp.ipa"
-asc builds list --app "123456789" --output table
-asc testflight groups list --app "123456789" --output table
+aso builds upload --app "123456789" --ipa "/path/to/MyApp.ipa"
+aso builds list --app "123456789" --output table
+aso testflight groups list --app "123456789" --output table
 ```
 
 ### Release (high-level: validate + attach + submit)
 
 ```bash
 # Dry-run first to preview steps
-asc release run --app "123456789" --version "1.2.3" --build "BUILD_ID" --metadata-dir "./metadata/version/1.2.3" --dry-run
+aso release run --app "123456789" --version "1.2.3" --build "BUILD_ID" --metadata-dir "./metadata/version/1.2.3" --dry-run
 
 # Run the full pipeline: ensure version, apply metadata, attach build, validate, submit
-asc release run --app "123456789" --version "1.2.3" --build "BUILD_ID" --metadata-dir "./metadata/version/1.2.3" --confirm
+aso release run --app "123456789" --version "1.2.3" --build "BUILD_ID" --metadata-dir "./metadata/version/1.2.3" --confirm
 
 # Monitor status after submission
-asc status --app "123456789"
+aso status --app "123456789"
 ```
 
 Lower-level alternatives (for scripting or partial workflows):
 
 ```bash
-asc validate --app "123456789" --version "1.2.3"
-asc submit create --app "123456789" --version "1.2.3" --build "BUILD_ID" --confirm
+aso validate --app "123456789" --version "1.2.3"
+aso submit create --app "123456789" --version "1.2.3" --build "BUILD_ID" --confirm
 ```
 
 ### Metadata and localization
 
 ```bash
-asc localizations list --app "123456789"
-asc apps info view --app "123456789" --output json --pretty
+aso localizations list --app "123456789"
+aso apps info view --app "123456789" --output json --pretty
 ```
 
 ### Screenshots and media
 
 ```bash
-asc screenshots list --app "123456789"
-asc video-previews list --app "123456789"
+aso screenshots list --app "123456789"
+aso video-previews list --app "123456789"
 ```
 
 ### Signing and bundle IDs
 
 ```bash
-asc certificates list
-asc profiles list
-asc bundle-ids list
+aso certificates list
+aso profiles list
+aso bundle-ids list
 ```
 
 ### Workflow automation
 
 ```bash
-asc workflow run release
+aso workflow run release
 ```
 
 ### Verified local Xcode -> TestFlight workflow
 
 See [docs/WORKFLOWS.md](docs/WORKFLOWS.md) for a copyable `.asc/workflow.json`
-and `ExportOptions.plist` that use `asc builds latest`, `asc xcode archive`,
-`asc xcode export`, and `asc publish testflight --group ... --wait`.
+and `ExportOptions.plist` that use `aso builds latest`, `aso xcode archive`,
+`aso xcode export`, and `aso publish testflight --group ... --wait`.
 
 ```bash
-asc workflow validate
-asc workflow run --dry-run testflight_beta VERSION:1.2.3
-asc workflow run testflight_beta VERSION:1.2.3
+aso workflow validate
+aso workflow run --dry-run testflight_beta VERSION:1.2.3
+aso workflow run testflight_beta VERSION:1.2.3
 ```
 
 ### Xcode Cloud workflows and build runs
 
 ```bash
 # Trigger from a pull request
-asc xcode-cloud run --workflow-id "WORKFLOW_ID" --pull-request-id "PR_ID"
+aso xcode-cloud run --workflow-id "WORKFLOW_ID" --pull-request-id "PR_ID"
 
 # Rerun from an existing build run with a clean build
-asc xcode-cloud run --source-run-id "BUILD_RUN_ID" --clean
+aso xcode-cloud run --source-run-id "BUILD_RUN_ID" --clean
 
 # Fetch a single build run by ID
-asc xcode-cloud build-runs get --id "BUILD_RUN_ID"
+aso xcode-cloud build-runs get --id "BUILD_RUN_ID"
 ```
 
 ## Commands and Reference
@@ -267,9 +267,9 @@ asc xcode-cloud build-runs get --id "BUILD_RUN_ID"
 Use built-in help as the source of truth:
 
 ```bash
-asc --help
-asc <command> --help
-asc <command> <subcommand> --help
+aso --help
+aso <command> --help
+aso <command> <subcommand> --help
 ```
 
 For full command families, flags, and discovery patterns, see:
@@ -308,7 +308,7 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=rudrankriyam/App-Store-Connect-CLI&type=Date)](https://star-history.com/#rudrankriyam/App-Store-Connect-CLI&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=ASOManiac/aso-cli&type=Date)](https://star-history.com/#ASOManiac/aso-cli&Date)
 
 ---
 

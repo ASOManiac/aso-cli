@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // IAPPriceSchedulesCommand returns the canonical pricing schedules command group.
@@ -19,14 +19,14 @@ func IAPPriceSchedulesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "schedules",
-		ShortUsage: "asc iap pricing schedules <subcommand> [flags]",
+		ShortUsage: "aso iap pricing schedules <subcommand> [flags]",
 		ShortHelp:  "Manage in-app purchase price schedules.",
 		LongHelp: `Manage in-app purchase price schedules.
 
 Examples:
-  asc iap pricing schedules get --iap-id "IAP_ID"
-  asc iap pricing schedules create --iap-id "IAP_ID" --base-territory "USA" --prices "PRICE_POINT_ID:2024-03-01"
-  asc iap pricing schedules manual-prices --schedule-id "SCHEDULE_ID"`,
+  aso iap pricing schedules get --iap-id "IAP_ID"
+  aso iap pricing schedules create --iap-id "IAP_ID" --base-territory "USA" --prices "PRICE_POINT_ID:2024-03-01"
+  aso iap pricing schedules manual-prices --schedule-id "SCHEDULE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -58,14 +58,14 @@ func IAPPriceSchedulesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc iap pricing schedules get --iap-id \"IAP_ID\"",
+		ShortUsage: "aso iap pricing schedules get --iap-id \"IAP_ID\"",
 		ShortHelp:  "Get in-app purchase price schedule.",
 		LongHelp: `Get in-app purchase price schedule.
 
 Examples:
-  asc iap pricing schedules get --iap-id "IAP_ID"
-  asc iap pricing schedules get --schedule-id "SCHEDULE_ID"
-  asc iap pricing schedules get --iap-id "IAP_ID" --include "baseTerritory,manualPrices,automaticPrices" --price-fields "startDate,endDate,manual,inAppPurchasePricePoint,territory" --territory-fields "currency" --manual-prices-limit 50 --automatic-prices-limit 50`,
+  aso iap pricing schedules get --iap-id "IAP_ID"
+  aso iap pricing schedules get --schedule-id "SCHEDULE_ID"
+  aso iap pricing schedules get --iap-id "IAP_ID" --include "baseTerritory,manualPrices,automaticPrices" --price-fields "startDate,endDate,manual,inAppPurchasePricePoint,territory" --territory-fields "currency" --manual-prices-limit 50 --automatic-prices-limit 50`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -177,12 +177,12 @@ func IAPPriceSchedulesBaseTerritoryCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "base-territory",
-		ShortUsage: "asc iap pricing schedules base-territory --schedule-id \"SCHEDULE_ID\"",
+		ShortUsage: "aso iap pricing schedules base-territory --schedule-id \"SCHEDULE_ID\"",
 		ShortHelp:  "Get base territory for a price schedule.",
 		LongHelp: `Get base territory for a price schedule.
 
 Examples:
-  asc iap pricing schedules base-territory --schedule-id "SCHEDULE_ID"`,
+  aso iap pricing schedules base-territory --schedule-id "SCHEDULE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -226,14 +226,14 @@ func IAPPriceSchedulesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc iap pricing schedules create --iap-id \"IAP_ID\" --base-territory \"USA\" --prices \"PRICE_POINT_ID:2024-03-01\"",
+		ShortUsage: "aso iap pricing schedules create --iap-id \"IAP_ID\" --base-territory \"USA\" --prices \"PRICE_POINT_ID:2024-03-01\"",
 		ShortHelp:  "Create an in-app purchase price schedule.",
 		LongHelp: `Create an in-app purchase price schedule.
 
 Examples:
-  asc iap pricing schedules create --iap-id "IAP_ID" --base-territory "USA" --prices "PRICE_POINT_ID:2024-03-01"
-  asc iap pricing schedules create --iap-id "IAP_ID" --base-territory "USA" --tier 5 --start-date "2024-03-01"
-  asc iap pricing schedules create --iap-id "IAP_ID" --base-territory "USA" --price "4.99" --start-date "2024-03-01"`,
+  aso iap pricing schedules create --iap-id "IAP_ID" --base-territory "USA" --prices "PRICE_POINT_ID:2024-03-01"
+  aso iap pricing schedules create --iap-id "IAP_ID" --base-territory "USA" --tier 5 --start-date "2024-03-01"
+  aso iap pricing schedules create --iap-id "IAP_ID" --base-territory "USA" --price "4.99" --start-date "2024-03-01"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -356,13 +356,13 @@ func IAPPriceSchedulesManualPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "manual-prices",
-		ShortUsage: "asc iap pricing schedules manual-prices --schedule-id \"SCHEDULE_ID\"",
+		ShortUsage: "aso iap pricing schedules manual-prices --schedule-id \"SCHEDULE_ID\"",
 		ShortHelp:  "List manual prices for an in-app purchase price schedule.",
 		LongHelp: `List manual prices for an in-app purchase price schedule.
 
 Examples:
-  asc iap pricing schedules manual-prices --schedule-id "SCHEDULE_ID"
-  asc iap pricing schedules manual-prices --schedule-id "SCHEDULE_ID" --paginate`,
+  aso iap pricing schedules manual-prices --schedule-id "SCHEDULE_ID"
+  aso iap pricing schedules manual-prices --schedule-id "SCHEDULE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -431,13 +431,13 @@ func IAPPriceSchedulesAutomaticPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "automatic-prices",
-		ShortUsage: "asc iap pricing schedules automatic-prices --schedule-id \"SCHEDULE_ID\"",
+		ShortUsage: "aso iap pricing schedules automatic-prices --schedule-id \"SCHEDULE_ID\"",
 		ShortHelp:  "List automatic prices for an in-app purchase price schedule.",
 		LongHelp: `List automatic prices for an in-app purchase price schedule.
 
 Examples:
-  asc iap pricing schedules automatic-prices --schedule-id "SCHEDULE_ID"
-  asc iap pricing schedules automatic-prices --schedule-id "SCHEDULE_ID" --paginate`,
+  aso iap pricing schedules automatic-prices --schedule-id "SCHEDULE_ID"
+  aso iap pricing schedules automatic-prices --schedule-id "SCHEDULE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

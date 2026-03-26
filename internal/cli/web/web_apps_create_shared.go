@@ -9,8 +9,8 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 // AppsCreateRunOptions configures the canonical web-backed app-create flow.

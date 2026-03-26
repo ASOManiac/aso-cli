@@ -16,8 +16,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type csrGenerateSubject struct {
@@ -42,13 +42,13 @@ func CertificatesCSRCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "csr",
-		ShortUsage: "asc certificates csr <subcommand> [flags]",
+		ShortUsage: "aso certificates csr <subcommand> [flags]",
 		ShortHelp:  "Generate certificate signing requests (CSR).",
 		LongHelp: `Generate certificate signing requests (CSR).
 
 Examples:
-  asc certificates csr generate --key-out "./signing/cert.key" --csr-out "./signing/cert.csr"
-  asc certificates csr generate --common-name "ASC Signing" --key-out "./signing/cert.key" --csr-out "./signing/cert.csr"`,
+  aso certificates csr generate --key-out "./signing/cert.key" --csr-out "./signing/cert.csr"
+  aso certificates csr generate --common-name "ASC Signing" --key-out "./signing/cert.key" --csr-out "./signing/cert.csr"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -66,7 +66,7 @@ func CertificatesCSRGenerateCommand() *ffcli.Command {
 
 	keyOut := fs.String("key-out", "", "Private key output path (PEM)")
 	csrOut := fs.String("csr-out", "", "CSR output path (PEM)")
-	commonName := fs.String("common-name", "asc", "Subject Common Name (CN)")
+	commonName := fs.String("common-name", "aso", "Subject Common Name (CN)")
 	email := fs.String("email", "", "Subject email address")
 	organization := fs.String("organization", "", "Subject organization (O)")
 	orgUnit := fs.String("organizational-unit", "", "Subject organizational unit (OU)")
@@ -78,16 +78,16 @@ func CertificatesCSRGenerateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "generate",
-		ShortUsage: "asc certificates csr generate --key-out \"./signing/cert.key\" --csr-out \"./signing/cert.csr\"",
+		ShortUsage: "aso certificates csr generate --key-out \"./signing/cert.key\" --csr-out \"./signing/cert.csr\"",
 		ShortHelp:  "Generate a private key and CSR.",
 		LongHelp: `Generate a private key and certificate signing request (CSR).
 
 This command is non-interactive and does not print key material to stdout/stderr.
 
 Examples:
-  asc certificates csr generate --key-out "./signing/cert.key" --csr-out "./signing/cert.csr"
-  asc certificates csr generate --common-name "ASC Signing" --key-out "./signing/cert.key" --csr-out "./signing/cert.csr"
-  asc certificates csr generate --key-out "./signing/cert.key" --csr-out "./signing/cert.csr" --force`,
+  aso certificates csr generate --key-out "./signing/cert.key" --csr-out "./signing/cert.csr"
+  aso certificates csr generate --common-name "ASC Signing" --key-out "./signing/cert.key" --csr-out "./signing/cert.csr"
+  aso certificates csr generate --key-out "./signing/cert.key" --csr-out "./signing/cert.csr" --force`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -124,7 +124,7 @@ Examples:
 				Country:            strings.TrimSpace(*country),
 			}
 			if subject.CommonName == "" {
-				subject.CommonName = "asc"
+				subject.CommonName = "aso"
 			}
 
 			// Pre-check output paths to avoid leaving an orphaned key when CSR write fails.

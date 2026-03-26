@@ -7,9 +7,9 @@ import (
 	"strings"
 	"testing"
 
-	cmd "github.com/rudrankriyam/App-Store-Connect-CLI/cmd"
-	authsvc "github.com/rudrankriyam/App-Store-Connect-CLI/internal/auth"
-	authcmd "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/auth"
+	cmd "github.com/ASOManiac/aso-cli/cmd"
+	authsvc "github.com/ASOManiac/aso-cli/internal/auth"
+	authcmd "github.com/ASOManiac/aso-cli/internal/cli/auth"
 )
 
 func TestAuthStatusUsesCredentialSummariesWithoutValidate(t *testing.T) {

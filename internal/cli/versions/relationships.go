@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type relationshipKind int
@@ -47,13 +47,13 @@ func VersionsRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc versions links --version-id \"VERSION_ID\" --type \"RELATIONSHIP\" [flags]",
+		ShortUsage: "aso versions links --version-id \"VERSION_ID\" --type \"RELATIONSHIP\" [flags]",
 		ShortHelp:  "List relationship linkages for an app store version.",
 		LongHelp: `List relationship linkages for an app store version.
 
 Examples:
-  asc versions links --version-id "VERSION_ID" --type "appStoreReviewDetail"
-  asc versions links --version-id "VERSION_ID" --type "appStoreVersionExperiments" --paginate`,
+  aso versions links --version-id "VERSION_ID" --type "appStoreReviewDetail"
+  aso versions links --version-id "VERSION_ID" --type "appStoreVersionExperiments" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

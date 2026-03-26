@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppClipDefaultExperienceHeaderImageCommand returns the default experience header image command group.
@@ -17,12 +17,12 @@ func AppClipDefaultExperienceHeaderImageCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "header-image",
-		ShortUsage: "asc app-clips default-experiences header-image <subcommand> [flags]",
+		ShortUsage: "aso app-clips default-experiences header-image <subcommand> [flags]",
 		ShortHelp:  "Manage default experience header images.",
 		LongHelp: `Manage default experience header images.
 
 Examples:
-  asc app-clips default-experiences header-image get --localization-id "LOCALIZATION_ID"`,
+  aso app-clips default-experiences header-image get --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -43,12 +43,12 @@ func AppClipDefaultExperienceHeaderImageGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-clips default-experiences header-image get --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso app-clips default-experiences header-image get --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:  "Get the header image for a localization.",
 		LongHelp: `Get the header image for a localization.
 
 Examples:
-  asc app-clips default-experiences header-image get --localization-id "LOCALIZATION_ID"`,
+  aso app-clips default-experiences header-image get --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

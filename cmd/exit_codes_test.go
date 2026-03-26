@@ -17,8 +17,8 @@ import (
 	"github.com/creack/pty"
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func TestExitCodeFromError(t *testing.T) {
@@ -147,14 +147,14 @@ func TestExitCodeFromError_NonJSONAPIStatus(t *testing.T) {
 
 func TestGetCommandName(t *testing.T) {
 	makeCommandTree := func() *ffcli.Command {
-		rootFlags := flag.NewFlagSet("asc", flag.ContinueOnError)
+		rootFlags := flag.NewFlagSet("aso", flag.ContinueOnError)
 		rootFlags.Bool("debug", false, "")
 		rootFlags.String("report", "", "")
 		rootFlags.String("report-file", "", "")
 		rootFlags.String("profile", "", "")
 
 		return &ffcli.Command{
-			Name:    "asc",
+			Name:    "aso",
 			FlagSet: rootFlags,
 			Subcommands: []*ffcli.Command{
 				{
@@ -181,15 +181,15 @@ func TestGetCommandName(t *testing.T) {
 		args     []string
 		expected string
 	}{
-		{"root command", []string{}, "asc"},
-		{"single level subcommand", []string{"builds"}, "asc builds"},
-		{"nested subcommand", []string{"builds", "list"}, "asc builds list"},
-		{"another nested subcommand", []string{"apps", "list"}, "asc apps list"},
-		{"root flag before subcommand", []string{"--debug", "builds"}, "asc builds"},
-		{"multiple root flags before subcommand", []string{"--report", "junit", "--report-file", "/tmp/report.xml", "completion"}, "asc completion"},
-		{"flag value matches subcommand name", []string{"--profile", "builds", "completion"}, "asc completion"},
-		{"subcommand then flags", []string{"builds", "list", "--output", "json"}, "asc builds list"},
-		{"backward compatibility with program name", []string{"asc", "apps", "list"}, "asc apps list"},
+		{"root command", []string{}, "aso"},
+		{"single level subcommand", []string{"builds"}, "aso builds"},
+		{"nested subcommand", []string{"builds", "list"}, "aso builds list"},
+		{"another nested subcommand", []string{"apps", "list"}, "aso apps list"},
+		{"root flag before subcommand", []string{"--debug", "builds"}, "aso builds"},
+		{"multiple root flags before subcommand", []string{"--report", "junit", "--report-file", "/tmp/report.xml", "completion"}, "aso completion"},
+		{"flag value matches subcommand name", []string{"--profile", "builds", "completion"}, "aso completion"},
+		{"subcommand then flags", []string{"builds", "list", "--output", "json"}, "aso builds list"},
+		{"backward compatibility with program name", []string{"aso", "apps", "list"}, "aso apps list"},
 	}
 
 	for _, tt := range tests {
@@ -205,7 +205,7 @@ func TestGetCommandName(t *testing.T) {
 func TestJUnitReportNameWithRootFlags(t *testing.T) {
 	// Build the binary
 	tmpDir := t.TempDir()
-	binaryPath := filepath.Join(tmpDir, "asc-test")
+	binaryPath := filepath.Join(tmpDir, "aso-test")
 	cmd := exec.Command("go", "build", "-o", binaryPath, ".")
 	cmd.Dir = ".." // Go up from cmd/ to project root
 	if out, err := cmd.CombinedOutput(); err != nil {
@@ -238,7 +238,7 @@ func TestJUnitReportNameWithRootFlags(t *testing.T) {
 		t.Fatalf("Expected 1 test case, got %d", len(result.Cases))
 	}
 
-	// The test case name should include the subcommand, not just "asc"
+	// The test case name should include the subcommand, not just "aso"
 	if !strings.Contains(result.Cases[0].Name, "completion") {
 		t.Errorf("Expected testcase name to contain 'completion', got %q. Full XML:\n%s", result.Cases[0].Name, data)
 	}
@@ -247,7 +247,7 @@ func TestJUnitReportNameWithRootFlags(t *testing.T) {
 func TestJUnitReportEndToEnd(t *testing.T) {
 	// Build the binary
 	tmpDir := t.TempDir()
-	binaryPath := filepath.Join(tmpDir, "asc-test")
+	binaryPath := filepath.Join(tmpDir, "aso-test")
 	cmd := exec.Command("go", "build", "-o", binaryPath, ".")
 	cmd.Dir = ".." // Go up from cmd/ to project root
 	if out, err := cmd.CombinedOutput(); err != nil {
@@ -262,17 +262,17 @@ func TestJUnitReportEndToEnd(t *testing.T) {
 		{
 			name:       "flags before nested subcommand",
 			args:       []string{"--report", "junit", "--report-file", "report1.xml", "builds", "list"},
-			expectName: "asc builds list",
+			expectName: "aso builds list",
 		},
 		{
 			name:       "single subcommand",
 			args:       []string{"--report", "junit", "--report-file", "report2.xml", "completion", "--shell", "bash"},
-			expectName: "asc completion",
+			expectName: "aso completion",
 		},
 		{
 			name:       "flag value matching subcommand name",
 			args:       []string{"--report", "junit", "--report-file", "report3.xml", "--profile", "builds", "completion", "--shell", "bash"},
-			expectName: "asc completion",
+			expectName: "aso completion",
 		},
 	}
 
@@ -334,7 +334,7 @@ func TestJUnitReportEndToEnd(t *testing.T) {
 
 func TestBuildsListMissingAppExitCode(t *testing.T) {
 	tmpDir := t.TempDir()
-	binaryPath := filepath.Join(tmpDir, "asc-test")
+	binaryPath := filepath.Join(tmpDir, "aso-test")
 
 	buildCmd := exec.Command("go", "build", "-o", binaryPath, ".")
 	buildCmd.Dir = ".."
@@ -364,7 +364,7 @@ func TestBuildsListMissingAppExitCode(t *testing.T) {
 
 func TestBuildsTestNotesUpdateConflictingFlagsExitCode(t *testing.T) {
 	tmpDir := t.TempDir()
-	binaryPath := filepath.Join(tmpDir, "asc-test")
+	binaryPath := filepath.Join(tmpDir, "aso-test")
 
 	buildCmd := exec.Command("go", "build", "-o", binaryPath, ".")
 	buildCmd.Dir = ".."
@@ -396,7 +396,7 @@ func TestBuildsTestNotesUpdateConflictingFlagsExitCode(t *testing.T) {
 
 func TestBuildsLatestExcludeExpiredInvalidBooleanExitCode(t *testing.T) {
 	tmpDir := t.TempDir()
-	binaryPath := filepath.Join(tmpDir, "asc-test")
+	binaryPath := filepath.Join(tmpDir, "aso-test")
 
 	buildCmd := exec.Command("go", "build", "-o", binaryPath, ".")
 	buildCmd.Dir = ".." // Go up from cmd/ to project root
@@ -430,7 +430,7 @@ func TestBuildsLatestExcludeExpiredInvalidBooleanExitCode(t *testing.T) {
 
 func TestWebAuthLoginLegacyTwoFactorFlagExitCode(t *testing.T) {
 	tmpDir := t.TempDir()
-	binaryPath := filepath.Join(tmpDir, "asc-test")
+	binaryPath := filepath.Join(tmpDir, "aso-test")
 
 	buildCmd := exec.Command("go", "build", "-o", binaryPath, ".")
 	buildCmd.Dir = ".."
@@ -471,7 +471,7 @@ func TestWebAuthLoginLegacyTwoFactorFlagExitCode(t *testing.T) {
 
 func TestAuthTokenConfirmInvalidBooleanExitCode(t *testing.T) {
 	tmpDir := t.TempDir()
-	binaryPath := filepath.Join(tmpDir, "asc-test")
+	binaryPath := filepath.Join(tmpDir, "aso-test")
 
 	buildCmd := exec.Command("go", "build", "-o", binaryPath, ".")
 	buildCmd.Dir = ".." // Go up from cmd/ to project root
@@ -505,7 +505,7 @@ func TestAuthTokenConfirmInvalidBooleanExitCode(t *testing.T) {
 
 func TestWebAuthLoginPromptInterruptDoesNotFallBackToUsageError(t *testing.T) {
 	tmpDir := t.TempDir()
-	binaryPath := filepath.Join(tmpDir, "asc-test")
+	binaryPath := filepath.Join(tmpDir, "aso-test")
 
 	buildCmd := exec.Command("go", "build", "-o", binaryPath, ".")
 	buildCmd.Dir = ".."
@@ -585,7 +585,7 @@ func TestWebAuthLoginPromptInterruptDoesNotFallBackToUsageError(t *testing.T) {
 
 func TestWebAuthLoginPromptInterruptSkipsSkillsAutoCheck(t *testing.T) {
 	tmpDir := t.TempDir()
-	binaryPath := filepath.Join(tmpDir, "asc-test")
+	binaryPath := filepath.Join(tmpDir, "aso-test")
 
 	buildCmd := exec.Command("go", "build", "-o", binaryPath, ".")
 	buildCmd.Dir = ".."

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PushExecutionOptions controls metadata push planning and apply behavior.

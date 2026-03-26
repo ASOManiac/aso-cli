@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ReviewItemsGetCommand returns the review items get subcommand.
@@ -22,12 +22,12 @@ func ReviewItemsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "items-get",
-		ShortUsage: "asc review items-get --id \"ITEM_ID\" [flags]",
+		ShortUsage: "aso review items-get --id \"ITEM_ID\" [flags]",
 		ShortHelp:  "Get a review submission item by ID.",
 		LongHelp: `Get a review submission item by ID.
 
 Examples:
-  asc review items-get --id "ITEM_ID"`,
+  aso review items-get --id "ITEM_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -67,13 +67,13 @@ func ReviewItemsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "items-list",
-		ShortUsage: "asc review items-list [flags]",
+		ShortUsage: "aso review items-list [flags]",
 		ShortHelp:  "List items in a review submission.",
 		LongHelp: `List items in a review submission.
 
 Examples:
-  asc review items-list --submission "SUBMISSION_ID"
-  asc review items-list --submission "SUBMISSION_ID" --paginate`,
+  aso review items-list --submission "SUBMISSION_ID"
+  aso review items-list --submission "SUBMISSION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -140,13 +140,13 @@ func ReviewItemsAddCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "items-add",
-		ShortUsage: "asc review items-add [flags]",
+		ShortUsage: "aso review items-add [flags]",
 		ShortHelp:  "Add an item to a review submission.",
 		LongHelp: `Add an item to a review submission.
 
 Examples:
-  asc review items-add --submission "SUBMISSION_ID" --item-type appStoreVersions --item-id "VERSION_ID"
-  asc review items-add --submission "SUBMISSION_ID" --item-type gameCenterChallengeVersions --item-id "VERSION_ID"`,
+  aso review items-add --submission "SUBMISSION_ID" --item-type appStoreVersions --item-id "VERSION_ID"
+  aso review items-add --submission "SUBMISSION_ID" --item-type gameCenterChallengeVersions --item-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -196,12 +196,12 @@ func ReviewItemsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "items-update",
-		ShortUsage: "asc review items-update --id \"ITEM_ID\" --state READY_FOR_REVIEW [flags]",
+		ShortUsage: "aso review items-update --id \"ITEM_ID\" --state READY_FOR_REVIEW [flags]",
 		ShortHelp:  "Update a review submission item.",
 		LongHelp: `Update a review submission item.
 
 Examples:
-  asc review items-update --id "ITEM_ID" --state READY_FOR_REVIEW`,
+  aso review items-update --id "ITEM_ID" --state READY_FOR_REVIEW`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -251,12 +251,12 @@ func ReviewItemsRemoveCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "items-remove",
-		ShortUsage: "asc review items-remove [flags]",
+		ShortUsage: "aso review items-remove [flags]",
 		ShortHelp:  "Remove an item from a review submission.",
 		LongHelp: `Remove an item from a review submission.
 
 Examples:
-  asc review items-remove --id "ITEM_ID" --confirm`,
+  aso review items-remove --id "ITEM_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

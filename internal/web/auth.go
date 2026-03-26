@@ -29,9 +29,9 @@ import (
 	"github.com/1Password/srp"
 	"golang.org/x/crypto/pbkdf2"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/appleauth"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/urlsanitize"
+	"github.com/ASOManiac/aso-cli/internal/appleauth"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/urlsanitize"
 )
 
 const (

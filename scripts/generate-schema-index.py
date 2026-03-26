@@ -3,7 +3,7 @@
 
 This produces a compact JSON index of every API endpoint with pre-resolved
 parameters, request attributes, and response schema names. The index is
-embedded in the asc binary for runtime schema introspection (`asc schema`).
+embedded in the aso binary for runtime schema introspection (`aso schema`).
 
 Usage:
     python3 scripts/generate-schema-index.py [--check]

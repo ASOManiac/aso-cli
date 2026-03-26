@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // IAPAvailabilityCommand returns the canonical pricing availability command group.
@@ -17,13 +17,13 @@ func IAPAvailabilityCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "availability",
-		ShortUsage: "asc iap pricing availability <subcommand> [flags]",
+		ShortUsage: "aso iap pricing availability <subcommand> [flags]",
 		ShortHelp:  "Manage in-app purchase availability.",
 		LongHelp: `Manage in-app purchase availability.
 
 Examples:
-  asc iap pricing availability get --iap-id "IAP_ID"
-  asc iap pricing availability set --iap-id "IAP_ID" --territories "USA,CAN"`,
+  aso iap pricing availability get --iap-id "IAP_ID"
+  aso iap pricing availability set --iap-id "IAP_ID" --territories "USA,CAN"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -45,12 +45,12 @@ func IAPAvailabilityGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc iap pricing availability get --iap-id \"IAP_ID\"",
+		ShortUsage: "aso iap pricing availability get --iap-id \"IAP_ID\"",
 		ShortHelp:  "Get in-app purchase availability.",
 		LongHelp: `Get in-app purchase availability.
 
 Examples:
-  asc iap pricing availability get --iap-id "IAP_ID"`,
+  aso iap pricing availability get --iap-id "IAP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -89,12 +89,12 @@ func IAPAvailabilitySetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc iap pricing availability set --iap-id \"IAP_ID\" --territories \"USA,CAN\"",
+		ShortUsage: "aso iap pricing availability set --iap-id \"IAP_ID\" --territories \"USA,CAN\"",
 		ShortHelp:  "Set in-app purchase availability in territories.",
 		LongHelp: `Set in-app purchase availability in territories.
 
 Examples:
-  asc iap pricing availability set --iap-id "IAP_ID" --territories "USA,CAN"`,
+  aso iap pricing availability set --iap-id "IAP_ID" --territories "USA,CAN"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildsAppCommand returns the builds app command group.
@@ -19,12 +19,12 @@ func BuildsAppCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app",
-		ShortUsage: "asc builds app <subcommand> [flags]",
+		ShortUsage: "aso builds app <subcommand> [flags]",
 		ShortHelp:  "View the app related to a build.",
 		LongHelp: `View the app related to a build.
 
 Examples:
-  asc builds app get --build "BUILD_ID"`,
+  aso builds app get --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -46,12 +46,12 @@ func BuildsAppGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc builds app get --build \"BUILD_ID\"",
+		ShortUsage: "aso builds app get --build \"BUILD_ID\"",
 		ShortHelp:  "Get the app for a build.",
 		LongHelp: `Get the app for a build.
 
 Examples:
-  asc builds app get --build "BUILD_ID"`,
+  aso builds app get --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -91,12 +91,12 @@ func BuildsPreReleaseVersionCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "pre-release-version",
-		ShortUsage: "asc builds pre-release-version <subcommand> [flags]",
+		ShortUsage: "aso builds pre-release-version <subcommand> [flags]",
 		ShortHelp:  "View the pre-release version related to a build.",
 		LongHelp: `View the pre-release version related to a build.
 
 Examples:
-  asc builds pre-release-version get --build "BUILD_ID"`,
+  aso builds pre-release-version get --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -118,12 +118,12 @@ func BuildsPreReleaseVersionGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc builds pre-release-version get --build \"BUILD_ID\"",
+		ShortUsage: "aso builds pre-release-version get --build \"BUILD_ID\"",
 		ShortHelp:  "Get the pre-release version for a build.",
 		LongHelp: `Get the pre-release version for a build.
 
 Examples:
-  asc builds pre-release-version get --build "BUILD_ID"`,
+  aso builds pre-release-version get --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -163,12 +163,12 @@ func BuildsIconsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "icons",
-		ShortUsage: "asc builds icons <subcommand> [flags]",
+		ShortUsage: "aso builds icons <subcommand> [flags]",
 		ShortHelp:  "List build icons for a build.",
 		LongHelp: `List build icons for a build.
 
 Examples:
-  asc builds icons list --build "BUILD_ID"`,
+  aso builds icons list --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -193,13 +193,13 @@ func BuildsIconsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc builds icons list [flags]",
+		ShortUsage: "aso builds icons list [flags]",
 		ShortHelp:  "List build icons for a build.",
 		LongHelp: `List build icons for a build.
 
 Examples:
-  asc builds icons list --build "BUILD_ID"
-  asc builds icons list --build "BUILD_ID" --paginate`,
+  aso builds icons list --build "BUILD_ID"
+  aso builds icons list --build "BUILD_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -271,12 +271,12 @@ func BuildsBetaAppReviewSubmissionCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "beta-app-review-submission",
-		ShortUsage: "asc builds beta-app-review-submission <subcommand> [flags]",
+		ShortUsage: "aso builds beta-app-review-submission <subcommand> [flags]",
 		ShortHelp:  "View beta app review submission for a build.",
 		LongHelp: `View beta app review submission for a build.
 
 Examples:
-  asc builds beta-app-review-submission get --build "BUILD_ID"`,
+  aso builds beta-app-review-submission get --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -298,12 +298,12 @@ func BuildsBetaAppReviewSubmissionGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc builds beta-app-review-submission get --build \"BUILD_ID\"",
+		ShortUsage: "aso builds beta-app-review-submission get --build \"BUILD_ID\"",
 		ShortHelp:  "Get beta app review submission for a build.",
 		LongHelp: `Get beta app review submission for a build.
 
 Examples:
-  asc builds beta-app-review-submission get --build "BUILD_ID"`,
+  aso builds beta-app-review-submission get --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -343,12 +343,12 @@ func BuildsBuildBetaDetailCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "build-beta-detail",
-		ShortUsage: "asc builds build-beta-detail <subcommand> [flags]",
+		ShortUsage: "aso builds build-beta-detail <subcommand> [flags]",
 		ShortHelp:  "View build beta detail for a build.",
 		LongHelp: `View build beta detail for a build.
 
 Examples:
-  asc builds build-beta-detail get --build "BUILD_ID"`,
+  aso builds build-beta-detail get --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -370,12 +370,12 @@ func BuildsBuildBetaDetailGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc builds build-beta-detail get --build \"BUILD_ID\"",
+		ShortUsage: "aso builds build-beta-detail get --build \"BUILD_ID\"",
 		ShortHelp:  "Get build beta detail for a build.",
 		LongHelp: `Get build beta detail for a build.
 
 Examples:
-  asc builds build-beta-detail get --build "BUILD_ID"`,
+  aso builds build-beta-detail get --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

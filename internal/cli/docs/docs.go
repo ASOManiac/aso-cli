@@ -8,7 +8,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // DocsCommand returns the docs command group.
@@ -17,16 +17,16 @@ func DocsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "docs",
-		ShortUsage: "asc docs <subcommand> [flags]",
+		ShortUsage: "aso docs <subcommand> [flags]",
 		ShortHelp:  "Access embedded documentation guides and reference helpers.",
 		LongHelp: `Access embedded documentation guides and reference helpers.
 
 Examples:
-  asc docs list
-  asc docs show api-notes
-  asc docs init
-  asc docs init --path ./ASC.md
-  asc docs init --force --link=false`,
+  aso docs list
+  aso docs show api-notes
+  aso docs init
+  aso docs init --path ./ASC.md
+  aso docs init --force --link=false`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{

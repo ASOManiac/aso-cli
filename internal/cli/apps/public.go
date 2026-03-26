@@ -10,9 +10,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/itunes"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/itunes"
 )
 
 var newPublicItunesClient = itunes.NewClient
@@ -50,18 +50,18 @@ func AppsPublicCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "public",
-		ShortUsage: "asc apps public <subcommand> [flags]",
+		ShortUsage: "aso apps public <subcommand> [flags]",
 		ShortHelp:  "Inspect public App Store storefront data.",
 		LongHelp: `Inspect public App Store storefront data.
 
 No authentication is required.
 
 Examples:
-  asc apps public view --app "1479784361"
-  asc apps public search --term "focus" --country us
-  asc apps public prices --app "1479784361"
-  asc apps public descriptions --app "1479784361"
-  asc apps public storefronts list`,
+  aso apps public view --app "1479784361"
+  aso apps public search --term "focus" --country us
+  aso apps public prices --app "1479784361"
+  aso apps public descriptions --app "1479784361"
+  aso apps public storefronts list`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -88,16 +88,16 @@ func AppsPublicViewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "view",
-		ShortUsage: "asc apps public view --app APP_ID [--country CODE]",
+		ShortUsage: "aso apps public view --app APP_ID [--country CODE]",
 		ShortHelp:  "View public App Store metadata for an app.",
 		LongHelp: `View public App Store metadata for a public App Store app.
 
 No authentication is required.
 
 Examples:
-  asc apps public view --app "1479784361"
-  asc apps public view --app "1479784361" --country de
-  asc apps public view --id "1479784361" --output markdown`,
+  aso apps public view --app "1479784361"
+  aso apps public view --app "1479784361" --country de
+  aso apps public view --id "1479784361" --output markdown`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -150,16 +150,16 @@ func AppsPublicSearchCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "search",
-		ShortUsage: "asc apps public search --term QUERY [--country CODE] [--limit 20]",
+		ShortUsage: "aso apps public search --term QUERY [--country CODE] [--limit 20]",
 		ShortHelp:  "Search public App Store storefronts.",
 		LongHelp: `Search public App Store storefronts.
 
 No authentication is required.
 
 Examples:
-  asc apps public search --term "focus" --country us
-  asc apps public search --term "focus" --country de --limit 10
-  asc apps public search --term "habit tracker" --output table`,
+  aso apps public search --term "focus" --country us
+  aso apps public search --term "focus" --country de --limit 10
+  aso apps public search --term "habit tracker" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -219,16 +219,16 @@ func AppsPublicPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "prices",
-		ShortUsage: "asc apps public prices --app APP_ID [--country CODE]",
+		ShortUsage: "aso apps public prices --app APP_ID [--country CODE]",
 		ShortHelp:  "Show the public App Store price for an app.",
 		LongHelp: `Show the public App Store price for a public App Store app.
 
 No authentication is required.
 
 Examples:
-  asc apps public prices --app "1479784361"
-  asc apps public prices --app "1479784361" --country jp
-  asc apps public prices --id "1479784361" --output markdown`,
+  aso apps public prices --app "1479784361"
+  aso apps public prices --app "1479784361" --country jp
+  aso apps public prices --id "1479784361" --output markdown`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -291,16 +291,16 @@ func AppsPublicDescriptionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "descriptions",
-		ShortUsage: "asc apps public descriptions --app APP_ID [--country CODE]",
+		ShortUsage: "aso apps public descriptions --app APP_ID [--country CODE]",
 		ShortHelp:  "Show the public App Store description for an app.",
 		LongHelp: `Show the public App Store description for a public App Store app.
 
 No authentication is required.
 
 Examples:
-  asc apps public descriptions --app "1479784361"
-  asc apps public descriptions --app "1479784361" --country fr
-  asc apps public descriptions --id "1479784361" --output table`,
+  aso apps public descriptions --app "1479784361"
+  aso apps public descriptions --app "1479784361" --country fr
+  aso apps public descriptions --id "1479784361" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -356,15 +356,15 @@ func AppsPublicStorefrontsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "storefronts",
-		ShortUsage: "asc apps public storefronts <subcommand> [flags]",
+		ShortUsage: "aso apps public storefronts <subcommand> [flags]",
 		ShortHelp:  "Inspect App Store storefront metadata.",
 		LongHelp: `Inspect public App Store storefront metadata.
 
 No authentication is required.
 
 Examples:
-  asc apps public storefronts list
-  asc apps public storefronts list --output markdown`,
+  aso apps public storefronts list
+  aso apps public storefronts list --output markdown`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -383,15 +383,15 @@ func AppsPublicStorefrontsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc apps public storefronts list [flags]",
+		ShortUsage: "aso apps public storefronts list [flags]",
 		ShortHelp:  "List public App Store storefronts.",
 		LongHelp: `List the public App Store storefronts.
 
 No authentication is required.
 
 Examples:
-  asc apps public storefronts list
-  asc apps public storefronts list --output table`,
+  aso apps public storefronts list
+  aso apps public storefronts list --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

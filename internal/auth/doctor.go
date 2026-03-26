@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 type DoctorStatus string

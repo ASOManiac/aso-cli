@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func TestWebReviewSubscriptionsListCommandOutputsJSON(t *testing.T) {
@@ -575,10 +575,10 @@ func TestWebReviewSubscriptionsAttachFailsFastForMissingMetadata(t *testing.T) {
 	if !strings.Contains(stderr, "is MISSING_METADATA") {
 		t.Fatalf("expected missing metadata preflight explanation, got %q", stderr)
 	}
-	if !strings.Contains(stderr, `asc validate subscriptions --app "app-1"`) {
+	if !strings.Contains(stderr, `aso validate subscriptions --app "app-1"`) {
 		t.Fatalf("expected validate subscriptions hint, got %q", stderr)
 	}
-	if !strings.Contains(stderr, `asc subscriptions images create --subscription-id "sub-1" --file "./image.png"`) {
+	if !strings.Contains(stderr, `aso subscriptions images create --subscription-id "sub-1" --file "./image.png"`) {
 		t.Fatalf("expected promotional image hint, got %q", stderr)
 	}
 	wantLabels := []string{"Loading review subscriptions"}

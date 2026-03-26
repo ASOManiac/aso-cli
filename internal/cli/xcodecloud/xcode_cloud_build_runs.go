@@ -6,8 +6,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func xcodeCloudBuildRunsListFlags(fs *flag.FlagSet) (workflowID *string, sort *string, limit *int, next *string, paginate *bool, output *string, pretty *bool) {
@@ -30,18 +30,18 @@ func XcodeCloudBuildRunsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "build-runs",
-		ShortUsage: "asc xcode-cloud build-runs [flags]",
+		ShortUsage: "aso xcode-cloud build-runs [flags]",
 		ShortHelp:  "Manage Xcode Cloud build runs.",
 		LongHelp: `Manage Xcode Cloud build runs.
 
 Examples:
-  asc xcode-cloud build-runs --workflow-id "WORKFLOW_ID"
-  asc xcode-cloud build-runs --workflow-id "WORKFLOW_ID" --sort "-number"
-  asc xcode-cloud build-runs list --workflow-id "WORKFLOW_ID"
-  asc xcode-cloud build-runs get --id "BUILD_RUN_ID"
-  asc xcode-cloud build-runs builds --run-id "BUILD_RUN_ID"
-  asc xcode-cloud build-runs --workflow-id "WORKFLOW_ID" --limit 50
-  asc xcode-cloud build-runs --workflow-id "WORKFLOW_ID" --paginate`,
+  aso xcode-cloud build-runs --workflow-id "WORKFLOW_ID"
+  aso xcode-cloud build-runs --workflow-id "WORKFLOW_ID" --sort "-number"
+  aso xcode-cloud build-runs list --workflow-id "WORKFLOW_ID"
+  aso xcode-cloud build-runs get --id "BUILD_RUN_ID"
+  aso xcode-cloud build-runs builds --run-id "BUILD_RUN_ID"
+  aso xcode-cloud build-runs --workflow-id "WORKFLOW_ID" --limit 50
+  aso xcode-cloud build-runs --workflow-id "WORKFLOW_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -62,15 +62,15 @@ func XcodeCloudBuildRunsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc xcode-cloud build-runs list [flags]",
+		ShortUsage: "aso xcode-cloud build-runs list [flags]",
 		ShortHelp:  "List Xcode Cloud build runs for a workflow.",
 		LongHelp: `List Xcode Cloud build runs for a workflow.
 
 Examples:
-  asc xcode-cloud build-runs list --workflow-id "WORKFLOW_ID"
-  asc xcode-cloud build-runs list --workflow-id "WORKFLOW_ID" --sort "-number"
-  asc xcode-cloud build-runs list --workflow-id "WORKFLOW_ID" --limit 50
-  asc xcode-cloud build-runs list --workflow-id "WORKFLOW_ID" --paginate`,
+  aso xcode-cloud build-runs list --workflow-id "WORKFLOW_ID"
+  aso xcode-cloud build-runs list --workflow-id "WORKFLOW_ID" --sort "-number"
+  aso xcode-cloud build-runs list --workflow-id "WORKFLOW_ID" --limit 50
+  aso xcode-cloud build-runs list --workflow-id "WORKFLOW_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -83,13 +83,13 @@ func XcodeCloudBuildRunsGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "get",
 		Name:        "get",
-		ShortUsage:  "asc xcode-cloud build-runs get --id \"BUILD_RUN_ID\"",
+		ShortUsage:  "aso xcode-cloud build-runs get --id \"BUILD_RUN_ID\"",
 		ShortHelp:   "Get details for a build run.",
 		LongHelp: `Get details for a build run.
 
 Examples:
-  asc xcode-cloud build-runs get --id "BUILD_RUN_ID"
-  asc xcode-cloud build-runs get --id "BUILD_RUN_ID" --output table`,
+  aso xcode-cloud build-runs get --id "BUILD_RUN_ID"
+  aso xcode-cloud build-runs get --id "BUILD_RUN_ID" --output table`,
 		IDFlag:      "id",
 		IDUsage:     "Build run ID",
 		ErrorPrefix: "xcode-cloud build-runs get",
@@ -113,15 +113,15 @@ func XcodeCloudBuildRunsBuildsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "builds",
-		ShortUsage: "asc xcode-cloud build-runs builds [flags]",
+		ShortUsage: "aso xcode-cloud build-runs builds [flags]",
 		ShortHelp:  "List builds for a build run.",
 		LongHelp: `List builds for a build run.
 
 Examples:
-  asc xcode-cloud build-runs builds --run-id "BUILD_RUN_ID"
-  asc xcode-cloud build-runs builds --run-id "BUILD_RUN_ID" --output table
-  asc xcode-cloud build-runs builds --run-id "BUILD_RUN_ID" --limit 50
-  asc xcode-cloud build-runs builds --run-id "BUILD_RUN_ID" --paginate`,
+  aso xcode-cloud build-runs builds --run-id "BUILD_RUN_ID"
+  aso xcode-cloud build-runs builds --run-id "BUILD_RUN_ID" --output table
+  aso xcode-cloud build-runs builds --run-id "BUILD_RUN_ID" --limit 50
+  aso xcode-cloud build-runs builds --run-id "BUILD_RUN_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

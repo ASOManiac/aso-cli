@@ -23,7 +23,7 @@ import (
 	"github.com/1Password/srp"
 	"golang.org/x/crypto/pbkdf2"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/appleauth"
+	"github.com/ASOManiac/aso-cli/internal/appleauth"
 )
 
 var errAppleAccountActionRequired = errors.New("complete the pending Apple Account web prompt in a browser (privacy acknowledgement or 2FA upgrade) and try again")

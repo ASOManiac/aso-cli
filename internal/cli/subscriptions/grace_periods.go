@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SubscriptionsGracePeriodsCommand returns the grace periods command group.
@@ -19,13 +19,13 @@ func SubscriptionsGracePeriodsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "grace-periods",
-		ShortUsage: "asc subscriptions grace-periods <subcommand> [flags]",
+		ShortUsage: "aso subscriptions grace-periods <subcommand> [flags]",
 		ShortHelp:  "Inspect subscription grace periods.",
 		LongHelp: `Inspect subscription grace periods.
 
 Examples:
-  asc subscriptions grace-periods get --id "GRACE_PERIOD_ID"
-  asc subscriptions grace-periods update --id "GRACE_PERIOD_ID" --duration SIXTEEN_DAYS --opt-in true`,
+  aso subscriptions grace-periods get --id "GRACE_PERIOD_ID"
+  aso subscriptions grace-periods update --id "GRACE_PERIOD_ID" --duration SIXTEEN_DAYS --opt-in true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -47,12 +47,12 @@ func SubscriptionsGracePeriodsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc subscriptions grace-periods get --id \"GRACE_PERIOD_ID\"",
+		ShortUsage: "aso subscriptions grace-periods get --id \"GRACE_PERIOD_ID\"",
 		ShortHelp:  "Get a subscription grace period by ID.",
 		LongHelp: `Get a subscription grace period by ID.
 
 Examples:
-  asc subscriptions grace-periods get --id "GRACE_PERIOD_ID"`,
+  aso subscriptions grace-periods get --id "GRACE_PERIOD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -95,12 +95,12 @@ func SubscriptionsGracePeriodsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc subscriptions grace-periods update [flags]",
+		ShortUsage: "aso subscriptions grace-periods update [flags]",
 		ShortHelp:  "Update a subscription grace period.",
 		LongHelp: `Update a subscription grace period.
 
 Examples:
-  asc subscriptions grace-periods update --id "GRACE_PERIOD_ID" --duration SIXTEEN_DAYS --opt-in true`,
+  aso subscriptions grace-periods update --id "GRACE_PERIOD_ID" --duration SIXTEEN_DAYS --opt-in true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

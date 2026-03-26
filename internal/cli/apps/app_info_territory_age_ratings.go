@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppsInfoTerritoryAgeRatingsCommand returns the apps info territory-age-ratings command group.
@@ -20,13 +20,13 @@ func AppsInfoTerritoryAgeRatingsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "territory-age-ratings",
-		ShortUsage: "asc apps info territory-age-ratings <subcommand> [flags]",
+		ShortUsage: "aso apps info territory-age-ratings <subcommand> [flags]",
 		ShortHelp:  "List territory age ratings for an app info.",
 		LongHelp: `List territory age ratings for an app info.
 
 Examples:
-  asc apps info territory-age-ratings list --app "APP_ID"
-  asc apps info territory-age-ratings list --info-id "APP_INFO_ID" --include territory --territory-fields currency`,
+  aso apps info territory-age-ratings list --app "APP_ID"
+  aso apps info territory-age-ratings list --info-id "APP_INFO_ID" --include territory --territory-fields currency`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -55,14 +55,14 @@ func AppsInfoTerritoryAgeRatingsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc apps info territory-age-ratings list [flags]",
+		ShortUsage: "aso apps info territory-age-ratings list [flags]",
 		ShortHelp:  "List territory age ratings for an app info.",
 		LongHelp: `List territory age ratings for an app info.
 
 Examples:
-  asc apps info territory-age-ratings list --app "APP_ID"
-  asc apps info territory-age-ratings list --info-id "APP_INFO_ID" --include territory --territory-fields currency
-  asc apps info territory-age-ratings list --app "APP_ID" --paginate`,
+  aso apps info territory-age-ratings list --app "APP_ID"
+  aso apps info territory-age-ratings list --info-id "APP_INFO_ID" --include territory --territory-fields currency
+  aso apps info territory-age-ratings list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

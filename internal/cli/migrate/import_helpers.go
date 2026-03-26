@@ -9,9 +9,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/assets"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/assets"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func resolveAppID(ctx context.Context, client *asc.Client, appFlag string, config DeliverfileConfig) (string, error) {

@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type ClassifiedError struct {
@@ -28,7 +28,7 @@ func Classify(err error) ClassifiedError {
 	if errors.Is(err, shared.ErrMissingAuth) {
 		return ClassifiedError{
 			Message: err.Error(),
-			Hint:    "Run `asc auth login` or `asc auth init` (or set ASC_KEY_ID/ASC_ISSUER_ID/ASC_PRIVATE_KEY_PATH). Try `asc auth doctor` if you're unsure what's misconfigured.",
+			Hint:    "Run `aso auth login` or `aso auth init` (or set ASC_KEY_ID/ASC_ISSUER_ID/ASC_PRIVATE_KEY_PATH). Try `aso auth doctor` if you're unsure what's misconfigured.",
 		}
 	}
 
@@ -46,7 +46,7 @@ func Classify(err error) ClassifiedError {
 	if containsPrivacyError(err) {
 		return ClassifiedError{
 			Message: err.Error(),
-			Hint:    "App privacy declarations (data usages) are not available via the public API. Use `asc web privacy pull|plan|apply|publish` or complete App Privacy in the App Store Connect web UI: https://appstoreconnect.apple.com",
+			Hint:    "App privacy declarations (data usages) are not available via the public API. Use `aso web privacy pull|plan|apply|publish` or complete App Privacy in the App Store Connect web UI: https://appstoreconnect.apple.com",
 		}
 	}
 
@@ -60,7 +60,7 @@ func Classify(err error) ClassifiedError {
 	if errors.Is(err, asc.ErrUnauthorized) {
 		return ClassifiedError{
 			Message: err.Error(),
-			Hint:    "Your credentials may be invalid or expired. Try `asc auth status` and re-login if needed.",
+			Hint:    "Your credentials may be invalid or expired. Try `aso auth status` and re-login if needed.",
 		}
 	}
 

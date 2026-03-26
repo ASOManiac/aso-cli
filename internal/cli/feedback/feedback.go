@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type listCommandFlags struct {
@@ -156,19 +156,19 @@ func runListCommand(ctx context.Context, config shared.ListCommandConfig, flags 
 func FeedbackCommand() *ffcli.Command {
 	return NewListCommand(shared.ListCommandConfig{
 		Name:       "feedback",
-		ShortUsage: "asc testflight feedback list [flags]",
-		ShortHelp:  "DEPRECATED: use `asc testflight feedback list`.",
-		LongHelp: `DEPRECATED: use ` + "`asc testflight feedback list`" + `.
+		ShortUsage: "aso testflight feedback list [flags]",
+		ShortHelp:  "DEPRECATED: use `aso testflight feedback list`.",
+		LongHelp: `DEPRECATED: use ` + "`aso testflight feedback list`" + `.
 
 This compatibility shim preserves the legacy root feedback list behavior while
-the canonical TestFlight surface moves under ` + "`asc testflight feedback ...`" + `.
+the canonical TestFlight surface moves under ` + "`aso testflight feedback ...`" + `.
 
 Examples:
-  asc testflight feedback list --app "123456789"
-  asc testflight feedback list --app "123456789" --include-screenshots
-  asc testflight feedback list --next "<links.next>"`,
+  aso testflight feedback list --app "123456789"
+  aso testflight feedback list --app "123456789" --include-screenshots
+  aso testflight feedback list --next "<links.next>"`,
 		ErrorPrefix:       "feedback",
-		DeprecatedWarning: "Warning: `asc feedback` is deprecated. Use `asc testflight feedback list`.",
+		DeprecatedWarning: "Warning: `aso feedback` is deprecated. Use `aso testflight feedback list`.",
 		UsageFunc:         shared.DeprecatedUsageFunc,
 	})
 }

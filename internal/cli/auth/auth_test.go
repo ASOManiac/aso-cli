@@ -17,8 +17,8 @@ import (
 	"strings"
 	"testing"
 
-	authsvc "github.com/rudrankriyam/App-Store-Connect-CLI/internal/auth"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	authsvc "github.com/ASOManiac/aso-cli/internal/auth"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 func TestCommandWrapperReturnsAuthCommand(t *testing.T) {

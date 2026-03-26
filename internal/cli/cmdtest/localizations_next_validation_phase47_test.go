@@ -14,7 +14,7 @@ func expectedLocalizationsStderr(argsPrefix []string) string {
 		return betaAppLocalizationsListDeprecationWarning
 	}
 	if len(argsPrefix) >= 2 && argsPrefix[0] == "beta-build-localizations" && argsPrefix[1] == "list" {
-		return "Warning: `asc beta-build-localizations list` is deprecated. Use `asc builds test-notes list`"
+		return "Warning: `aso beta-build-localizations list` is deprecated. Use `aso builds test-notes list`"
 	}
 	return ""
 }

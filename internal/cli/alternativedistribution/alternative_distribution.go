@@ -5,7 +5,7 @@ import (
 	"flag"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AlternativeDistributionCommand returns the alternative distribution command group.
@@ -14,16 +14,16 @@ func AlternativeDistributionCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "alternative-distribution",
-		ShortUsage: "asc alternative-distribution <subcommand> [flags]",
+		ShortUsage: "aso alternative-distribution <subcommand> [flags]",
 		ShortHelp:  "Manage alternative distribution resources.",
 		LongHelp: `Manage alternative distribution resources.
 
 Examples:
-  asc alternative-distribution domains list
-  asc alternative-distribution domains create --domain "example.com" --reference-name "Example"
-  asc alternative-distribution keys list
-  asc alternative-distribution keys create --app "APP_ID" --public-key-path "./key.pem"
-  asc alternative-distribution packages get --package-id "PACKAGE_ID"`,
+  aso alternative-distribution domains list
+  aso alternative-distribution domains create --domain "example.com" --reference-name "Example"
+  aso alternative-distribution keys list
+  aso alternative-distribution keys create --app "APP_ID" --public-key-path "./key.pem"
+  aso alternative-distribution packages get --package-id "PACKAGE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{

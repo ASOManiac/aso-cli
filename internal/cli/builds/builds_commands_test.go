@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 func TestBuildsListCommand_VersionAndBuildNumberDescriptions(t *testing.T) {
@@ -137,7 +137,7 @@ func TestBuildsUpdateCommand_HelpContainsExamples(t *testing.T) {
 
 func TestBuildsUpdateCommand_ShortUsageShowsRequiredFlag(t *testing.T) {
 	cmd := BuildsUpdateCommand()
-	want := "asc builds update --build BUILD_ID --uses-non-exempt-encryption [true|false] [flags]"
+	want := "aso builds update --build BUILD_ID --uses-non-exempt-encryption [true|false] [flags]"
 	if cmd.ShortUsage != want {
 		t.Fatalf("expected ShortUsage %q, got %q", want, cmd.ShortUsage)
 	}

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppClipReviewDetailsCommand returns the review-details command group.
@@ -19,14 +19,14 @@ func AppClipReviewDetailsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "review-details",
-		ShortUsage: "asc app-clips review-details <subcommand> [flags]",
+		ShortUsage: "aso app-clips review-details <subcommand> [flags]",
 		ShortHelp:  "Manage App Clip App Store review details.",
 		LongHelp: `Manage App Clip App Store review details (invocation URLs).
 
 Examples:
-  asc app-clips review-details get --id "DETAIL_ID"
-  asc app-clips review-details create --experience-id "EXP_ID" --url "https://example.com/clip"
-  asc app-clips review-details update --id "DETAIL_ID" --url "https://example.com/clip"`,
+  aso app-clips review-details get --id "DETAIL_ID"
+  aso app-clips review-details create --experience-id "EXP_ID" --url "https://example.com/clip"
+  aso app-clips review-details update --id "DETAIL_ID" --url "https://example.com/clip"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -49,12 +49,12 @@ func AppClipReviewDetailsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-clips review-details get --id \"DETAIL_ID\"",
+		ShortUsage: "aso app-clips review-details get --id \"DETAIL_ID\"",
 		ShortHelp:  "Get App Clip review details by ID.",
 		LongHelp: `Get App Clip review details by ID.
 
 Examples:
-  asc app-clips review-details get --id "DETAIL_ID"`,
+  aso app-clips review-details get --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -92,12 +92,12 @@ func AppClipReviewDetailsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc app-clips review-details create --experience-id \"EXP_ID\" --url \"https://example.com/clip\" [flags]",
+		ShortUsage: "aso app-clips review-details create --experience-id \"EXP_ID\" --url \"https://example.com/clip\" [flags]",
 		ShortHelp:  "Create App Clip review details.",
 		LongHelp: `Create App Clip review details.
 
 Examples:
-  asc app-clips review-details create --experience-id "EXP_ID" --url "https://example.com/clip"`,
+  aso app-clips review-details create --experience-id "EXP_ID" --url "https://example.com/clip"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -142,12 +142,12 @@ func AppClipReviewDetailsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc app-clips review-details update --id \"DETAIL_ID\" --url \"https://example.com/clip\"",
+		ShortUsage: "aso app-clips review-details update --id \"DETAIL_ID\" --url \"https://example.com/clip\"",
 		ShortHelp:  "Update App Clip review details.",
 		LongHelp: `Update App Clip review details.
 
 Examples:
-  asc app-clips review-details update --id "DETAIL_ID" --url "https://example.com/clip"`,
+  aso app-clips review-details update --id "DETAIL_ID" --url "https://example.com/clip"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

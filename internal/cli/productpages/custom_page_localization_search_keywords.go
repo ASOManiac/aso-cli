@@ -9,7 +9,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // CustomPageLocalizationsSearchKeywordsCommand returns the search keywords command group.
@@ -18,14 +18,14 @@ func CustomPageLocalizationsSearchKeywordsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "search-keywords",
-		ShortUsage: "asc product-pages custom-pages localizations search-keywords <subcommand> [flags]",
+		ShortUsage: "aso product-pages custom-pages localizations search-keywords <subcommand> [flags]",
 		ShortHelp:  "Manage search keywords for a custom product page localization.",
 		LongHelp: `Manage search keywords for a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations search-keywords list --localization-id "LOCALIZATION_ID"
-  asc product-pages custom-pages localizations search-keywords add --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2"
-  asc product-pages custom-pages localizations search-keywords delete --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2" --confirm`,
+  aso product-pages custom-pages localizations search-keywords list --localization-id "LOCALIZATION_ID"
+  aso product-pages custom-pages localizations search-keywords add --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2"
+  aso product-pages custom-pages localizations search-keywords delete --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -48,12 +48,12 @@ func CustomPageLocalizationsSearchKeywordsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc product-pages custom-pages localizations search-keywords list --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso product-pages custom-pages localizations search-keywords list --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:  "List search keywords for a custom product page localization.",
 		LongHelp: `List search keywords for a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations search-keywords list --localization-id "LOCALIZATION_ID"`,
+  aso product-pages custom-pages localizations search-keywords list --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -91,12 +91,12 @@ func CustomPageLocalizationsSearchKeywordsAddCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "add",
-		ShortUsage: "asc product-pages custom-pages localizations search-keywords add --localization-id \"LOCALIZATION_ID\" --keywords \"kw1,kw2\"",
+		ShortUsage: "aso product-pages custom-pages localizations search-keywords add --localization-id \"LOCALIZATION_ID\" --keywords \"kw1,kw2\"",
 		ShortHelp:  "Add search keywords to a custom product page localization.",
 		LongHelp: `Add search keywords to a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations search-keywords add --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2"`,
+  aso product-pages custom-pages localizations search-keywords add --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -140,12 +140,12 @@ func CustomPageLocalizationsSearchKeywordsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc product-pages custom-pages localizations search-keywords delete --localization-id \"LOCALIZATION_ID\" --keywords \"kw1,kw2\" --confirm",
+		ShortUsage: "aso product-pages custom-pages localizations search-keywords delete --localization-id \"LOCALIZATION_ID\" --keywords \"kw1,kw2\" --confirm",
 		ShortHelp:  "Delete search keywords from a custom product page localization.",
 		LongHelp: `Delete search keywords from a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations search-keywords delete --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2" --confirm`,
+  aso product-pages custom-pages localizations search-keywords delete --localization-id "LOCALIZATION_ID" --keywords "kw1,kw2" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

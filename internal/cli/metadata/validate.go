@@ -12,9 +12,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 const (
@@ -55,7 +55,7 @@ func MetadataValidateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "validate",
-		ShortUsage: "asc metadata validate --dir \"./metadata\" [--subscription-app]",
+		ShortUsage: "aso metadata validate --dir \"./metadata\" [--subscription-app]",
 		ShortHelp:  "Validate canonical metadata files offline.",
 		LongHelp: `Validate canonical metadata files offline.
 
@@ -66,9 +66,9 @@ Checks:
   - optional subscription-app Terms of Use / EULA description link heuristic
 
 Examples:
-  asc metadata validate --dir "./metadata"
-  asc metadata validate --dir "./metadata" --subscription-app
-  asc metadata validate --dir "./metadata" --output table`,
+  aso metadata validate --dir "./metadata"
+  aso metadata validate --dir "./metadata" --subscription-app
+  aso metadata validate --dir "./metadata" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/cmd"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/cmd"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // TestExitCodeConstantsMatch tests that exit codes from cmd package match expected values
@@ -58,7 +58,7 @@ func TestExitCodeMapper_SharedErrors(t *testing.T) {
 	}
 }
 
-// TestExitCodeMapper_ASCErrors tests that asc errors return correct exit codes
+// TestExitCodeMapper_ASCErrors tests that aso errors return correct exit codes
 func TestExitCodeMapper_ASCErrors(t *testing.T) {
 	tests := []struct {
 		name string

@@ -9,15 +9,15 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // VersionsPromotionsCommand returns the promotions command group.
 func VersionsPromotionsCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "promotions",
-		ShortUsage: "asc versions promotions <subcommand> [flags]",
+		ShortUsage: "aso versions promotions <subcommand> [flags]",
 		ShortHelp:  "Manage App Store version promotions.",
 		LongHelp: `Manage App Store version promotions.
 
@@ -25,7 +25,7 @@ Note: The App Store Connect API spec currently lists only create support for
 app store version promotions, so this CLI exposes create only.
 
 Examples:
-  asc versions promotions create --version-id "VERSION_ID" --treatment-id "TREATMENT_ID"`,
+  aso versions promotions create --version-id "VERSION_ID" --treatment-id "TREATMENT_ID"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			VersionsPromotionsCreateCommand(),
@@ -46,12 +46,12 @@ func VersionsPromotionsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc versions promotions create [flags]",
+		ShortUsage: "aso versions promotions create [flags]",
 		ShortHelp:  "Create an app store version promotion.",
 		LongHelp: `Create an app store version promotion.
 
 Examples:
-  asc versions promotions create --version-id "VERSION_ID" --treatment-id "TREATMENT_ID"`,
+  aso versions promotions create --version-id "VERSION_ID" --treatment-id "TREATMENT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

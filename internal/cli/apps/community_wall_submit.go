@@ -23,9 +23,9 @@ import (
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"golang.org/x/term"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/itunes"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/itunes"
 )
 
 const (
@@ -159,7 +159,7 @@ func AppsWallSubmitCommand(parentWallFlags *flag.FlagSet) *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submit",
-		ShortUsage: "asc apps wall submit [flags]",
+		ShortUsage: "aso apps wall submit [flags]",
 		ShortHelp:  "Open a Wall of Apps pull request using your GitHub CLI session.",
 		LongHelp: `Open a Wall of Apps pull request using your authenticated GitHub CLI session.
 
@@ -171,9 +171,9 @@ Prompts for missing fields when running interactively. The pull request only upd
 docs/wall-of-apps.json so community submissions stay focused to a single file.
 
 Examples:
-  asc apps wall submit --app "1234567890" --dry-run
-  asc apps wall submit --app "1234567890" --confirm
-  asc apps wall submit --link "https://testflight.apple.com/join/ABCDEFG" --name "My Beta App" --confirm`,
+  aso apps wall submit --app "1234567890" --dry-run
+  aso apps wall submit --app "1234567890" --confirm
+  aso apps wall submit --link "https://testflight.apple.com/join/ABCDEFG" --name "My Beta App" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -249,7 +249,7 @@ func validateAppsWallSubmitParentFlags(parentWallFlags *flag.FlagSet) error {
 	sort.Strings(visited)
 	return communityWallUsageError{
 		message: fmt.Sprintf(
-			"apps wall submit does not accept parent wall flags (%s); move flags after \"submit\" or use \"asc apps wall\" for listing",
+			"apps wall submit does not accept parent wall flags (%s); move flags after \"submit\" or use \"aso apps wall\" for listing",
 			strings.Join(visited, ", "),
 		),
 	}
@@ -591,7 +591,7 @@ func communityWallPullRequestBody(input communityWallSubmitInput, candidate comm
 	builder.WriteString(fmt.Sprintf("- App: %s\n", strings.TrimSpace(candidate.App)))
 	builder.WriteString(fmt.Sprintf("- Link: %s\n", strings.TrimSpace(candidate.Link)))
 	builder.WriteString("\n## Notes\n\n")
-	builder.WriteString("- Submitted via `asc apps wall submit`\n")
+	builder.WriteString("- Submitted via `aso apps wall submit`\n")
 	return builder.String()
 }
 

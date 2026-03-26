@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type betaTesterUsagesPage struct {
@@ -23,8 +23,8 @@ type betaTesterUsagesPage struct {
 func TestFlightMetricsAppTestersCommand() *ffcli.Command {
 	cmd := rewriteCommandTree(
 		TestFlightMetricsBetaTesterUsagesCommand(),
-		"asc testflight metrics beta-tester-usages",
-		"asc testflight metrics app-testers",
+		"aso testflight metrics beta-tester-usages",
+		"aso testflight metrics app-testers",
 		map[string]string{
 			"beta-tester-usages": "app-testers",
 		},
@@ -39,9 +39,9 @@ func TestFlightMetricsAppTestersCommand() *ffcli.Command {
 	cmd.LongHelp = `Fetch TestFlight app tester usage metrics.
 
 Examples:
-  asc testflight metrics app-testers --app "APP_ID"
-  asc testflight metrics app-testers --app "APP_ID" --period "P30D"
-  asc testflight metrics app-testers --app "APP_ID" --filter-tester "TESTER_ID"`
+  aso testflight metrics app-testers --app "APP_ID"
+  aso testflight metrics app-testers --app "APP_ID" --period "P30D"
+  aso testflight metrics app-testers --app "APP_ID" --filter-tester "TESTER_ID"`
 	if groupByFlag := cmd.FlagSet.Lookup("group-by"); groupByFlag != nil {
 		groupByFlag.Usage = "Group results by dimension (testers)"
 		groupByFlag.DefValue = "testers"
@@ -53,8 +53,8 @@ Examples:
 func TestFlightMetricsGroupTestersCommand() *ffcli.Command {
 	cmd := rewriteCommandTree(
 		TestFlightMetricsTestersCommand(),
-		"asc testflight metrics testers",
-		"asc testflight metrics group-testers",
+		"aso testflight metrics testers",
+		"aso testflight metrics group-testers",
 		map[string]string{
 			"testers": "group-testers",
 		},
@@ -72,15 +72,15 @@ func DeprecatedMetricsTestersAliasCommand() *ffcli.Command {
 	return deprecatedAliasCommand(
 		rewriteCommandPresentation(
 			TestFlightMetricsTestersCommand(),
-			"asc testflight metrics testers",
-			"asc testflight metrics group-testers",
+			"aso testflight metrics testers",
+			"aso testflight metrics group-testers",
 			map[string]string{
 				"testers": "group-testers",
 			},
 		),
-		"asc testflight metrics group-testers --group \"GROUP_ID\"",
-		"Compatibility alias: use `asc testflight metrics group-testers`.",
-		"Compatibility alias: use `asc testflight metrics group-testers --group GROUP_ID`.",
+		"aso testflight metrics group-testers --group \"GROUP_ID\"",
+		"Compatibility alias: use `aso testflight metrics group-testers`.",
+		"Compatibility alias: use `aso testflight metrics group-testers --group GROUP_ID`.",
 	)
 }
 
@@ -88,15 +88,15 @@ func DeprecatedMetricsBetaTesterUsagesAliasCommand() *ffcli.Command {
 	return deprecatedAliasCommand(
 		rewriteCommandPresentation(
 			TestFlightMetricsBetaTesterUsagesCommand(),
-			"asc testflight metrics beta-tester-usages",
-			"asc testflight metrics app-testers",
+			"aso testflight metrics beta-tester-usages",
+			"aso testflight metrics app-testers",
 			map[string]string{
 				"beta-tester-usages": "app-testers",
 			},
 		),
-		"asc testflight metrics app-testers --app \"APP_ID\" [flags]",
-		"Compatibility alias: use `asc testflight metrics app-testers`.",
-		"Compatibility alias: use `asc testflight metrics app-testers --app APP_ID`.",
+		"aso testflight metrics app-testers --app \"APP_ID\" [flags]",
+		"Compatibility alias: use `aso testflight metrics app-testers`.",
+		"Compatibility alias: use `aso testflight metrics app-testers --app APP_ID`.",
 	)
 }
 
@@ -115,16 +115,16 @@ func TestFlightMetricsBetaTesterUsagesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "beta-tester-usages",
-		ShortUsage: "asc testflight metrics beta-tester-usages --app \"APP_ID\" [flags]",
+		ShortUsage: "aso testflight metrics beta-tester-usages --app \"APP_ID\" [flags]",
 		ShortHelp:  "Fetch TestFlight beta tester usage metrics for an app.",
 		LongHelp: `Fetch TestFlight beta tester usage metrics for an app.
 
 Requires either --group-by or --filter-tester (or both).
 
 Examples:
-  asc testflight metrics beta-tester-usages --app "APP_ID"
-  asc testflight metrics beta-tester-usages --app "APP_ID" --period "P30D"
-  asc testflight metrics beta-tester-usages --app "APP_ID" --filter-tester "TESTER_ID"`,
+  aso testflight metrics beta-tester-usages --app "APP_ID"
+  aso testflight metrics beta-tester-usages --app "APP_ID" --period "P30D"
+  aso testflight metrics beta-tester-usages --app "APP_ID" --filter-tester "TESTER_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

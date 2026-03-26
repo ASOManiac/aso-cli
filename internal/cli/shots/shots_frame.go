@@ -11,8 +11,8 @@ import (
 	"time"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshots"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/screenshots"
 )
 
 const defaultShotsFrameOutputDir = "./screenshots/framed"
@@ -45,7 +45,7 @@ func ShotsFrameCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "frame",
-		ShortUsage: "asc screenshots frame (--input ./screenshots/raw/home.png | --config ./koubou.yaml) [flags]",
+		ShortUsage: "aso screenshots frame (--input ./screenshots/raw/home.png | --config ./koubou.yaml) [flags]",
 		ShortHelp:  "[experimental] Compose a screenshot into an Apple device frame.",
 		LongHelp: `Compose screenshots using Koubou's YAML-based rendering flow (experimental).
 

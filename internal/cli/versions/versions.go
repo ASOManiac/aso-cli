@@ -10,14 +10,14 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func VersionsCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "versions",
-		ShortUsage: "asc versions <subcommand> [flags]",
+		ShortUsage: "aso versions <subcommand> [flags]",
 		ShortHelp:  "Manage App Store versions.",
 		LongHelp:   `Manage App Store versions.`,
 		UsageFunc:  shared.VisibleUsageFunc,
@@ -28,9 +28,9 @@ func VersionsCommand() *ffcli.Command {
 			shared.DeprecatedAliasLeafCommand(
 				VersionsRelationshipsCommand(),
 				"relationships",
-				"asc versions links --version-id \"VERSION_ID\" --type \"RELATIONSHIP\" [flags]",
-				"asc versions links",
-				"Warning: `asc versions relationships` is deprecated. Use `asc versions links`.",
+				"aso versions links --version-id \"VERSION_ID\" --type \"RELATIONSHIP\" [flags]",
+				"aso versions links",
+				"Warning: `aso versions relationships` is deprecated. Use `aso versions links`.",
 			),
 			VersionsExperimentsV2Command(),
 			VersionsCustomerReviewsCommand(),
@@ -63,15 +63,15 @@ func VersionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc versions list [flags]",
+		ShortUsage: "aso versions list [flags]",
 		ShortHelp:  "List app store versions for an app.",
 		LongHelp: `List app store versions for an app.
 
 Examples:
-  asc versions list --app "123456789"
-  asc versions list --app "123456789" --version "1.0.0"
-  asc versions list --app "123456789" --platform IOS --state READY_FOR_REVIEW
-  asc versions list --app "123456789" --paginate`,
+  aso versions list --app "123456789"
+  aso versions list --app "123456789" --version "1.0.0"
+  aso versions list --app "123456789" --platform IOS --state READY_FOR_REVIEW
+  aso versions list --app "123456789" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -153,14 +153,14 @@ func VersionsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc versions get [flags]",
+		ShortUsage: "aso versions get [flags]",
 		ShortHelp:  "Get details for an app store version.",
 		LongHelp: `Get details for an app store version.
 
 Examples:
-  asc versions get --version-id "VERSION_ID"
-  asc versions get --version-id "VERSION_ID" --include-build --include-submission
-  asc versions get --version-id "VERSION_ID" --include "ageRatingDeclaration,appStoreReviewDetail"`,
+  aso versions get --version-id "VERSION_ID"
+  aso versions get --version-id "VERSION_ID" --include-build --include-submission
+  aso versions get --version-id "VERSION_ID" --include "ageRatingDeclaration,appStoreReviewDetail"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -265,16 +265,16 @@ func VersionsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc versions create [flags]",
+		ShortUsage: "aso versions create [flags]",
 		ShortHelp:  "Create a new app store version.",
 		LongHelp: `Create a new app store version.
 
 Examples:
-  asc versions create --app "123456789" --version "2.0.0"
-  asc versions create --app "123456789" --version "2.0.0" --platform IOS
-  asc versions create --app "123456789" --version "2.0.0" --copyright "2026 My Company" --release-type MANUAL
-  asc versions create --app "123456789" --version "2.4.0" --platform IOS --copy-metadata-from "2.3.2"
-  asc versions create --app "123456789" --version "2.4.0" --copy-metadata-from "2.3.2" --copy-fields "description,keywords,supportUrl" --exclude-fields "whatsNew"`,
+  aso versions create --app "123456789" --version "2.0.0"
+  aso versions create --app "123456789" --version "2.0.0" --platform IOS
+  aso versions create --app "123456789" --version "2.0.0" --copyright "2026 My Company" --release-type MANUAL
+  aso versions create --app "123456789" --version "2.4.0" --platform IOS --copy-metadata-from "2.3.2"
+  aso versions create --app "123456789" --version "2.4.0" --copy-metadata-from "2.3.2" --copy-fields "description,keywords,supportUrl" --exclude-fields "whatsNew"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -385,15 +385,15 @@ func VersionsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc versions update [flags]",
+		ShortUsage: "aso versions update [flags]",
 		ShortHelp:  "Update an app store version.",
 		LongHelp: `Update an app store version.
 
 Examples:
-  asc versions update --version-id "VERSION_ID" --copyright "2026 My Company"
-  asc versions update --version-id "VERSION_ID" --release-type MANUAL
-  asc versions update --version-id "VERSION_ID" --release-type SCHEDULED --earliest-release-date "2026-02-01T08:00:00+00:00"
-  asc versions update --version-id "VERSION_ID" --version "1.0.1"`,
+  aso versions update --version-id "VERSION_ID" --copyright "2026 My Company"
+  aso versions update --version-id "VERSION_ID" --release-type MANUAL
+  aso versions update --version-id "VERSION_ID" --release-type SCHEDULED --earliest-release-date "2026-02-01T08:00:00+00:00"
+  aso versions update --version-id "VERSION_ID" --version "1.0.1"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -457,14 +457,14 @@ func VersionsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc versions delete [flags]",
+		ShortUsage: "aso versions delete [flags]",
 		ShortHelp:  "Delete an app store version (only versions in PREPARE_FOR_SUBMISSION state).",
 		LongHelp: `Delete an app store version.
 
 Only versions in PREPARE_FOR_SUBMISSION state can be deleted.
 
 Examples:
-  asc versions delete --version-id "VERSION_ID" --confirm`,
+  aso versions delete --version-id "VERSION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -508,12 +508,12 @@ func VersionsAttachBuildCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "attach-build",
-		ShortUsage: "asc versions attach-build [flags]",
+		ShortUsage: "aso versions attach-build [flags]",
 		ShortHelp:  "Attach a build to an app store version.",
 		LongHelp: `Attach a build to an app store version.
 
 Examples:
-  asc versions attach-build --version-id "VERSION_ID" --build "BUILD_ID"`,
+  aso versions attach-build --version-id "VERSION_ID" --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

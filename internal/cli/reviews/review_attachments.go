@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ReviewDetailsAttachmentsListCommand returns the review attachments list subcommand.
@@ -29,14 +29,14 @@ func ReviewDetailsAttachmentsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "attachments-list",
-		ShortUsage: "asc review attachments-list --review-detail \"REVIEW_DETAIL_ID\"",
+		ShortUsage: "aso review attachments-list --review-detail \"REVIEW_DETAIL_ID\"",
 		ShortHelp:  "List review attachments for a review detail.",
 		LongHelp: `List review attachments for a review detail.
 
 Examples:
-  asc review attachments-list --review-detail "REVIEW_DETAIL_ID"
-  asc review attachments-list --review-detail "REVIEW_DETAIL_ID" --fields "fileName,fileSize" --limit 50
-  asc review attachments-list --review-detail "REVIEW_DETAIL_ID" --paginate`,
+  aso review attachments-list --review-detail "REVIEW_DETAIL_ID"
+  aso review attachments-list --review-detail "REVIEW_DETAIL_ID" --fields "fileName,fileSize" --limit 50
+  aso review attachments-list --review-detail "REVIEW_DETAIL_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -121,13 +121,13 @@ func ReviewDetailsAttachmentsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "attachments-get",
-		ShortUsage: "asc review attachments-get --id \"ATTACHMENT_ID\"",
+		ShortUsage: "aso review attachments-get --id \"ATTACHMENT_ID\"",
 		ShortHelp:  "Get a review attachment by ID.",
 		LongHelp: `Get a review attachment by ID.
 
 Examples:
-  asc review attachments-get --id "ATTACHMENT_ID"
-  asc review attachments-get --id "ATTACHMENT_ID" --fields "fileName,fileSize"`,
+  aso review attachments-get --id "ATTACHMENT_ID"
+  aso review attachments-get --id "ATTACHMENT_ID" --fields "fileName,fileSize"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -182,12 +182,12 @@ func ReviewDetailsAttachmentsUploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "attachments-upload",
-		ShortUsage: "asc review attachments-upload --review-detail \"REVIEW_DETAIL_ID\" --file ./attachment.pdf",
+		ShortUsage: "aso review attachments-upload --review-detail \"REVIEW_DETAIL_ID\" --file ./attachment.pdf",
 		ShortHelp:  "Upload a review attachment.",
 		LongHelp: `Upload a review attachment.
 
 Examples:
-  asc review attachments-upload --review-detail "REVIEW_DETAIL_ID" --file ./review-doc.pdf`,
+  aso review attachments-upload --review-detail "REVIEW_DETAIL_ID" --file ./review-doc.pdf`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -273,12 +273,12 @@ func ReviewDetailsAttachmentsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "attachments-delete",
-		ShortUsage: "asc review attachments-delete --id \"ATTACHMENT_ID\" --confirm",
+		ShortUsage: "aso review attachments-delete --id \"ATTACHMENT_ID\" --confirm",
 		ShortHelp:  "Delete a review attachment.",
 		LongHelp: `Delete a review attachment.
 
 Examples:
-  asc review attachments-delete --id "ATTACHMENT_ID" --confirm`,
+  aso review attachments-delete --id "ATTACHMENT_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

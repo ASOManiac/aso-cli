@@ -11,7 +11,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const ascReferenceFile = "ASC.md"
@@ -72,14 +72,14 @@ func DocsInitCommand() *ffcli.Command {
 	return NewInitReferenceCommand(
 		"docs init",
 		"init",
-		"asc docs init [flags]",
-		"Create an ASC.md command reference for the asc cli in the current repo.",
-		`Create an ASC.md command reference for the asc cli in the current repo.
+		"aso docs init [flags]",
+		"Create an ASC.md command reference for the aso cli in the current repo.",
+		`Create an ASC.md command reference for the aso cli in the current repo.
 
 Examples:
-  asc docs init
-  asc docs init --path ./ASC.md
-  asc docs init --force --link=false`,
+  aso docs init
+  aso docs init --path ./ASC.md
+  aso docs init --force --link=false`,
 		"docs init",
 	)
 }
@@ -322,7 +322,7 @@ func updateAgentsLink(path string, relRef string) (bool, error) {
 		return writeIfChanged(path, strings.Join(lines, "\n"))
 	}
 
-	section := fmt.Sprintf("## asc cli reference\n\n%s", desiredLine)
+	section := fmt.Sprintf("## aso cli reference\n\n%s", desiredLine)
 	updated := appendSection(string(data), section)
 	return writeIfChanged(path, updated)
 }

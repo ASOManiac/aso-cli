@@ -14,8 +14,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shots"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshots"
+	"github.com/ASOManiac/aso-cli/internal/cli/shots"
+	"github.com/ASOManiac/aso-cli/internal/screenshots"
 )
 
 func TestShotsFrame_RequiresInput(t *testing.T) {

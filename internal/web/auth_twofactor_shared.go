@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/appleauth"
+	"github.com/ASOManiac/aso-cli/internal/appleauth"
 )
 
 var _ appleauth.SessionState = (*AuthSession)(nil)

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PreReleaseVersionsAppCommand returns the app command group.
@@ -19,12 +19,12 @@ func PreReleaseVersionsAppCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app",
-		ShortUsage: "asc pre-release-versions app <subcommand> [flags]",
+		ShortUsage: "aso pre-release-versions app <subcommand> [flags]",
 		ShortHelp:  "View the app for a pre-release version.",
 		LongHelp: `View the app for a pre-release version.
 
 Examples:
-  asc pre-release-versions app get --id "PR_ID"`,
+  aso pre-release-versions app get --id "PR_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -45,12 +45,12 @@ func PreReleaseVersionsAppGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc pre-release-versions app get --id \"PR_ID\"",
+		ShortUsage: "aso pre-release-versions app get --id \"PR_ID\"",
 		ShortHelp:  "Get the app for a pre-release version.",
 		LongHelp: `Get the app for a pre-release version.
 
 Examples:
-  asc pre-release-versions app get --id "PR_ID"`,
+  aso pre-release-versions app get --id "PR_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -84,12 +84,12 @@ func PreReleaseVersionsBuildsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "builds",
-		ShortUsage: "asc pre-release-versions builds <subcommand> [flags]",
+		ShortUsage: "aso pre-release-versions builds <subcommand> [flags]",
 		ShortHelp:  "List builds for a pre-release version.",
 		LongHelp: `List builds for a pre-release version.
 
 Examples:
-  asc pre-release-versions builds list --id "PR_ID"`,
+  aso pre-release-versions builds list --id "PR_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -113,13 +113,13 @@ func PreReleaseVersionsBuildsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc pre-release-versions builds list [flags]",
+		ShortUsage: "aso pre-release-versions builds list [flags]",
 		ShortHelp:  "List builds for a pre-release version.",
 		LongHelp: `List builds for a pre-release version.
 
 Examples:
-  asc pre-release-versions builds list --id "PR_ID"
-  asc pre-release-versions builds list --id "PR_ID" --paginate`,
+  aso pre-release-versions builds list --id "PR_ID"
+  aso pre-release-versions builds list --id "PR_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

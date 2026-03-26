@@ -12,9 +12,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/install"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared/errfmt"
+	"github.com/ASOManiac/aso-cli/internal/cli/install"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared/errfmt"
 )
 
 var maybeCheckForSkillUpdates = install.MaybeCheckForSkillUpdates
@@ -60,7 +60,7 @@ func Run(args []string, versionInfo string) int {
 		return ExitSuccess
 	}
 
-	// Match gh-style root invocation: plain `asc` (or only root flags)
+	// Match gh-style root invocation: plain `aso` (or only root flags)
 	// prints root help and exits successfully.
 	if !hasPositionalArgs(root.FlagSet, args) {
 		fmt.Fprint(os.Stdout, root.UsageFunc(root))
@@ -112,7 +112,7 @@ func shouldCancelRunContextAfterError(err error) bool {
 }
 
 func shouldRunSkillsUpdateCheck(commandName string, runCtx context.Context) bool {
-	if commandName == "asc" || commandName == "asc install-skills" {
+	if commandName == "aso" || commandName == "aso install-skills" {
 		return false
 	}
 	if runCtx != nil && runCtx.Err() != nil {
@@ -268,7 +268,7 @@ func writeJUnitReport(commandName string, runErr error, elapsed time.Duration) e
 	report := shared.JUnitReport{
 		Tests:     []shared.JUnitTestCase{testCase},
 		Timestamp: time.Now(),
-		Name:      "asc",
+		Name:      "aso",
 	}
 
 	return report.Write(reportFile)

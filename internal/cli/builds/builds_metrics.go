@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildsMetricsCommand returns the builds metrics command group.
@@ -19,12 +19,12 @@ func BuildsMetricsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "metrics",
-		ShortUsage: "asc builds metrics <subcommand> [flags]",
+		ShortUsage: "aso builds metrics <subcommand> [flags]",
 		ShortHelp:  "Fetch build metrics.",
 		LongHelp: `Fetch build metrics.
 
 Examples:
-  asc builds metrics beta-usages --build "BUILD_ID"`,
+  aso builds metrics beta-usages --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -47,13 +47,13 @@ func BuildsMetricsBetaUsagesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "beta-usages",
-		ShortUsage: "asc builds metrics beta-usages --build \"BUILD_ID\" [flags]",
+		ShortUsage: "aso builds metrics beta-usages --build \"BUILD_ID\" [flags]",
 		ShortHelp:  "Fetch beta build usage metrics for a build.",
 		LongHelp: `Fetch beta build usage metrics for a build.
 
 Examples:
-  asc builds metrics beta-usages --build "BUILD_ID"
-  asc builds metrics beta-usages --build "BUILD_ID" --limit 50`,
+  aso builds metrics beta-usages --build "BUILD_ID"
+  aso builds metrics beta-usages --build "BUILD_ID" --limit 50`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

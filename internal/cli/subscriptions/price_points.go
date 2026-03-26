@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SubscriptionsPricePointsCommand returns the subscription price points command group.
@@ -19,14 +19,14 @@ func SubscriptionsPricePointsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "price-points",
-		ShortUsage: "asc subscriptions price-points <subcommand> [flags]",
+		ShortUsage: "aso subscriptions price-points <subcommand> [flags]",
 		ShortHelp:  "Manage subscription price points.",
 		LongHelp: `Manage subscription price points.
 
 Examples:
-  asc subscriptions price-points list --subscription-id "SUB_ID"
-  asc subscriptions price-points get --price-point-id "PRICE_POINT_ID"
-  asc subscriptions price-points equalizations --price-point-id "PRICE_POINT_ID"`,
+  aso subscriptions price-points list --subscription-id "SUB_ID"
+  aso subscriptions price-points get --price-point-id "PRICE_POINT_ID"
+  aso subscriptions price-points equalizations --price-point-id "PRICE_POINT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -57,7 +57,7 @@ func SubscriptionsPricePointsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc subscriptions price-points list [flags]",
+		ShortUsage: "aso subscriptions price-points list [flags]",
 		ShortHelp:  "List price points for a subscription.",
 		LongHelp: `List price points for a subscription.
 
@@ -74,12 +74,12 @@ instead of buffering all pages in memory. This gives immediate feedback and
 reduces memory usage for very large result sets.
 
 Examples:
-  asc subscriptions price-points list --subscription-id "SUB_ID"
-  asc subscriptions price-points list --subscription-id "SUB_ID" --territory "USA"
-  asc subscriptions price-points list --subscription-id "SUB_ID" --territory "USA" --paginate
-  asc subscriptions price-points list --subscription-id "SUB_ID" --territory "USA" --paginate --price "4.99"
-  asc subscriptions price-points list --subscription-id "SUB_ID" --territory "USA" --paginate --min-price "1.00" --max-price "9.99"
-  asc subscriptions price-points list --subscription-id "SUB_ID" --paginate --stream`,
+  aso subscriptions price-points list --subscription-id "SUB_ID"
+  aso subscriptions price-points list --subscription-id "SUB_ID" --territory "USA"
+  aso subscriptions price-points list --subscription-id "SUB_ID" --territory "USA" --paginate
+  aso subscriptions price-points list --subscription-id "SUB_ID" --territory "USA" --paginate --price "4.99"
+  aso subscriptions price-points list --subscription-id "SUB_ID" --territory "USA" --paginate --min-price "1.00" --max-price "9.99"
+  aso subscriptions price-points list --subscription-id "SUB_ID" --paginate --stream`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -216,12 +216,12 @@ func SubscriptionsPricePointsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc subscriptions price-points get --price-point-id \"PRICE_POINT_ID\"",
+		ShortUsage: "aso subscriptions price-points get --price-point-id \"PRICE_POINT_ID\"",
 		ShortHelp:  "Get a subscription price point by ID.",
 		LongHelp: `Get a subscription price point by ID.
 
 Examples:
-  asc subscriptions price-points get --price-point-id "PRICE_POINT_ID"`,
+  aso subscriptions price-points get --price-point-id "PRICE_POINT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -259,13 +259,13 @@ func SubscriptionsPricePointsEqualizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "equalizations",
-		ShortUsage: "asc subscriptions price-points equalizations --price-point-id \"PRICE_POINT_ID\"",
+		ShortUsage: "aso subscriptions price-points equalizations --price-point-id \"PRICE_POINT_ID\"",
 		ShortHelp:  "List equalized price points for a subscription price point.",
 		LongHelp: `List equalized price points for a subscription price point.
 
 Examples:
-  asc subscriptions price-points equalizations --price-point-id "PRICE_POINT_ID"
-  asc subscriptions price-points equalizations --price-point-id "PRICE_POINT_ID" --paginate`,
+  aso subscriptions price-points equalizations --price-point-id "PRICE_POINT_ID"
+  aso subscriptions price-points equalizations --price-point-id "PRICE_POINT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

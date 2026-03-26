@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // GameCenterGroupsCommand returns the groups command group.
@@ -19,24 +19,24 @@ func GameCenterGroupsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "groups",
-		ShortUsage: "asc game-center groups <subcommand> [flags]",
+		ShortUsage: "aso game-center groups <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center groups.",
 		LongHelp: `Manage Game Center groups.
 
 Examples:
-  asc game-center groups list --app "APP_ID"
-  asc game-center groups get --id "GROUP_ID"
-  asc game-center groups create --reference-name "Group 1"
-  asc game-center groups update --id "GROUP_ID" --reference-name "New Name"
-  asc game-center groups delete --id "GROUP_ID" --confirm
-  asc game-center groups achievements list --group-id "GROUP_ID"
-  asc game-center groups achievements set --group-id "GROUP_ID" --ids "ACH_1,ACH_2"
-  asc game-center groups leaderboards list --group-id "GROUP_ID"
-  asc game-center groups leaderboards set --group-id "GROUP_ID" --ids "LB_1,LB_2"
-  asc game-center groups leaderboard-sets list --group-id "GROUP_ID"
-  asc game-center groups activities list --group-id "GROUP_ID"
-  asc game-center groups challenges list --group-id "GROUP_ID"
-  asc game-center groups challenges set --group-id "GROUP_ID" --ids "CH_1,CH_2"`,
+  aso game-center groups list --app "APP_ID"
+  aso game-center groups get --id "GROUP_ID"
+  aso game-center groups create --reference-name "Group 1"
+  aso game-center groups update --id "GROUP_ID" --reference-name "New Name"
+  aso game-center groups delete --id "GROUP_ID" --confirm
+  aso game-center groups achievements list --group-id "GROUP_ID"
+  aso game-center groups achievements set --group-id "GROUP_ID" --ids "ACH_1,ACH_2"
+  aso game-center groups leaderboards list --group-id "GROUP_ID"
+  aso game-center groups leaderboards set --group-id "GROUP_ID" --ids "LB_1,LB_2"
+  aso game-center groups leaderboard-sets list --group-id "GROUP_ID"
+  aso game-center groups activities list --group-id "GROUP_ID"
+  aso game-center groups challenges list --group-id "GROUP_ID"
+  aso game-center groups challenges set --group-id "GROUP_ID" --ids "CH_1,CH_2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -70,14 +70,14 @@ func GameCenterGroupsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center groups list [flags]",
+		ShortUsage: "aso game-center groups list [flags]",
 		ShortHelp:  "List Game Center groups.",
 		LongHelp: `List Game Center groups.
 
 Examples:
-  asc game-center groups list --app "APP_ID"
-  asc game-center groups list --app "APP_ID" --limit 50
-  asc game-center groups list --app "APP_ID" --paginate`,
+  aso game-center groups list --app "APP_ID"
+  aso game-center groups list --app "APP_ID" --limit 50
+  aso game-center groups list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -156,12 +156,12 @@ func GameCenterGroupsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center groups get --id \"GROUP_ID\"",
+		ShortUsage: "aso game-center groups get --id \"GROUP_ID\"",
 		ShortHelp:  "Get a Game Center group by ID.",
 		LongHelp: `Get a Game Center group by ID.
 
 Examples:
-  asc game-center groups get --id "GROUP_ID"`,
+  aso game-center groups get --id "GROUP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -198,12 +198,12 @@ func GameCenterGroupsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center groups create [flags]",
+		ShortUsage: "aso game-center groups create [flags]",
 		ShortHelp:  "Create a Game Center group.",
 		LongHelp: `Create a Game Center group.
 
 Examples:
-  asc game-center groups create --reference-name "Group 1"`,
+  aso game-center groups create --reference-name "Group 1"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -241,12 +241,12 @@ func GameCenterGroupsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center groups update --id \"GROUP_ID\" [flags]",
+		ShortUsage: "aso game-center groups update --id \"GROUP_ID\" [flags]",
 		ShortHelp:  "Update a Game Center group.",
 		LongHelp: `Update a Game Center group.
 
 Examples:
-  asc game-center groups update --id "GROUP_ID" --reference-name "New Name"`,
+  aso game-center groups update --id "GROUP_ID" --reference-name "New Name"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -290,12 +290,12 @@ func GameCenterGroupsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center groups delete --id \"GROUP_ID\" --confirm",
+		ShortUsage: "aso game-center groups delete --id \"GROUP_ID\" --confirm",
 		ShortHelp:  "Delete a Game Center group.",
 		LongHelp: `Delete a Game Center group.
 
 Examples:
-  asc game-center groups delete --id "GROUP_ID" --confirm`,
+  aso game-center groups delete --id "GROUP_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -337,13 +337,13 @@ func GameCenterGroupAchievementsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "achievements",
-		ShortUsage: "asc game-center groups achievements set --group-id \"GROUP_ID\" --ids \"ACH_1,ACH_2\"",
+		ShortUsage: "aso game-center groups achievements set --group-id \"GROUP_ID\" --ids \"ACH_1,ACH_2\"",
 		ShortHelp:  "Manage group achievements relationships.",
 		LongHelp: `Manage group achievements relationships.
 
 Examples:
-  asc game-center groups achievements list --group-id "GROUP_ID"
-  asc game-center groups achievements set --group-id "GROUP_ID" --ids "ACH_1,ACH_2"`,
+  aso game-center groups achievements list --group-id "GROUP_ID"
+  aso game-center groups achievements set --group-id "GROUP_ID" --ids "ACH_1,ACH_2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -369,15 +369,15 @@ func GameCenterGroupAchievementsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center groups achievements list --group-id \"GROUP_ID\"",
+		ShortUsage: "aso game-center groups achievements list --group-id \"GROUP_ID\"",
 		ShortHelp:  "List achievements for a Game Center group.",
 		LongHelp: `List achievements for a Game Center group.
 
 Examples:
-  asc game-center groups achievements list --group-id "GROUP_ID"
-  asc game-center groups achievements list --group-id "GROUP_ID" --limit 50
-  asc game-center groups achievements list --group-id "GROUP_ID" --paginate
-  asc game-center groups achievements list --group-id "GROUP_ID" --v2`,
+  aso game-center groups achievements list --group-id "GROUP_ID"
+  aso game-center groups achievements list --group-id "GROUP_ID" --limit 50
+  aso game-center groups achievements list --group-id "GROUP_ID" --paginate
+  aso game-center groups achievements list --group-id "GROUP_ID" --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -460,13 +460,13 @@ func GameCenterGroupAchievementsSetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc game-center groups achievements set --group-id \"GROUP_ID\" --ids \"ACH_1,ACH_2\"",
+		ShortUsage: "aso game-center groups achievements set --group-id \"GROUP_ID\" --ids \"ACH_1,ACH_2\"",
 		ShortHelp:  "Replace group achievements relationships.",
 		LongHelp: `Replace group achievements relationships.
 
 Examples:
-  asc game-center groups achievements set --group-id "GROUP_ID" --ids "ACH_1,ACH_2"
-  asc game-center groups achievements set --group-id "GROUP_ID" --ids "ACH_1,ACH_2" --v2`,
+  aso game-center groups achievements set --group-id "GROUP_ID" --ids "ACH_1,ACH_2"
+  aso game-center groups achievements set --group-id "GROUP_ID" --ids "ACH_1,ACH_2" --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -511,13 +511,13 @@ func GameCenterGroupLeaderboardsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "leaderboards",
-		ShortUsage: "asc game-center groups leaderboards set --group-id \"GROUP_ID\" --ids \"LB_1,LB_2\"",
+		ShortUsage: "aso game-center groups leaderboards set --group-id \"GROUP_ID\" --ids \"LB_1,LB_2\"",
 		ShortHelp:  "Manage group leaderboards relationships.",
 		LongHelp: `Manage group leaderboards relationships.
 
 Examples:
-  asc game-center groups leaderboards list --group-id "GROUP_ID"
-  asc game-center groups leaderboards set --group-id "GROUP_ID" --ids "LB_1,LB_2"`,
+  aso game-center groups leaderboards list --group-id "GROUP_ID"
+  aso game-center groups leaderboards set --group-id "GROUP_ID" --ids "LB_1,LB_2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -543,15 +543,15 @@ func GameCenterGroupLeaderboardsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center groups leaderboards list --group-id \"GROUP_ID\"",
+		ShortUsage: "aso game-center groups leaderboards list --group-id \"GROUP_ID\"",
 		ShortHelp:  "List leaderboards for a Game Center group.",
 		LongHelp: `List leaderboards for a Game Center group.
 
 Examples:
-  asc game-center groups leaderboards list --group-id "GROUP_ID"
-  asc game-center groups leaderboards list --group-id "GROUP_ID" --limit 50
-  asc game-center groups leaderboards list --group-id "GROUP_ID" --paginate
-  asc game-center groups leaderboards list --group-id "GROUP_ID" --v2`,
+  aso game-center groups leaderboards list --group-id "GROUP_ID"
+  aso game-center groups leaderboards list --group-id "GROUP_ID" --limit 50
+  aso game-center groups leaderboards list --group-id "GROUP_ID" --paginate
+  aso game-center groups leaderboards list --group-id "GROUP_ID" --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -634,13 +634,13 @@ func GameCenterGroupLeaderboardsSetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc game-center groups leaderboards set --group-id \"GROUP_ID\" --ids \"LB_1,LB_2\"",
+		ShortUsage: "aso game-center groups leaderboards set --group-id \"GROUP_ID\" --ids \"LB_1,LB_2\"",
 		ShortHelp:  "Replace group leaderboards relationships.",
 		LongHelp: `Replace group leaderboards relationships.
 
 Examples:
-  asc game-center groups leaderboards set --group-id "GROUP_ID" --ids "LB_1,LB_2"
-  asc game-center groups leaderboards set --group-id "GROUP_ID" --ids "LB_1,LB_2" --v2`,
+  aso game-center groups leaderboards set --group-id "GROUP_ID" --ids "LB_1,LB_2"
+  aso game-center groups leaderboards set --group-id "GROUP_ID" --ids "LB_1,LB_2" --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -685,12 +685,12 @@ func GameCenterGroupLeaderboardSetsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "leaderboard-sets",
-		ShortUsage: "asc game-center groups leaderboard-sets list --group-id \"GROUP_ID\"",
+		ShortUsage: "aso game-center groups leaderboard-sets list --group-id \"GROUP_ID\"",
 		ShortHelp:  "Manage group leaderboard sets relationships.",
 		LongHelp: `Manage group leaderboard sets relationships.
 
 Examples:
-  asc game-center groups leaderboard-sets list --group-id "GROUP_ID"`,
+  aso game-center groups leaderboard-sets list --group-id "GROUP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -715,15 +715,15 @@ func GameCenterGroupLeaderboardSetsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center groups leaderboard-sets list --group-id \"GROUP_ID\"",
+		ShortUsage: "aso game-center groups leaderboard-sets list --group-id \"GROUP_ID\"",
 		ShortHelp:  "List leaderboard sets for a Game Center group.",
 		LongHelp: `List leaderboard sets for a Game Center group.
 
 Examples:
-  asc game-center groups leaderboard-sets list --group-id "GROUP_ID"
-  asc game-center groups leaderboard-sets list --group-id "GROUP_ID" --limit 50
-  asc game-center groups leaderboard-sets list --group-id "GROUP_ID" --paginate
-  asc game-center groups leaderboard-sets list --group-id "GROUP_ID" --v2`,
+  aso game-center groups leaderboard-sets list --group-id "GROUP_ID"
+  aso game-center groups leaderboard-sets list --group-id "GROUP_ID" --limit 50
+  aso game-center groups leaderboard-sets list --group-id "GROUP_ID" --paginate
+  aso game-center groups leaderboard-sets list --group-id "GROUP_ID" --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -801,12 +801,12 @@ func GameCenterGroupActivitiesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "activities",
-		ShortUsage: "asc game-center groups activities list --group-id \"GROUP_ID\"",
+		ShortUsage: "aso game-center groups activities list --group-id \"GROUP_ID\"",
 		ShortHelp:  "Manage group activities relationships.",
 		LongHelp: `Manage group activities relationships.
 
 Examples:
-  asc game-center groups activities list --group-id "GROUP_ID"`,
+  aso game-center groups activities list --group-id "GROUP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -830,14 +830,14 @@ func GameCenterGroupActivitiesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center groups activities list --group-id \"GROUP_ID\"",
+		ShortUsage: "aso game-center groups activities list --group-id \"GROUP_ID\"",
 		ShortHelp:  "List activities for a Game Center group.",
 		LongHelp: `List activities for a Game Center group.
 
 Examples:
-  asc game-center groups activities list --group-id "GROUP_ID"
-  asc game-center groups activities list --group-id "GROUP_ID" --limit 50
-  asc game-center groups activities list --group-id "GROUP_ID" --paginate`,
+  aso game-center groups activities list --group-id "GROUP_ID"
+  aso game-center groups activities list --group-id "GROUP_ID" --limit 50
+  aso game-center groups activities list --group-id "GROUP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -900,13 +900,13 @@ func GameCenterGroupChallengesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "challenges",
-		ShortUsage: "asc game-center groups challenges set --group-id \"GROUP_ID\" --ids \"CH_1,CH_2\"",
+		ShortUsage: "aso game-center groups challenges set --group-id \"GROUP_ID\" --ids \"CH_1,CH_2\"",
 		ShortHelp:  "Manage group challenges relationships.",
 		LongHelp: `Manage group challenges relationships.
 
 Examples:
-  asc game-center groups challenges list --group-id "GROUP_ID"
-  asc game-center groups challenges set --group-id "GROUP_ID" --ids "CH_1,CH_2"`,
+  aso game-center groups challenges list --group-id "GROUP_ID"
+  aso game-center groups challenges set --group-id "GROUP_ID" --ids "CH_1,CH_2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -931,14 +931,14 @@ func GameCenterGroupChallengesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center groups challenges list --group-id \"GROUP_ID\"",
+		ShortUsage: "aso game-center groups challenges list --group-id \"GROUP_ID\"",
 		ShortHelp:  "List challenges for a Game Center group.",
 		LongHelp: `List challenges for a Game Center group.
 
 Examples:
-  asc game-center groups challenges list --group-id "GROUP_ID"
-  asc game-center groups challenges list --group-id "GROUP_ID" --limit 50
-  asc game-center groups challenges list --group-id "GROUP_ID" --paginate`,
+  aso game-center groups challenges list --group-id "GROUP_ID"
+  aso game-center groups challenges list --group-id "GROUP_ID" --limit 50
+  aso game-center groups challenges list --group-id "GROUP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1005,12 +1005,12 @@ func GameCenterGroupChallengesSetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc game-center groups challenges set --group-id \"GROUP_ID\" --ids \"CH_1,CH_2\"",
+		ShortUsage: "aso game-center groups challenges set --group-id \"GROUP_ID\" --ids \"CH_1,CH_2\"",
 		ShortHelp:  "Replace group challenges relationships.",
 		LongHelp: `Replace group challenges relationships.
 
 Examples:
-  asc game-center groups challenges set --group-id "GROUP_ID" --ids "CH_1,CH_2"`,
+  aso game-center groups challenges set --group-id "GROUP_ID" --ids "CH_1,CH_2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1049,12 +1049,12 @@ func GameCenterGroupDetailsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "details",
-		ShortUsage: "asc game-center groups details list --group-id \"GROUP_ID\"",
+		ShortUsage: "aso game-center groups details list --group-id \"GROUP_ID\"",
 		ShortHelp:  "List Game Center details for a group.",
 		LongHelp: `List Game Center details for a group.
 
 Examples:
-  asc game-center groups details list --group-id "GROUP_ID"`,
+  aso game-center groups details list --group-id "GROUP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1078,14 +1078,14 @@ func GameCenterGroupDetailsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center groups details list --group-id \"GROUP_ID\"",
+		ShortUsage: "aso game-center groups details list --group-id \"GROUP_ID\"",
 		ShortHelp:  "List Game Center details for a group.",
 		LongHelp: `List Game Center details for a group.
 
 Examples:
-  asc game-center groups details list --group-id "GROUP_ID"
-  asc game-center groups details list --group-id "GROUP_ID" --limit 50
-  asc game-center groups details list --group-id "GROUP_ID" --paginate`,
+  aso game-center groups details list --group-id "GROUP_ID"
+  aso game-center groups details list --group-id "GROUP_ID" --limit 50
+  aso game-center groups details list --group-id "GROUP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

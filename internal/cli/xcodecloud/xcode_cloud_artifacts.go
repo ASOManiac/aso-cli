@@ -12,8 +12,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // XcodeCloudArtifactsCommand returns the xcode-cloud artifacts command with subcommands.
@@ -22,15 +22,15 @@ func XcodeCloudArtifactsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "artifacts",
-		ShortUsage: "asc xcode-cloud artifacts <subcommand> [flags]",
+		ShortUsage: "aso xcode-cloud artifacts <subcommand> [flags]",
 		ShortHelp:  "Manage Xcode Cloud build artifacts.",
 		LongHelp: `Manage Xcode Cloud build artifacts.
 
 Examples:
-  asc xcode-cloud artifacts list --action-id "ACTION_ID"
-  asc xcode-cloud artifacts list --run-id "BUILD_RUN_ID"
-  asc xcode-cloud artifacts get --id "ARTIFACT_ID"
-  asc xcode-cloud artifacts download --id "ARTIFACT_ID" --path ./artifact.zip`,
+  aso xcode-cloud artifacts list --action-id "ACTION_ID"
+  aso xcode-cloud artifacts list --run-id "BUILD_RUN_ID"
+  aso xcode-cloud artifacts get --id "ARTIFACT_ID"
+  aso xcode-cloud artifacts download --id "ARTIFACT_ID" --path ./artifact.zip`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -57,16 +57,16 @@ func XcodeCloudArtifactsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc xcode-cloud artifacts list [flags]",
+		ShortUsage: "aso xcode-cloud artifacts list [flags]",
 		ShortHelp:  "List artifacts for a build action.",
 		LongHelp: `List artifacts for a build action.
 
 Examples:
-  asc xcode-cloud artifacts list --action-id "ACTION_ID"
-  asc xcode-cloud artifacts list --run-id "BUILD_RUN_ID"
-  asc xcode-cloud artifacts list --action-id "ACTION_ID" --output table
-  asc xcode-cloud artifacts list --action-id "ACTION_ID" --limit 50
-  asc xcode-cloud artifacts list --action-id "ACTION_ID" --paginate`,
+  aso xcode-cloud artifacts list --action-id "ACTION_ID"
+  aso xcode-cloud artifacts list --run-id "BUILD_RUN_ID"
+  aso xcode-cloud artifacts list --action-id "ACTION_ID" --output table
+  aso xcode-cloud artifacts list --action-id "ACTION_ID" --limit 50
+  aso xcode-cloud artifacts list --action-id "ACTION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -98,13 +98,13 @@ func XcodeCloudArtifactsGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "get",
 		Name:        "get",
-		ShortUsage:  "asc xcode-cloud artifacts get --id \"ARTIFACT_ID\"",
+		ShortUsage:  "aso xcode-cloud artifacts get --id \"ARTIFACT_ID\"",
 		ShortHelp:   "Get details for a build artifact.",
 		LongHelp: `Get details for a build artifact.
 
 Examples:
-  asc xcode-cloud artifacts get --id "ARTIFACT_ID"
-  asc xcode-cloud artifacts get --id "ARTIFACT_ID" --output table`,
+  aso xcode-cloud artifacts get --id "ARTIFACT_ID"
+  aso xcode-cloud artifacts get --id "ARTIFACT_ID" --output table`,
 		IDFlag:      "id",
 		IDUsage:     "Artifact ID",
 		ErrorPrefix: "xcode-cloud artifacts get",
@@ -128,13 +128,13 @@ func XcodeCloudArtifactsDownloadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "download",
-		ShortUsage: "asc xcode-cloud artifacts download --id \"ARTIFACT_ID\" --path ./artifact.zip",
+		ShortUsage: "aso xcode-cloud artifacts download --id \"ARTIFACT_ID\" --path ./artifact.zip",
 		ShortHelp:  "Download a build artifact.",
 		LongHelp: `Download a build artifact.
 
 Examples:
-  asc xcode-cloud artifacts download --id "ARTIFACT_ID" --path ./artifact.zip
-  asc xcode-cloud artifacts download --id "ARTIFACT_ID" --path ./artifact.zip --overwrite`,
+  aso xcode-cloud artifacts download --id "ARTIFACT_ID" --path ./artifact.zip
+  aso xcode-cloud artifacts download --id "ARTIFACT_ID" --path ./artifact.zip --overwrite`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

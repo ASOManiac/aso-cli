@@ -5,7 +5,7 @@ import (
 	"crypto/ecdsa"
 	"errors"
 
-	authsvc "github.com/rudrankriyam/App-Store-Connect-CLI/internal/auth"
+	authsvc "github.com/ASOManiac/aso-cli/internal/auth"
 )
 
 // SetStatusValidateCredential replaces the validation hook for tests.

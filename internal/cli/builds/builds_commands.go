@@ -11,8 +11,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const buildWaitDefaultTimeout = 30 * time.Minute
@@ -39,7 +39,7 @@ func BuildsUploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload",
-		ShortUsage: "asc builds upload [flags]",
+		ShortUsage: "aso builds upload [flags]",
 		ShortHelp:  "Upload a build to App Store Connect.",
 		LongHelp: `Upload a build to App Store Connect.
 
@@ -53,11 +53,11 @@ Use --ipa for iOS, tvOS, and visionOS apps. Use --pkg for macOS apps.
 When using --pkg, the platform is automatically set to MAC_OS.
 
 Examples:
-  asc builds upload --app "123456789" --ipa "path/to/app.ipa"
-  asc builds upload --ipa "app.ipa" --version "1.0.0" --build-number "123"
-  asc builds upload --app "123456789" --ipa "app.ipa" --dry-run
-  asc builds upload --app "123456789" --ipa "app.ipa" --test-notes "Test flow" --locale "en-US" --wait
-  asc builds upload --app "123456789" --pkg "path/to/app.pkg" --version "1.0.0" --build-number "123"`,
+  aso builds upload --app "123456789" --ipa "path/to/app.ipa"
+  aso builds upload --ipa "app.ipa" --version "1.0.0" --build-number "123"
+  aso builds upload --app "123456789" --ipa "app.ipa" --dry-run
+  aso builds upload --app "123456789" --ipa "app.ipa" --test-notes "Test flow" --locale "en-US" --wait
+  aso builds upload --app "123456789" --pkg "path/to/app.pkg" --version "1.0.0" --build-number "123"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -392,37 +392,37 @@ func BuildsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "builds",
-		ShortUsage: "asc builds <subcommand> [flags]",
+		ShortUsage: "aso builds <subcommand> [flags]",
 		ShortHelp:  "Manage builds in App Store Connect.",
 		LongHelp: `Manage builds in App Store Connect.
 
 Examples:
-  asc builds list --app "123456789"
-  asc builds count --app "123456789"
-  asc builds latest --app "123456789"
-  asc builds find --app "123456789" --build-number "42"
-  asc builds wait --build "BUILD_ID"
-  asc builds wait --app "123456789" --newest
-  asc builds info --build "BUILD_ID"
-  asc builds expire --build "BUILD_ID"
-  asc builds expire-all --app "123456789" --older-than 90d --dry-run
-  asc builds upload --app "123456789" --ipa "app.ipa"
-  asc builds upload --app "123456789" --pkg "app.pkg" --version "1.0.0" --build-number "1"
-  asc builds uploads list --app "123456789"
-  asc builds test-notes list --build "BUILD_ID"
-  asc builds individual-testers list --build "BUILD_ID"
-  asc builds update --build "BUILD_ID" --uses-non-exempt-encryption=false
-  asc builds add-groups --build "BUILD_ID" --group "GROUP_ID"
-  asc builds add-groups --build "BUILD_ID" --group "GROUP_ID" --submit --confirm
-  asc builds remove-groups --build "BUILD_ID" --group "GROUP_ID"
-  asc builds app get --build "BUILD_ID"
-  asc builds pre-release-version get --build "BUILD_ID"
-  asc builds icons list --build "BUILD_ID"
-  asc builds beta-app-review-submission get --build "BUILD_ID"
-  asc builds build-beta-detail get --build "BUILD_ID"
-  asc builds links view --build "BUILD_ID" --type "app"
-  asc builds metrics beta-usages --build "BUILD_ID"
-  asc builds dsyms --build "BUILD_ID" --output-dir "./dsyms"`,
+  aso builds list --app "123456789"
+  aso builds count --app "123456789"
+  aso builds latest --app "123456789"
+  aso builds find --app "123456789" --build-number "42"
+  aso builds wait --build "BUILD_ID"
+  aso builds wait --app "123456789" --newest
+  aso builds info --build "BUILD_ID"
+  aso builds expire --build "BUILD_ID"
+  aso builds expire-all --app "123456789" --older-than 90d --dry-run
+  aso builds upload --app "123456789" --ipa "app.ipa"
+  aso builds upload --app "123456789" --pkg "app.pkg" --version "1.0.0" --build-number "1"
+  aso builds uploads list --app "123456789"
+  aso builds test-notes list --build "BUILD_ID"
+  aso builds individual-testers list --build "BUILD_ID"
+  aso builds update --build "BUILD_ID" --uses-non-exempt-encryption=false
+  aso builds add-groups --build "BUILD_ID" --group "GROUP_ID"
+  aso builds add-groups --build "BUILD_ID" --group "GROUP_ID" --submit --confirm
+  aso builds remove-groups --build "BUILD_ID" --group "GROUP_ID"
+  aso builds app get --build "BUILD_ID"
+  aso builds pre-release-version get --build "BUILD_ID"
+  aso builds icons list --build "BUILD_ID"
+  aso builds beta-app-review-submission get --build "BUILD_ID"
+  aso builds build-beta-detail get --build "BUILD_ID"
+  aso builds links view --build "BUILD_ID" --type "app"
+  aso builds metrics beta-usages --build "BUILD_ID"
+  aso builds dsyms --build "BUILD_ID" --output-dir "./dsyms"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -475,7 +475,7 @@ func BuildsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc builds list [flags]",
+		ShortUsage: "aso builds list [flags]",
 		ShortHelp:  "List builds for an app in App Store Connect.",
 		LongHelp: `List builds for an app in App Store Connect.
 
@@ -483,16 +483,16 @@ This command fetches builds uploaded to App Store Connect,
 including processing status and expiration dates.
 
 Examples:
-  asc builds list --app "123456789"
-  asc builds list --app "123456789" --version "1.2.3"
-  asc builds list --app "123456789" --build-number "123"
-  asc builds list --app "123456789" --platform TV_OS
-  asc builds list --app "123456789" --platform IOS --version "1.2.3"
-  asc builds list --app "123456789" --processing-state "PROCESSING"
-  asc builds list --app "123456789" --processing-state "all"
-  asc builds list --app "123456789" --version "1.2.3" --build-number "123"
-  asc builds list --app "123456789" --limit 10
-  asc builds list --app "123456789" --paginate`,
+  aso builds list --app "123456789"
+  aso builds list --app "123456789" --version "1.2.3"
+  aso builds list --app "123456789" --build-number "123"
+  aso builds list --app "123456789" --platform TV_OS
+  aso builds list --app "123456789" --platform IOS --version "1.2.3"
+  aso builds list --app "123456789" --processing-state "PROCESSING"
+  aso builds list --app "123456789" --processing-state "all"
+  aso builds list --app "123456789" --version "1.2.3" --build-number "123"
+  aso builds list --app "123456789" --limit 10
+  aso builds list --app "123456789" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -744,12 +744,12 @@ func BuildsInfoCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "info",
-		ShortUsage: "asc builds info --build BUILD_ID",
+		ShortUsage: "aso builds info --build BUILD_ID",
 		ShortHelp:  "Show details for a specific build.",
 		LongHelp: `Show details for a specific build.
 
 Examples:
-  asc builds info --build "BUILD_ID"`,
+  aso builds info --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -791,14 +791,14 @@ func BuildsExpireCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "expire",
-		ShortUsage: "asc builds expire --build BUILD_ID --confirm [flags]",
+		ShortUsage: "aso builds expire --build BUILD_ID --confirm [flags]",
 		ShortHelp:  "Expire a build for TestFlight.",
 		LongHelp: `Expire a build for TestFlight.
 
 This action is irreversible for the specified build.
 
 Examples:
-  asc builds expire --build "BUILD_ID" --confirm`,
+  aso builds expire --build "BUILD_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

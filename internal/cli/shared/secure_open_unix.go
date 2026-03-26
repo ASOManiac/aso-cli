@@ -5,7 +5,7 @@ package shared
 import (
 	"os"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/secureopen"
+	"github.com/ASOManiac/aso-cli/internal/secureopen"
 )
 
 // OpenNewFileNoFollow creates a new file without following symlinks.

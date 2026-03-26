@@ -55,13 +55,13 @@ jobs:
         run: |
           COMMIT=$(git rev-parse --short HEAD)
           DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          GOOS=darwin GOARCH=amd64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/asc_${VERSION}_macOS_amd64 .
-          GOOS=darwin GOARCH=arm64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/asc_${VERSION}_macOS_arm64 .
+          GOOS=darwin GOARCH=amd64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/aso_${VERSION}_macOS_amd64 .
+          GOOS=darwin GOARCH=arm64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/aso_${VERSION}_macOS_arm64 .
 
       - name: Code sign macOS binaries
         if: env.APPLE_DEVELOPER_ID != ''
         run: |
-          for binary in release/asc_*_macOS_*; do
+          for binary in release/aso_*_macOS_*; do
             codesign --force --sign "${{ secrets.APPLE_DEVELOPER_ID }}" --timestamp --options=runtime "$binary"
           done
         env:
@@ -71,19 +71,19 @@ jobs:
         run: |
           COMMIT=$(git rev-parse --short HEAD)
           DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          GOOS=linux GOARCH=amd64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/asc_${VERSION}_linux_amd64 .
-          GOOS=linux GOARCH=arm64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/asc_${VERSION}_linux_arm64 .
+          GOOS=linux GOARCH=amd64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/aso_${VERSION}_linux_amd64 .
+          GOOS=linux GOARCH=arm64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/aso_${VERSION}_linux_arm64 .
 
       - name: Build for Windows
         run: |
           COMMIT=$(git rev-parse --short HEAD)
           DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          GOOS=windows GOARCH=amd64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/asc_${VERSION}_windows_amd64.exe .
+          GOOS=windows GOARCH=amd64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/aso_${VERSION}_windows_amd64.exe .
 
       - name: Create checksums
         run: |
           cd release
-          shasum -a 256 * > asc_${VERSION}_checksums.txt
+          shasum -a 256 * > aso_${VERSION}_checksums.txt
 
       - name: Display files
         run: ls -la release/
@@ -108,7 +108,7 @@ jobs:
             exit 0
           fi
 
-          SHA256=$(shasum -a 256 release/asc_${VERSION}_macOS_arm64 | cut -d ' ' -f 1)
+          SHA256=$(shasum -a 256 release/aso_${VERSION}_macOS_arm64 | cut -d ' ' -f 1)
 
           # Clone the tap repo
           git clone https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/rudrankriyam/homebrew-tap.git homebrew-tap || {
@@ -118,14 +118,14 @@ jobs:
           cd homebrew-tap
 
           # Update the formula
-          cat > Formula/asc.rb << EOF
+          cat > Formula/aso.rb << EOF
           # typed: false
           # frozen_string_literal: true
 
-          class Asc < Formula
-            desc "A fast, AI-agent friendly CLI for App Store Connect"
-            homepage 'https://github.com/rudrankriyam/App-Store-Connect-CLI'
-            url 'https://github.com/rudrankriyam/App-Store-Connect-CLI/releases/download/${VERSION}/asc_${VERSION}_macOS_arm64'
+          class Aso < Formula
+            desc "ASO CLI — App Store Optimization + App Store Connect"
+            homepage 'https://github.com/ASOManiac/aso-cli'
+            url 'https://github.com/ASOManiac/aso-cli/releases/download/${VERSION}/aso_${VERSION}_macOS_arm64'
             version '${VERSION}'
             sha256 '${SHA256}'
             license 'MIT'
@@ -133,20 +133,20 @@ jobs:
             depends_on :macos
 
             def install
-              bin.install 'asc_${VERSION}_macOS_arm64' => 'asc'
+              bin.install 'aso_${VERSION}_macOS_arm64' => 'aso'
             end
 
             test do
-              assert_match "asc is a lightweight cli", shell_output("#{bin}/asc --help")
+              assert_match "ASO CLI", shell_output("#{bin}/aso --help")
             end
           end
           EOF
 
           # Commit and push
-          git config user.name "Rudrank Riyam"
-          git config user.email "rudrankriyam@gmail.com"
-          git add Formula/asc.rb
-          git commit -m "Update asc to ${VERSION}" || echo "No changes to commit"
+          git config user.name "ASOManiac"
+          git config user.email "noreply@asomaniac.com"
+          git add Formula/aso.rb
+          git commit -m "Update aso to ${VERSION}" || echo "No changes to commit"
           git push || {
             echo "Homebrew tap push failed (auth/permissions). Skipping."
             exit 0

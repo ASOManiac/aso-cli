@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PerformanceDiagnosticsCommand returns the diagnostics subcommand group.
@@ -19,13 +19,13 @@ func PerformanceDiagnosticsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "diagnostics",
-		ShortUsage: "asc performance diagnostics <subcommand> [flags]",
+		ShortUsage: "aso performance diagnostics <subcommand> [flags]",
 		ShortHelp:  "Work with diagnostic signatures and logs.",
 		LongHelp: `Work with diagnostic signatures and logs.
 
 Examples:
-  asc performance diagnostics list --build "BUILD_ID"
-  asc performance diagnostics get --id "SIGNATURE_ID"`,
+  aso performance diagnostics list --build "BUILD_ID"
+  aso performance diagnostics get --id "SIGNATURE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -52,13 +52,13 @@ func PerformanceDiagnosticsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc performance diagnostics list --build \"BUILD_ID\"",
+		ShortUsage: "aso performance diagnostics list --build \"BUILD_ID\"",
 		ShortHelp:  "List diagnostic signatures for a build.",
 		LongHelp: `List diagnostic signatures for a build.
 
 Examples:
-  asc performance diagnostics list --build "BUILD_ID"
-  asc performance diagnostics list --build "BUILD_ID" --diagnostic-type "HANGS" --limit 50`,
+  aso performance diagnostics list --build "BUILD_ID"
+  aso performance diagnostics list --build "BUILD_ID" --diagnostic-type "HANGS" --limit 50`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -132,13 +132,13 @@ func PerformanceDiagnosticsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc performance diagnostics get --id \"SIGNATURE_ID\"",
+		ShortUsage: "aso performance diagnostics get --id \"SIGNATURE_ID\"",
 		ShortHelp:  "Get diagnostic logs for a signature.",
 		LongHelp: `Get diagnostic logs for a signature.
 
 Examples:
-  asc performance diagnostics get --id "SIGNATURE_ID"
-  asc performance diagnostics get --id "SIGNATURE_ID" --limit 50`,
+  aso performance diagnostics get --id "SIGNATURE_ID"
+  aso performance diagnostics get --id "SIGNATURE_ID" --limit 50`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppEventVideoClipsCommand returns the app event video clips command group.
@@ -19,13 +19,13 @@ func AppEventVideoClipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "video-clips",
-		ShortUsage: "asc app-events video-clips <subcommand> [flags]",
+		ShortUsage: "aso app-events video-clips <subcommand> [flags]",
 		ShortHelp:  "Manage in-app event video clips.",
 		LongHelp: `Manage in-app event video clips.
 
 Examples:
-  asc app-events video-clips list --event-id "EVENT_ID"
-  asc app-events video-clips create --localization-id "LOC_ID" --path "./clip.mov" --asset-type EVENT_CARD`,
+  aso app-events video-clips list --event-id "EVENT_ID"
+  aso app-events video-clips create --localization-id "LOC_ID" --path "./clip.mov" --asset-type EVENT_CARD`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -34,9 +34,9 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				AppEventVideoClipsRelationshipsCommand(),
 				"relationships",
-				"asc app-events video-clips links [flags]",
-				"asc app-events video-clips links",
-				"Warning: `asc app-events video-clips relationships` is deprecated. Use `asc app-events video-clips links`.",
+				"aso app-events video-clips links [flags]",
+				"aso app-events video-clips links",
+				"Warning: `aso app-events video-clips relationships` is deprecated. Use `aso app-events video-clips links`.",
 			),
 			AppEventVideoClipsGetCommand(),
 			AppEventVideoClipsCreateCommand(),
@@ -62,14 +62,14 @@ func AppEventVideoClipsRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc app-events video-clips links [flags]",
+		ShortUsage: "aso app-events video-clips links [flags]",
 		ShortHelp:  "List video clip relationships for an in-app event localization.",
 		LongHelp: `List video clip relationships for an in-app event localization.
 
 Examples:
-  asc app-events video-clips links --localization-id "LOC_ID"
-  asc app-events video-clips links --event-id "EVENT_ID" --locale "en-US"
-  asc app-events video-clips links --event-id "EVENT_ID" --paginate`,
+  aso app-events video-clips links --localization-id "LOC_ID"
+  aso app-events video-clips links --event-id "EVENT_ID" --locale "en-US"
+  aso app-events video-clips links --event-id "EVENT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -147,14 +147,14 @@ func AppEventVideoClipsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc app-events video-clips list [flags]",
+		ShortUsage: "aso app-events video-clips list [flags]",
 		ShortHelp:  "List video clips for an in-app event localization.",
 		LongHelp: `List video clips for an in-app event localization.
 
 Examples:
-  asc app-events video-clips list --localization-id "LOC_ID"
-  asc app-events video-clips list --event-id "EVENT_ID" --locale "en-US"
-  asc app-events video-clips list --event-id "EVENT_ID" --paginate`,
+  aso app-events video-clips list --localization-id "LOC_ID"
+  aso app-events video-clips list --event-id "EVENT_ID" --locale "en-US"
+  aso app-events video-clips list --event-id "EVENT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -227,12 +227,12 @@ func AppEventVideoClipsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-events video-clips get --clip-id \"CLIP_ID\"",
+		ShortUsage: "aso app-events video-clips get --clip-id \"CLIP_ID\"",
 		ShortHelp:  "Get an in-app event video clip by ID.",
 		LongHelp: `Get an in-app event video clip by ID.
 
 Examples:
-  asc app-events video-clips get --clip-id "CLIP_ID"`,
+  aso app-events video-clips get --clip-id "CLIP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -274,13 +274,13 @@ func AppEventVideoClipsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc app-events video-clips create [flags]",
+		ShortUsage: "aso app-events video-clips create [flags]",
 		ShortHelp:  "Upload a video clip for an in-app event localization.",
 		LongHelp: `Upload a video clip for an in-app event localization.
 
 Examples:
-  asc app-events video-clips create --localization-id "LOC_ID" --path "./clip.mov" --asset-type EVENT_CARD
-  asc app-events video-clips create --event-id "EVENT_ID" --locale "en-US" --path "./clip.mov" --asset-type EVENT_DETAILS_PAGE --preview-frame-time-code "00:00:05.000"`,
+  aso app-events video-clips create --localization-id "LOC_ID" --path "./clip.mov" --asset-type EVENT_CARD
+  aso app-events video-clips create --event-id "EVENT_ID" --locale "en-US" --path "./clip.mov" --asset-type EVENT_DETAILS_PAGE --preview-frame-time-code "00:00:05.000"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -364,12 +364,12 @@ func AppEventVideoClipsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc app-events video-clips delete --clip-id \"CLIP_ID\" --confirm",
+		ShortUsage: "aso app-events video-clips delete --clip-id \"CLIP_ID\" --confirm",
 		ShortHelp:  "Delete an in-app event video clip.",
 		LongHelp: `Delete an in-app event video clip.
 
 Examples:
-  asc app-events video-clips delete --clip-id "CLIP_ID" --confirm`,
+  aso app-events video-clips delete --clip-id "CLIP_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

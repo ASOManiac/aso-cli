@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshots"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/screenshots"
 )
 
 // ShotsCaptureCommand returns the screenshots capture subcommand.
@@ -25,7 +25,7 @@ func ShotsCaptureCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "capture",
-		ShortUsage: "asc screenshots capture --bundle-id BUNDLE_ID --name NAME [flags]",
+		ShortUsage: "aso screenshots capture --bundle-id BUNDLE_ID --name NAME [flags]",
 		ShortHelp:  "[experimental] Capture a single screenshot from a simulator or running macOS app.",
 		LongHelp: `Capture one screenshot from a running app (experimental).
 
@@ -33,7 +33,7 @@ iOS/simulator (default): app must be installed; simulator must be booted or --ud
 
 macOS: app must be running. Captures the frontmost visible window by bundle ID.
   Requires: Screen Recording permission for your terminal app, and Xcode Command Line Tools (swift).
-  asc screenshots capture --provider macos --bundle-id com.example.MyApp --name home`,
+  aso screenshots capture --provider macos --bundle-id com.example.MyApp --name home`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

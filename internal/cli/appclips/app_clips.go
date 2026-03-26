@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppClipsCommand returns the app-clips command group.
@@ -19,16 +19,16 @@ func AppClipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-clips",
-		ShortUsage: "asc app-clips <subcommand> [flags]",
+		ShortUsage: "aso app-clips <subcommand> [flags]",
 		ShortHelp:  "Manage App Clip experiences and invocations.",
 		LongHelp: `Manage App Clip experiences and invocations.
 
 Examples:
-  asc app-clips list --app "APP_ID"
-  asc app-clips get --id "CLIP_ID"
-  asc app-clips default-experiences list --app-clip-id "CLIP_ID"
-  asc app-clips advanced-experiences create --app "APP_ID" --bundle-id "com.example.clip" --link "https://example.com" --default-language EN --is-powered-by
-  asc app-clips invocations list --build-bundle-id "BUILD_BUNDLE_ID"`,
+  aso app-clips list --app "APP_ID"
+  aso app-clips get --id "CLIP_ID"
+  aso app-clips default-experiences list --app-clip-id "CLIP_ID"
+  aso app-clips advanced-experiences create --app "APP_ID" --bundle-id "com.example.clip" --link "https://example.com" --default-language EN --is-powered-by
+  aso app-clips invocations list --build-bundle-id "BUILD_BUNDLE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -40,17 +40,17 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				AppClipDefaultExperiencesRelationshipsCommand(),
 				"default-experiences-relationships",
-				"asc app-clips default-experiences-links --app-clip-id \"CLIP_ID\" [flags]",
-				"asc app-clips default-experiences-links",
-				"Warning: `asc app-clips default-experiences-relationships` is deprecated. Use `asc app-clips default-experiences-links`.",
+				"aso app-clips default-experiences-links --app-clip-id \"CLIP_ID\" [flags]",
+				"aso app-clips default-experiences-links",
+				"Warning: `aso app-clips default-experiences-relationships` is deprecated. Use `aso app-clips default-experiences-links`.",
 			),
 			AppClipAdvancedExperiencesRelationshipsCommand(),
 			shared.DeprecatedAliasLeafCommand(
 				AppClipAdvancedExperiencesRelationshipsCommand(),
 				"advanced-experiences-relationships",
-				"asc app-clips advanced-experiences-links --app-clip-id \"CLIP_ID\" [flags]",
-				"asc app-clips advanced-experiences-links",
-				"Warning: `asc app-clips advanced-experiences-relationships` is deprecated. Use `asc app-clips advanced-experiences-links`.",
+				"aso app-clips advanced-experiences-links --app-clip-id \"CLIP_ID\" [flags]",
+				"aso app-clips advanced-experiences-links",
+				"Warning: `aso app-clips advanced-experiences-relationships` is deprecated. Use `aso app-clips advanced-experiences-links`.",
 			),
 			AppClipHeaderImagesCommand(),
 			AppClipInvocationsCommand(),
@@ -76,15 +76,15 @@ func AppClipsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc app-clips list --app \"APP_ID\" [flags]",
+		ShortUsage: "aso app-clips list --app \"APP_ID\" [flags]",
 		ShortHelp:  "List App Clips for an app.",
 		LongHelp: `List App Clips for an app.
 
 Examples:
-  asc app-clips list --app "APP_ID"
-  asc app-clips list --app "APP_ID" --bundle-id "com.example.clip"
-  asc app-clips list --app "APP_ID" --limit 50
-  asc app-clips list --app "APP_ID" --paginate`,
+  aso app-clips list --app "APP_ID"
+  aso app-clips list --app "APP_ID" --bundle-id "com.example.clip"
+  aso app-clips list --app "APP_ID" --limit 50
+  aso app-clips list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -159,12 +159,12 @@ func AppClipsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-clips get --id \"CLIP_ID\"",
+		ShortUsage: "aso app-clips get --id \"CLIP_ID\"",
 		ShortHelp:  "Get App Clip details by ID.",
 		LongHelp: `Get App Clip details by ID.
 
 Examples:
-  asc app-clips get --id "CLIP_ID"`,
+  aso app-clips get --id "CLIP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

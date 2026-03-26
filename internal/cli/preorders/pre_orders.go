@@ -10,25 +10,25 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PreOrdersCommand returns the pre-orders command group.
 func PreOrdersCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "pre-orders",
-		ShortUsage: "asc pre-orders <subcommand> [flags]",
+		ShortUsage: "aso pre-orders <subcommand> [flags]",
 		ShortHelp:  "Manage app pre-orders.",
 		LongHelp: `Manage app pre-orders.
 
 Examples:
-  asc pre-orders get --app "123456789"
-  asc pre-orders list --availability "AVAILABILITY_ID"
-  asc pre-orders enable --app "123456789" --territory "USA,GBR" --release-date "2026-06-01"
-  asc pre-orders update --territory-availability "TERRITORY_AVAILABILITY_ID" --pre-order-enabled true --release-date "2026-03-01"
-  asc pre-orders disable --territory-availability "TERRITORY_AVAILABILITY_ID"
-  asc pre-orders end --territory-availability "TA_1,TA_2"`,
+  aso pre-orders get --app "123456789"
+  aso pre-orders list --availability "AVAILABILITY_ID"
+  aso pre-orders enable --app "123456789" --territory "USA,GBR" --release-date "2026-06-01"
+  aso pre-orders update --territory-availability "TERRITORY_AVAILABILITY_ID" --pre-order-enabled true --release-date "2026-03-01"
+  aso pre-orders disable --territory-availability "TERRITORY_AVAILABILITY_ID"
+  aso pre-orders end --territory-availability "TA_1,TA_2"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			PreOrdersGetCommand(),
@@ -53,12 +53,12 @@ func PreOrdersGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc pre-orders get [flags]",
+		ShortUsage: "aso pre-orders get [flags]",
 		ShortHelp:  "Get app pre-order availability.",
 		LongHelp: `Get app pre-order availability.
 
 Examples:
-  asc pre-orders get --app "123456789"`,
+  aso pre-orders get --app "123456789"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -94,15 +94,15 @@ func PreOrdersListCommand() *ffcli.Command {
 	cmd := shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "pre-orders list",
 		Name:        "list",
-		ShortUsage:  "asc pre-orders list --availability AVAILABILITY_ID [--limit N] [--next URL] [--paginate]",
+		ShortUsage:  "aso pre-orders list --availability AVAILABILITY_ID [--limit N] [--next URL] [--paginate]",
 		ShortHelp:   "List territory availabilities for pre-orders.",
 		LongHelp: `List territory availabilities for pre-orders.
 
 Examples:
-  asc pre-orders list --availability "AVAILABILITY_ID"
-  asc pre-orders list --availability "AVAILABILITY_ID" --limit 175
-  asc pre-orders list --availability "AVAILABILITY_ID" --paginate
-  asc pre-orders list --next "NEXT_URL"`,
+  aso pre-orders list --availability "AVAILABILITY_ID"
+  aso pre-orders list --availability "AVAILABILITY_ID" --limit 175
+  aso pre-orders list --availability "AVAILABILITY_ID" --paginate
+  aso pre-orders list --next "NEXT_URL"`,
 		ParentFlag:  "availability",
 		ParentUsage: "App availability ID",
 		LimitMax:    200,
@@ -153,7 +153,7 @@ func PreOrdersEnableCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "enable",
-		ShortUsage: "asc pre-orders enable --app \"APP_ID\" --territory \"USA,GBR\" --release-date \"2026-06-01\"",
+		ShortUsage: "aso pre-orders enable --app \"APP_ID\" --territory \"USA,GBR\" --release-date \"2026-06-01\"",
 		ShortHelp:  "Enable pre-orders for territories.",
 		LongHelp: `Enable pre-orders for territories.
 
@@ -161,8 +161,8 @@ Enables pre-orders on the specified territories by setting preOrderEnabled=true,
 available=true, and the given release date on each territory availability.
 
 Examples:
-  asc pre-orders enable --app "123456789" --territory "USA" --release-date "2026-06-01"
-  asc pre-orders enable --app "123456789" --territory "USA,GBR,DEU" --release-date "2026-06-01"`,
+  aso pre-orders enable --app "123456789" --territory "USA" --release-date "2026-06-01"
+  aso pre-orders enable --app "123456789" --territory "USA,GBR,DEU" --release-date "2026-06-01"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -281,16 +281,16 @@ func PreOrdersUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc pre-orders update --territory-availability TERRITORY_AVAILABILITY_ID [flags]",
+		ShortUsage: "aso pre-orders update --territory-availability TERRITORY_AVAILABILITY_ID [flags]",
 		ShortHelp:  "Update pre-order settings for a territory availability.",
 		LongHelp: `Update pre-order settings for a territory availability.
 
 At least one of --release-date, --pre-order-enabled, or --available is required.
 
 Examples:
-  asc pre-orders update --territory-availability "TERRITORY_AVAILABILITY_ID" --pre-order-enabled true --release-date "2026-03-01"
-  asc pre-orders update --territory-availability "TERRITORY_AVAILABILITY_ID" --pre-order-enabled false
-  asc pre-orders update --territory-availability "TERRITORY_AVAILABILITY_ID" --available true`,
+  aso pre-orders update --territory-availability "TERRITORY_AVAILABILITY_ID" --pre-order-enabled true --release-date "2026-03-01"
+  aso pre-orders update --territory-availability "TERRITORY_AVAILABILITY_ID" --pre-order-enabled false
+  aso pre-orders update --territory-availability "TERRITORY_AVAILABILITY_ID" --available true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -359,12 +359,12 @@ func PreOrdersDisableCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "disable",
-		ShortUsage: "asc pre-orders disable --territory-availability TERRITORY_AVAILABILITY_ID",
+		ShortUsage: "aso pre-orders disable --territory-availability TERRITORY_AVAILABILITY_ID",
 		ShortHelp:  "Disable pre-orders for a territory availability.",
 		LongHelp: `Disable pre-orders for a territory availability.
 
 Examples:
-  asc pre-orders disable --territory-availability "TERRITORY_AVAILABILITY_ID"`,
+  aso pre-orders disable --territory-availability "TERRITORY_AVAILABILITY_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -405,12 +405,12 @@ func PreOrdersEndCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "end",
-		ShortUsage: "asc pre-orders end --territory-availability TERRITORY_AVAILABILITY_ID[,ID...]",
+		ShortUsage: "aso pre-orders end --territory-availability TERRITORY_AVAILABILITY_ID[,ID...]",
 		ShortHelp:  "End pre-orders for territory availabilities.",
 		LongHelp: `End pre-orders for territory availabilities.
 
 Examples:
-  asc pre-orders end --territory-availability "TA_1,TA_2"`,
+  aso pre-orders end --territory-availability "TA_1,TA_2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

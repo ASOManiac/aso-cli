@@ -10,7 +10,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // CompletionCommand prints shell completion scripts to stdout.
@@ -21,7 +21,7 @@ func CompletionCommand(rootSubcommands []*ffcli.Command) *ffcli.Command {
 
 	cmd := &ffcli.Command{
 		Name:       "completion",
-		ShortUsage: "asc completion --shell <bash|zsh|fish>",
+		ShortUsage: "aso completion --shell <bash|zsh|fish>",
 		ShortHelp:  "Print shell completion scripts.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,

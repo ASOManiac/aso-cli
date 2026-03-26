@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // IAPLocalizationsCreateCommand returns the localizations create subcommand.
@@ -25,13 +25,13 @@ func IAPLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc iap localizations create --iap-id \"IAP_ID\" --name \"Name\" --locale \"en-US\"",
+		ShortUsage: "aso iap localizations create --iap-id \"IAP_ID\" --name \"Name\" --locale \"en-US\"",
 		ShortHelp:  "Create an in-app purchase localization.",
 		LongHelp: `Create an in-app purchase localization.
 
 Examples:
-  asc iap localizations create --iap-id "IAP_ID" --name "Title" --locale "en-US"
-  asc iap localizations create --iap-id "IAP_ID" --name "Titre" --locale "fr-FR" --description "Detail"`,
+  aso iap localizations create --iap-id "IAP_ID" --name "Title" --locale "en-US"
+  aso iap localizations create --iap-id "IAP_ID" --name "Titre" --locale "fr-FR" --description "Detail"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -84,13 +84,13 @@ func IAPLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc iap localizations update --localization-id \"LOC_ID\" [flags]",
+		ShortUsage: "aso iap localizations update --localization-id \"LOC_ID\" [flags]",
 		ShortHelp:  "Update an in-app purchase localization.",
 		LongHelp: `Update an in-app purchase localization.
 
 Examples:
-  asc iap localizations update --localization-id "LOC_ID" --name "New Name"
-  asc iap localizations update --localization-id "LOC_ID" --description "New Description"`,
+  aso iap localizations update --localization-id "LOC_ID" --name "New Name"
+  aso iap localizations update --localization-id "LOC_ID" --description "New Description"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -142,12 +142,12 @@ func IAPLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc iap localizations delete --localization-id \"LOC_ID\" --confirm",
+		ShortUsage: "aso iap localizations delete --localization-id \"LOC_ID\" --confirm",
 		ShortHelp:  "Delete an in-app purchase localization.",
 		LongHelp: `Delete an in-app purchase localization.
 
 Examples:
-  asc iap localizations delete --localization-id "LOC_ID" --confirm`,
+  aso iap localizations delete --localization-id "LOC_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

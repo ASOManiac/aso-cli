@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // IAPSubmitCommand returns the submit subcommand.
@@ -21,12 +21,12 @@ func IAPSubmitCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submit",
-		ShortUsage: "asc iap submit --iap-id \"IAP_ID\" --confirm",
+		ShortUsage: "aso iap submit --iap-id \"IAP_ID\" --confirm",
 		ShortHelp:  "Submit an in-app purchase for review.",
 		LongHelp: `Submit an in-app purchase for review.
 
 Examples:
-  asc iap submit --iap-id "IAP_ID" --confirm`,
+  aso iap submit --iap-id "IAP_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

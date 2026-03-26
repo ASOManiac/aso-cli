@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshots"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/screenshots"
 )
 
 // ShotsReviewOpenCommand returns screenshots review-open subcommand.
@@ -22,7 +22,7 @@ func ShotsReviewOpenCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "review-open",
-		ShortUsage: "asc screenshots review-open [flags]",
+		ShortUsage: "aso screenshots review-open [flags]",
 		ShortHelp:  "[experimental] Open review HTML report in the default browser.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,

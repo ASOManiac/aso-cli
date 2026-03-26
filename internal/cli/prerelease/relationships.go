@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type relationshipKind int
@@ -32,13 +32,13 @@ func PreReleaseVersionsRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "relationships",
-		ShortUsage: "asc pre-release-versions relationships <subcommand> [flags]",
+		ShortUsage: "aso pre-release-versions relationships <subcommand> [flags]",
 		ShortHelp:  "View pre-release version relationship linkages.",
 		LongHelp: `View pre-release version relationship linkages.
 
 Examples:
-  asc pre-release-versions relationships get --id "PR_ID" --type "app"
-  asc pre-release-versions relationships get --id "PR_ID" --type "builds" --paginate`,
+  aso pre-release-versions relationships get --id "PR_ID" --type "app"
+  aso pre-release-versions relationships get --id "PR_ID" --type "builds" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -63,13 +63,13 @@ func PreReleaseVersionsRelationshipsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc pre-release-versions relationships get --id \"PR_ID\" --type \"RELATIONSHIP\" [flags]",
+		ShortUsage: "aso pre-release-versions relationships get --id \"PR_ID\" --type \"RELATIONSHIP\" [flags]",
 		ShortHelp:  "Get relationship linkages for a pre-release version.",
 		LongHelp: `Get relationship linkages for a pre-release version.
 
 Examples:
-  asc pre-release-versions relationships get --id "PR_ID" --type "app"
-  asc pre-release-versions relationships get --id "PR_ID" --type "builds" --paginate`,
+  aso pre-release-versions relationships get --id "PR_ID" --type "app"
+  aso pre-release-versions relationships get --id "PR_ID" --type "builds" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

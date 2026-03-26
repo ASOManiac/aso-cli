@@ -39,7 +39,7 @@ func TestBuildMetadataAppInfoExample(t *testing.T) {
 			appID:   "123",
 			version: "1.0",
 			dir:     "./metadata",
-			want:    `asc metadata pull --app "123" --version "1.0" --dir "./metadata" --app-info "info-1"`,
+			want:    `aso metadata pull --app "123" --version "1.0" --dir "./metadata" --app-info "info-1"`,
 		},
 		{
 			name:    "push basic",
@@ -47,7 +47,7 @@ func TestBuildMetadataAppInfoExample(t *testing.T) {
 			appID:   "123",
 			version: "1.0",
 			dir:     "./metadata",
-			want:    `asc metadata push --app "123" --version "1.0" --dir "./metadata" --app-info "info-1"`,
+			want:    `aso metadata push --app "123" --version "1.0" --dir "./metadata" --app-info "info-1"`,
 		},
 		{
 			name:     "with platform",
@@ -56,7 +56,7 @@ func TestBuildMetadataAppInfoExample(t *testing.T) {
 			version:  "1.0",
 			platform: "IOS",
 			dir:      "./metadata",
-			want:     `asc metadata pull --app "123" --version "1.0" --platform IOS --dir "./metadata" --app-info "info-1"`,
+			want:     `aso metadata pull --app "123" --version "1.0" --platform IOS --dir "./metadata" --app-info "info-1"`,
 		},
 		{
 			name:    "empty dir uses default",
@@ -64,7 +64,7 @@ func TestBuildMetadataAppInfoExample(t *testing.T) {
 			appID:   "123",
 			version: "1.0",
 			dir:     "",
-			want:    `asc metadata pull --app "123" --version "1.0" --dir "./metadata" --app-info "info-1"`,
+			want:    `aso metadata pull --app "123" --version "1.0" --dir "./metadata" --app-info "info-1"`,
 		},
 	}
 

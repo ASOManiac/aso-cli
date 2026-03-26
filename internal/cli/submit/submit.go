@@ -15,10 +15,10 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	validatecli "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/validate"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	validatecli "github.com/ASOManiac/aso-cli/internal/cli/validate"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 var submitReadinessReportBuilder = validatecli.BuildReadinessReport
@@ -26,7 +26,7 @@ var submitReadinessReportBuilder = validatecli.BuildReadinessReport
 func SubmitCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "submit",
-		ShortUsage: "asc submit <subcommand> [flags]",
+		ShortUsage: "aso submit <subcommand> [flags]",
 		ShortHelp:  "Submit builds for App Store review.",
 		LongHelp:   `Submit builds for App Store review.`,
 		UsageFunc:  shared.DefaultUsageFunc,
@@ -55,13 +55,13 @@ func SubmitCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc submit create [flags]",
+		ShortUsage: "aso submit create [flags]",
 		ShortHelp:  "Submit a build for App Store review.",
 		LongHelp: `Submit a build for App Store review.
 
 Examples:
-  asc submit create --app "123456789" --version "1.0.0" --build "BUILD_ID" --confirm
-  asc submit create --app "123456789" --version-id "VERSION_ID" --build "BUILD_ID" --confirm`,
+  aso submit create --app "123456789" --version "1.0.0" --build "BUILD_ID" --confirm
+  aso submit create --app "123456789" --version-id "VERSION_ID" --build "BUILD_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -256,7 +256,7 @@ func runSubmitCreateLocalizationPreflight(ctx context.Context, client *asc.Clien
 	for _, issue := range issues {
 		fmt.Fprintf(os.Stderr, "  - %s: %s\n", issue.Locale, strings.Join(issue.MissingFields, ", "))
 	}
-	fmt.Fprintln(os.Stderr, "Fix these with `asc metadata push` or `asc apps info edit` before retrying submit create.")
+	fmt.Fprintln(os.Stderr, "Fix these with `aso metadata push` or `aso apps info edit` before retrying submit create.")
 	return fmt.Errorf("submit create: submit preflight failed")
 }
 
@@ -289,7 +289,7 @@ func runSubmitCreateReadinessPreflight(ctx context.Context, client *asc.Client, 
 	}
 	fmt.Fprintf(
 		os.Stderr,
-		"Run `asc validate --app %s --version-id %s --platform %s` for the full report before retrying submit create.\n",
+		"Run `aso validate --app %s --version-id %s --platform %s` for the full report before retrying submit create.\n",
 		appID,
 		versionID,
 		platform,
@@ -433,13 +433,13 @@ func SubmitStatusCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "status",
-		ShortUsage: "asc submit status [flags]",
+		ShortUsage: "aso submit status [flags]",
 		ShortHelp:  "Check submission status.",
 		LongHelp: `Check submission status.
 
 Examples:
-  asc submit status --id "SUBMISSION_ID"
-  asc submit status --version-id "VERSION_ID"`,
+  aso submit status --id "SUBMISSION_ID"
+  aso submit status --version-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -791,7 +791,7 @@ func SubmitCancelCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "cancel",
-		ShortUsage: "asc submit cancel [flags]",
+		ShortUsage: "aso submit cancel [flags]",
 		ShortHelp:  "Cancel a submission.",
 		LongHelp: `Cancel a submission.
 
@@ -801,9 +801,9 @@ When using --version-id, provide --app for reliable lookup via the modern
 reviewSubmissions API; without --app, falls back to the legacy endpoint.
 
 Examples:
-  asc submit cancel --id "SUBMISSION_ID" --confirm
-  asc submit cancel --version-id "VERSION_ID" --confirm
-  asc submit cancel --version-id "VERSION_ID" --app "APP_ID" --confirm`,
+  aso submit cancel --id "SUBMISSION_ID" --confirm
+  aso submit cancel --version-id "VERSION_ID" --confirm
+  aso submit cancel --version-id "VERSION_ID" --app "APP_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1020,7 +1020,7 @@ func runSubmitCreateSubscriptionPreflight(ctx context.Context, client *asc.Clien
 		for _, name := range missingMetadata {
 			fmt.Fprintf(os.Stderr, "  - %s\n", name)
 		}
-		fmt.Fprintln(os.Stderr, "Run `asc validate subscriptions` for details on what's missing.")
+		fmt.Fprintln(os.Stderr, "Run `aso validate subscriptions` for details on what's missing.")
 	}
 
 	if len(readyToSubmit) > 0 {
@@ -1029,8 +1029,8 @@ func runSubmitCreateSubscriptionPreflight(ctx context.Context, client *asc.Clien
 		for _, name := range readyToSubmit {
 			fmt.Fprintf(os.Stderr, "  - %s\n", name)
 		}
-		fmt.Fprintln(os.Stderr, "If this is their first review, run `asc web review subscriptions list --app \"APP_ID\"` to find the relevant IDs, then attach the group with `asc web review subscriptions attach-group --app \"APP_ID\" --group-id \"GROUP_ID\" --confirm` (or use `attach --subscription-id \"SUB_ID\"` for one subscription) before retrying `asc submit create`.")
-		fmt.Fprintln(os.Stderr, "For subsequent reviews, use `asc subscriptions review submit --subscription-id \"SUB_ID\" --confirm`.")
+		fmt.Fprintln(os.Stderr, "If this is their first review, run `aso web review subscriptions list --app \"APP_ID\"` to find the relevant IDs, then attach the group with `aso web review subscriptions attach-group --app \"APP_ID\" --group-id \"GROUP_ID\" --confirm` (or use `attach --subscription-id \"SUB_ID\"` for one subscription) before retrying `aso submit create`.")
+		fmt.Fprintln(os.Stderr, "For subsequent reviews, use `aso subscriptions review submit --subscription-id \"SUB_ID\" --confirm`.")
 	}
 
 	if len(skippedGroups) > 0 {
@@ -1606,14 +1606,14 @@ func printSubmissionErrorHints(err error, ctx submissionErrorHintContext) {
 	var hints []string
 	if signals.ageRating && strings.TrimSpace(ctx.AppID) != "" {
 		hints = append(hints,
-			fmt.Sprintf("Review current age rating: asc age-rating view --app %s", ctx.AppID),
-			"Review age-rating update flags: asc age-rating edit --help",
+			fmt.Sprintf("Review current age rating: aso age-rating view --app %s", ctx.AppID),
+			"Review age-rating update flags: aso age-rating edit --help",
 		)
 	}
 	if signals.contentRights && strings.TrimSpace(ctx.AppID) != "" {
 		hints = append(hints,
-			fmt.Sprintf("If your app does not use third-party content: asc apps update --id %s --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT", ctx.AppID),
-			fmt.Sprintf("If your app uses third-party content: asc apps update --id %s --content-rights USES_THIRD_PARTY_CONTENT", ctx.AppID),
+			fmt.Sprintf("If your app does not use third-party content: aso apps update --id %s --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT", ctx.AppID),
+			fmt.Sprintf("If your app uses third-party content: aso apps update --id %s --content-rights USES_THIRD_PARTY_CONTENT", ctx.AppID),
 		)
 	}
 	if signals.usesNonExempt {
@@ -1626,35 +1626,35 @@ func printSubmissionErrorHints(err error, ctx submissionErrorHintContext) {
 	}
 	if signals.primaryCategory {
 		hints = append(hints,
-			"List available categories: asc categories list",
-			"Review category update flags: asc app-setup categories set --help",
+			"List available categories: aso categories list",
+			"Review category update flags: aso app-setup categories set --help",
 		)
 	}
 	if activeID := strings.TrimSpace(signals.activeSubmissionID); activeID != "" {
 		hints = appendUniqueHints(hints,
-			fmt.Sprintf("Check the active submission: asc submit status --id %s", activeID),
-			fmt.Sprintf("Inspect the active submission payload: asc review submissions-get --id %s", activeID),
+			fmt.Sprintf("Check the active submission: aso submit status --id %s", activeID),
+			fmt.Sprintf("Inspect the active submission payload: aso review submissions-get --id %s", activeID),
 		)
 	}
 	if strings.TrimSpace(signals.existingSubmissionID) != "" && strings.TrimSpace(signals.activeSubmissionID) == "" {
 		hints = appendUniqueHints(hints,
-			fmt.Sprintf("Inspect the existing submission: asc submit status --id %s", signals.existingSubmissionID),
-			fmt.Sprintf("Inspect the existing submission payload: asc review submissions-get --id %s", signals.existingSubmissionID),
+			fmt.Sprintf("Inspect the existing submission: aso submit status --id %s", signals.existingSubmissionID),
+			fmt.Sprintf("Inspect the existing submission payload: aso review submissions-get --id %s", signals.existingSubmissionID),
 		)
 	}
 	if signals.versionNotReady {
 		if strings.TrimSpace(ctx.AppID) != "" && strings.TrimSpace(ctx.VersionID) != "" {
-			hints = appendUniqueHints(hints, fmt.Sprintf("Re-run readiness validation: asc validate --app %s --version-id %s", ctx.AppID, ctx.VersionID))
+			hints = appendUniqueHints(hints, fmt.Sprintf("Re-run readiness validation: aso validate --app %s --version-id %s", ctx.AppID, ctx.VersionID))
 		}
 		if strings.TrimSpace(ctx.AppID) != "" && strings.TrimSpace(ctx.VersionString) != "" {
-			preflightHint := fmt.Sprintf("Re-run submit preflight: asc submit preflight --app %s --version %s", ctx.AppID, ctx.VersionString)
+			preflightHint := fmt.Sprintf("Re-run submit preflight: aso submit preflight --app %s --version %s", ctx.AppID, ctx.VersionString)
 			if strings.TrimSpace(ctx.Platform) != "" {
 				preflightHint = fmt.Sprintf("%s --platform %s", preflightHint, strings.TrimSpace(ctx.Platform))
 			}
 			hints = appendUniqueHints(hints, preflightHint)
 		}
 		if strings.TrimSpace(ctx.AppID) != "" {
-			hints = appendUniqueHints(hints, fmt.Sprintf("Review the release dashboard: asc status --app %s --include submission,appstore,review", ctx.AppID))
+			hints = appendUniqueHints(hints, fmt.Sprintf("Review the release dashboard: aso status --app %s --include submission,appstore,review", ctx.AppID))
 		}
 	}
 

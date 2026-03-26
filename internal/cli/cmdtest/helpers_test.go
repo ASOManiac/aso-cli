@@ -3,10 +3,10 @@ package cmdtest
 import (
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	cmd "github.com/rudrankriyam/App-Store-Connect-CLI/cmd"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/auth"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	cmd "github.com/ASOManiac/aso-cli/cmd"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/auth"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func resetCmdtestState() {

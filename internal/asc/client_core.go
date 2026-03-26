@@ -14,8 +14,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/auth"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/auth"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 const (

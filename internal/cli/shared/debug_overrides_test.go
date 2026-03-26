@@ -5,7 +5,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 func TestApplyRootLoggingOverridesDebugFalseWinsOverEnv(t *testing.T) {
@@ -21,7 +21,7 @@ func TestApplyRootLoggingOverridesDebugFalseWinsOverEnv(t *testing.T) {
 		asc.SetRetryLogOverride(nil)
 	})
 
-	fs := flag.NewFlagSet("asc", flag.ContinueOnError)
+	fs := flag.NewFlagSet("aso", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	BindRootFlags(fs)
 	if err := fs.Parse([]string{"--debug=false"}); err != nil {
@@ -47,7 +47,7 @@ func TestApplyRootLoggingOverridesAPIDebugEnablesDebug(t *testing.T) {
 		asc.SetRetryLogOverride(nil)
 	})
 
-	fs := flag.NewFlagSet("asc", flag.ContinueOnError)
+	fs := flag.NewFlagSet("aso", flag.ContinueOnError)
 	fs.SetOutput(io.Discard)
 	BindRootFlags(fs)
 	if err := fs.Parse([]string{"--api-debug"}); err != nil {

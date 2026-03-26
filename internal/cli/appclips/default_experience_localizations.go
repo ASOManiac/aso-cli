@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppClipDefaultExperienceLocalizationsCommand returns the localizations command group.
@@ -19,13 +19,13 @@ func AppClipDefaultExperienceLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc app-clips default-experiences localizations <subcommand> [flags]",
+		ShortUsage: "aso app-clips default-experiences localizations <subcommand> [flags]",
 		ShortHelp:  "Manage App Clip default experience localizations.",
 		LongHelp: `Manage App Clip default experience localizations.
 
 Examples:
-  asc app-clips default-experiences localizations list --experience-id "EXP_ID"
-  asc app-clips default-experiences localizations create --experience-id "EXP_ID" --locale "en-US" --subtitle "Try it"`,
+  aso app-clips default-experiences localizations list --experience-id "EXP_ID"
+  aso app-clips default-experiences localizations create --experience-id "EXP_ID" --locale "en-US" --subtitle "Try it"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -55,13 +55,13 @@ func AppClipDefaultExperienceLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc app-clips default-experiences localizations list --experience-id \"EXP_ID\" [flags]",
+		ShortUsage: "aso app-clips default-experiences localizations list --experience-id \"EXP_ID\" [flags]",
 		ShortHelp:  "List localizations for a default experience.",
 		LongHelp: `List localizations for a default experience.
 
 Examples:
-  asc app-clips default-experiences localizations list --experience-id "EXP_ID"
-  asc app-clips default-experiences localizations list --experience-id "EXP_ID" --locale "en-US"`,
+  aso app-clips default-experiences localizations list --experience-id "EXP_ID"
+  aso app-clips default-experiences localizations list --experience-id "EXP_ID" --locale "en-US"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -136,12 +136,12 @@ func AppClipDefaultExperienceLocalizationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-clips default-experiences localizations get --localization-id \"LOC_ID\"",
+		ShortUsage: "aso app-clips default-experiences localizations get --localization-id \"LOC_ID\"",
 		ShortHelp:  "Get a localization by ID.",
 		LongHelp: `Get a localization by ID.
 
 Examples:
-  asc app-clips default-experiences localizations get --localization-id "LOC_ID"`,
+  aso app-clips default-experiences localizations get --localization-id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -180,12 +180,12 @@ func AppClipDefaultExperienceLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc app-clips default-experiences localizations create --experience-id \"EXP_ID\" --locale \"en-US\" [flags]",
+		ShortUsage: "aso app-clips default-experiences localizations create --experience-id \"EXP_ID\" --locale \"en-US\" [flags]",
 		ShortHelp:  "Create a localization for a default experience.",
 		LongHelp: `Create a localization for a default experience.
 
 Examples:
-  asc app-clips default-experiences localizations create --experience-id "EXP_ID" --locale "en-US" --subtitle "Try it"`,
+  aso app-clips default-experiences localizations create --experience-id "EXP_ID" --locale "en-US" --subtitle "Try it"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -240,12 +240,12 @@ func AppClipDefaultExperienceLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc app-clips default-experiences localizations update --localization-id \"LOC_ID\" [flags]",
+		ShortUsage: "aso app-clips default-experiences localizations update --localization-id \"LOC_ID\" [flags]",
 		ShortHelp:  "Update a localization.",
 		LongHelp: `Update a localization.
 
 Examples:
-  asc app-clips default-experiences localizations update --localization-id "LOC_ID" --subtitle "Try it"`,
+  aso app-clips default-experiences localizations update --localization-id "LOC_ID" --subtitle "Try it"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -301,12 +301,12 @@ func AppClipDefaultExperienceLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc app-clips default-experiences localizations delete --localization-id \"LOC_ID\" --confirm",
+		ShortUsage: "aso app-clips default-experiences localizations delete --localization-id \"LOC_ID\" --confirm",
 		ShortHelp:  "Delete a localization.",
 		LongHelp: `Delete a localization.
 
 Examples:
-  asc app-clips default-experiences localizations delete --localization-id "LOC_ID" --confirm`,
+  aso app-clips default-experiences localizations delete --localization-id "LOC_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -351,12 +351,12 @@ func AppClipDefaultExperienceLocalizationHeaderImageRelationshipCommand() *ffcli
 
 	return &ffcli.Command{
 		Name:       "header-image-relationship",
-		ShortUsage: "asc app-clips default-experiences localizations header-image-relationship --localization-id \"LOC_ID\"",
+		ShortUsage: "aso app-clips default-experiences localizations header-image-relationship --localization-id \"LOC_ID\"",
 		ShortHelp:  "Get header image relationship for a localization.",
 		LongHelp: `Get header image relationship for a localization.
 
 Examples:
-  asc app-clips default-experiences localizations header-image-relationship --localization-id "LOC_ID"`,
+  aso app-clips default-experiences localizations header-image-relationship --localization-id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

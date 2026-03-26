@@ -11,8 +11,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const offerCodesMaxLimit = 200
@@ -29,13 +29,13 @@ func OfferCodesGenerateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "generate",
-		ShortUsage: "asc offer-codes generate [flags]",
+		ShortUsage: "aso offer-codes generate [flags]",
 		ShortHelp:  "Generate one-time use offer codes for a subscription offer.",
 		LongHelp: `Generate one-time use offer codes for a subscription offer.
 
 Examples:
-  asc offer-codes generate --offer-code-id "OFFER_CODE_ID" --quantity 10 --expiration-date "2026-02-01"
-  asc offer-codes generate --offer-code-id "OFFER_CODE_ID" --quantity 10 --expiration-date "2026-02-01" --output "./offer-codes.txt"`,
+  aso offer-codes generate --offer-code-id "OFFER_CODE_ID" --quantity 10 --expiration-date "2026-02-01"
+  aso offer-codes generate --offer-code-id "OFFER_CODE_ID" --quantity 10 --expiration-date "2026-02-01" --output "./offer-codes.txt"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -122,13 +122,13 @@ func OfferCodesValuesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "values",
-		ShortUsage: "asc offer-codes values [flags]",
+		ShortUsage: "aso offer-codes values [flags]",
 		ShortHelp:  "Fetch one-time use offer code values for a batch.",
 		LongHelp: `Fetch one-time use offer code values for a batch.
 
 Examples:
-  asc offer-codes values --batch-id "ONE_TIME_USE_CODE_ID"
-  asc offer-codes values --batch-id "ONE_TIME_USE_CODE_ID" --output "./offer-codes.txt"`,
+  aso offer-codes values --batch-id "ONE_TIME_USE_CODE_ID"
+  aso offer-codes values --batch-id "ONE_TIME_USE_CODE_ID" --output "./offer-codes.txt"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

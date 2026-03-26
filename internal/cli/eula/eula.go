@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // EULACommand returns the end user license agreements command with subcommands.
@@ -19,18 +19,18 @@ func EULACommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "eula",
-		ShortUsage: "asc eula <subcommand> [flags]",
+		ShortUsage: "aso eula <subcommand> [flags]",
 		ShortHelp:  "Manage End User License Agreements (EULA).",
 		LongHelp: `Manage End User License Agreements (EULA).
 
 Examples:
-  asc eula get --id "EULA_ID"
-  asc eula get --app "APP_ID"
-  asc eula list --app "APP_ID"
-  asc eula create --app "APP_ID" --agreement-text "Terms..." --territory "USA,CAN"
-  asc eula update --id "EULA_ID" --agreement-text "Updated terms"
-  asc eula update --id "EULA_ID" --territory "USA,CAN"
-  asc eula delete --id "EULA_ID" --confirm`,
+  aso eula get --id "EULA_ID"
+  aso eula get --app "APP_ID"
+  aso eula list --app "APP_ID"
+  aso eula create --app "APP_ID" --agreement-text "Terms..." --territory "USA,CAN"
+  aso eula update --id "EULA_ID" --agreement-text "Updated terms"
+  aso eula update --id "EULA_ID" --territory "USA,CAN"
+  aso eula delete --id "EULA_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -56,13 +56,13 @@ func EULAGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc eula get --id \"EULA_ID\" | asc eula get --app \"APP_ID\"",
+		ShortUsage: "aso eula get --id \"EULA_ID\" | aso eula get --app \"APP_ID\"",
 		ShortHelp:  "Get an EULA by ID or app.",
 		LongHelp: `Get an End User License Agreement (EULA).
 
 Examples:
-  asc eula get --id "EULA_ID"
-  asc eula get --app "APP_ID"`,
+  aso eula get --id "EULA_ID"
+  aso eula get --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -112,12 +112,12 @@ func EULAListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc eula list --app \"APP_ID\"",
+		ShortUsage: "aso eula list --app \"APP_ID\"",
 		ShortHelp:  "List the EULA for an app.",
 		LongHelp: `List the End User License Agreement (EULA) for an app.
 
 Examples:
-  asc eula list --app "APP_ID"`,
+  aso eula list --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -156,12 +156,12 @@ func EULACreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc eula create --app \"APP_ID\" --agreement-text \"Terms\" --territory \"USA,CAN\"",
+		ShortUsage: "aso eula create --app \"APP_ID\" --agreement-text \"Terms\" --territory \"USA,CAN\"",
 		ShortHelp:  "Create an EULA for an app.",
 		LongHelp: `Create an End User License Agreement (EULA).
 
 Examples:
-  asc eula create --app "APP_ID" --agreement-text "Terms..." --territory "USA,CAN"`,
+  aso eula create --app "APP_ID" --agreement-text "Terms..." --territory "USA,CAN"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -211,13 +211,13 @@ func EULAUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc eula update --id \"EULA_ID\" [--agreement-text \"Terms\"] [--territory \"USA,CAN\"]",
+		ShortUsage: "aso eula update --id \"EULA_ID\" [--agreement-text \"Terms\"] [--territory \"USA,CAN\"]",
 		ShortHelp:  "Update an EULA.",
 		LongHelp: `Update an End User License Agreement (EULA).
 
 Examples:
-  asc eula update --id "EULA_ID" --agreement-text "Updated terms"
-  asc eula update --id "EULA_ID" --territory "USA,CAN"`,
+  aso eula update --id "EULA_ID" --agreement-text "Updated terms"
+  aso eula update --id "EULA_ID" --territory "USA,CAN"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -267,12 +267,12 @@ func EULADeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc eula delete --id \"EULA_ID\" --confirm",
+		ShortUsage: "aso eula delete --id \"EULA_ID\" --confirm",
 		ShortHelp:  "Delete an EULA.",
 		LongHelp: `Delete an End User License Agreement (EULA).
 
 Examples:
-  asc eula delete --id "EULA_ID" --confirm`,
+  aso eula delete --id "EULA_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

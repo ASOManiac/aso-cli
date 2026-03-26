@@ -3,7 +3,7 @@ package sandbox
 import (
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func TestValidateSandboxEmail(t *testing.T) {

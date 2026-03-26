@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppSetupCommand returns the app-setup command group.
@@ -19,18 +19,18 @@ func AppSetupCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-setup",
-		ShortUsage: "asc app-setup <subcommand> [flags]",
+		ShortUsage: "aso app-setup <subcommand> [flags]",
 		ShortHelp:  "Post-create app setup automation.",
 		LongHelp: `Post-create app setup automation using public App Store Connect APIs.
 
 Examples:
-  asc app-setup info set --app "APP_ID" --primary-locale "en-US" --bundle-id "com.example.app"
-  asc app-setup categories set --app "APP_ID" --primary GAMES
-  asc app-setup availability set --app "APP_ID" --territory "USA,GBR" --available true --available-in-new-territories true
-  asc app-setup availability set --app "APP_ID" --all-territories --available true --available-in-new-territories true
-  asc app-setup pricing set --app "APP_ID" --price-point "PRICE_POINT_ID" --base-territory "USA"
-  asc app-setup pricing set --app "APP_ID" --free --start-date "2024-03-01"
-  asc app-setup localizations upload --version "VERSION_ID" --path "./localizations"`,
+  aso app-setup info set --app "APP_ID" --primary-locale "en-US" --bundle-id "com.example.app"
+  aso app-setup categories set --app "APP_ID" --primary GAMES
+  aso app-setup availability set --app "APP_ID" --territory "USA,GBR" --available true --available-in-new-territories true
+  aso app-setup availability set --app "APP_ID" --all-territories --available true --available-in-new-territories true
+  aso app-setup pricing set --app "APP_ID" --price-point "PRICE_POINT_ID" --base-territory "USA"
+  aso app-setup pricing set --app "APP_ID" --free --start-date "2024-03-01"
+  aso app-setup localizations upload --version "VERSION_ID" --path "./localizations"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -50,15 +50,15 @@ Examples:
 func AppSetupInfoCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "info",
-		ShortUsage: "asc app-setup info <subcommand> [flags]",
+		ShortUsage: "aso app-setup info <subcommand> [flags]",
 		ShortHelp:  "Update app info and app info localizations.",
 		LongHelp: `Update app attributes and app info localizations.
 
 Examples:
-  asc app-setup info set --app "APP_ID" --primary-locale "en-US" --bundle-id "com.example.app"
-  asc app-setup info set --app "APP_ID" --locale "en-US" --name "My App" --subtitle "Great app"
-  asc app-setup info set --app "APP_ID" --primary-locale "en-US" --privacy-policy-url "https://example.com/privacy"
-  asc app-setup info set --app "APP_ID" --content-rights "DOES_NOT_USE_THIRD_PARTY_CONTENT"`,
+  aso app-setup info set --app "APP_ID" --primary-locale "en-US" --bundle-id "com.example.app"
+  aso app-setup info set --app "APP_ID" --locale "en-US" --name "My App" --subtitle "Great app"
+  aso app-setup info set --app "APP_ID" --primary-locale "en-US" --privacy-policy-url "https://example.com/privacy"
+  aso app-setup info set --app "APP_ID" --content-rights "DOES_NOT_USE_THIRD_PARTY_CONTENT"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			AppSetupInfoSetCommand(),
@@ -88,15 +88,15 @@ func AppSetupInfoSetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc app-setup info set [flags]",
+		ShortUsage: "aso app-setup info set [flags]",
 		ShortHelp:  "Set app attributes and app info localizations.",
 		LongHelp: `Set app attributes (bundle ID, primary locale) and app info localizations.
 
 Examples:
-  asc app-setup info set --app "APP_ID" --primary-locale "en-US" --bundle-id "com.example.app"
-  asc app-setup info set --app "APP_ID" --locale "en-US" --name "My App" --subtitle "Great app"
-  asc app-setup info set --app "APP_ID" --primary-locale "en-US" --privacy-policy-url "https://example.com/privacy"
-  asc app-setup info set --app "APP_ID" --content-rights "DOES_NOT_USE_THIRD_PARTY_CONTENT"`,
+  aso app-setup info set --app "APP_ID" --primary-locale "en-US" --bundle-id "com.example.app"
+  aso app-setup info set --app "APP_ID" --locale "en-US" --name "My App" --subtitle "Great app"
+  aso app-setup info set --app "APP_ID" --primary-locale "en-US" --privacy-policy-url "https://example.com/privacy"
+  aso app-setup info set --app "APP_ID" --content-rights "DOES_NOT_USE_THIRD_PARTY_CONTENT"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -253,12 +253,12 @@ Examples:
 func AppSetupCategoriesCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "categories",
-		ShortUsage: "asc app-setup categories <subcommand> [flags]",
+		ShortUsage: "aso app-setup categories <subcommand> [flags]",
 		ShortHelp:  "Set categories for an app.",
 		LongHelp: `Set primary and secondary categories for an app.
 
 Examples:
-  asc app-setup categories set --app "APP_ID" --primary GAMES --secondary ENTERTAINMENT`,
+  aso app-setup categories set --app "APP_ID" --primary GAMES --secondary ENTERTAINMENT`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			AppSetupCategoriesSetCommand(),
@@ -273,17 +273,17 @@ Examples:
 func AppSetupCategoriesSetCommand() *ffcli.Command {
 	return shared.NewCategoriesSetCommand(shared.CategoriesSetCommandConfig{
 		FlagSetName: "app-setup categories set",
-		ShortUsage:  "asc app-setup categories set --app APP_ID --primary CATEGORY_ID [--secondary CATEGORY_ID] [flags]",
+		ShortUsage:  "aso app-setup categories set --app APP_ID --primary CATEGORY_ID [--secondary CATEGORY_ID] [flags]",
 		ShortHelp:   "Set primary and secondary categories for an app.",
 		LongHelp: `Set the primary and secondary categories for an app.
 
-Use 'asc categories list' to find valid category IDs.
-Use 'asc categories subcategories --category-id GAMES' to find valid subcategory IDs.
+Use 'aso categories list' to find valid category IDs.
+Use 'aso categories subcategories --category-id GAMES' to find valid subcategory IDs.
 
 Examples:
-  asc app-setup categories set --app 123456789 --primary GAMES
-  asc app-setup categories set --app 123456789 --primary GAMES --secondary ENTERTAINMENT
-  asc app-setup categories set --app 123456789 --primary GAMES --primary-subcategory-one GAMES_ACTION --primary-subcategory-two GAMES_SIMULATION`,
+  aso app-setup categories set --app 123456789 --primary GAMES
+  aso app-setup categories set --app 123456789 --primary GAMES --secondary ENTERTAINMENT
+  aso app-setup categories set --app 123456789 --primary GAMES --primary-subcategory-one GAMES_ACTION --primary-subcategory-two GAMES_SIMULATION`,
 		ErrorPrefix:    "app-setup categories set",
 		IncludeAppInfo: true,
 	})
@@ -293,13 +293,13 @@ Examples:
 func AppSetupAvailabilityCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "availability",
-		ShortUsage: "asc app-setup availability <subcommand> [flags]",
+		ShortUsage: "aso app-setup availability <subcommand> [flags]",
 		ShortHelp:  "Set app availability.",
 		LongHelp: `Set app availability for territories.
 
 Examples:
-  asc app-setup availability set --app "APP_ID" --territory "USA,GBR" --available true --available-in-new-territories true
-  asc app-setup availability set --app "APP_ID" --all-territories --available true --available-in-new-territories true`,
+  aso app-setup availability set --app "APP_ID" --territory "USA,GBR" --available true --available-in-new-territories true
+  aso app-setup availability set --app "APP_ID" --all-territories --available true --available-in-new-territories true`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			AppSetupAvailabilitySetCommand(),
@@ -315,13 +315,13 @@ func AppSetupAvailabilitySetCommand() *ffcli.Command {
 	return shared.NewAvailabilitySetCommand(shared.AvailabilitySetCommandConfig{
 		FlagSetName: "app-setup availability set",
 		CommandName: "set",
-		ShortUsage:  "asc app-setup availability set [flags]",
+		ShortUsage:  "aso app-setup availability set [flags]",
 		ShortHelp:   "Set app availability for territories.",
 		LongHelp: `Set app availability for territories.
 
 Examples:
-  asc app-setup availability set --app "123456789" --territory "USA,GBR" --available true --available-in-new-territories true
-  asc app-setup availability set --app "123456789" --all-territories --available true --available-in-new-territories true
+  aso app-setup availability set --app "123456789" --territory "USA,GBR" --available true --available-in-new-territories true
+  aso app-setup availability set --app "123456789" --all-territories --available true --available-in-new-territories true
 
 Note:
   This command only updates an existing app availability. If the app has no availability record yet, initialize availability in App Store Connect first.`,
@@ -334,13 +334,13 @@ Note:
 func AppSetupPricingCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "pricing",
-		ShortUsage: "asc app-setup pricing <subcommand> [flags]",
+		ShortUsage: "aso app-setup pricing <subcommand> [flags]",
 		ShortHelp:  "Set app pricing.",
 		LongHelp: `Set app pricing.
 
 Examples:
-  asc app-setup pricing set --app "APP_ID" --price-point "PRICE_POINT_ID"
-  asc app-setup pricing set --app "APP_ID" --free --start-date "2024-03-01"`,
+  aso app-setup pricing set --app "APP_ID" --price-point "PRICE_POINT_ID"
+  aso app-setup pricing set --app "APP_ID" --free --start-date "2024-03-01"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			AppSetupPricingSetCommand(),
@@ -356,14 +356,14 @@ func AppSetupPricingSetCommand() *ffcli.Command {
 	return shared.NewPricingSetCommand(shared.PricingSetCommandConfig{
 		FlagSetName: "app-setup pricing set",
 		CommandName: "set",
-		ShortUsage:  "asc app-setup pricing set [flags]",
+		ShortUsage:  "aso app-setup pricing set [flags]",
 		ShortHelp:   "Set app pricing.",
 		LongHelp: `Set app pricing.
 
 Examples:
-  asc app-setup pricing set --app "APP_ID" --price-point "PRICE_POINT_ID" --base-territory "USA"
-  asc app-setup pricing set --app "APP_ID" --price-point "PRICE_POINT_ID" --base-territory "USA" --start-date "2024-03-01"
-  asc app-setup pricing set --app "APP_ID" --free --start-date "2024-03-01"`,
+  aso app-setup pricing set --app "APP_ID" --price-point "PRICE_POINT_ID" --base-territory "USA"
+  aso app-setup pricing set --app "APP_ID" --price-point "PRICE_POINT_ID" --base-territory "USA" --start-date "2024-03-01"
+  aso app-setup pricing set --app "APP_ID" --free --start-date "2024-03-01"`,
 		ErrorPrefix:           "app-setup pricing set",
 		StartDateHelp:         "Start date (YYYY-MM-DD, default: today)",
 		StartDateDefaultToday: true,
@@ -375,13 +375,13 @@ Examples:
 func AppSetupLocalizationsCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc app-setup localizations <subcommand> [flags]",
+		ShortUsage: "aso app-setup localizations <subcommand> [flags]",
 		ShortHelp:  "Upload app store localizations.",
 		LongHelp: `Upload app store localizations (version or app-info).
 
 Examples:
-  asc app-setup localizations upload --version "VERSION_ID" --path "./localizations"
-  asc app-setup localizations upload --app "APP_ID" --type app-info --path "./localizations"`,
+  aso app-setup localizations upload --version "VERSION_ID" --path "./localizations"
+  aso app-setup localizations upload --app "APP_ID" --type app-info --path "./localizations"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			AppSetupLocalizationsUploadCommand(),
@@ -407,15 +407,15 @@ func AppSetupLocalizationsUploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload",
-		ShortUsage: "asc app-setup localizations upload [flags]",
+		ShortUsage: "aso app-setup localizations upload [flags]",
 		ShortHelp:  "Upload localizations from .strings files.",
 		LongHelp: `Upload localizations from .strings files.
 
 Examples:
-  asc app-setup localizations upload --version "VERSION_ID" --path "./localizations"
-  asc app-setup localizations upload --app "APP_ID" --type app-info --path "./localizations"
-  asc app-setup localizations upload --version "VERSION_ID" --locale "en-US" --path "en-US.strings"
-  asc app-setup localizations upload --version "VERSION_ID" --path "./localizations" --dry-run`,
+  aso app-setup localizations upload --version "VERSION_ID" --path "./localizations"
+  aso app-setup localizations upload --app "APP_ID" --type app-info --path "./localizations"
+  aso app-setup localizations upload --version "VERSION_ID" --locale "en-US" --path "en-US.strings"
+  aso app-setup localizations upload --version "VERSION_ID" --path "./localizations" --dry-run`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

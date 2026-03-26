@@ -13,11 +13,11 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/metadata"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	validatecli "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/validate"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/metadata"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	validatecli "github.com/ASOManiac/aso-cli/internal/cli/validate"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 const (
@@ -127,7 +127,7 @@ func ReleaseRunCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "run",
-		ShortUsage: "asc release run --app \"APP_ID\" --version \"2.4.0\" --build \"BUILD_ID\" --metadata-dir \"./metadata/version/2.4.0\" [flags]",
+		ShortUsage: "aso release run --app \"APP_ID\" --version \"2.4.0\" --build \"BUILD_ID\" --metadata-dir \"./metadata/version/2.4.0\" [flags]",
 		ShortHelp:  "Run version + metadata + attach + validate + submit.",
 		LongHelp: `Run a deterministic App Store release pipeline:
 1. Ensure/create version
@@ -139,8 +139,8 @@ func ReleaseRunCommand() *ffcli.Command {
 Supports dry-run planning, step-level structured output, and checkpointed resume.
 
 Examples:
-  asc release run --app "APP_ID" --version "2.4.0" --build "BUILD_ID" --metadata-dir "./metadata/version/2.4.0" --dry-run
-  asc release run --app "APP_ID" --version "2.4.0" --build "BUILD_ID" --metadata-dir "./metadata/version/2.4.0" --confirm`,
+  aso release run --app "APP_ID" --version "2.4.0" --build "BUILD_ID" --metadata-dir "./metadata/version/2.4.0" --dry-run
+  aso release run --app "APP_ID" --version "2.4.0" --build "BUILD_ID" --metadata-dir "./metadata/version/2.4.0" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -421,7 +421,7 @@ func executePipeline(ctx context.Context, opts runOptions) (runResult, error) {
 		return result, err
 	}
 
-	if err := runStep(stepApplyMetadata, "Fix metadata files (try `asc metadata validate --dir <path>`) and rerun.", func() (stepOutcome, error) {
+	if err := runStep(stepApplyMetadata, "Fix metadata files (try `aso metadata validate --dir <path>`) and rerun.", func() (stepOutcome, error) {
 		if opts.DryRun && versionPlannedCreate && strings.TrimSpace(versionID) == "" {
 			message := "metadata plan deferred until version exists"
 			if strings.TrimSpace(opts.CopyMetadataFrom) != "" {
@@ -576,7 +576,7 @@ func executePipeline(ctx context.Context, opts runOptions) (runResult, error) {
 		return result, err
 	}
 
-	if err := runStep(stepValidateReadiness, "Resolve readiness issues (`asc validate ...`) before submitting.", func() (stepOutcome, error) {
+	if err := runStep(stepValidateReadiness, "Resolve readiness issues (`aso validate ...`) before submitting.", func() (stepOutcome, error) {
 		if strings.TrimSpace(versionID) == "" {
 			if opts.DryRun {
 				return stepOutcome{

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // CategoriesGetCommand returns the category get subcommand.
@@ -22,12 +22,12 @@ func CategoriesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc categories get --category-id \"CATEGORY_ID\"",
+		ShortUsage: "aso categories get --category-id \"CATEGORY_ID\"",
 		ShortHelp:  "Get an App Store category by ID.",
 		LongHelp: `Get an App Store category by ID.
 
 Examples:
-  asc categories get --category-id "GAMES"`,
+  aso categories get --category-id "GAMES"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -64,12 +64,12 @@ func CategoriesParentCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "parent",
-		ShortUsage: "asc categories parent --category-id \"CATEGORY_ID\"",
+		ShortUsage: "aso categories parent --category-id \"CATEGORY_ID\"",
 		ShortHelp:  "Get the parent category for a category.",
 		LongHelp: `Get the parent category for a category.
 
 Examples:
-  asc categories parent --category-id "GAMES"`,
+  aso categories parent --category-id "GAMES"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -109,13 +109,13 @@ func CategoriesSubcategoriesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "subcategories",
-		ShortUsage: "asc categories subcategories --category-id \"CATEGORY_ID\"",
+		ShortUsage: "aso categories subcategories --category-id \"CATEGORY_ID\"",
 		ShortHelp:  "List subcategories for a category.",
 		LongHelp: `List subcategories for a category.
 
 Examples:
-  asc categories subcategories --category-id "GAMES"
-  asc categories subcategories --category-id "GAMES" --paginate`,
+  aso categories subcategories --category-id "GAMES"
+  aso categories subcategories --category-id "GAMES" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,9 +9,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/offercodes"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/offercodes"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SubscriptionsOfferCodesCommand returns the offer codes command group.
@@ -20,15 +20,15 @@ func SubscriptionsOfferCodesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "offer-codes",
-		ShortUsage: "asc subscriptions offer-codes <subcommand> [flags]",
+		ShortUsage: "aso subscriptions offer-codes <subcommand> [flags]",
 		ShortHelp:  "Manage subscription offer codes.",
 		LongHelp: `Manage subscription offer codes.
 
 Examples:
-  asc subscriptions offer-codes list --subscription-id "SUB_ID"
-  asc subscriptions offer-codes create --subscription-id "SUB_ID" --name "SPRING" --offer-eligibility STACK_WITH_INTRO_OFFERS --customer-eligibilities NEW --offer-duration ONE_MONTH --offer-mode FREE_TRIAL --number-of-periods 1 --prices "USA:PRICE_POINT_ID"
-  asc subscriptions offer-codes generate --offer-code-id "OFFER_CODE_ID" --quantity 10 --expiration-date "2026-02-01"
-  asc subscriptions offer-codes values --batch-id "ONE_TIME_USE_CODE_ID" --output "./offer-codes.txt"`,
+  aso subscriptions offer-codes list --subscription-id "SUB_ID"
+  aso subscriptions offer-codes create --subscription-id "SUB_ID" --name "SPRING" --offer-eligibility STACK_WITH_INTRO_OFFERS --customer-eligibilities NEW --offer-duration ONE_MONTH --offer-mode FREE_TRIAL --number-of-periods 1 --prices "USA:PRICE_POINT_ID"
+  aso subscriptions offer-codes generate --offer-code-id "OFFER_CODE_ID" --quantity 10 --expiration-date "2026-02-01"
+  aso subscriptions offer-codes values --batch-id "ONE_TIME_USE_CODE_ID" --output "./offer-codes.txt"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -60,13 +60,13 @@ func SubscriptionsOfferCodesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc subscriptions offer-codes list [flags]",
+		ShortUsage: "aso subscriptions offer-codes list [flags]",
 		ShortHelp:  "List offer codes for a subscription.",
 		LongHelp: `List offer codes for a subscription.
 
 Examples:
-  asc subscriptions offer-codes list --subscription-id "SUB_ID"
-  asc subscriptions offer-codes list --subscription-id "SUB_ID" --paginate`,
+  aso subscriptions offer-codes list --subscription-id "SUB_ID"
+  aso subscriptions offer-codes list --subscription-id "SUB_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -132,12 +132,12 @@ func SubscriptionsOfferCodesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc subscriptions offer-codes get --offer-code-id \"OFFER_CODE_ID\"",
+		ShortUsage: "aso subscriptions offer-codes get --offer-code-id \"OFFER_CODE_ID\"",
 		ShortHelp:  "Get an offer code by ID.",
 		LongHelp: `Get an offer code by ID.
 
 Examples:
-  asc subscriptions offer-codes get --offer-code-id "OFFER_CODE_ID"`,
+  aso subscriptions offer-codes get --offer-code-id "OFFER_CODE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -183,12 +183,12 @@ func SubscriptionsOfferCodesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc subscriptions offer-codes create [flags]",
+		ShortUsage: "aso subscriptions offer-codes create [flags]",
 		ShortHelp:  "Create an offer code.",
 		LongHelp: `Create an offer code.
 
 Examples:
-  asc subscriptions offer-codes create --subscription-id "SUB_ID" --name "SPRING" --offer-eligibility STACK_WITH_INTRO_OFFERS --customer-eligibilities NEW --offer-duration ONE_MONTH --offer-mode FREE_TRIAL --number-of-periods 1 --prices "USA:PRICE_POINT_ID"`,
+  aso subscriptions offer-codes create --subscription-id "SUB_ID" --name "SPRING" --offer-eligibility STACK_WITH_INTRO_OFFERS --customer-eligibilities NEW --offer-duration ONE_MONTH --offer-mode FREE_TRIAL --number-of-periods 1 --prices "USA:PRICE_POINT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -285,12 +285,12 @@ func SubscriptionsOfferCodesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc subscriptions offer-codes update [flags]",
+		ShortUsage: "aso subscriptions offer-codes update [flags]",
 		ShortHelp:  "Update an offer code.",
 		LongHelp: `Update an offer code.
 
 Examples:
-  asc subscriptions offer-codes update --offer-code-id "OFFER_CODE_ID" --active false`,
+  aso subscriptions offer-codes update --offer-code-id "OFFER_CODE_ID" --active false`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -331,8 +331,8 @@ Examples:
 func SubscriptionsOfferCodesCustomCodesCommand() *ffcli.Command {
 	return shared.RewriteCommandTreePath(
 		offercodes.OfferCodeCustomCodesCommand(),
-		"asc offer-codes custom-codes",
-		"asc subscriptions offer-codes custom-codes",
+		"aso offer-codes custom-codes",
+		"aso subscriptions offer-codes custom-codes",
 	)
 }
 
@@ -342,13 +342,13 @@ func SubscriptionsOfferCodesOneTimeCodesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "one-time-codes",
-		ShortUsage: "asc subscriptions offer-codes one-time-codes <subcommand> [flags]",
+		ShortUsage: "aso subscriptions offer-codes one-time-codes <subcommand> [flags]",
 		ShortHelp:  "Manage one-time use code batches for an offer code.",
 		LongHelp: `Manage one-time use code batches for an offer code.
 
 Examples:
-  asc subscriptions offer-codes one-time-codes list --offer-code-id "OFFER_CODE_ID"
-  asc subscriptions offer-codes one-time-codes get --batch-id "ONE_TIME_USE_CODE_ID"`,
+  aso subscriptions offer-codes one-time-codes list --offer-code-id "OFFER_CODE_ID"
+  aso subscriptions offer-codes one-time-codes get --batch-id "ONE_TIME_USE_CODE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -373,13 +373,13 @@ func SubscriptionsOfferCodesOneTimeCodesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc subscriptions offer-codes one-time-codes list --offer-code-id \"OFFER_CODE_ID\" [flags]",
+		ShortUsage: "aso subscriptions offer-codes one-time-codes list --offer-code-id \"OFFER_CODE_ID\" [flags]",
 		ShortHelp:  "List one-time use code batches for an offer code.",
 		LongHelp: `List one-time use code batches for an offer code.
 
 Examples:
-  asc subscriptions offer-codes one-time-codes list --offer-code-id "OFFER_CODE_ID"
-  asc subscriptions offer-codes one-time-codes list --offer-code-id "OFFER_CODE_ID" --paginate`,
+  aso subscriptions offer-codes one-time-codes list --offer-code-id "OFFER_CODE_ID"
+  aso subscriptions offer-codes one-time-codes list --offer-code-id "OFFER_CODE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -445,12 +445,12 @@ func SubscriptionsOfferCodesOneTimeCodesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc subscriptions offer-codes one-time-codes get --batch-id \"ONE_TIME_USE_CODE_ID\"",
+		ShortUsage: "aso subscriptions offer-codes one-time-codes get --batch-id \"ONE_TIME_USE_CODE_ID\"",
 		ShortHelp:  "Get a one-time use code batch by ID.",
 		LongHelp: `Get a one-time use code batch by ID.
 
 Examples:
-  asc subscriptions offer-codes one-time-codes get --batch-id "ONE_TIME_USE_CODE_ID"`,
+  aso subscriptions offer-codes one-time-codes get --batch-id "ONE_TIME_USE_CODE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -490,12 +490,12 @@ func SubscriptionsOfferCodesPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "prices",
-		ShortUsage: "asc subscriptions offer-codes prices --offer-code-id \"OFFER_CODE_ID\" [flags]",
+		ShortUsage: "aso subscriptions offer-codes prices --offer-code-id \"OFFER_CODE_ID\" [flags]",
 		ShortHelp:  "List prices for an offer code.",
 		LongHelp: `List prices for an offer code.
 
 Examples:
-  asc subscriptions offer-codes prices --offer-code-id "OFFER_CODE_ID"`,
+  aso subscriptions offer-codes prices --offer-code-id "OFFER_CODE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -556,8 +556,8 @@ Examples:
 func SubscriptionsOfferCodesGenerateCommand() *ffcli.Command {
 	return shared.RewriteCommandTreePath(
 		offercodes.OfferCodesGenerateCommand(),
-		"asc offer-codes",
-		"asc subscriptions offer-codes",
+		"aso offer-codes",
+		"aso subscriptions offer-codes",
 	)
 }
 
@@ -565,7 +565,7 @@ func SubscriptionsOfferCodesGenerateCommand() *ffcli.Command {
 func SubscriptionsOfferCodesValuesCommand() *ffcli.Command {
 	return shared.RewriteCommandTreePath(
 		offercodes.OfferCodesValuesCommand(),
-		"asc offer-codes",
-		"asc subscriptions offer-codes",
+		"aso offer-codes",
+		"aso subscriptions offer-codes",
 	)
 }

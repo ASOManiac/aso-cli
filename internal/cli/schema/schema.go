@@ -12,7 +12,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 //go:embed schema_index.json
@@ -105,7 +105,7 @@ func SchemaCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "schema",
-		ShortUsage: "asc schema [flags] [query]",
+		ShortUsage: "aso schema [flags] [query]",
 		ShortHelp:  "Inspect App Store Connect API endpoint schemas at runtime.",
 		LongHelp: `Inspect App Store Connect API endpoint schemas at runtime.
 
@@ -117,13 +117,13 @@ This lets agents self-serve API field names, parameter types, and allowed
 values without pre-stuffed documentation.
 
 Examples:
-  asc schema apps                           # All endpoints matching "apps"
-  asc schema "GET /v1/apps"                 # Exact method+path match
-  asc schema apps.list                      # Dot-notation query
-  asc schema --method POST apps             # Only POST endpoints for apps
-  asc schema --list                         # List all 1200+ endpoints
-  asc schema --list --method DELETE          # List all DELETE endpoints
-  asc schema "builds" --pretty              # Pretty-print results`,
+  aso schema apps                           # All endpoints matching "apps"
+  aso schema "GET /v1/apps"                 # Exact method+path match
+  aso schema apps.list                      # Dot-notation query
+  aso schema --method POST apps             # Only POST endpoints for apps
+  aso schema --list                         # List all 1200+ endpoints
+  aso schema --list --method DELETE          # List all DELETE endpoints
+  aso schema "builds" --pretty              # Pretty-print results`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

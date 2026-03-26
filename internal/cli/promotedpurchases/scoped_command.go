@@ -11,8 +11,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ScopedPromotedPurchasesCommandConfig customizes a promoted-purchases command tree
@@ -401,7 +401,7 @@ func mergePromotedPurchaseIDs(preservedIDs, scopedIDs []string) []string {
 }
 
 func promotedPurchasesCommandErrorPrefix(cfg ScopedPromotedPurchasesCommandConfig, subcommand string) string {
-	prefix := strings.TrimSpace(strings.TrimPrefix(cfg.PathPrefix, "asc "))
+	prefix := strings.TrimSpace(strings.TrimPrefix(cfg.PathPrefix, "aso "))
 	if prefix == "" {
 		return subcommand
 	}

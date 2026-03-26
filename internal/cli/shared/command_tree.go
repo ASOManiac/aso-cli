@@ -124,7 +124,7 @@ func commandPathFromUsage(usage string) string {
 
 func commandErrorPrefixFromUsage(usage string) string {
 	path := commandPathFromUsage(usage)
-	path = strings.TrimSpace(strings.TrimPrefix(path, "asc "))
+	path = strings.TrimSpace(strings.TrimPrefix(path, "aso "))
 	return path
 }
 

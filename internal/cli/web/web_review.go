@@ -15,9 +15,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 var allowedReviewSubmissionStates = map[string]struct{}{
@@ -687,7 +687,7 @@ func WebReviewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "review",
-		ShortUsage: "asc web review <subcommand> [flags]",
+		ShortUsage: "aso web review <subcommand> [flags]",
 		ShortHelp:  "[experimental] App-centric review and rejection inspection.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -724,7 +724,7 @@ func WebReviewListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc web review list --app APP_ID [--state CSV] [flags]",
+		ShortUsage: "aso web review list --app APP_ID [--state CSV] [flags]",
 		ShortHelp:  "[experimental] List app review submissions.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,
@@ -783,7 +783,7 @@ func WebReviewShowCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "show",
-		ShortUsage: "asc web review show --app APP_ID [--submission ID] [--out DIR] [--pattern GLOB] [--overwrite] [flags]",
+		ShortUsage: "aso web review show --app APP_ID [--submission ID] [--out DIR] [--pattern GLOB] [--overwrite] [flags]",
 		ShortHelp:  "[experimental] Show review details and auto-download screenshots.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 

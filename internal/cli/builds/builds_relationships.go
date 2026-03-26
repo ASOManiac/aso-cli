@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type relationshipKind int
@@ -38,13 +38,13 @@ func BuildsRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc builds links <subcommand> [flags]",
+		ShortUsage: "aso builds links <subcommand> [flags]",
 		ShortHelp:  "View build relationship linkages.",
 		LongHelp: `View build relationship linkages.
 
 Examples:
-  asc builds links view --build "BUILD_ID" --type "app"
-  asc builds links view --build "BUILD_ID" --type "betaBuildLocalizations" --paginate`,
+  aso builds links view --build "BUILD_ID" --type "app"
+  aso builds links view --build "BUILD_ID" --type "betaBuildLocalizations" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -69,13 +69,13 @@ func BuildsRelationshipsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "view",
-		ShortUsage: "asc builds links view --build \"BUILD_ID\" --type \"RELATIONSHIP\" [flags]",
+		ShortUsage: "aso builds links view --build \"BUILD_ID\" --type \"RELATIONSHIP\" [flags]",
 		ShortHelp:  "View relationship linkages for a build.",
 		LongHelp: `View relationship linkages for a build.
 
 Examples:
-  asc builds links view --build "BUILD_ID" --type "app"
-  asc builds links view --build "BUILD_ID" --type "individualTesters" --paginate`,
+  aso builds links view --build "BUILD_ID" --type "app"
+  aso builds links view --build "BUILD_ID" --type "individualTesters" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

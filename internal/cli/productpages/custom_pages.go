@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // CustomPagesCommand returns the custom pages command group.
@@ -19,16 +19,16 @@ func CustomPagesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "custom-pages",
-		ShortUsage: "asc product-pages custom-pages <subcommand> [flags]",
+		ShortUsage: "aso product-pages custom-pages <subcommand> [flags]",
 		ShortHelp:  "Manage custom product pages.",
 		LongHelp: `Manage custom product pages.
 
 Examples:
-  asc product-pages custom-pages list --app "APP_ID"
-  asc product-pages custom-pages get --custom-page-id "PAGE_ID"
-  asc product-pages custom-pages create --app "APP_ID" --name "Summer Campaign"
-  asc product-pages custom-pages update --custom-page-id "PAGE_ID" --name "Updated"
-  asc product-pages custom-pages delete --custom-page-id "PAGE_ID" --confirm`,
+  aso product-pages custom-pages list --app "APP_ID"
+  aso product-pages custom-pages get --custom-page-id "PAGE_ID"
+  aso product-pages custom-pages create --app "APP_ID" --name "Summer Campaign"
+  aso product-pages custom-pages update --custom-page-id "PAGE_ID" --name "Updated"
+  aso product-pages custom-pages delete --custom-page-id "PAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -58,14 +58,14 @@ func CustomPagesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc product-pages custom-pages list --app \"APP_ID\" [flags]",
+		ShortUsage: "aso product-pages custom-pages list --app \"APP_ID\" [flags]",
 		ShortHelp:  "List custom product pages.",
 		LongHelp: `List custom product pages.
 
 Examples:
-  asc product-pages custom-pages list --app "APP_ID"
-  asc product-pages custom-pages list --app "APP_ID" --limit 50
-  asc product-pages custom-pages list --app "APP_ID" --paginate`,
+  aso product-pages custom-pages list --app "APP_ID"
+  aso product-pages custom-pages list --app "APP_ID" --limit 50
+  aso product-pages custom-pages list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -131,12 +131,12 @@ func CustomPagesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc product-pages custom-pages get --custom-page-id \"PAGE_ID\"",
+		ShortUsage: "aso product-pages custom-pages get --custom-page-id \"PAGE_ID\"",
 		ShortHelp:  "Get a custom product page by ID.",
 		LongHelp: `Get a custom product page by ID.
 
 Examples:
-  asc product-pages custom-pages get --custom-page-id "PAGE_ID"`,
+  aso product-pages custom-pages get --custom-page-id "PAGE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -174,12 +174,12 @@ func CustomPagesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc product-pages custom-pages create --app \"APP_ID\" --name \"NAME\"",
+		ShortUsage: "aso product-pages custom-pages create --app \"APP_ID\" --name \"NAME\"",
 		ShortHelp:  "Create a custom product page.",
 		LongHelp: `Create a custom product page.
 
 Examples:
-  asc product-pages custom-pages create --app "APP_ID" --name "Summer Campaign"`,
+  aso product-pages custom-pages create --app "APP_ID" --name "Summer Campaign"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -225,13 +225,13 @@ func CustomPagesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc product-pages custom-pages update --custom-page-id \"PAGE_ID\" [--name \"NAME\"] [--visible true|false]",
+		ShortUsage: "aso product-pages custom-pages update --custom-page-id \"PAGE_ID\" [--name \"NAME\"] [--visible true|false]",
 		ShortHelp:  "Update a custom product page.",
 		LongHelp: `Update a custom product page.
 
 Examples:
-  asc product-pages custom-pages update --custom-page-id "PAGE_ID" --name "Updated"
-  asc product-pages custom-pages update --custom-page-id "PAGE_ID" --visible true`,
+  aso product-pages custom-pages update --custom-page-id "PAGE_ID" --name "Updated"
+  aso product-pages custom-pages update --custom-page-id "PAGE_ID" --visible true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -282,12 +282,12 @@ func CustomPagesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc product-pages custom-pages delete --custom-page-id \"PAGE_ID\" --confirm",
+		ShortUsage: "aso product-pages custom-pages delete --custom-page-id \"PAGE_ID\" --confirm",
 		ShortHelp:  "Delete a custom product page.",
 		LongHelp: `Delete a custom product page.
 
 Examples:
-  asc product-pages custom-pages delete --custom-page-id "PAGE_ID" --confirm`,
+  aso product-pages custom-pages delete --custom-page-id "PAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

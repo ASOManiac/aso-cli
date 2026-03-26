@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // VersionsReleaseCommand releases a version in pending developer release.
@@ -23,12 +23,12 @@ func VersionsReleaseCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "release",
-		ShortUsage: "asc versions release [flags]",
+		ShortUsage: "aso versions release [flags]",
 		ShortHelp:  "Release an approved version pending developer release.",
 		LongHelp: `Release an approved version in the Pending Developer Release state.
 
 Examples:
-  asc versions release --version-id "VERSION_ID" --confirm`,
+  aso versions release --version-id "VERSION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

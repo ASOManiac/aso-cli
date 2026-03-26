@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for your interest in contributing to asc cli!
+Thanks for your interest in contributing to aso cli!
 
 ## Development Setup
 
@@ -9,7 +9,7 @@ Requirements:
 
 Clone and build:
 ```bash
-git clone https://github.com/rudrankriyam/App-Store-Connect-CLI.git
+git clone https://github.com/ASOManiac/aso-cli.git
 cd App-Store-Connect-CLI
 make build
 ```
@@ -55,9 +55,9 @@ export ASC_ISSUER_ID="YOUR_ISSUER_ID"
 export ASC_PRIVATE_KEY_PATH="/path/to/AuthKey.p8"
 export ASC_APP_ID="YOUR_APP_ID"
 
-asc testflight feedback list --app "$ASC_APP_ID"
-asc testflight crashes list --app "$ASC_APP_ID"
-asc reviews list --app "$ASC_APP_ID"
+aso testflight feedback list --app "$ASC_APP_ID"
+aso testflight crashes list --app "$ASC_APP_ID"
+aso reviews list --app "$ASC_APP_ID"
 ```
 
 Credentials are stored in the system keychain when available, with a config fallback at
@@ -75,7 +75,7 @@ make lint                # Lint code
 make check-command-docs  # Verify command docs are up to date
 ASC_BYPASS_KEYCHAIN=1 make test  # Run tests (bypasses keychain)
 make build               # Build binary
-./asc --help             # Smoke-test the binary
+./aso --help             # Smoke-test the binary
 ```
 
 ## Pull Request Guidelines
@@ -90,7 +90,7 @@ make build               # Build binary
 
 - Use GitHub Discussions for install help, auth setup, workflow questions, and "how do I...?" support
 - Use GitHub Issues for reproducible bugs and concrete feature requests
-- When reporting a bug, include `asc version`, your OS, install method, exact command, stdout/stderr, whether it reproduces with `ASC_BYPASS_KEYCHAIN=1`, and redacted `ASC_DEBUG=api` output when safe
+- When reporting a bug, include `aso version`, your OS, install method, exact command, stdout/stderr, whether it reproduces with `ASC_BYPASS_KEYCHAIN=1`, and redacted `ASC_DEBUG=api` output when safe
 
 ## Issue Triage Labels
 
@@ -132,9 +132,9 @@ To add your app:
 1. Authenticate GitHub CLI once:
    `gh auth login`
 2. Run:
-   `asc apps wall submit --app "1234567890" --confirm`
+   `aso apps wall submit --app "1234567890" --confirm`
 3. Optional preview:
-   `asc apps wall submit --app "1234567890" --dry-run`
+   `aso apps wall submit --app "1234567890" --dry-run`
 
 The command uses your authenticated `gh` session to fork the repo, create a branch, update `docs/wall-of-apps.json`, and open a pull request automatically.
 It resolves the public App Store name, URL, and icon from the app ID automatically. For entries that are not on the public App Store yet, use `--link` with `--name`.

@@ -11,10 +11,10 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	authsvc "github.com/rudrankriyam/App-Store-Connect-CLI/internal/auth"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	authsvc "github.com/ASOManiac/aso-cli/internal/auth"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 const authKeysURL = "https://appstoreconnect.apple.com/access/integrations/api"
@@ -33,7 +33,7 @@ func AuthCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "auth",
-		ShortUsage: "asc auth <subcommand> [flags]",
+		ShortUsage: "aso auth <subcommand> [flags]",
 		ShortHelp:  "Manage authentication for the App Store Connect API.",
 		LongHelp: `Manage authentication for the App Store Connect API.
 
@@ -81,7 +81,7 @@ func AuthInitCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "init",
-		ShortUsage: "asc auth init [flags]",
+		ShortUsage: "aso auth init [flags]",
 		ShortHelp:  "Create a template config.json for authentication.",
 		LongHelp: `Create a template config.json for authentication.
 
@@ -89,10 +89,10 @@ This writes ~/.asc/config.json with empty fields and secure permissions.
 Use --local to write ./.asc/config.json in the current repo instead.
 
 Examples:
-  asc auth init
-  asc auth init --local
-  asc auth init --force
-  asc auth init --open`,
+  aso auth init
+  aso auth init --local
+  aso auth init --force
+  aso auth init --open`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -150,7 +150,7 @@ func AuthDoctorCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "doctor",
-		ShortUsage: "asc auth doctor [flags]",
+		ShortUsage: "aso auth doctor [flags]",
 		ShortHelp:  "Diagnose authentication configuration issues.",
 		LongHelp: `Diagnose authentication configuration issues.
 
@@ -158,9 +158,9 @@ Runs a comprehensive health check across keychain availability, config files,
 stored profiles, private key files, and environment variables.
 
 Examples:
-  asc auth doctor
-  asc auth doctor --output json
-  asc auth doctor --fix --confirm`,
+  aso auth doctor
+  aso auth doctor --output json
+  aso auth doctor --fix --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -430,7 +430,7 @@ func AuthLoginCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "login",
-		ShortUsage: "asc auth login [flags]",
+		ShortUsage: "aso auth login [flags]",
 		ShortHelp:  "Register and store App Store Connect API key credentials.",
 		LongHelp: `Register and store App Store Connect API key credentials.
 
@@ -440,10 +440,10 @@ explicitly bypass keychain and write credentials to ~/.asc/config.json instead.
 Add --local to write ./.asc/config.json for the current repo.
 
 Examples:
-  asc auth login --name "MyKey" --key-id "ABC123" --issuer-id "DEF456" --private-key /path/to/AuthKey.p8
-  asc auth login --bypass-keychain --local --name "MyKey" --key-id "ABC123" --issuer-id "DEF456" --private-key /path/to/AuthKey.p8
-  asc auth login --network --name "MyKey" --key-id "ABC123" --issuer-id "DEF456" --private-key /path/to/AuthKey.p8
-  asc auth login --skip-validation --name "MyKey" --key-id "ABC123" --issuer-id "DEF456" --private-key /path/to/AuthKey.p8
+  aso auth login --name "MyKey" --key-id "ABC123" --issuer-id "DEF456" --private-key /path/to/AuthKey.p8
+  aso auth login --bypass-keychain --local --name "MyKey" --key-id "ABC123" --issuer-id "DEF456" --private-key /path/to/AuthKey.p8
+  aso auth login --network --name "MyKey" --key-id "ABC123" --issuer-id "DEF456" --private-key /path/to/AuthKey.p8
+  aso auth login --skip-validation --name "MyKey" --key-id "ABC123" --issuer-id "DEF456" --private-key /path/to/AuthKey.p8
 
 When using system keychain storage, the encrypted key material is stored in keychain
 so commands continue to work even if the original .p8 file is removed.`,
@@ -526,15 +526,15 @@ func AuthSwitchCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "switch",
-		ShortUsage: "asc auth switch --name <profile>",
+		ShortUsage: "aso auth switch --name <profile>",
 		ShortHelp:  "Switch the default authentication profile.",
 		LongHelp: `Switch the default authentication profile.
 
 This updates the default profile used for keychain or config credentials.
 
 Examples:
-  asc auth switch --name "Personal"
-  asc auth switch --name "Client"`,
+  aso auth switch --name "Personal"
+  aso auth switch --name "Client"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -585,14 +585,14 @@ func AuthLogoutCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "logout",
-		ShortUsage: "asc auth logout [flags]",
+		ShortUsage: "aso auth logout [flags]",
 		ShortHelp:  "Remove stored API credentials.",
 		LongHelp: `Remove stored API credentials.
 
 Examples:
-  asc auth logout
-  asc auth logout --all
-  asc auth logout --name "MyKey"`,
+  aso auth logout
+  aso auth logout --all
+  aso auth logout --name "MyKey"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -631,7 +631,7 @@ func AuthStatusCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "status",
-		ShortUsage: "asc auth status",
+		ShortUsage: "aso auth status",
 		ShortHelp:  "Show current authentication status.",
 		LongHelp: `Show current authentication status.
 
@@ -639,10 +639,10 @@ Displays information about stored API keys and which one is currently active.
 Add --validate to perform a network validation for each stored credential.
 
 Examples:
-  asc auth status
-  asc auth status --output json
-  asc auth status --verbose
-  asc auth status --validate`,
+  aso auth status
+  aso auth status --output json
+  aso auth status --verbose
+  aso auth status --validate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -728,7 +728,7 @@ Examples:
 			credentialOutput := make([]authStatusCredentialOutput, 0, len(credentials))
 			if len(credentials) == 0 {
 				if normalizedOutput == "table" {
-					fmt.Println("No credentials stored. Run 'asc auth login' to get started.")
+					fmt.Println("No credentials stored. Run 'aso auth login' to get started.")
 				}
 			} else {
 				if normalizedOutput == "table" {
@@ -906,7 +906,7 @@ func AuthIssuerIDCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "issuer-id",
-		ShortUsage: "asc auth issuer-id [flags]",
+		ShortUsage: "aso auth issuer-id [flags]",
 		ShortHelp:  "Print the active App Store Connect issuer ID.",
 		LongHelp: `Print the active App Store Connect issuer ID.
 
@@ -914,9 +914,9 @@ This reads the issuer ID from the currently resolved authentication credentials
 without making a network request.
 
 Examples:
-  asc auth issuer-id
-  asc auth issuer-id --name "MyKey"
-  asc auth issuer-id --output json`,
+  aso auth issuer-id
+  aso auth issuer-id --name "MyKey"
+  aso auth issuer-id --output json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -963,7 +963,7 @@ func AuthTokenCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "token",
-		ShortUsage: "asc auth token --confirm [flags]",
+		ShortUsage: "aso auth token --confirm [flags]",
 		ShortHelp:  "Print a signed JWT for direct App Store Connect API calls.",
 		LongHelp: `Print a signed JWT for direct App Store Connect API calls.
 
@@ -973,9 +973,9 @@ in shell pipelines.
 Requires --confirm because this prints a live bearer token to stdout.
 
 Examples:
-  asc auth token --confirm
-  asc auth token --name "MyKey" --confirm
-  asc auth token --confirm --output json
+  aso auth token --confirm
+  aso auth token --name "MyKey" --confirm
+  aso auth token --confirm --output json
   curl -H "Authorization: Bearer $(asc auth token --confirm)" https://api.appstoreconnect.apple.com/v1/apps`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,

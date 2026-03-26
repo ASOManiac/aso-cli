@@ -22,7 +22,7 @@ import urllib.request
 from pathlib import Path
 
 REPO = "rudrankriyam/App-Store-Connect-CLI"
-FORMULA = "asc"
+FORMULA = "aso"
 WRITEUP = "https://til.bhupesh.me/shell/get-download-stats-github-brew"
 
 
@@ -162,7 +162,7 @@ def main() -> int:
         print(f"Homebrew: error ({e})", file=sys.stderr)
         brew = {}
 
-    print("asc — combined download / install signals")
+    print("aso — combined download / install signals")
     print("=" * 50)
     if gh >= 0:
         print(f"  GitHub release assets (all-time):     {gh:,}")

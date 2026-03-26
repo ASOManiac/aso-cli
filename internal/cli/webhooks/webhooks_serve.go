@@ -21,8 +21,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -82,7 +82,7 @@ func WebhooksServeCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "serve",
-		ShortUsage: "asc webhooks serve [flags]",
+		ShortUsage: "aso webhooks serve [flags]",
 		ShortHelp:  "Run a local webhook receiver for testing and automation.",
 		LongHelp: `Run a local webhook receiver for testing and automation.
 
@@ -92,9 +92,9 @@ Security note:
   If you expose this server remotely, treat --exec like local automation with network trigger access.
 
 Examples:
-  asc webhooks serve --port 8787
-  asc webhooks serve --port 8787 --dir ./webhook-events
-  asc webhooks serve --port 8787 --exec "./scripts/on-webhook.sh"`,
+  aso webhooks serve --port 8787
+  aso webhooks serve --port 8787 --dir ./webhook-events
+  aso webhooks serve --port 8787 --exec "./scripts/on-webhook.sh"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

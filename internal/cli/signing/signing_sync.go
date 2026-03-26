@@ -11,10 +11,10 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	signingpkg "github.com/rudrankriyam/App-Store-Connect-CLI/internal/signing"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/urlsanitize"
+	signingpkg "github.com/ASOManiac/aso-cli/internal/signing"
+	"github.com/ASOManiac/aso-cli/internal/urlsanitize"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const matchPasswordEnvVar = "ASC_MATCH_PASSWORD"
@@ -34,7 +34,7 @@ func SigningSyncCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "sync",
-		ShortUsage: "asc signing sync <subcommand> [flags]",
+		ShortUsage: "aso signing sync <subcommand> [flags]",
 		ShortHelp:  "Sync signing assets with an encrypted git repo.",
 		LongHelp: `Sync signing certificates and provisioning profiles with an encrypted git repository.
 
@@ -43,10 +43,10 @@ App Store Connect, encrypts them, and stores in a shared git repo.
 Team members pull and decrypt to get signing files.
 
 Examples:
-  asc signing sync push --bundle-id com.example.app --profile-type IOS_APP_STORE \
+  aso signing sync push --bundle-id com.example.app --profile-type IOS_APP_STORE \
     --repo git@github.com:team/certs.git --password "$MATCH_PASSWORD"
 
-  asc signing sync pull --repo git@github.com:team/certs.git --password "$MATCH_PASSWORD" \
+  aso signing sync pull --repo git@github.com:team/certs.git --password "$MATCH_PASSWORD" \
     --output-dir ./signing`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
@@ -87,7 +87,7 @@ func syncPushCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "push",
-		ShortUsage: "asc signing sync push --bundle-id ID --profile-type TYPE --repo URL --password PASS",
+		ShortUsage: "aso signing sync push --bundle-id ID --profile-type TYPE --repo URL --password PASS",
 		ShortHelp:  "Fetch signing assets from ASC, encrypt, and push to git.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,
@@ -231,7 +231,7 @@ func syncPullCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "pull",
-		ShortUsage: "asc signing sync pull --repo URL --password PASS [--output-dir DIR]",
+		ShortUsage: "aso signing sync pull --repo URL --password PASS [--output-dir DIR]",
 		ShortHelp:  "Pull and decrypt signing assets from git.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DefaultUsageFunc,

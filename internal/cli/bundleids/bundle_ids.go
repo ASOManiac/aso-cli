@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BundleIDsCommand returns the bundle IDs command with subcommands.
@@ -19,19 +19,19 @@ func BundleIDsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "bundle-ids",
-		ShortUsage: "asc bundle-ids <subcommand> [flags]",
+		ShortUsage: "aso bundle-ids <subcommand> [flags]",
 		ShortHelp:  "Manage bundle IDs and capabilities.",
 		LongHelp: `Manage bundle IDs and capabilities.
 
 Examples:
-  asc bundle-ids list
-  asc bundle-ids get --id "BUNDLE_ID"
-  asc bundle-ids app get --id "BUNDLE_ID"
-  asc bundle-ids profiles list --id "BUNDLE_ID"
-  asc bundle-ids create --identifier "com.example.app" --name "Example" --platform IOS
-  asc bundle-ids update --id "BUNDLE_ID" --name "New Name"
-  asc bundle-ids delete --id "BUNDLE_ID" --confirm
-  asc bundle-ids capabilities list --bundle "BUNDLE_ID"`,
+  aso bundle-ids list
+  aso bundle-ids get --id "BUNDLE_ID"
+  aso bundle-ids app get --id "BUNDLE_ID"
+  aso bundle-ids profiles list --id "BUNDLE_ID"
+  aso bundle-ids create --identifier "com.example.app" --name "Example" --platform IOS
+  aso bundle-ids update --id "BUNDLE_ID" --name "New Name"
+  aso bundle-ids delete --id "BUNDLE_ID" --confirm
+  aso bundle-ids capabilities list --bundle "BUNDLE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -61,14 +61,14 @@ func BundleIDsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc bundle-ids list [flags]",
+		ShortUsage: "aso bundle-ids list [flags]",
 		ShortHelp:  "List bundle IDs.",
 		LongHelp: `List bundle IDs.
 
 Examples:
-  asc bundle-ids list
-  asc bundle-ids list --limit 10
-  asc bundle-ids list --paginate`,
+  aso bundle-ids list
+  aso bundle-ids list --limit 10
+  aso bundle-ids list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -128,12 +128,12 @@ func BundleIDsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc bundle-ids get --id \"BUNDLE_ID\"",
+		ShortUsage: "aso bundle-ids get --id \"BUNDLE_ID\"",
 		ShortHelp:  "Get a bundle ID by ID.",
 		LongHelp: `Get a bundle ID by ID.
 
 Examples:
-  asc bundle-ids get --id "BUNDLE_ID"`,
+  aso bundle-ids get --id "BUNDLE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -171,12 +171,12 @@ func BundleIDsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc bundle-ids create --identifier \"com.example.app\" --name \"Example\" [--platform IOS]",
+		ShortUsage: "aso bundle-ids create --identifier \"com.example.app\" --name \"Example\" [--platform IOS]",
 		ShortHelp:  "Create a bundle ID.",
 		LongHelp: `Create a bundle ID.
 
 Examples:
-  asc bundle-ids create --identifier "com.example.app" --name "Example" --platform IOS`,
+  aso bundle-ids create --identifier "com.example.app" --name "Example" --platform IOS`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -228,12 +228,12 @@ func BundleIDsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc bundle-ids update --id \"BUNDLE_ID\" --name \"New Name\"",
+		ShortUsage: "aso bundle-ids update --id \"BUNDLE_ID\" --name \"New Name\"",
 		ShortHelp:  "Update a bundle ID.",
 		LongHelp: `Update a bundle ID.
 
 Examples:
-  asc bundle-ids update --id "BUNDLE_ID" --name "New Name"`,
+  aso bundle-ids update --id "BUNDLE_ID" --name "New Name"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -277,12 +277,12 @@ func BundleIDsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc bundle-ids delete --id \"BUNDLE_ID\" --confirm",
+		ShortUsage: "aso bundle-ids delete --id \"BUNDLE_ID\" --confirm",
 		ShortHelp:  "Delete a bundle ID.",
 		LongHelp: `Delete a bundle ID.
 
 Examples:
-  asc bundle-ids delete --id "BUNDLE_ID" --confirm`,
+  aso bundle-ids delete --id "BUNDLE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

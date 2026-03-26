@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 var betaGroupRelationshipKinds = map[string]relationshipKind{
@@ -24,13 +24,13 @@ func BetaGroupsRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "relationships",
-		ShortUsage: "asc testflight beta-groups relationships <subcommand> [flags]",
+		ShortUsage: "aso testflight beta-groups relationships <subcommand> [flags]",
 		ShortHelp:  "View beta group relationship linkages.",
 		LongHelp: `View beta group relationship linkages.
 
 Examples:
-  asc testflight beta-groups relationships get --group-id "GROUP_ID" --type "betaTesters"
-  asc testflight beta-groups relationships get --group-id "GROUP_ID" --type "builds" --paginate`,
+  aso testflight beta-groups relationships get --group-id "GROUP_ID" --type "betaTesters"
+  aso testflight beta-groups relationships get --group-id "GROUP_ID" --type "builds" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -56,13 +56,13 @@ func BetaGroupsRelationshipsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight beta-groups relationships get --group-id \"GROUP_ID\" --type \"RELATIONSHIP\" [flags]",
+		ShortUsage: "aso testflight beta-groups relationships get --group-id \"GROUP_ID\" --type \"RELATIONSHIP\" [flags]",
 		ShortHelp:  "Get beta group relationship linkages.",
 		LongHelp: `Get beta group relationship linkages.
 
 Examples:
-  asc testflight beta-groups relationships get --group-id "GROUP_ID" --type "betaTesters"
-  asc testflight beta-groups relationships get --group-id "GROUP_ID" --type "builds" --paginate`,
+  aso testflight beta-groups relationships get --group-id "GROUP_ID" --type "betaTesters"
+  aso testflight beta-groups relationships get --group-id "GROUP_ID" --type "builds" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

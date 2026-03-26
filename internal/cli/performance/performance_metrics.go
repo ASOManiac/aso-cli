@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PerformanceMetricsCommand returns the metrics subcommand group.
@@ -19,13 +19,13 @@ func PerformanceMetricsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "metrics",
-		ShortUsage: "asc performance metrics <subcommand> [flags]",
+		ShortUsage: "aso performance metrics <subcommand> [flags]",
 		ShortHelp:  "Work with performance/power metrics.",
 		LongHelp: `Work with performance/power metrics.
 
 Examples:
-  asc performance metrics list --app "APP_ID"
-  asc performance metrics get --build "BUILD_ID"`,
+  aso performance metrics list --app "APP_ID"
+  aso performance metrics get --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -50,13 +50,13 @@ func PerformanceMetricsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc performance metrics list --app \"APP_ID\"",
+		ShortUsage: "aso performance metrics list --app \"APP_ID\"",
 		ShortHelp:  "List performance/power metrics for an app.",
 		LongHelp: `List performance/power metrics for an app.
 
 Examples:
-  asc performance metrics list --app "APP_ID"
-  asc performance metrics list --app "APP_ID" --metric-type "MEMORY,DISK" --device-type "iPhone15,2"`,
+  aso performance metrics list --app "APP_ID"
+  aso performance metrics list --app "APP_ID" --metric-type "MEMORY,DISK" --device-type "iPhone15,2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -109,13 +109,13 @@ func PerformanceMetricsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc performance metrics get --build \"BUILD_ID\"",
+		ShortUsage: "aso performance metrics get --build \"BUILD_ID\"",
 		ShortHelp:  "Get performance/power metrics for a build.",
 		LongHelp: `Get performance/power metrics for a build.
 
 Examples:
-  asc performance metrics get --build "BUILD_ID"
-  asc performance metrics get --build "BUILD_ID" --metric-type "MEMORY" --device-type "iPhone15,2"`,
+  aso performance metrics get --build "BUILD_ID"
+  aso performance metrics get --build "BUILD_ID" --metric-type "MEMORY" --device-type "iPhone15,2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

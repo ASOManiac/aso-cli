@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 type webSessionFlags struct {
@@ -62,7 +62,7 @@ func withWebAuthHint(err error, operation string) error {
 	}
 	var apiErr *webcore.APIError
 	if errors.As(err, &apiErr) && (apiErr.Status == 401 || apiErr.Status == 403) {
-		return fmt.Errorf("%s failed: web session is unauthorized or expired (run 'asc web auth login'): %w", operation, err)
+		return fmt.Errorf("%s failed: web session is unauthorized or expired (run 'aso web auth login'): %w", operation, err)
 	}
 	return fmt.Errorf("%s failed: %w", operation, err)
 }

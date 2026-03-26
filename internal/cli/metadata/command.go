@@ -6,7 +6,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // MetadataCommand returns the metadata command group.
@@ -15,7 +15,7 @@ func MetadataCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "metadata",
-		ShortUsage: "asc metadata <subcommand> [flags]",
+		ShortUsage: "aso metadata <subcommand> [flags]",
 		ShortHelp:  "Manage app metadata with deterministic workflows and keyword tooling.",
 		LongHelp: `Manage app metadata with deterministic workflows and keyword tooling.
 
@@ -24,19 +24,19 @@ Phase 1 scope:
   - version localizations: description, keywords, marketingUrl, promotionalText, supportUrl, whatsNew
 
 Keyword workflow:
-  - ` + "`asc metadata keywords ...`" + ` manages the canonical version-localization ` + "`keywords`" + ` field
+  - ` + "`aso metadata keywords ...`" + ` manages the canonical version-localization ` + "`keywords`" + ` field
   - raw App Store Connect ` + "`searchKeywords`" + ` relationship APIs remain under
-    ` + "`asc apps search-keywords ...`" + ` and ` + "`asc localizations search-keywords ...`" + `
+    ` + "`aso apps search-keywords ...`" + ` and ` + "`aso localizations search-keywords ...`" + `
 
 Not yet included in this group:
   - categories, review information, age ratings, screenshots
 
-Note: copyright is managed via "asc versions create --copyright" or "asc versions update --copyright".
+Note: copyright is managed via "aso versions create --copyright" or "aso versions update --copyright".
 
 Examples:
-  asc metadata pull --app "APP_ID" --version "1.2.3" --dir "./metadata"
-  asc metadata pull --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata"
-  asc metadata keywords import --dir "./metadata" --version "1.2.3" --locale "en-US" --input "./keywords.csv"`,
+  aso metadata pull --app "APP_ID" --version "1.2.3" --dir "./metadata"
+  aso metadata pull --app "APP_ID" --version "1.2.3" --platform IOS --dir "./metadata"
+  aso metadata keywords import --dir "./metadata" --version "1.2.3" --locale "en-US" --input "./keywords.csv"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{

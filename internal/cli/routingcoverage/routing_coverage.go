@@ -10,23 +10,23 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // RoutingCoverageCommand returns the routing coverage command group.
 func RoutingCoverageCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "routing-coverage",
-		ShortUsage: "asc routing-coverage <subcommand> [flags]",
+		ShortUsage: "aso routing-coverage <subcommand> [flags]",
 		ShortHelp:  "Manage routing app coverage files.",
 		LongHelp: `Manage routing app coverage files required for routing apps.
 
 Examples:
-  asc routing-coverage get --version-id "VERSION_ID"
-  asc routing-coverage info --id "COVERAGE_ID"
-  asc routing-coverage create --version-id "VERSION_ID" --file ./coverage.geojson
-  asc routing-coverage delete --id "COVERAGE_ID" --confirm`,
+  aso routing-coverage get --version-id "VERSION_ID"
+  aso routing-coverage info --id "COVERAGE_ID"
+  aso routing-coverage create --version-id "VERSION_ID" --file ./coverage.geojson
+  aso routing-coverage delete --id "COVERAGE_ID" --confirm`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			RoutingCoverageGetCommand(),
@@ -49,12 +49,12 @@ func RoutingCoverageGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc routing-coverage get --version-id \"VERSION_ID\"",
+		ShortUsage: "aso routing-coverage get --version-id \"VERSION_ID\"",
 		ShortHelp:  "Get routing app coverage for a version.",
 		LongHelp: `Get routing app coverage for an App Store version.
 
 Examples:
-  asc routing-coverage get --version-id "VERSION_ID"`,
+  aso routing-coverage get --version-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -91,12 +91,12 @@ func RoutingCoverageInfoCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "info",
-		ShortUsage: "asc routing-coverage info --id \"COVERAGE_ID\"",
+		ShortUsage: "aso routing-coverage info --id \"COVERAGE_ID\"",
 		ShortHelp:  "Get routing app coverage by ID.",
 		LongHelp: `Get routing app coverage by ID.
 
 Examples:
-  asc routing-coverage info --id "COVERAGE_ID"`,
+  aso routing-coverage info --id "COVERAGE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -134,12 +134,12 @@ func RoutingCoverageCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc routing-coverage create --version-id \"VERSION_ID\" --file ./coverage.geojson",
+		ShortUsage: "aso routing-coverage create --version-id \"VERSION_ID\" --file ./coverage.geojson",
 		ShortHelp:  "Upload routing app coverage for a version.",
 		LongHelp: `Upload routing app coverage for an App Store version.
 
 Examples:
-  asc routing-coverage create --version-id "VERSION_ID" --file ./coverage.geojson`,
+  aso routing-coverage create --version-id "VERSION_ID" --file ./coverage.geojson`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -225,12 +225,12 @@ func RoutingCoverageDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc routing-coverage delete --id \"COVERAGE_ID\" --confirm",
+		ShortUsage: "aso routing-coverage delete --id \"COVERAGE_ID\" --confirm",
 		ShortHelp:  "Delete routing app coverage.",
 		LongHelp: `Delete routing app coverage.
 
 Examples:
-  asc routing-coverage delete --id "COVERAGE_ID" --confirm`,
+  aso routing-coverage delete --id "COVERAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

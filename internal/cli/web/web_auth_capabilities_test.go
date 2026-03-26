@@ -9,9 +9,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
-	webref "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web/reference"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
+	webref "github.com/ASOManiac/aso-cli/internal/web/reference"
 )
 
 func TestWebAuthCapabilitiesRejectsPositionalArgs(t *testing.T) {
@@ -351,7 +351,7 @@ func TestWebAuthCapabilitiesUnauthorizedLookupGetsWebHint(t *testing.T) {
 	if !strings.Contains(err.Error(), "web session is unauthorized or expired") {
 		t.Fatalf("expected web auth hint, got %v", err)
 	}
-	if !strings.Contains(err.Error(), "asc web auth login") {
+	if !strings.Contains(err.Error(), "aso web auth login") {
 		t.Fatalf("expected login guidance, got %v", err)
 	}
 	if len(*labels) != 1 || (*labels)[0] != "Loading exact API key roles" {
@@ -395,13 +395,13 @@ func TestWebAuthCapabilitiesHelpContrastsPublicCapabilities(t *testing.T) {
 	cmd := WebAuthCapabilitiesCommand()
 	usage := cmd.UsageFunc(cmd)
 
-	if !strings.Contains(usage, `Unlike "asc auth capabilities", which probes effective public-API access`) {
+	if !strings.Contains(usage, `Unlike "aso auth capabilities", which probes effective public-API access`) {
 		t.Fatalf("expected usage to contrast public auth capabilities, got %q", usage)
 	}
 	if !strings.Contains(usage, "--key-id") {
 		t.Fatalf("expected usage to describe --key-id, got %q", usage)
 	}
-	if !strings.Contains(usage, `asc web auth capabilities --apple-id "user@example.com"`) {
+	if !strings.Contains(usage, `aso web auth capabilities --apple-id "user@example.com"`) {
 		t.Fatalf("expected usage to recommend --apple-id like other web commands, got %q", usage)
 	}
 	if !strings.Contains(usage, "documented role capabilities") {

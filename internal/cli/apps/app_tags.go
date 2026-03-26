@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppTagsCommand returns the app-tags command with subcommands.
@@ -20,16 +20,16 @@ func AppTagsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-tags",
-		ShortUsage: "asc app-tags <subcommand> [flags]",
+		ShortUsage: "aso app-tags <subcommand> [flags]",
 		ShortHelp:  "Manage app tags for App Store visibility.",
 		LongHelp: `Manage app tags for App Store visibility.
 
 Examples:
-  asc app-tags list --app "APP_ID"
-  asc app-tags get --app "APP_ID" --id "TAG_ID"
-  asc app-tags update --id "TAG_ID" --visible-in-app-store=false --confirm
-  asc app-tags territories --id "TAG_ID"
-  asc app-tags links --app "APP_ID"`,
+  aso app-tags list --app "APP_ID"
+  aso app-tags get --app "APP_ID" --id "TAG_ID"
+  aso app-tags update --id "TAG_ID" --visible-in-app-store=false --confirm
+  aso app-tags territories --id "TAG_ID"
+  aso app-tags links --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -66,17 +66,17 @@ func AppTagsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc app-tags list [flags]",
+		ShortUsage: "aso app-tags list [flags]",
 		ShortHelp:  "List app tags for an app.",
 		LongHelp: `List app tags for an app.
 
 Examples:
-  asc app-tags list --app "APP_ID"
-  asc app-tags list --app "APP_ID" --visible-in-app-store true
-  asc app-tags list --app "APP_ID" --include territories --territory-fields currency
-  asc app-tags list --app "APP_ID" --sort -name --limit 10
-  asc app-tags list --next "<links.next>"
-  asc app-tags list --app "APP_ID" --paginate`,
+  aso app-tags list --app "APP_ID"
+  aso app-tags list --app "APP_ID" --visible-in-app-store true
+  aso app-tags list --app "APP_ID" --include territories --territory-fields currency
+  aso app-tags list --app "APP_ID" --sort -name --limit 10
+  aso app-tags list --next "<links.next>"
+  aso app-tags list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -198,14 +198,14 @@ func AppTagsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-tags get [flags]",
+		ShortUsage: "aso app-tags get [flags]",
 		ShortHelp:  "Get an app tag by ID.",
 		LongHelp: `Get an app tag by ID.
 
 This command searches the app's tags for the specified ID.
 
 Examples:
-  asc app-tags get --app "APP_ID" --id "TAG_ID"`,
+  aso app-tags get --app "APP_ID" --id "TAG_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -317,13 +317,13 @@ func AppTagsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc app-tags update --id TAG_ID --visible-in-app-store [true|false] --confirm",
+		ShortUsage: "aso app-tags update --id TAG_ID --visible-in-app-store [true|false] --confirm",
 		ShortHelp:  "Update an app tag.",
 		LongHelp: `Update an app tag.
 
 Examples:
-  asc app-tags update --id "TAG_ID" --visible-in-app-store --confirm
-  asc app-tags update --id "TAG_ID" --visible-in-app-store=false --confirm`,
+  aso app-tags update --id "TAG_ID" --visible-in-app-store --confirm
+  aso app-tags update --id "TAG_ID" --visible-in-app-store=false --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -382,14 +382,14 @@ func AppTagsTerritoriesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "territories",
-		ShortUsage: "asc app-tags territories --id TAG_ID [flags]",
+		ShortUsage: "aso app-tags territories --id TAG_ID [flags]",
 		ShortHelp:  "List territories for an app tag.",
 		LongHelp: `List territories for an app tag.
 
 Examples:
-  asc app-tags territories --id "TAG_ID"
-  asc app-tags territories --id "TAG_ID" --fields currency
-  asc app-tags territories --id "TAG_ID" --paginate`,
+  aso app-tags territories --id "TAG_ID"
+  aso app-tags territories --id "TAG_ID" --fields currency
+  aso app-tags territories --id "TAG_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -465,13 +465,13 @@ func AppTagsTerritoriesRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "territories-links",
-		ShortUsage: "asc app-tags territories-links --id TAG_ID [flags]",
+		ShortUsage: "aso app-tags territories-links --id TAG_ID [flags]",
 		ShortHelp:  "List territory relationships for an app tag.",
 		LongHelp: `List territory relationships for an app tag.
 
 Examples:
-  asc app-tags territories-links --id "TAG_ID"
-  asc app-tags territories-links --id "TAG_ID" --paginate`,
+  aso app-tags territories-links --id "TAG_ID"
+  aso app-tags territories-links --id "TAG_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -539,13 +539,13 @@ func AppTagsRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc app-tags links --app APP_ID [flags]",
+		ShortUsage: "aso app-tags links --app APP_ID [flags]",
 		ShortHelp:  "List app tag relationships for an app.",
 		LongHelp: `List app tag relationships for an app.
 
 Examples:
-  asc app-tags links --app "APP_ID"
-  asc app-tags links --app "APP_ID" --paginate`,
+  aso app-tags links --app "APP_ID"
+  aso app-tags links --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -606,9 +606,9 @@ func DeprecatedAppTagsTerritoriesRelationshipsAliasCommand() *ffcli.Command {
 	return shared.DeprecatedAliasLeafCommand(
 		AppTagsTerritoriesRelationshipsCommand(),
 		"territories-relationships",
-		"asc app-tags territories-links --id TAG_ID [flags]",
-		"asc app-tags territories-links",
-		"Warning: `asc app-tags territories-relationships` is deprecated. Use `asc app-tags territories-links`.",
+		"aso app-tags territories-links --id TAG_ID [flags]",
+		"aso app-tags territories-links",
+		"Warning: `aso app-tags territories-relationships` is deprecated. Use `aso app-tags territories-links`.",
 	)
 }
 
@@ -616,9 +616,9 @@ func DeprecatedAppTagsRelationshipsAliasCommand() *ffcli.Command {
 	return shared.DeprecatedAliasLeafCommand(
 		AppTagsRelationshipsCommand(),
 		"relationships",
-		"asc app-tags links --app APP_ID [flags]",
-		"asc app-tags links",
-		"Warning: `asc app-tags relationships` is deprecated. Use `asc app-tags links`.",
+		"aso app-tags links --app APP_ID [flags]",
+		"aso app-tags links",
+		"Warning: `aso app-tags relationships` is deprecated. Use `aso app-tags links`.",
 	)
 }
 

@@ -7,11 +7,11 @@ import (
 	"strings"
 	"testing"
 
-	cmd "github.com/rudrankriyam/App-Store-Connect-CLI/cmd"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcmd "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/web"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	cmd "github.com/ASOManiac/aso-cli/cmd"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcmd "github.com/ASOManiac/aso-cli/internal/cli/web"
+	"github.com/ASOManiac/aso-cli/internal/config"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func stubWebAuthCapabilitiesLookup(t *testing.T, fn func(context.Context, *webcore.Client, string) (*webcore.APIKeyRoleLookup, error)) {

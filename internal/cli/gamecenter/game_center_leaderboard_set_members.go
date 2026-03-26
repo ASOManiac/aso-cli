@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // GameCenterLeaderboardSetMembersCommand returns the leaderboard set members command group.
@@ -19,13 +19,13 @@ func GameCenterLeaderboardSetMembersCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "members",
-		ShortUsage: "asc game-center leaderboard-sets members <subcommand> [flags]",
+		ShortUsage: "aso game-center leaderboard-sets members <subcommand> [flags]",
 		ShortHelp:  "Manage leaderboard set members.",
 		LongHelp: `Manage leaderboard set members. Members are the leaderboards that belong to a leaderboard set.
 
 Examples:
-  asc game-center leaderboard-sets members list --set-id "SET_ID"
-  asc game-center leaderboard-sets members set --set-id "SET_ID" --leaderboard-ids "id1,id2,id3"`,
+  aso game-center leaderboard-sets members list --set-id "SET_ID"
+  aso game-center leaderboard-sets members set --set-id "SET_ID" --leaderboard-ids "id1,id2,id3"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -50,14 +50,14 @@ func GameCenterLeaderboardSetMembersListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center leaderboard-sets members list --set-id \"SET_ID\"",
+		ShortUsage: "aso game-center leaderboard-sets members list --set-id \"SET_ID\"",
 		ShortHelp:  "List leaderboards in a leaderboard set.",
 		LongHelp: `List leaderboards in a leaderboard set.
 
 Examples:
-  asc game-center leaderboard-sets members list --set-id "SET_ID"
-  asc game-center leaderboard-sets members list --set-id "SET_ID" --limit 50
-  asc game-center leaderboard-sets members list --set-id "SET_ID" --paginate`,
+  aso game-center leaderboard-sets members list --set-id "SET_ID"
+  aso game-center leaderboard-sets members list --set-id "SET_ID" --limit 50
+  aso game-center leaderboard-sets members list --set-id "SET_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -124,7 +124,7 @@ func GameCenterLeaderboardSetMembersSetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc game-center leaderboard-sets members set --set-id \"SET_ID\" --leaderboard-ids \"id1,id2,id3\"",
+		ShortUsage: "aso game-center leaderboard-sets members set --set-id \"SET_ID\" --leaderboard-ids \"id1,id2,id3\"",
 		ShortHelp:  "Replace all leaderboard members in a leaderboard set.",
 		LongHelp: `Replace all leaderboard members in a leaderboard set.
 
@@ -132,8 +132,8 @@ This command replaces ALL members of a leaderboard set with the specified leader
 To remove all members, pass an empty string for --leaderboard-ids.
 
 Examples:
-  asc game-center leaderboard-sets members set --set-id "SET_ID" --leaderboard-ids "id1,id2,id3"
-  asc game-center leaderboard-sets members set --set-id "SET_ID" --leaderboard-ids ""`,
+  aso game-center leaderboard-sets members set --set-id "SET_ID" --leaderboard-ids "id1,id2,id3"
+  aso game-center leaderboard-sets members set --set-id "SET_ID" --leaderboard-ids ""`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

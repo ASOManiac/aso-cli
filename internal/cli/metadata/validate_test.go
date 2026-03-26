@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 func TestVersionLengthIssuesBoundaries(t *testing.T) {

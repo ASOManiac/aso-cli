@@ -12,8 +12,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -51,7 +51,7 @@ type subMoney struct {
 func SubscriptionsPricingSummaryCommand() *ffcli.Command {
 	return buildSubscriptionsPricingSummaryCommand(
 		"summary",
-		"asc subscriptions pricing summary [flags]",
+		"aso subscriptions pricing summary [flags]",
 		"Show consolidated subscription pricing summary.",
 		`Show consolidated subscription pricing summary.
 
@@ -60,9 +60,9 @@ in the specified territory. Much faster than paginating through all 140K+
 price points.
 
 Examples:
-  asc subscriptions pricing summary --app "APP_ID"
-  asc subscriptions pricing summary --subscription-id "SUB_ID"
-  asc subscriptions pricing summary --app "APP_ID" --territory "USA" --output table`,
+  aso subscriptions pricing summary --app "APP_ID"
+  aso subscriptions pricing summary --subscription-id "SUB_ID"
+  aso subscriptions pricing summary --app "APP_ID" --territory "USA" --output table`,
 	)
 }
 

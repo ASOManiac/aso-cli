@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // TestFlightReviewCommand returns the testflight review command with subcommands.
@@ -20,17 +20,17 @@ func TestFlightReviewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "review",
-		ShortUsage: "asc testflight review <subcommand> [flags]",
+		ShortUsage: "aso testflight review <subcommand> [flags]",
 		ShortHelp:  "Manage TestFlight beta app review details.",
 		LongHelp: `Manage TestFlight beta app review details and submissions.
 
 Examples:
-  asc testflight review get --app "APP_ID"
-  asc testflight review update --id "DETAIL_ID" --contact-email "dev@example.com"
-  asc testflight review submit --build "BUILD_ID" --confirm
-  asc testflight review app get --id "DETAIL_ID"
-  asc testflight review submissions list --build "BUILD_ID"
-  asc testflight review submissions get --id "SUBMISSION_ID"`,
+  aso testflight review get --app "APP_ID"
+  aso testflight review update --id "DETAIL_ID" --contact-email "dev@example.com"
+  aso testflight review submit --build "BUILD_ID" --confirm
+  aso testflight review app get --id "DETAIL_ID"
+  aso testflight review submissions list --build "BUILD_ID"
+  aso testflight review submissions get --id "SUBMISSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -57,12 +57,12 @@ func TestFlightReviewGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight review get [flags]",
+		ShortUsage: "aso testflight review get [flags]",
 		ShortHelp:  "Fetch beta app review details for an app.",
 		LongHelp: `Fetch beta app review details for an app.
 
 Examples:
-  asc testflight review get --app "APP_ID"`,
+  aso testflight review get --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -119,13 +119,13 @@ func TestFlightReviewUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc testflight review update [flags]",
+		ShortUsage: "aso testflight review update [flags]",
 		ShortHelp:  "Update beta app review details.",
 		LongHelp: `Update beta app review details.
 
 Examples:
-  asc testflight review update --id "DETAIL_ID" --contact-email "dev@example.com"
-  asc testflight review update --id "DETAIL_ID" --notes "Updated review notes"`,
+  aso testflight review update --id "DETAIL_ID" --contact-email "dev@example.com"
+  aso testflight review update --id "DETAIL_ID" --notes "Updated review notes"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -215,12 +215,12 @@ func TestFlightReviewSubmitCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submit",
-		ShortUsage: "asc testflight review submit --build BUILD_ID --confirm",
+		ShortUsage: "aso testflight review submit --build BUILD_ID --confirm",
 		ShortHelp:  "Submit a build for beta app review.",
 		LongHelp: `Submit a build for beta app review.
 
 Examples:
-  asc testflight review submit --build "BUILD_ID" --confirm`,
+  aso testflight review submit --build "BUILD_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -257,12 +257,12 @@ func TestFlightReviewAppCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app",
-		ShortUsage: "asc testflight review app <subcommand> [flags]",
+		ShortUsage: "aso testflight review app <subcommand> [flags]",
 		ShortHelp:  "View the app for a beta app review detail.",
 		LongHelp: `View the app for a beta app review detail.
 
 Examples:
-  asc testflight review app get --id "DETAIL_ID"`,
+  aso testflight review app get --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -283,12 +283,12 @@ func TestFlightReviewAppGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight review app get --id \"DETAIL_ID\"",
+		ShortUsage: "aso testflight review app get --id \"DETAIL_ID\"",
 		ShortHelp:  "Get the app for a beta app review detail.",
 		LongHelp: `Get the app for a beta app review detail.
 
 Examples:
-  asc testflight review app get --id "DETAIL_ID"`,
+  aso testflight review app get --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -322,14 +322,14 @@ func TestFlightReviewSubmissionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submissions",
-		ShortUsage: "asc testflight review submissions <subcommand> [flags]",
+		ShortUsage: "aso testflight review submissions <subcommand> [flags]",
 		ShortHelp:  "View beta app review submissions.",
 		LongHelp: `View beta app review submissions.
 
 Examples:
-  asc testflight review submissions get --id "SUBMISSION_ID"
-  asc testflight review submissions build --id "SUBMISSION_ID"
-  asc testflight review submissions list --build "BUILD_ID"`,
+  aso testflight review submissions get --id "SUBMISSION_ID"
+  aso testflight review submissions build --id "SUBMISSION_ID"
+  aso testflight review submissions list --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -355,13 +355,13 @@ func TestFlightReviewSubmissionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc testflight review submissions list --build \"BUILD_ID\" [flags]",
+		ShortUsage: "aso testflight review submissions list --build \"BUILD_ID\" [flags]",
 		ShortHelp:  "List beta app review submissions.",
 		LongHelp: `List beta app review submissions.
 
 Examples:
-  asc testflight review submissions list --build "BUILD_ID"
-  asc testflight review submissions list --build "BUILD_ID" --paginate`,
+  aso testflight review submissions list --build "BUILD_ID"
+  aso testflight review submissions list --build "BUILD_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -428,12 +428,12 @@ func TestFlightReviewSubmissionsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight review submissions get --id \"SUBMISSION_ID\"",
+		ShortUsage: "aso testflight review submissions get --id \"SUBMISSION_ID\"",
 		ShortHelp:  "Get a beta app review submission by ID.",
 		LongHelp: `Get a beta app review submission by ID.
 
 Examples:
-  asc testflight review submissions get --id "SUBMISSION_ID"`,
+  aso testflight review submissions get --id "SUBMISSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -470,12 +470,12 @@ func TestFlightReviewSubmissionsBuildCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "build",
-		ShortUsage: "asc testflight review submissions build --id \"SUBMISSION_ID\"",
+		ShortUsage: "aso testflight review submissions build --id \"SUBMISSION_ID\"",
 		ShortHelp:  "Get the build for a beta app review submission.",
 		LongHelp: `Get the build for a beta app review submission.
 
 Examples:
-  asc testflight review submissions build --id "SUBMISSION_ID"`,
+  aso testflight review submissions build --id "SUBMISSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -509,13 +509,13 @@ func TestFlightBetaDetailsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "beta-details",
-		ShortUsage: "asc testflight beta-details <subcommand> [flags]",
+		ShortUsage: "aso testflight beta-details <subcommand> [flags]",
 		ShortHelp:  "Manage TestFlight build beta details.",
 		LongHelp: `Manage TestFlight build beta details.
 
 Examples:
-  asc testflight beta-details get --build "BUILD_ID"
-  asc testflight beta-details update --id "DETAIL_ID" --auto-notify`,
+  aso testflight beta-details get --build "BUILD_ID"
+  aso testflight beta-details update --id "DETAIL_ID" --auto-notify`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -540,12 +540,12 @@ func TestFlightBetaDetailsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight beta-details get [flags]",
+		ShortUsage: "aso testflight beta-details get [flags]",
 		ShortHelp:  "Fetch build beta details for a build.",
 		LongHelp: `Fetch build beta details for a build.
 
 Examples:
-  asc testflight beta-details get --build "BUILD_ID"`,
+  aso testflight beta-details get --build "BUILD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -592,12 +592,12 @@ func TestFlightBetaDetailsBuildCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "build",
-		ShortUsage: "asc testflight beta-details build <subcommand> [flags]",
+		ShortUsage: "aso testflight beta-details build <subcommand> [flags]",
 		ShortHelp:  "View the build for a build beta detail.",
 		LongHelp: `View the build for a build beta detail.
 
 Examples:
-  asc testflight beta-details build get --id "DETAIL_ID"`,
+  aso testflight beta-details build get --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -618,12 +618,12 @@ func TestFlightBetaDetailsBuildGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight beta-details build get --id \"DETAIL_ID\"",
+		ShortUsage: "aso testflight beta-details build get --id \"DETAIL_ID\"",
 		ShortHelp:  "Get the build for a build beta detail.",
 		LongHelp: `Get the build for a build beta detail.
 
 Examples:
-  asc testflight beta-details build get --id "DETAIL_ID"`,
+  aso testflight beta-details build get --id "DETAIL_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -667,13 +667,13 @@ func TestFlightBetaDetailsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc testflight beta-details update [flags]",
+		ShortUsage: "aso testflight beta-details update [flags]",
 		ShortHelp:  "Update build beta details.",
 		LongHelp: `Update build beta details.
 
 Examples:
-  asc testflight beta-details update --id "DETAIL_ID" --auto-notify
-  asc testflight beta-details update --id "DETAIL_ID" --external-testing true`,
+  aso testflight beta-details update --id "DETAIL_ID" --auto-notify
+  aso testflight beta-details update --id "DETAIL_ID" --external-testing true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -731,13 +731,13 @@ func TestFlightRecruitmentCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "recruitment",
-		ShortUsage: "asc testflight recruitment <subcommand> [flags]",
+		ShortUsage: "aso testflight recruitment <subcommand> [flags]",
 		ShortHelp:  "Manage TestFlight recruitment criteria.",
 		LongHelp: `Manage TestFlight recruitment criteria.
 
 Examples:
-  asc testflight recruitment options
-  asc testflight recruitment set --group "GROUP_ID" --os-version-filter "IPHONE=26,IPAD=26"`,
+  aso testflight recruitment options
+  aso testflight recruitment set --group "GROUP_ID" --os-version-filter "IPHONE=26,IPAD=26"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -761,12 +761,12 @@ func TestFlightRecruitmentDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc testflight recruitment delete --id \"CRITERIA_ID\" --confirm",
+		ShortUsage: "aso testflight recruitment delete --id \"CRITERIA_ID\" --confirm",
 		ShortHelp:  "Delete recruitment criteria.",
 		LongHelp: `Delete recruitment criteria.
 
 Examples:
-  asc testflight recruitment delete --id "CRITERIA_ID" --confirm`,
+  aso testflight recruitment delete --id "CRITERIA_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -813,12 +813,12 @@ func TestFlightRecruitmentOptionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "options",
-		ShortUsage: "asc testflight recruitment options [flags]",
+		ShortUsage: "aso testflight recruitment options [flags]",
 		ShortHelp:  "List recruitment criteria options.",
 		LongHelp: `List recruitment criteria options.
 
 Examples:
-  asc testflight recruitment options`,
+  aso testflight recruitment options`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -868,12 +868,12 @@ func TestFlightRecruitmentSetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set",
-		ShortUsage: "asc testflight recruitment set --group GROUP_ID --os-version-filter FILTERS",
+		ShortUsage: "aso testflight recruitment set --group GROUP_ID --os-version-filter FILTERS",
 		ShortHelp:  "Set recruitment criteria for a group.",
 		LongHelp: `Set recruitment criteria for a group.
 
 Examples:
-  asc testflight recruitment set --group "GROUP_ID" --os-version-filter "IPHONE=26,IPAD=26"`,
+  aso testflight recruitment set --group "GROUP_ID" --os-version-filter "IPHONE=26,IPAD=26"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1011,14 +1011,14 @@ func TestFlightMetricsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "metrics",
-		ShortUsage: "asc testflight metrics <subcommand> [flags]",
+		ShortUsage: "aso testflight metrics <subcommand> [flags]",
 		ShortHelp:  "Fetch TestFlight metrics.",
 		LongHelp: `Fetch TestFlight metrics.
 
 Examples:
-  asc testflight metrics public-link --group "GROUP_ID"
-  asc testflight metrics testers --group "GROUP_ID"
-  asc testflight metrics beta-tester-usages --app "APP_ID"`,
+  aso testflight metrics public-link --group "GROUP_ID"
+  aso testflight metrics testers --group "GROUP_ID"
+  aso testflight metrics beta-tester-usages --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1041,12 +1041,12 @@ func TestFlightMetricsPublicLinkCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "public-link",
-		ShortUsage: "asc testflight metrics public-link --group GROUP_ID",
+		ShortUsage: "aso testflight metrics public-link --group GROUP_ID",
 		ShortHelp:  "Fetch TestFlight public link usage metrics.",
 		LongHelp: `Fetch TestFlight public link usage metrics.
 
 Examples:
-  asc testflight metrics public-link --group "GROUP_ID"`,
+  aso testflight metrics public-link --group "GROUP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1083,12 +1083,12 @@ func TestFlightMetricsTestersCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "testers",
-		ShortUsage: "asc testflight metrics testers --group GROUP_ID",
+		ShortUsage: "aso testflight metrics testers --group GROUP_ID",
 		ShortHelp:  "Fetch TestFlight beta tester usage metrics.",
 		LongHelp: `Fetch TestFlight beta tester usage metrics.
 
 Examples:
-  asc testflight metrics testers --group "GROUP_ID"`,
+  aso testflight metrics testers --group "GROUP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

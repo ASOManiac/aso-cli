@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 var validPhasedReleaseStates = map[string]asc.PhasedReleaseState{
@@ -30,7 +30,7 @@ var validUpdateStates = []string{"ACTIVE", "PAUSED", "COMPLETE"}
 func PhasedReleaseCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "phased-release",
-		ShortUsage: "asc versions phased-release <subcommand> [flags]",
+		ShortUsage: "aso versions phased-release <subcommand> [flags]",
 		ShortHelp:  "Manage phased release for app store versions.",
 		LongHelp: `Manage phased release for app store versions.
 
@@ -40,10 +40,10 @@ Phased release gradually rolls out your app update over 7 days:
 You can pause, resume, or complete the rollout at any time.
 
 Examples:
-  asc versions phased-release get --version-id "VERSION_ID"
-  asc versions phased-release create --version-id "VERSION_ID"
-  asc versions phased-release update --id "PHASED_ID" --state PAUSED
-  asc versions phased-release delete --id "PHASED_ID" --confirm`,
+  aso versions phased-release get --version-id "VERSION_ID"
+  aso versions phased-release create --version-id "VERSION_ID"
+  aso versions phased-release update --id "PHASED_ID" --state PAUSED
+  aso versions phased-release delete --id "PHASED_ID" --confirm`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			PhasedReleaseGetCommand(),
@@ -66,12 +66,12 @@ func PhasedReleaseGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc versions phased-release get [flags]",
+		ShortUsage: "aso versions phased-release get [flags]",
 		ShortHelp:  "Get phased release status for an app store version.",
 		LongHelp: `Get phased release status for an app store version.
 
 Examples:
-  asc versions phased-release get --version-id "VERSION_ID"`,
+  aso versions phased-release get --version-id "VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -109,7 +109,7 @@ func PhasedReleaseCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc versions phased-release create [flags]",
+		ShortUsage: "aso versions phased-release create [flags]",
 		ShortHelp:  "Create a phased release for an app store version.",
 		LongHelp: `Create a phased release for an app store version.
 
@@ -117,8 +117,8 @@ The phased release will start when the app is released to the App Store.
 Use --state ACTIVE to start immediately, or leave empty to start as INACTIVE.
 
 Examples:
-  asc versions phased-release create --version-id "VERSION_ID"
-  asc versions phased-release create --version-id "VERSION_ID" --state ACTIVE`,
+  aso versions phased-release create --version-id "VERSION_ID"
+  aso versions phased-release create --version-id "VERSION_ID" --state ACTIVE`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -167,7 +167,7 @@ func PhasedReleaseUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc versions phased-release update [flags]",
+		ShortUsage: "aso versions phased-release update [flags]",
 		ShortHelp:  "Update a phased release state.",
 		LongHelp: `Update a phased release state.
 
@@ -177,9 +177,9 @@ States:
   COMPLETE - Release to all users immediately
 
 Examples:
-  asc versions phased-release update --id "PHASED_ID" --state PAUSED
-  asc versions phased-release update --id "PHASED_ID" --state ACTIVE
-  asc versions phased-release update --id "PHASED_ID" --state COMPLETE`,
+  aso versions phased-release update --id "PHASED_ID" --state PAUSED
+  aso versions phased-release update --id "PHASED_ID" --state ACTIVE
+  aso versions phased-release update --id "PHASED_ID" --state COMPLETE`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -229,7 +229,7 @@ func PhasedReleaseDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc versions phased-release delete [flags]",
+		ShortUsage: "aso versions phased-release delete [flags]",
 		ShortHelp:  "Delete a phased release.",
 		LongHelp: `Delete a phased release.
 
@@ -237,7 +237,7 @@ This removes the phased release configuration. The app will release to all users
 immediately when it goes live (no gradual rollout).
 
 Examples:
-  asc versions phased-release delete --id "PHASED_ID" --confirm`,
+  aso versions phased-release delete --id "PHASED_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -13,8 +13,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type includeSet struct {
@@ -137,7 +137,7 @@ func StatusCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "status",
-		ShortUsage: "asc status [flags]",
+		ShortUsage: "aso status [flags]",
 		ShortHelp:  "Show a release pipeline dashboard for an app.",
 		LongHelp: `Show a release pipeline dashboard for an app.
 
@@ -145,11 +145,11 @@ This command aggregates release signals into one deterministic payload for CI,
 agents, and human review.
 
 Examples:
-  asc status --app "123456789"
-  asc status --app "com.example.app"
-  asc status --app "My App"
-  asc status --app "123456789" --include builds,testflight,submission
-  asc status --app "123456789" --output table`,
+  aso status --app "123456789"
+  aso status --app "com.example.app"
+  aso status --app "My App"
+  aso status --app "123456789" --include builds,testflight,submission
+  aso status --app "123456789" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

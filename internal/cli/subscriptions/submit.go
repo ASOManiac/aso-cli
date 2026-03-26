@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SubscriptionsSubmitCommand returns the subscriptions submit subcommand.
@@ -21,12 +21,12 @@ func SubscriptionsSubmitCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submit",
-		ShortUsage: "asc subscriptions submit --subscription-id \"SUB_ID\" --confirm",
+		ShortUsage: "aso subscriptions submit --subscription-id \"SUB_ID\" --confirm",
 		ShortHelp:  "Submit a subscription for review.",
 		LongHelp: `Submit a subscription for review.
 
 Examples:
-  asc subscriptions submit --subscription-id "SUB_ID" --confirm`,
+  aso subscriptions submit --subscription-id "SUB_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -68,12 +68,12 @@ func SubscriptionsGroupsSubmitCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submit",
-		ShortUsage: "asc subscriptions groups submit --group-id \"GROUP_ID\" --confirm",
+		ShortUsage: "aso subscriptions groups submit --group-id \"GROUP_ID\" --confirm",
 		ShortHelp:  "Submit a subscription group for review.",
 		LongHelp: `Submit a subscription group for review.
 
 Examples:
-  asc subscriptions groups submit --group-id "GROUP_ID" --confirm`,
+  aso subscriptions groups submit --group-id "GROUP_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

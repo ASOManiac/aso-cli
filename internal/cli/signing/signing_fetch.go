@@ -13,8 +13,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SigningFetchCommand returns the signing fetch subcommand.
@@ -32,7 +32,7 @@ func SigningFetchCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "fetch",
-		ShortUsage: "asc signing fetch [flags]",
+		ShortUsage: "aso signing fetch [flags]",
 		ShortHelp:  "Fetch signing files (certificates + profiles) for an app.",
 		LongHelp: `Fetch signing certificates and provisioning profiles for an app.
 
@@ -43,9 +43,9 @@ With --create-missing, it will create a new profile if none exist for the
 specified configuration.
 
 Examples:
-  asc signing fetch --bundle-id com.example.app --profile-type IOS_APP_STORE --output ./signing
-  asc signing fetch --bundle-id com.example.app --profile-type IOS_APP_DEVELOPMENT --device "DEVICE1,DEVICE2"
-  asc signing fetch --bundle-id com.example.app --profile-type IOS_APP_STORE --create-missing`,
+  aso signing fetch --bundle-id com.example.app --profile-type IOS_APP_STORE --output ./signing
+  aso signing fetch --bundle-id com.example.app --profile-type IOS_APP_DEVELOPMENT --device "DEVICE1,DEVICE2"
+  aso signing fetch --bundle-id com.example.app --profile-type IOS_APP_STORE --create-missing`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

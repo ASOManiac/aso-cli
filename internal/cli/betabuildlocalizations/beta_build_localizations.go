@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BetaBuildLocalizationsCommand returns the beta-build-localizations command group.
@@ -19,11 +19,11 @@ func BetaBuildLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "beta-build-localizations",
-		ShortUsage: "asc beta-build-localizations <subcommand> [flags]",
-		ShortHelp:  "DEPRECATED: use `asc builds test-notes ...`.",
+		ShortUsage: "aso beta-build-localizations <subcommand> [flags]",
+		ShortHelp:  "DEPRECATED: use `aso builds test-notes ...`.",
 		LongHelp: `Deprecated compatibility layer for TestFlight What to Test notes.
 
-Canonical build-scoped workflows now live under ` + "`asc builds test-notes ...`" + `.
+Canonical build-scoped workflows now live under ` + "`aso builds test-notes ...`" + `.
 
 Legacy-only behaviors still remain here during the transition:
 - ` + "`beta-build-localizations list --global`" + `
@@ -32,41 +32,41 @@ Legacy-only behaviors still remain here during the transition:
 - ` + "`beta-build-localizations build get`" + `
 
 Examples:
-  asc builds test-notes list --build "BUILD_ID"
-  asc builds test-notes view --id "LOCALIZATION_ID"
-  asc builds test-notes create --build "BUILD_ID" --locale "en-US" --whats-new "Test instructions"`,
+  aso builds test-notes list --build "BUILD_ID"
+  aso builds test-notes view --id "LOCALIZATION_ID"
+  aso builds test-notes create --build "BUILD_ID" --locale "en-US" --whats-new "Test instructions"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
 			deprecatedBetaBuildLocalizationsLeafCommand(
 				BetaBuildLocalizationsListCommand(),
-				"asc builds test-notes list",
-				"Warning: `asc beta-build-localizations list` is deprecated. Use `asc builds test-notes list` for build-scoped workflows. `--global` remains legacy-only during transition.",
+				"aso builds test-notes list",
+				"Warning: `aso beta-build-localizations list` is deprecated. Use `aso builds test-notes list` for build-scoped workflows. `--global` remains legacy-only during transition.",
 			),
 			deprecatedBetaBuildLocalizationsLeafCommand(
 				BetaBuildLocalizationsGetCommand(),
-				"asc builds test-notes view",
-				"Warning: `asc beta-build-localizations get` is deprecated. Use `asc builds test-notes view` for ID-based lookups. `--latest` remains legacy-only during transition.",
+				"aso builds test-notes view",
+				"Warning: `aso beta-build-localizations get` is deprecated. Use `aso builds test-notes view` for ID-based lookups. `--latest` remains legacy-only during transition.",
 			),
 			BetaBuildLocalizationsBuildCommand(),
 			deprecatedBetaBuildLocalizationsLeafCommand(
 				BetaBuildLocalizationsCreateCommand(),
-				"asc builds test-notes create",
-				"Warning: `asc beta-build-localizations create` is deprecated. Use `asc builds test-notes create` for build-scoped workflows. `--latest` remains legacy-only during transition.",
+				"aso builds test-notes create",
+				"Warning: `aso beta-build-localizations create` is deprecated. Use `aso builds test-notes create` for build-scoped workflows. `--latest` remains legacy-only during transition.",
 			),
 			deprecatedBetaBuildLocalizationsLeafCommand(
 				BetaBuildLocalizationsUpdateCommand(),
-				"asc builds test-notes update",
-				"Warning: `asc beta-build-localizations update` is deprecated. Use `asc builds test-notes update`.",
+				"aso builds test-notes update",
+				"Warning: `aso beta-build-localizations update` is deprecated. Use `aso builds test-notes update`.",
 			),
 			deprecatedBetaBuildLocalizationsLeafCommand(
 				BetaBuildLocalizationsDeleteCommand(),
-				"asc builds test-notes delete",
-				"Warning: `asc beta-build-localizations delete` is deprecated. Use `asc builds test-notes delete`.",
+				"aso builds test-notes delete",
+				"Warning: `aso beta-build-localizations delete` is deprecated. Use `aso builds test-notes delete`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {
-			fmt.Fprintln(os.Stderr, "Warning: `asc beta-build-localizations` is deprecated. Use `asc builds test-notes ...` for canonical build-scoped workflows.")
+			fmt.Fprintln(os.Stderr, "Warning: `aso beta-build-localizations` is deprecated. Use `aso builds test-notes ...` for canonical build-scoped workflows.")
 			return flag.ErrHelp
 		},
 	}
@@ -86,16 +86,16 @@ func BetaBuildLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc beta-build-localizations list [flags]",
+		ShortUsage: "aso beta-build-localizations list [flags]",
 		ShortHelp:  "List beta build localizations for a build or globally.",
 		LongHelp: `List beta build localizations for a build or globally.
 
 Examples:
-  asc beta-build-localizations list --build "BUILD_ID"
-  asc beta-build-localizations list --build "BUILD_ID" --locale "en-US,ja"
-  asc beta-build-localizations list --build "BUILD_ID" --paginate
-  asc beta-build-localizations list --global
-  asc beta-build-localizations list --global --paginate`,
+  aso beta-build-localizations list --build "BUILD_ID"
+  aso beta-build-localizations list --build "BUILD_ID" --locale "en-US,ja"
+  aso beta-build-localizations list --build "BUILD_ID" --paginate
+  aso beta-build-localizations list --global
+  aso beta-build-localizations list --global --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -205,14 +205,14 @@ func BetaBuildLocalizationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc beta-build-localizations get --id \"LOCALIZATION_ID\" | --app \"APP_ID\" --latest [flags]",
+		ShortUsage: "aso beta-build-localizations get --id \"LOCALIZATION_ID\" | --app \"APP_ID\" --latest [flags]",
 		ShortHelp:  "Get a beta build localization by ID.",
 		LongHelp: `Get a beta build localization by ID or by latest build for an app.
 
 Examples:
-  asc beta-build-localizations get --id "LOCALIZATION_ID"
-  asc beta-build-localizations get --app "123456789" --latest --state "PROCESSING,COMPLETE"
-  asc beta-build-localizations get --app "123456789" --latest --state "PROCESSING,COMPLETE" --locale "en-US"`,
+  aso beta-build-localizations get --id "LOCALIZATION_ID"
+  aso beta-build-localizations get --app "123456789" --latest --state "PROCESSING,COMPLETE"
+  aso beta-build-localizations get --app "123456789" --latest --state "PROCESSING,COMPLETE" --locale "en-US"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -329,14 +329,14 @@ func BetaBuildLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc beta-build-localizations create [flags]",
+		ShortUsage: "aso beta-build-localizations create [flags]",
 		ShortHelp:  "Create a beta build localization.",
 		LongHelp: `Create a beta build localization.
 
 Examples:
-  asc beta-build-localizations create --build "BUILD_ID" --locale "en-US" --whats-new "Test instructions"
-  asc beta-build-localizations create --app "123456789" --latest --state "PROCESSING,COMPLETE" --locale "en-US" --whats-new "Test instructions"
-  asc beta-build-localizations create --build "BUILD_ID" --locale "en-US" --whats-new "Test instructions" --upsert`,
+  aso beta-build-localizations create --build "BUILD_ID" --locale "en-US" --whats-new "Test instructions"
+  aso beta-build-localizations create --app "123456789" --latest --state "PROCESSING,COMPLETE" --locale "en-US" --whats-new "Test instructions"
+  aso beta-build-localizations create --build "BUILD_ID" --locale "en-US" --whats-new "Test instructions" --upsert`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -432,12 +432,12 @@ func BetaBuildLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc beta-build-localizations update [flags]",
+		ShortUsage: "aso beta-build-localizations update [flags]",
 		ShortHelp:  "Update a beta build localization.",
 		LongHelp: `Update a beta build localization.
 
 Examples:
-  asc beta-build-localizations update --id "LOCALIZATION_ID" --whats-new "Updated notes"`,
+  aso beta-build-localizations update --id "LOCALIZATION_ID" --whats-new "Updated notes"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -485,12 +485,12 @@ func BetaBuildLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc beta-build-localizations delete --id \"LOCALIZATION_ID\" --confirm",
+		ShortUsage: "aso beta-build-localizations delete --id \"LOCALIZATION_ID\" --confirm",
 		ShortHelp:  "Delete a beta build localization.",
 		LongHelp: `Delete a beta build localization.
 
 Examples:
-  asc beta-build-localizations delete --id "LOCALIZATION_ID" --confirm`,
+  aso beta-build-localizations delete --id "LOCALIZATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BetaAppLocalizationsCommand returns the beta-app-localizations command group.
@@ -19,13 +19,13 @@ func BetaAppLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "beta-app-localizations",
-		ShortUsage: "asc beta-app-localizations <subcommand> [flags]",
+		ShortUsage: "aso beta-app-localizations <subcommand> [flags]",
 		ShortHelp:  "Manage TestFlight beta app localizations.",
 		LongHelp: `Manage TestFlight beta app localizations.
 
 Examples:
-  asc beta-app-localizations list --app "APP_ID"
-  asc beta-app-localizations create --app "APP_ID" --locale "en-US" --description "Welcome testers"`,
+  aso beta-app-localizations list --app "APP_ID"
+  aso beta-app-localizations create --app "APP_ID" --locale "en-US" --description "Welcome testers"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -55,14 +55,14 @@ func BetaAppLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc beta-app-localizations list [flags]",
+		ShortUsage: "aso beta-app-localizations list [flags]",
 		ShortHelp:  "List beta app localizations for an app.",
 		LongHelp: `List beta app localizations for an app.
 
 Examples:
-  asc beta-app-localizations list --app "APP_ID"
-  asc beta-app-localizations list --app "APP_ID" --locale "en-US,ja"
-  asc beta-app-localizations list --app "APP_ID" --paginate`,
+  aso beta-app-localizations list --app "APP_ID"
+  aso beta-app-localizations list --app "APP_ID" --locale "en-US,ja"
+  aso beta-app-localizations list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -138,12 +138,12 @@ func BetaAppLocalizationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc beta-app-localizations get --id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso beta-app-localizations get --id \"LOCALIZATION_ID\"",
 		ShortHelp:  "Get a beta app localization by ID.",
 		LongHelp: `Get a beta app localization by ID.
 
 Examples:
-  asc beta-app-localizations get --id "LOCALIZATION_ID"`,
+  aso beta-app-localizations get --id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -186,13 +186,13 @@ func BetaAppLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc beta-app-localizations create [flags]",
+		ShortUsage: "aso beta-app-localizations create [flags]",
 		ShortHelp:  "Create a beta app localization.",
 		LongHelp: `Create a beta app localization.
 
 Examples:
-  asc beta-app-localizations create --app "APP_ID" --locale "en-US"
-  asc beta-app-localizations create --app "APP_ID" --locale "en-US" --description "Welcome testers"`,
+  aso beta-app-localizations create --app "APP_ID" --locale "en-US"
+  aso beta-app-localizations create --app "APP_ID" --locale "en-US" --description "Welcome testers"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -263,13 +263,13 @@ func BetaAppLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc beta-app-localizations update [flags]",
+		ShortUsage: "aso beta-app-localizations update [flags]",
 		ShortHelp:  "Update a beta app localization.",
 		LongHelp: `Update a beta app localization.
 
 Examples:
-  asc beta-app-localizations update --id "LOCALIZATION_ID" --description "Updated copy"
-  asc beta-app-localizations update --id "LOCALIZATION_ID" --feedback-email "qa@example.com"`,
+  aso beta-app-localizations update --id "LOCALIZATION_ID" --description "Updated copy"
+  aso beta-app-localizations update --id "LOCALIZATION_ID" --feedback-email "qa@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -344,12 +344,12 @@ func BetaAppLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc beta-app-localizations delete --id \"LOCALIZATION_ID\" --confirm",
+		ShortUsage: "aso beta-app-localizations delete --id \"LOCALIZATION_ID\" --confirm",
 		ShortHelp:  "Delete a beta app localization.",
 		LongHelp: `Delete a beta app localization.
 
 Examples:
-  asc beta-app-localizations delete --id "LOCALIZATION_ID" --confirm`,
+  aso beta-app-localizations delete --id "LOCALIZATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

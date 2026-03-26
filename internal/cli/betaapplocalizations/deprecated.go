@@ -8,10 +8,10 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
-const betaAppLocalizationsCanonicalRoot = "asc testflight app-localizations"
+const betaAppLocalizationsCanonicalRoot = "aso testflight app-localizations"
 
 // DeprecatedBetaAppLocalizationsCommand returns the hidden compatibility root.
 func DeprecatedBetaAppLocalizationsCommand() *ffcli.Command {
@@ -20,14 +20,14 @@ func DeprecatedBetaAppLocalizationsCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "beta-app-localizations",
 		ShortUsage: betaAppLocalizationsCanonicalRoot + " <subcommand> [flags]",
-		ShortHelp:  "DEPRECATED: use `asc testflight app-localizations ...`.",
+		ShortHelp:  "DEPRECATED: use `aso testflight app-localizations ...`.",
 		LongHelp: `Deprecated compatibility alias for TestFlight app localizations.
 
-Canonical workflows now live under ` + "`asc testflight app-localizations ...`" + `.
+Canonical workflows now live under ` + "`aso testflight app-localizations ...`" + `.
 
 Examples:
-  asc testflight app-localizations list --app "APP_ID"
-  asc testflight app-localizations create --app "APP_ID" --locale "en-US" --description "Welcome testers"`,
+  aso testflight app-localizations list --app "APP_ID"
+  aso testflight app-localizations create --app "APP_ID" --locale "en-US" --description "Welcome testers"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -35,36 +35,36 @@ Examples:
 				BetaAppLocalizationsListCommand(),
 				betaAppLocalizationsCanonicalRoot+" list [flags]",
 				betaAppLocalizationsCanonicalRoot+" list",
-				"Warning: `asc beta-app-localizations list` is deprecated. Use `asc testflight app-localizations list`.",
+				"Warning: `aso beta-app-localizations list` is deprecated. Use `aso testflight app-localizations list`.",
 			),
 			deprecatedBetaAppLocalizationsLeafCommand(
 				BetaAppLocalizationsGetCommand(),
 				betaAppLocalizationsCanonicalRoot+" view --id \"LOCALIZATION_ID\"",
 				betaAppLocalizationsCanonicalRoot+" view",
-				"Warning: `asc beta-app-localizations get` is deprecated. Use `asc testflight app-localizations view`.",
+				"Warning: `aso beta-app-localizations get` is deprecated. Use `aso testflight app-localizations view`.",
 			),
 			deprecatedBetaAppLocalizationsAppCommand(),
 			deprecatedBetaAppLocalizationsLeafCommand(
 				BetaAppLocalizationsCreateCommand(),
 				betaAppLocalizationsCanonicalRoot+" create [flags]",
 				betaAppLocalizationsCanonicalRoot+" create",
-				"Warning: `asc beta-app-localizations create` is deprecated. Use `asc testflight app-localizations create`.",
+				"Warning: `aso beta-app-localizations create` is deprecated. Use `aso testflight app-localizations create`.",
 			),
 			deprecatedBetaAppLocalizationsLeafCommand(
 				BetaAppLocalizationsUpdateCommand(),
 				betaAppLocalizationsCanonicalRoot+" update [flags]",
 				betaAppLocalizationsCanonicalRoot+" update",
-				"Warning: `asc beta-app-localizations update` is deprecated. Use `asc testflight app-localizations update`.",
+				"Warning: `aso beta-app-localizations update` is deprecated. Use `aso testflight app-localizations update`.",
 			),
 			deprecatedBetaAppLocalizationsLeafCommand(
 				BetaAppLocalizationsDeleteCommand(),
 				betaAppLocalizationsCanonicalRoot+" delete --id \"LOCALIZATION_ID\" --confirm",
 				betaAppLocalizationsCanonicalRoot+" delete",
-				"Warning: `asc beta-app-localizations delete` is deprecated. Use `asc testflight app-localizations delete`.",
+				"Warning: `aso beta-app-localizations delete` is deprecated. Use `aso testflight app-localizations delete`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {
-			fmt.Fprintln(os.Stderr, "Warning: `asc beta-app-localizations` is deprecated. Use `asc testflight app-localizations ...`.")
+			fmt.Fprintln(os.Stderr, "Warning: `aso beta-app-localizations` is deprecated. Use `aso testflight app-localizations ...`.")
 			return flag.ErrHelp
 		},
 	}
@@ -76,8 +76,8 @@ func deprecatedBetaAppLocalizationsAppCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "app",
 		ShortUsage: betaAppLocalizationsCanonicalRoot + " app <subcommand> [flags]",
-		ShortHelp:  "Compatibility alias: use `asc testflight app-localizations app view`.",
-		LongHelp:   "Compatibility alias: use `asc testflight app-localizations app view --id LOCALIZATION_ID`.",
+		ShortHelp:  "Compatibility alias: use `aso testflight app-localizations app view`.",
+		LongHelp:   "Compatibility alias: use `aso testflight app-localizations app view --id LOCALIZATION_ID`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -85,7 +85,7 @@ func deprecatedBetaAppLocalizationsAppCommand() *ffcli.Command {
 				BetaAppLocalizationsAppGetCommand(),
 				betaAppLocalizationsCanonicalRoot+" app view --id \"LOCALIZATION_ID\"",
 				betaAppLocalizationsCanonicalRoot+" app view",
-				"Warning: `asc beta-app-localizations app get` is deprecated. Use `asc testflight app-localizations app view`.",
+				"Warning: `aso beta-app-localizations app get` is deprecated. Use `aso testflight app-localizations app view`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {

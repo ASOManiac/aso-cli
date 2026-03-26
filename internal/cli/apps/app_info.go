@@ -15,8 +15,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppsInfoCommand returns the apps info command with subcommands.
@@ -25,15 +25,15 @@ func AppsInfoCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "info",
-		ShortUsage: "asc apps info <subcommand> [flags]",
+		ShortUsage: "aso apps info <subcommand> [flags]",
 		ShortHelp:  "Manage App Store version metadata.",
 		LongHelp: `Manage App Store version metadata like description, keywords, and what's new.
 
 Examples:
-  asc apps info list --app "APP_ID"
-  asc apps info view --app "APP_ID"
-  asc apps info view --app "APP_ID" --version "1.2.3" --platform IOS
-  asc apps info edit --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"`,
+  aso apps info list --app "APP_ID"
+  aso apps info view --app "APP_ID"
+  aso apps info view --app "APP_ID" --version "1.2.3" --platform IOS
+  aso apps info edit --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -69,7 +69,7 @@ func AppsInfoViewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "view",
-		ShortUsage: "asc apps info view [flags]",
+		ShortUsage: "aso apps info view [flags]",
 		ShortHelp:  "View app store version localization metadata.",
 		LongHelp: `Get App Store version localization metadata.
 
@@ -77,12 +77,12 @@ If multiple versions exist and no --version-id/--version is provided, the most
 recently created version is used.
 
 Examples:
-  asc apps info view --app "APP_ID"
-  asc apps info view --app "APP_ID" --version "1.2.3" --platform IOS
-  asc apps info view --version-id "VERSION_ID"
-  asc apps info view --info-id "APP_INFO_ID" --include "ageRatingDeclaration"
-  asc apps info view --app "APP_ID" --include "ageRatingDeclaration,territoryAgeRatings"
-  asc apps info view --app "APP_ID" --locale "en-US" --output table`,
+  aso apps info view --app "APP_ID"
+  aso apps info view --app "APP_ID" --version "1.2.3" --platform IOS
+  aso apps info view --version-id "VERSION_ID"
+  aso apps info view --info-id "APP_INFO_ID" --include "ageRatingDeclaration"
+  aso apps info view --app "APP_ID" --include "ageRatingDeclaration,territoryAgeRatings"
+  aso apps info view --app "APP_ID" --locale "en-US" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -236,17 +236,17 @@ func AppsInfoEditCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "edit",
-		ShortUsage: "asc apps info edit [flags]",
+		ShortUsage: "aso apps info edit [flags]",
 		ShortHelp:  "Create or update app store version metadata.",
 		LongHelp: `Create or update App Store version metadata.
 
 Examples:
-  asc apps info edit --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"
-  asc apps info edit --app "APP_ID" --locale "fr-FR" --copy-from-locale "en-US" --whats-new "Corrections"
-  asc apps info edit --app "APP_ID" --version "1.2.3" --platform IOS --locale "en-US" --description "New release"
-  asc apps info edit --app "APP_ID" --version "1.2.3" --platform IOS --locales "en-US,de-DE" --whats-new "Bug fixes"
-  asc apps info edit --app "APP_ID" --version "1.2.3" --platform IOS --from-dir "./metadata/version/1.2.3"
-  asc apps info edit --app "APP_ID" --locales "en-US,de-DE" --whats-new "Bug fixes" --dry-run`,
+  aso apps info edit --app "APP_ID" --locale "en-US" --whats-new "Bug fixes"
+  aso apps info edit --app "APP_ID" --locale "fr-FR" --copy-from-locale "en-US" --whats-new "Corrections"
+  aso apps info edit --app "APP_ID" --version "1.2.3" --platform IOS --locale "en-US" --description "New release"
+  aso apps info edit --app "APP_ID" --version "1.2.3" --platform IOS --locales "en-US,de-DE" --whats-new "Bug fixes"
+  aso apps info edit --app "APP_ID" --version "1.2.3" --platform IOS --from-dir "./metadata/version/1.2.3"
+  aso apps info edit --app "APP_ID" --locales "en-US,de-DE" --whats-new "Bug fixes" --dry-run`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -832,7 +832,7 @@ func warnAppInfoSetSubmitIncompleteLocale(locale string, attrs asc.AppStoreVersi
 
 	fmt.Fprintf(
 		os.Stderr,
-		"Warning: locale %s is missing submit-required fields: %s. This may block `asc submit create`.\n",
+		"Warning: locale %s is missing submit-required fields: %s. This may block `aso submit create`.\n",
 		locale,
 		strings.Join(missing, ", "),
 	)

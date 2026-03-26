@@ -10,9 +10,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/itunes"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/itunes"
 )
 
 // ReviewsRatingsCommand returns the reviews ratings subcommand.
@@ -27,7 +27,7 @@ func ReviewsRatingsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "ratings",
-		ShortUsage: "asc reviews ratings [flags]",
+		ShortUsage: "aso reviews ratings [flags]",
 		ShortHelp:  "Show App Store rating statistics.",
 		LongHelp: `Show App Store rating statistics using the public iTunes API.
 
@@ -37,11 +37,11 @@ histogram) that is not available through the App Store Connect API.
 No authentication is required.
 
 Examples:
-  asc reviews ratings --app "1479784361"
-  asc reviews ratings --app "1479784361" --country de
-  asc reviews ratings --app "1479784361" --output table
-  asc reviews ratings --app "1479784361" --all
-  asc reviews ratings --app "1479784361" --all --workers 20`,
+  aso reviews ratings --app "1479784361"
+  aso reviews ratings --app "1479784361" --country de
+  aso reviews ratings --app "1479784361" --output table
+  aso reviews ratings --app "1479784361" --all
+  aso reviews ratings --app "1479784361" --all --workers 20`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,9 +9,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/insights"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/insights"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 type compareResponse struct {
@@ -67,7 +67,7 @@ func AnalyticsCompareCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "compare",
-		ShortUsage: "asc analytics compare [flags]",
+		ShortUsage: "aso analytics compare [flags]",
 		ShortHelp:  "Compare sales metrics between two date ranges.",
 		LongHelp: `Compare sales metrics between two date ranges.
 
@@ -79,9 +79,9 @@ For WEEKLY frequency, each boundary must be a Monday (week start) or Sunday
 parse successfully before comparison output is produced.
 
 Examples:
-  asc analytics compare --source sales --vendor "12345678" --app "123456789" --from "2026-01-01" --to "2026-02-01" --frequency DAILY
-  asc analytics compare --source sales --vendor "12345678" --app "123456789" --from "2026-01" --to "2026-02" --frequency MONTHLY --output table
-  asc analytics compare --source sales --vendor "12345678" --app "123456789" --from "2026-01-01" --from-end "2026-01-31" --to "2026-02-01" --to-end "2026-02-28" --frequency DAILY --output json --pretty`,
+  aso analytics compare --source sales --vendor "12345678" --app "123456789" --from "2026-01-01" --to "2026-02-01" --frequency DAILY
+  aso analytics compare --source sales --vendor "12345678" --app "123456789" --from "2026-01" --to "2026-02" --frequency MONTHLY --output table
+  aso analytics compare --source sales --vendor "12345678" --app "123456789" --from "2026-01-01" --from-end "2026-01-31" --to "2026-02-01" --to-end "2026-02-28" --frequency DAILY --output json --pretty`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

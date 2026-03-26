@@ -79,7 +79,7 @@ func TestIssueTitle(t *testing.T) {
 	}{
 		{"bug", "crashes command fails", "crashes command fails"},
 		{"friction", "need --output table everywhere", "Friction: need --output table everywhere"},
-		{"feature-request", "add asc snitch command", "Feature: add asc snitch command"},
+		{"feature-request", "add aso snitch command", "Feature: add aso snitch command"},
 	}
 
 	for _, tt := range tests {
@@ -112,7 +112,7 @@ func TestIssueLabelsIncludesCustomLabelsWithoutDuplicates(t *testing.T) {
 func TestIssueBody(t *testing.T) {
 	e := LogEntry{
 		Description: "crashes --app doesn't support bundle ID",
-		Repro:       `asc crashes --app "com.example.app"`,
+		Repro:       `aso crashes --app "com.example.app"`,
 		Expected:    "Bundle ID should resolve",
 		Actual:      "Error: AppId is invalid",
 		Severity:    "bug",
@@ -126,7 +126,7 @@ func TestIssueBody(t *testing.T) {
 		"## Summary",
 		"crashes --app doesn't support bundle ID",
 		"## Reproduction",
-		`asc crashes --app "com.example.app"`,
+		`aso crashes --app "com.example.app"`,
 		"## Expected behavior",
 		"Bundle ID should resolve",
 		"## Actual behavior",
@@ -134,7 +134,7 @@ func TestIssueBody(t *testing.T) {
 		"## Environment",
 		"0.37.2",
 		"darwin/arm64",
-		"`asc snitch`",
+		"`aso snitch`",
 	}
 
 	for _, check := range checks {
@@ -202,7 +202,7 @@ func TestSearchIssues(t *testing.T) {
 				{
 					"number":   42,
 					"title":    "crashes --app doesn't support bundle ID",
-					"html_url": "https://github.com/rudrankriyam/App-Store-Connect-CLI/issues/42",
+					"html_url": "https://github.com/ASOManiac/aso-cli/issues/42",
 					"state":    "open",
 				},
 			},
@@ -300,7 +300,7 @@ func TestSnitchCommandConfirmCreatesIssue(t *testing.T) {
 			resp := map[string]any{
 				"number":   77,
 				"title":    "confirmed issue",
-				"html_url": "https://github.com/rudrankriyam/App-Store-Connect-CLI/issues/77",
+				"html_url": "https://github.com/ASOManiac/aso-cli/issues/77",
 			}
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusCreated)
@@ -379,7 +379,7 @@ func TestSnitchCommandConfirmCreatesIssueWhenLabelsCannotBeApplied(t *testing.T)
 			resp := map[string]any{
 				"number":   77,
 				"title":    "confirmed issue",
-				"html_url": "https://github.com/rudrankriyam/App-Store-Connect-CLI/issues/77",
+				"html_url": "https://github.com/ASOManiac/aso-cli/issues/77",
 			}
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusCreated)
@@ -447,7 +447,7 @@ func TestCreateIssue(t *testing.T) {
 		resp := map[string]any{
 			"number":   99,
 			"title":    receivedPayload["title"],
-			"html_url": "https://github.com/rudrankriyam/App-Store-Connect-CLI/issues/99",
+			"html_url": "https://github.com/ASOManiac/aso-cli/issues/99",
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
@@ -708,7 +708,7 @@ func TestReadLocalLogAndFormatEntries(t *testing.T) {
 	entry := LogEntry{
 		Description: "status command needs bundle ID support",
 		Severity:    "friction",
-		Repro:       `asc status --app "com.example.app"`,
+		Repro:       `aso status --app "com.example.app"`,
 		Expected:    "Bundle ID resolution should work",
 		Actual:      "Error: app not found",
 		Timestamp:   time.Date(2026, 3, 7, 12, 0, 0, 0, time.UTC),
@@ -738,7 +738,7 @@ func TestReadLocalLogAndFormatEntries(t *testing.T) {
 		"ASC version: 1.2.3",
 		"OS: darwin/arm64",
 		"Reproduction:",
-		`asc status --app "com.example.app"`,
+		`aso status --app "com.example.app"`,
 		"Expected:",
 		"Bundle ID resolution should work",
 		"Actual:",

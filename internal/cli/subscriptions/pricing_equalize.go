@@ -14,8 +14,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const defaultEqualizeWorkers = 8
@@ -36,7 +36,7 @@ func SubscriptionsPricingEqualizeCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "equalize",
-		ShortUsage: "asc subscriptions pricing equalize [flags]",
+		ShortUsage: "aso subscriptions pricing equalize [flags]",
 		ShortHelp:  "Set equalized prices for all territories from a base price.",
 		LongHelp: `Set equalized prices for all territories from a base price.
 
@@ -46,10 +46,10 @@ operation. This replaces the manual process of exporting equalizations and
 importing a CSV.
 
 Examples:
-  asc subscriptions pricing equalize --subscription-id "SUB_ID" --base-price "3.49" --confirm
-  asc subscriptions pricing equalize --subscription-id "SUB_ID" --base-price "38.49" --base-territory "USA" --confirm
-  asc subscriptions pricing equalize --subscription-id "SUB_ID" --base-price "3.49" --dry-run
-  asc subscriptions pricing equalize --subscription-id "SUB_ID" --base-price "3.49" --confirm --workers 16`,
+  aso subscriptions pricing equalize --subscription-id "SUB_ID" --base-price "3.49" --confirm
+  aso subscriptions pricing equalize --subscription-id "SUB_ID" --base-price "38.49" --base-territory "USA" --confirm
+  aso subscriptions pricing equalize --subscription-id "SUB_ID" --base-price "3.49" --dry-run
+  aso subscriptions pricing equalize --subscription-id "SUB_ID" --base-price "3.49" --confirm --workers 16`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -379,7 +379,7 @@ func validateEqualizeAvailability(ctx context.Context, client *asc.Client, subID
 			if !exists {
 				return 0, fmt.Errorf("subscription %q was not found", subID)
 			}
-			return 0, fmt.Errorf("subscription availability is not configured; equalize only updates prices and will not change sale availability. Configure territories first with `asc subscriptions pricing availability edit`")
+			return 0, fmt.Errorf("subscription availability is not configured; equalize only updates prices and will not change sale availability. Configure territories first with `aso subscriptions pricing availability edit`")
 		}
 		return 0, fmt.Errorf("failed to fetch availability: %w", err)
 	}
@@ -413,7 +413,7 @@ func validateEqualizeAvailability(ctx context.Context, client *asc.Client, subID
 	}
 
 	sort.Strings(missing)
-	return 0, fmt.Errorf("subscription availability is missing %d equalized territor%s (%s); equalize only updates prices and will not change sale availability. Configure territories first with `asc subscriptions pricing availability edit`", len(missing), pluralizeEqualizeTerritories(len(missing)), summarizeEqualizeTerritories(missing, 8))
+	return 0, fmt.Errorf("subscription availability is missing %d equalized territor%s (%s); equalize only updates prices and will not change sale availability. Configure territories first with `aso subscriptions pricing availability edit`", len(missing), pluralizeEqualizeTerritories(len(missing)), summarizeEqualizeTerritories(missing, 8))
 }
 
 func subscriptionExists(ctx context.Context, client *asc.Client, subID string) (bool, error) {

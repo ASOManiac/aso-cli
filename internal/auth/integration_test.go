@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/config"
+	"github.com/ASOManiac/aso-cli/internal/config"
 )
 
 func TestIntegrationAuthConfig(t *testing.T) {
@@ -22,7 +22,7 @@ func TestIntegrationAuthConfig(t *testing.T) {
 		t.Skip("integration tests require ASC_KEY_ID, ASC_ISSUER_ID, ASC_PRIVATE_KEY_PATH")
 	}
 
-	// Find the asc binary
+	// Find the aso binary
 	ascBinary := findASCBinary(t)
 
 	t.Run("auth_init_local_creates_config", func(t *testing.T) {
@@ -381,7 +381,7 @@ func filterEnv(env []string, remove ...string) []string {
 	return filtered
 }
 
-// findASCBinary locates the asc binary for integration tests.
+// findASCBinary locates the aso binary for integration tests.
 // It searches from the current directory up to the project root.
 // If the binary is not found, it attempts to build it automatically.
 func findASCBinary(t *testing.T) string {
@@ -411,7 +411,7 @@ func findASCBinary(t *testing.T) string {
 		t.Fatal("could not find project root (go.mod)")
 	}
 
-	binaryPath := filepath.Join(projectRoot, "asc")
+	binaryPath := filepath.Join(projectRoot, "aso")
 
 	// Check if binary exists
 	if info, err := os.Stat(binaryPath); err == nil && !info.IsDir() {
@@ -419,16 +419,16 @@ func findASCBinary(t *testing.T) string {
 	}
 
 	// Binary not found - try to build it
-	t.Log("asc binary not found, attempting to build...")
-	cmd := exec.Command("go", "build", "-o", "asc", ".")
+	t.Log("aso binary not found, attempting to build...")
+	cmd := exec.Command("go", "build", "-o", "aso", ".")
 	cmd.Dir = projectRoot
 	if output, err := cmd.CombinedOutput(); err != nil {
-		t.Fatalf("failed to build asc binary: %v\nOutput: %s", err, output)
+		t.Fatalf("failed to build aso binary: %v\nOutput: %s", err, output)
 	}
 
 	// Verify binary was created
 	if info, err := os.Stat(binaryPath); err != nil || info.IsDir() {
-		t.Fatal("asc binary not found after build")
+		t.Fatal("aso binary not found after build")
 	}
 
 	return binaryPath

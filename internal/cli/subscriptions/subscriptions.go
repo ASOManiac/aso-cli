@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // SubscriptionsCommand returns the subscriptions command group.
@@ -19,23 +19,23 @@ func SubscriptionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "subscriptions",
-		ShortUsage: "asc subscriptions <subcommand> [flags]",
+		ShortUsage: "aso subscriptions <subcommand> [flags]",
 		ShortHelp:  "Manage subscription groups and subscriptions.",
 		LongHelp: `Manage subscription groups and subscriptions.
 
 Examples:
-  asc subscriptions groups list --app "APP_ID"
-  asc subscriptions list --group-id "GROUP_ID"
-  asc subscriptions create --group-id "GROUP_ID" --reference-name "Monthly" --product-id "com.example.sub.monthly"
-  asc subscriptions setup --app "APP_ID" --group-reference-name "Pro" --reference-name "Pro Monthly" --product-id "com.example.pro.monthly" --subscription-period ONE_MONTH --locale "en-US" --display-name "Pro Monthly" --price "3.99" --price-territory "USA" --territories "USA"
-  asc subscriptions pricing summary --app "APP_ID"
-  asc subscriptions pricing prices set --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID"
-  asc subscriptions pricing availability edit --subscription-id "SUB_ID" --territories "USA,CAN"
-  asc subscriptions offers offer-codes generate --offer-code-id "OFFER_CODE_ID" --quantity 10 --expiration-date "2026-02-01"
-  asc subscriptions offers win-back list --subscription-id "SUB_ID"
-  asc subscriptions review screenshots create --subscription-id "SUB_ID" --file "./review.png"
-  asc subscriptions review submit --subscription-id "SUB_ID" --confirm
-  asc subscriptions promoted-purchases create --app "APP_ID" --product-id "SUB_ID" --visible-for-all-users true`,
+  aso subscriptions groups list --app "APP_ID"
+  aso subscriptions list --group-id "GROUP_ID"
+  aso subscriptions create --group-id "GROUP_ID" --reference-name "Monthly" --product-id "com.example.sub.monthly"
+  aso subscriptions setup --app "APP_ID" --group-reference-name "Pro" --reference-name "Pro Monthly" --product-id "com.example.pro.monthly" --subscription-period ONE_MONTH --locale "en-US" --display-name "Pro Monthly" --price "3.99" --price-territory "USA" --territories "USA"
+  aso subscriptions pricing summary --app "APP_ID"
+  aso subscriptions pricing prices set --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID"
+  aso subscriptions pricing availability edit --subscription-id "SUB_ID" --territories "USA,CAN"
+  aso subscriptions offers offer-codes generate --offer-code-id "OFFER_CODE_ID" --quantity 10 --expiration-date "2026-02-01"
+  aso subscriptions offers win-back list --subscription-id "SUB_ID"
+  aso subscriptions review screenshots create --subscription-id "SUB_ID" --file "./review.png"
+  aso subscriptions review submit --subscription-id "SUB_ID" --confirm
+  aso subscriptions promoted-purchases create --app "APP_ID" --product-id "SUB_ID" --visible-for-all-users true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -66,15 +66,15 @@ func SubscriptionsGroupsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "groups",
-		ShortUsage: "asc subscriptions groups <subcommand> [flags]",
+		ShortUsage: "aso subscriptions groups <subcommand> [flags]",
 		ShortHelp:  "Manage subscription groups.",
 		LongHelp: `Manage subscription groups.
 
 Examples:
-  asc subscriptions groups list --app "APP_ID"
-  asc subscriptions groups create --app "APP_ID" --reference-name "Premium"
-  asc subscriptions groups get --id "GROUP_ID"
-  asc subscriptions groups delete --id "GROUP_ID" --confirm`,
+  aso subscriptions groups list --app "APP_ID"
+  aso subscriptions groups create --app "APP_ID" --reference-name "Premium"
+  aso subscriptions groups get --id "GROUP_ID"
+  aso subscriptions groups delete --id "GROUP_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -103,13 +103,13 @@ func SubscriptionsGroupsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc subscriptions groups list [flags]",
+		ShortUsage: "aso subscriptions groups list [flags]",
 		ShortHelp:  "List subscription groups for an app.",
 		LongHelp: `List subscription groups for an app.
 
 Examples:
-  asc subscriptions groups list --app "APP_ID"
-  asc subscriptions groups list --app "APP_ID" --paginate`,
+  aso subscriptions groups list --app "APP_ID"
+  aso subscriptions groups list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -176,12 +176,12 @@ func SubscriptionsGroupsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc subscriptions groups create [flags]",
+		ShortUsage: "aso subscriptions groups create [flags]",
 		ShortHelp:  "Create a subscription group.",
 		LongHelp: `Create a subscription group.
 
 Examples:
-  asc subscriptions groups create --app "APP_ID" --reference-name "Premium"`,
+  aso subscriptions groups create --app "APP_ID" --reference-name "Premium"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -228,12 +228,12 @@ func SubscriptionsGroupsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc subscriptions groups get --id \"GROUP_ID\"",
+		ShortUsage: "aso subscriptions groups get --id \"GROUP_ID\"",
 		ShortHelp:  "Get a subscription group by ID.",
 		LongHelp: `Get a subscription group by ID.
 
 Examples:
-  asc subscriptions groups get --id "GROUP_ID"`,
+  aso subscriptions groups get --id "GROUP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -271,12 +271,12 @@ func SubscriptionsGroupsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc subscriptions groups update [flags]",
+		ShortUsage: "aso subscriptions groups update [flags]",
 		ShortHelp:  "Update a subscription group.",
 		LongHelp: `Update a subscription group.
 
 Examples:
-  asc subscriptions groups update --id "GROUP_ID" --reference-name "Premium"`,
+  aso subscriptions groups update --id "GROUP_ID" --reference-name "Premium"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -324,12 +324,12 @@ func SubscriptionsGroupsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc subscriptions groups delete --id \"GROUP_ID\" --confirm",
+		ShortUsage: "aso subscriptions groups delete --id \"GROUP_ID\" --confirm",
 		ShortHelp:  "Delete a subscription group.",
 		LongHelp: `Delete a subscription group.
 
 Examples:
-  asc subscriptions groups delete --id "GROUP_ID" --confirm`,
+  aso subscriptions groups delete --id "GROUP_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -377,13 +377,13 @@ func SubscriptionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc subscriptions list --group-id \"GROUP_ID\" [flags]",
+		ShortUsage: "aso subscriptions list --group-id \"GROUP_ID\" [flags]",
 		ShortHelp:  "List subscriptions in a group.",
 		LongHelp: `List subscriptions in a group.
 
 Examples:
-  asc subscriptions list --group-id "GROUP_ID"
-  asc subscriptions list --group-id "GROUP_ID" --paginate`,
+  aso subscriptions list --group-id "GROUP_ID"
+  aso subscriptions list --group-id "GROUP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -453,14 +453,14 @@ func SubscriptionsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc subscriptions create --group-id \"GROUP_ID\" --reference-name \"NAME\" --product-id \"PRODUCT_ID\" [flags]",
+		ShortUsage: "aso subscriptions create --group-id \"GROUP_ID\" --reference-name \"NAME\" --product-id \"PRODUCT_ID\" [flags]",
 		ShortHelp:  "Create a subscription.",
 		LongHelp: `Create a subscription.
 
 Examples:
-  asc subscriptions create --group-id "GROUP_ID" --reference-name "Monthly" --product-id "com.example.sub.monthly"
-  asc subscriptions create --group-id "GROUP_ID" --reference-name "Monthly" --product-id "com.example.sub.monthly" --subscription-period ONE_MONTH
-  asc subscriptions create --group-id "GROUP_ID" --reference-name "Family" --product-id "com.example.sub.family" --family-sharable`,
+  aso subscriptions create --group-id "GROUP_ID" --reference-name "Monthly" --product-id "com.example.sub.monthly"
+  aso subscriptions create --group-id "GROUP_ID" --reference-name "Monthly" --product-id "com.example.sub.monthly" --subscription-period ONE_MONTH
+  aso subscriptions create --group-id "GROUP_ID" --reference-name "Family" --product-id "com.example.sub.family" --family-sharable`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -527,12 +527,12 @@ func SubscriptionsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc subscriptions get --id \"SUB_ID\"",
+		ShortUsage: "aso subscriptions get --id \"SUB_ID\"",
 		ShortHelp:  "Get a subscription by ID.",
 		LongHelp: `Get a subscription by ID.
 
 Examples:
-  asc subscriptions get --id "SUB_ID"`,
+  aso subscriptions get --id "SUB_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -572,14 +572,14 @@ func SubscriptionsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc subscriptions update [flags]",
+		ShortUsage: "aso subscriptions update [flags]",
 		ShortHelp:  "Update a subscription.",
 		LongHelp: `Update a subscription.
 
 Examples:
-  asc subscriptions update --id "SUB_ID" --reference-name "New Name"
-  asc subscriptions update --id "SUB_ID" --subscription-period ONE_YEAR
-  asc subscriptions update --id "SUB_ID" --family-sharable`,
+  aso subscriptions update --id "SUB_ID" --reference-name "New Name"
+  aso subscriptions update --id "SUB_ID" --subscription-period ONE_YEAR
+  aso subscriptions update --id "SUB_ID" --family-sharable`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -641,12 +641,12 @@ func SubscriptionsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc subscriptions delete --id \"SUB_ID\" --confirm",
+		ShortUsage: "aso subscriptions delete --id \"SUB_ID\" --confirm",
 		ShortHelp:  "Delete a subscription.",
 		LongHelp: `Delete a subscription.
 
 Examples:
-  asc subscriptions delete --id "SUB_ID" --confirm`,
+  aso subscriptions delete --id "SUB_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -688,15 +688,15 @@ func SubscriptionsPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "prices",
-		ShortUsage: "asc subscriptions prices <subcommand> [flags]",
+		ShortUsage: "aso subscriptions prices <subcommand> [flags]",
 		ShortHelp:  "Manage subscription pricing.",
 		LongHelp: `Manage subscription pricing.
 
 Examples:
-  asc subscriptions prices list --subscription-id "SUB_ID"
-  asc subscriptions prices add --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID"
-  asc subscriptions prices import --subscription-id "SUB_ID" --input "./prices.csv"
-  asc subscriptions prices delete --price-id "PRICE_ID" --confirm`,
+  aso subscriptions prices list --subscription-id "SUB_ID"
+  aso subscriptions prices add --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID"
+  aso subscriptions prices import --subscription-id "SUB_ID" --input "./prices.csv"
+  aso subscriptions prices delete --price-id "PRICE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -723,13 +723,13 @@ func SubscriptionsPricesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc subscriptions prices list --subscription-id \"SUB_ID\"",
+		ShortUsage: "aso subscriptions prices list --subscription-id \"SUB_ID\"",
 		ShortHelp:  "List prices for a subscription.",
 		LongHelp: `List prices for a subscription.
 
 Examples:
-  asc subscriptions prices list --subscription-id "SUB_ID"
-  asc subscriptions prices list --subscription-id "SUB_ID" --paginate`,
+  aso subscriptions prices list --subscription-id "SUB_ID"
+  aso subscriptions prices list --subscription-id "SUB_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -803,15 +803,15 @@ func SubscriptionsPricesAddCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "add",
-		ShortUsage: "asc subscriptions prices add [flags]",
+		ShortUsage: "aso subscriptions prices add [flags]",
 		ShortHelp:  "Set a subscription price.",
 		LongHelp: `Set a subscription price.
 
 Examples:
-  asc subscriptions prices add --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID"
-  asc subscriptions prices add --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID" --territory "USA"
-  asc subscriptions prices add --subscription-id "SUB_ID" --tier 5 --territory "USA"
-  asc subscriptions prices add --subscription-id "SUB_ID" --price "4.99" --territory "USA"`,
+  aso subscriptions prices add --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID"
+  aso subscriptions prices add --subscription-id "SUB_ID" --price-point "PRICE_POINT_ID" --territory "USA"
+  aso subscriptions prices add --subscription-id "SUB_ID" --tier 5 --territory "USA"
+  aso subscriptions prices add --subscription-id "SUB_ID" --price "4.99" --territory "USA"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -921,12 +921,12 @@ func SubscriptionsPricesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc subscriptions prices delete --price-id \"PRICE_ID\" --confirm",
+		ShortUsage: "aso subscriptions prices delete --price-id \"PRICE_ID\" --confirm",
 		ShortHelp:  "Delete a subscription price.",
 		LongHelp: `Delete a subscription price.
 
 Examples:
-  asc subscriptions prices delete --price-id "PRICE_ID" --confirm`,
+  aso subscriptions prices delete --price-id "PRICE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -968,14 +968,14 @@ func SubscriptionsAvailabilityCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "availability",
-		ShortUsage: "asc subscriptions availability <subcommand> [flags]",
+		ShortUsage: "aso subscriptions availability <subcommand> [flags]",
 		ShortHelp:  "Manage subscription availability.",
 		LongHelp: `Manage subscription availability.
 
 Examples:
-  asc subscriptions availability view --availability-id "AVAILABILITY_ID"
-  asc subscriptions availability edit --subscription-id "SUB_ID" --territories "USA,CAN"
-  asc subscriptions availability available-territories --availability-id "AVAILABILITY_ID"`,
+  aso subscriptions availability view --availability-id "AVAILABILITY_ID"
+  aso subscriptions availability edit --subscription-id "SUB_ID" --territories "USA,CAN"
+  aso subscriptions availability available-territories --availability-id "AVAILABILITY_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -999,13 +999,13 @@ func SubscriptionsAvailabilityViewCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "view",
-		ShortUsage: "asc subscriptions availability view --availability-id \"AVAILABILITY_ID\"",
+		ShortUsage: "aso subscriptions availability view --availability-id \"AVAILABILITY_ID\"",
 		ShortHelp:  "View subscription availability by ID or subscription.",
 		LongHelp: `View subscription availability by ID or subscription.
 
 Examples:
-  asc subscriptions availability view --availability-id "AVAILABILITY_ID"
-  asc subscriptions availability view --subscription-id "SUB_ID"`,
+  aso subscriptions availability view --availability-id "AVAILABILITY_ID"
+  aso subscriptions availability view --subscription-id "SUB_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1058,13 +1058,13 @@ func SubscriptionsAvailabilityAvailableTerritoriesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "available-territories",
-		ShortUsage: "asc subscriptions availability available-territories --availability-id \"AVAILABILITY_ID\"",
+		ShortUsage: "aso subscriptions availability available-territories --availability-id \"AVAILABILITY_ID\"",
 		ShortHelp:  "List available territories for a subscription availability.",
 		LongHelp: `List available territories for a subscription availability.
 
 Examples:
-  asc subscriptions availability available-territories --availability-id "AVAILABILITY_ID"
-  asc subscriptions availability available-territories --availability-id "AVAILABILITY_ID" --paginate`,
+  aso subscriptions availability available-territories --availability-id "AVAILABILITY_ID"
+  aso subscriptions availability available-territories --availability-id "AVAILABILITY_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1132,12 +1132,12 @@ func SubscriptionsAvailabilityEditCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "edit",
-		ShortUsage: "asc subscriptions availability edit [flags]",
+		ShortUsage: "aso subscriptions availability edit [flags]",
 		ShortHelp:  "Edit subscription availability in territories.",
 		LongHelp: `Edit subscription availability in territories.
 
 Examples:
-  asc subscriptions availability edit --subscription-id "SUB_ID" --territories "USA,CAN"`,
+  aso subscriptions availability edit --subscription-id "SUB_ID" --territories "USA,CAN"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

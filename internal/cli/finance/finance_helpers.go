@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 func normalizeFinanceReportType(value string) (asc.FinanceReportType, error) {

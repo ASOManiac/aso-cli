@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ExperimentTreatmentLocalizationsCommand returns the treatment localizations command group.
@@ -19,14 +19,14 @@ func ExperimentTreatmentLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc product-pages experiments treatments localizations <subcommand> [flags]",
+		ShortUsage: "aso product-pages experiments treatments localizations <subcommand> [flags]",
 		ShortHelp:  "Manage treatment localizations.",
 		LongHelp: `Manage treatment localizations.
 
 Examples:
-  asc product-pages experiments treatments localizations list --treatment-id "TREATMENT_ID"
-  asc product-pages experiments treatments localizations create --treatment-id "TREATMENT_ID" --locale "en-US"
-  asc product-pages experiments treatments localizations delete --localization-id "LOCALIZATION_ID" --confirm`,
+  aso product-pages experiments treatments localizations list --treatment-id "TREATMENT_ID"
+  aso product-pages experiments treatments localizations create --treatment-id "TREATMENT_ID" --locale "en-US"
+  aso product-pages experiments treatments localizations delete --localization-id "LOCALIZATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -55,13 +55,13 @@ func ExperimentTreatmentLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc product-pages experiments treatments localizations list --treatment-id \"TREATMENT_ID\" [flags]",
+		ShortUsage: "aso product-pages experiments treatments localizations list --treatment-id \"TREATMENT_ID\" [flags]",
 		ShortHelp:  "List treatment localizations.",
 		LongHelp: `List treatment localizations.
 
 Examples:
-  asc product-pages experiments treatments localizations list --treatment-id "TREATMENT_ID"
-  asc product-pages experiments treatments localizations list --treatment-id "TREATMENT_ID" --paginate`,
+  aso product-pages experiments treatments localizations list --treatment-id "TREATMENT_ID"
+  aso product-pages experiments treatments localizations list --treatment-id "TREATMENT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -127,12 +127,12 @@ func ExperimentTreatmentLocalizationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc product-pages experiments treatments localizations get --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso product-pages experiments treatments localizations get --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:  "Get a treatment localization by ID.",
 		LongHelp: `Get a treatment localization by ID.
 
 Examples:
-  asc product-pages experiments treatments localizations get --localization-id "LOCALIZATION_ID"`,
+  aso product-pages experiments treatments localizations get --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -170,12 +170,12 @@ func ExperimentTreatmentLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc product-pages experiments treatments localizations create --treatment-id \"TREATMENT_ID\" --locale \"en-US\"",
+		ShortUsage: "aso product-pages experiments treatments localizations create --treatment-id \"TREATMENT_ID\" --locale \"en-US\"",
 		ShortHelp:  "Create a treatment localization.",
 		LongHelp: `Create a treatment localization.
 
 Examples:
-  asc product-pages experiments treatments localizations create --treatment-id "TREATMENT_ID" --locale "en-US"`,
+  aso product-pages experiments treatments localizations create --treatment-id "TREATMENT_ID" --locale "en-US"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -219,12 +219,12 @@ func ExperimentTreatmentLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc product-pages experiments treatments localizations delete --localization-id \"LOCALIZATION_ID\" --confirm",
+		ShortUsage: "aso product-pages experiments treatments localizations delete --localization-id \"LOCALIZATION_ID\" --confirm",
 		ShortHelp:  "Delete a treatment localization.",
 		LongHelp: `Delete a treatment localization.
 
 Examples:
-  asc product-pages experiments treatments localizations delete --localization-id "LOCALIZATION_ID" --confirm`,
+  aso product-pages experiments treatments localizations delete --localization-id "LOCALIZATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

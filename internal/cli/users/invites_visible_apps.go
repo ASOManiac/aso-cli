@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // UsersInvitesVisibleAppsCommand returns the invites visible apps command group.
@@ -20,12 +20,12 @@ func UsersInvitesVisibleAppsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "visible-apps",
-		ShortUsage: "asc users invites visible-apps <subcommand> [flags]",
+		ShortUsage: "aso users invites visible-apps <subcommand> [flags]",
 		ShortHelp:  "List visible apps for a user invitation.",
 		LongHelp: `List visible apps for a user invitation.
 
 Examples:
-  asc users invites visible-apps list --id "INVITE_ID"`,
+  aso users invites visible-apps list --id "INVITE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -49,13 +49,13 @@ func UsersInvitesVisibleAppsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc users invites visible-apps list --id \"INVITE_ID\" [flags]",
+		ShortUsage: "aso users invites visible-apps list --id \"INVITE_ID\" [flags]",
 		ShortHelp:  "List visible apps for a user invitation.",
 		LongHelp: `List visible apps for a user invitation.
 
 Examples:
-  asc users invites visible-apps list --id "INVITE_ID"
-  asc users invites visible-apps list --id "INVITE_ID" --paginate`,
+  aso users invites visible-apps list --id "INVITE_ID"
+  aso users invites visible-apps list --id "INVITE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

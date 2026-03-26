@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // GameCenterAchievementsCommand returns the achievements command group.
@@ -19,26 +19,26 @@ func GameCenterAchievementsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "achievements",
-		ShortUsage: "asc game-center achievements <subcommand> [flags]",
+		ShortUsage: "aso game-center achievements <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center achievements.",
 		LongHelp: `Manage Game Center achievements.
 
 Examples:
-  asc game-center achievements list --app "APP_ID"
-  asc game-center achievements get --id "ACHIEVEMENT_ID"
-  asc game-center achievements group-achievement get --id "ACHIEVEMENT_ID"
-  asc game-center achievements create --app "APP_ID" --reference-name "First Win" --vendor-id "com.example.firstwin" --points 10
-  asc game-center achievements update --id "ACHIEVEMENT_ID" --points 20
-  asc game-center achievements delete --id "ACHIEVEMENT_ID" --confirm
-  asc game-center achievements submit --vendor-id "com.example.achievement" --percentage 100 --bundle-id "com.example.app" --scoped-player-id "PLAYER_ID"
-  asc game-center achievements localizations list --achievement-id "ACHIEVEMENT_ID"
-  asc game-center achievements localizations create --achievement-id "ACHIEVEMENT_ID" --locale en-US --name "First Win" --before-earned-description "Win your first game" --after-earned-description "You won!"
-  asc game-center achievements localizations update --id "LOC_ID" --name "New Name"
-  asc game-center achievements localizations delete --id "LOC_ID" --confirm
-  asc game-center achievements localizations image get --id "LOC_ID"
-  asc game-center achievements localizations achievement get --id "LOC_ID"
-  asc game-center achievements images upload --localization-id "LOC_ID" --file "path/to/image.png"
-  asc game-center achievements images delete --id "IMAGE_ID" --confirm`,
+  aso game-center achievements list --app "APP_ID"
+  aso game-center achievements get --id "ACHIEVEMENT_ID"
+  aso game-center achievements group-achievement get --id "ACHIEVEMENT_ID"
+  aso game-center achievements create --app "APP_ID" --reference-name "First Win" --vendor-id "com.example.firstwin" --points 10
+  aso game-center achievements update --id "ACHIEVEMENT_ID" --points 20
+  aso game-center achievements delete --id "ACHIEVEMENT_ID" --confirm
+  aso game-center achievements submit --vendor-id "com.example.achievement" --percentage 100 --bundle-id "com.example.app" --scoped-player-id "PLAYER_ID"
+  aso game-center achievements localizations list --achievement-id "ACHIEVEMENT_ID"
+  aso game-center achievements localizations create --achievement-id "ACHIEVEMENT_ID" --locale en-US --name "First Win" --before-earned-description "Win your first game" --after-earned-description "You won!"
+  aso game-center achievements localizations update --id "LOC_ID" --name "New Name"
+  aso game-center achievements localizations delete --id "LOC_ID" --confirm
+  aso game-center achievements localizations image get --id "LOC_ID"
+  aso game-center achievements localizations achievement get --id "LOC_ID"
+  aso game-center achievements images upload --localization-id "LOC_ID" --file "path/to/image.png"
+  aso game-center achievements images delete --id "IMAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -72,14 +72,14 @@ func GameCenterAchievementsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center achievements list [flags]",
+		ShortUsage: "aso game-center achievements list [flags]",
 		ShortHelp:  "List Game Center achievements for an app.",
 		LongHelp: `List Game Center achievements for an app.
 
 Examples:
-  asc game-center achievements list --app "APP_ID"
-  asc game-center achievements list --app "APP_ID" --limit 50
-  asc game-center achievements list --app "APP_ID" --paginate`,
+  aso game-center achievements list --app "APP_ID"
+  aso game-center achievements list --app "APP_ID" --limit 50
+  aso game-center achievements list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -157,13 +157,13 @@ func GameCenterAchievementsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center achievements get --id \"ACHIEVEMENT_ID\" [--v2]",
+		ShortUsage: "aso game-center achievements get --id \"ACHIEVEMENT_ID\" [--v2]",
 		ShortHelp:  "Get a Game Center achievement by ID.",
 		LongHelp: `Get a Game Center achievement by ID.
 
 Examples:
-  asc game-center achievements get --id "ACHIEVEMENT_ID"
-  asc game-center achievements get --id "ACHIEVEMENT_ID" --v2`,
+  aso game-center achievements get --id "ACHIEVEMENT_ID"
+  aso game-center achievements get --id "ACHIEVEMENT_ID" --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -212,14 +212,14 @@ func GameCenterAchievementsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center achievements create [flags]",
+		ShortUsage: "aso game-center achievements create [flags]",
 		ShortHelp:  "Create a new Game Center achievement.",
 		LongHelp: `Create a new Game Center achievement.
 
 Examples:
-  asc game-center achievements create --app "APP_ID" --reference-name "First Win" --vendor-id "com.example.firstwin" --points 10
-  asc game-center achievements create --app "APP_ID" --reference-name "Master" --vendor-id "com.example.master" --points 100 --repeatable
-  asc game-center achievements create --group-id "GROUP_ID" --reference-name "Group Win" --vendor-id "grp.com.example.groupwin" --points 10 --v2`,
+  aso game-center achievements create --app "APP_ID" --reference-name "First Win" --vendor-id "com.example.firstwin" --points 10
+  aso game-center achievements create --app "APP_ID" --reference-name "Master" --vendor-id "com.example.master" --points 100 --repeatable
+  aso game-center achievements create --group-id "GROUP_ID" --reference-name "Group Win" --vendor-id "grp.com.example.groupwin" --points 10 --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -313,15 +313,15 @@ func GameCenterAchievementsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center achievements update [flags]",
+		ShortUsage: "aso game-center achievements update [flags]",
 		ShortHelp:  "Update a Game Center achievement.",
 		LongHelp: `Update a Game Center achievement.
 
 Examples:
-  asc game-center achievements update --id "ACHIEVEMENT_ID" --reference-name "New Name"
-  asc game-center achievements update --id "ACHIEVEMENT_ID" --points 20
-  asc game-center achievements update --id "ACHIEVEMENT_ID" --archived true
-  asc game-center achievements update --id "ACHIEVEMENT_ID" --points 20 --v2`,
+  aso game-center achievements update --id "ACHIEVEMENT_ID" --reference-name "New Name"
+  aso game-center achievements update --id "ACHIEVEMENT_ID" --points 20
+  aso game-center achievements update --id "ACHIEVEMENT_ID" --archived true
+  aso game-center achievements update --id "ACHIEVEMENT_ID" --points 20 --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -418,13 +418,13 @@ func GameCenterAchievementsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center achievements delete --id \"ACHIEVEMENT_ID\" --confirm [--v2]",
+		ShortUsage: "aso game-center achievements delete --id \"ACHIEVEMENT_ID\" --confirm [--v2]",
 		ShortHelp:  "Delete a Game Center achievement.",
 		LongHelp: `Delete a Game Center achievement.
 
 Examples:
-  asc game-center achievements delete --id "ACHIEVEMENT_ID" --confirm
-  asc game-center achievements delete --id "ACHIEVEMENT_ID" --confirm --v2`,
+  aso game-center achievements delete --id "ACHIEVEMENT_ID" --confirm
+  aso game-center achievements delete --id "ACHIEVEMENT_ID" --confirm --v2`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -481,15 +481,15 @@ func GameCenterAchievementsSubmitCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "submit",
-		ShortUsage: "asc game-center achievements submit --vendor-id \"VENDOR_ID\" --percentage 100 --bundle-id \"BUNDLE_ID\" --scoped-player-id \"PLAYER_ID\"",
+		ShortUsage: "aso game-center achievements submit --vendor-id \"VENDOR_ID\" --percentage 100 --bundle-id \"BUNDLE_ID\" --scoped-player-id \"PLAYER_ID\"",
 		ShortHelp:  "Submit a player achievement.",
 		LongHelp: `Submit a player achievement.
 
 Examples:
-  asc game-center achievements submit --vendor-id "com.example.achievement" --percentage 100 --bundle-id "com.example.app" --scoped-player-id "PLAYER_ID"
-  asc game-center achievements submit --vendor-id "com.example.achievement" --percentage 50 --bundle-id "com.example.app" --scoped-player-id "PLAYER_ID" --challenge-ids "CHALLENGE_ID"
-  asc game-center achievements submit --vendor-id "com.example.achievement" --percentage 100 --bundle-id "com.example.app" --scoped-player-id "PLAYER_ID" --pre-released true
-  asc game-center achievements submit --vendor-id "com.example.achievement" --percentage 100 --bundle-id "com.example.app" --scoped-player-id "PLAYER_ID" --submitted-date "2025-01-10T12:34:56Z"`,
+  aso game-center achievements submit --vendor-id "com.example.achievement" --percentage 100 --bundle-id "com.example.app" --scoped-player-id "PLAYER_ID"
+  aso game-center achievements submit --vendor-id "com.example.achievement" --percentage 50 --bundle-id "com.example.app" --scoped-player-id "PLAYER_ID" --challenge-ids "CHALLENGE_ID"
+  aso game-center achievements submit --vendor-id "com.example.achievement" --percentage 100 --bundle-id "com.example.app" --scoped-player-id "PLAYER_ID" --pre-released true
+  aso game-center achievements submit --vendor-id "com.example.achievement" --percentage 100 --bundle-id "com.example.app" --scoped-player-id "PLAYER_ID" --submitted-date "2025-01-10T12:34:56Z"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -559,18 +559,18 @@ func GameCenterAchievementLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc game-center achievements localizations <subcommand> [flags]",
+		ShortUsage: "aso game-center achievements localizations <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center achievement localizations.",
 		LongHelp: `Manage Game Center achievement localizations.
 
 Examples:
-  asc game-center achievements localizations list --achievement-id "ACHIEVEMENT_ID"
-  asc game-center achievements localizations get --id "LOC_ID"
-  asc game-center achievements localizations create --achievement-id "ACHIEVEMENT_ID" --locale en-US --name "First Win" --before-earned-description "Win your first game" --after-earned-description "You won!"
-  asc game-center achievements localizations update --id "LOC_ID" --name "New Name"
-  asc game-center achievements localizations delete --id "LOC_ID" --confirm
-  asc game-center achievements localizations image get --id "LOC_ID"
-  asc game-center achievements localizations achievement get --id "LOC_ID"`,
+  aso game-center achievements localizations list --achievement-id "ACHIEVEMENT_ID"
+  aso game-center achievements localizations get --id "LOC_ID"
+  aso game-center achievements localizations create --achievement-id "ACHIEVEMENT_ID" --locale en-US --name "First Win" --before-earned-description "Win your first game" --after-earned-description "You won!"
+  aso game-center achievements localizations update --id "LOC_ID" --name "New Name"
+  aso game-center achievements localizations delete --id "LOC_ID" --confirm
+  aso game-center achievements localizations image get --id "LOC_ID"
+  aso game-center achievements localizations achievement get --id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -600,14 +600,14 @@ func GameCenterAchievementLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center achievements localizations list --achievement-id \"ACHIEVEMENT_ID\"",
+		ShortUsage: "aso game-center achievements localizations list --achievement-id \"ACHIEVEMENT_ID\"",
 		ShortHelp:  "List localizations for a Game Center achievement.",
 		LongHelp: `List localizations for a Game Center achievement.
 
 Examples:
-  asc game-center achievements localizations list --achievement-id "ACHIEVEMENT_ID"
-  asc game-center achievements localizations list --achievement-id "ACHIEVEMENT_ID" --limit 50
-  asc game-center achievements localizations list --achievement-id "ACHIEVEMENT_ID" --paginate`,
+  aso game-center achievements localizations list --achievement-id "ACHIEVEMENT_ID"
+  aso game-center achievements localizations list --achievement-id "ACHIEVEMENT_ID" --limit 50
+  aso game-center achievements localizations list --achievement-id "ACHIEVEMENT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -673,12 +673,12 @@ func GameCenterAchievementLocalizationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center achievements localizations get --id \"LOC_ID\"",
+		ShortUsage: "aso game-center achievements localizations get --id \"LOC_ID\"",
 		ShortHelp:  "Get a Game Center achievement localization by ID.",
 		LongHelp: `Get a Game Center achievement localization by ID.
 
 Examples:
-  asc game-center achievements localizations get --id "LOC_ID"`,
+  aso game-center achievements localizations get --id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -719,13 +719,13 @@ func GameCenterAchievementLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center achievements localizations create [flags]",
+		ShortUsage: "aso game-center achievements localizations create [flags]",
 		ShortHelp:  "Create a new Game Center achievement localization.",
 		LongHelp: `Create a new Game Center achievement localization.
 
 Examples:
-  asc game-center achievements localizations create --achievement-id "ACHIEVEMENT_ID" --locale en-US --name "First Win" --before-earned-description "Win your first game" --after-earned-description "You won!"
-  asc game-center achievements localizations create --achievement-id "ACHIEVEMENT_ID" --locale de-DE --name "Erster Sieg" --before-earned-description "Gewinne dein erstes Spiel" --after-earned-description "Du hast gewonnen!"`,
+  aso game-center achievements localizations create --achievement-id "ACHIEVEMENT_ID" --locale en-US --name "First Win" --before-earned-description "Win your first game" --after-earned-description "You won!"
+  aso game-center achievements localizations create --achievement-id "ACHIEVEMENT_ID" --locale de-DE --name "Erster Sieg" --before-earned-description "Gewinne dein erstes Spiel" --after-earned-description "Du hast gewonnen!"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -796,13 +796,13 @@ func GameCenterAchievementLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc game-center achievements localizations update [flags]",
+		ShortUsage: "aso game-center achievements localizations update [flags]",
 		ShortHelp:  "Update a Game Center achievement localization.",
 		LongHelp: `Update a Game Center achievement localization.
 
 Examples:
-  asc game-center achievements localizations update --id "LOC_ID" --name "New Name"
-  asc game-center achievements localizations update --id "LOC_ID" --before-earned-description "Win a game" --after-earned-description "Winner!"`,
+  aso game-center achievements localizations update --id "LOC_ID" --name "New Name"
+  aso game-center achievements localizations update --id "LOC_ID" --before-earned-description "Win a game" --after-earned-description "Winner!"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -866,12 +866,12 @@ func GameCenterAchievementLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center achievements localizations delete --id \"LOC_ID\" --confirm",
+		ShortUsage: "aso game-center achievements localizations delete --id \"LOC_ID\" --confirm",
 		ShortHelp:  "Delete a Game Center achievement localization.",
 		LongHelp: `Delete a Game Center achievement localization.
 
 Examples:
-  asc game-center achievements localizations delete --id "LOC_ID" --confirm`,
+  aso game-center achievements localizations delete --id "LOC_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -913,14 +913,14 @@ func GameCenterAchievementReleasesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "releases",
-		ShortUsage: "asc game-center achievements releases <subcommand> [flags]",
+		ShortUsage: "aso game-center achievements releases <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center achievement releases.",
 		LongHelp: `Manage Game Center achievement releases. Releases are used to publish achievements to live.
 
 Examples:
-  asc game-center achievements releases list --achievement-id "ACHIEVEMENT_ID"
-  asc game-center achievements releases create --app "APP_ID" --achievement-id "ACHIEVEMENT_ID"
-  asc game-center achievements releases delete --id "RELEASE_ID" --confirm`,
+  aso game-center achievements releases list --achievement-id "ACHIEVEMENT_ID"
+  aso game-center achievements releases create --app "APP_ID" --achievement-id "ACHIEVEMENT_ID"
+  aso game-center achievements releases delete --id "RELEASE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -946,14 +946,14 @@ func GameCenterAchievementReleasesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center achievements releases list --achievement-id \"ACHIEVEMENT_ID\"",
+		ShortUsage: "aso game-center achievements releases list --achievement-id \"ACHIEVEMENT_ID\"",
 		ShortHelp:  "List releases for a Game Center achievement.",
 		LongHelp: `List releases for a Game Center achievement.
 
 Examples:
-  asc game-center achievements releases list --achievement-id "ACHIEVEMENT_ID"
-  asc game-center achievements releases list --achievement-id "ACHIEVEMENT_ID" --limit 50
-  asc game-center achievements releases list --achievement-id "ACHIEVEMENT_ID" --paginate`,
+  aso game-center achievements releases list --achievement-id "ACHIEVEMENT_ID"
+  aso game-center achievements releases list --achievement-id "ACHIEVEMENT_ID" --limit 50
+  aso game-center achievements releases list --achievement-id "ACHIEVEMENT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1020,12 +1020,12 @@ func GameCenterAchievementReleasesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc game-center achievements releases create --app \"APP_ID\" --achievement-id \"ACHIEVEMENT_ID\"",
+		ShortUsage: "aso game-center achievements releases create --app \"APP_ID\" --achievement-id \"ACHIEVEMENT_ID\"",
 		ShortHelp:  "Create a new Game Center achievement release.",
 		LongHelp: `Create a new Game Center achievement release. This publishes the achievement to live.
 
 Examples:
-  asc game-center achievements releases create --app "APP_ID" --achievement-id "ACHIEVEMENT_ID"`,
+  aso game-center achievements releases create --app "APP_ID" --achievement-id "ACHIEVEMENT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1075,12 +1075,12 @@ func GameCenterAchievementReleasesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center achievements releases delete --id \"RELEASE_ID\" --confirm",
+		ShortUsage: "aso game-center achievements releases delete --id \"RELEASE_ID\" --confirm",
 		ShortHelp:  "Delete a Game Center achievement release.",
 		LongHelp: `Delete a Game Center achievement release.
 
 Examples:
-  asc game-center achievements releases delete --id "RELEASE_ID" --confirm`,
+  aso game-center achievements releases delete --id "RELEASE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1122,14 +1122,14 @@ func GameCenterAchievementImagesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "images",
-		ShortUsage: "asc game-center achievements images <subcommand> [flags]",
+		ShortUsage: "aso game-center achievements images <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center achievement images.",
 		LongHelp: `Manage Game Center achievement images. Images are attached to achievement localizations.
 
 Examples:
-  asc game-center achievements images upload --localization-id "LOC_ID" --file "path/to/image.png"
-  asc game-center achievements images get --id "IMAGE_ID"
-  asc game-center achievements images delete --id "IMAGE_ID" --confirm`,
+  aso game-center achievements images upload --localization-id "LOC_ID" --file "path/to/image.png"
+  aso game-center achievements images get --id "IMAGE_ID"
+  aso game-center achievements images delete --id "IMAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1153,14 +1153,14 @@ func GameCenterAchievementImagesUploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload",
-		ShortUsage: "asc game-center achievements images upload --localization-id \"LOC_ID\" --file \"path/to/image.png\"",
+		ShortUsage: "aso game-center achievements images upload --localization-id \"LOC_ID\" --file \"path/to/image.png\"",
 		ShortHelp:  "Upload an image for a Game Center achievement localization.",
 		LongHelp: `Upload an image for a Game Center achievement localization.
 
 The image file will be validated, reserved, uploaded in chunks, and committed.
 
 Examples:
-  asc game-center achievements images upload --localization-id "LOC_ID" --file "path/to/image.png"`,
+  aso game-center achievements images upload --localization-id "LOC_ID" --file "path/to/image.png"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1203,12 +1203,12 @@ func GameCenterAchievementImagesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center achievements images get --id \"IMAGE_ID\"",
+		ShortUsage: "aso game-center achievements images get --id \"IMAGE_ID\"",
 		ShortHelp:  "Get a Game Center achievement image by ID.",
 		LongHelp: `Get a Game Center achievement image by ID.
 
 Examples:
-  asc game-center achievements images get --id "IMAGE_ID"`,
+  aso game-center achievements images get --id "IMAGE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1246,12 +1246,12 @@ func GameCenterAchievementImagesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc game-center achievements images delete --id \"IMAGE_ID\" --confirm",
+		ShortUsage: "aso game-center achievements images delete --id \"IMAGE_ID\" --confirm",
 		ShortHelp:  "Delete a Game Center achievement image.",
 		LongHelp: `Delete a Game Center achievement image.
 
 Examples:
-  asc game-center achievements images delete --id "IMAGE_ID" --confirm`,
+  aso game-center achievements images delete --id "IMAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1293,12 +1293,12 @@ func GameCenterAchievementGroupAchievementCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "group-achievement",
-		ShortUsage: "asc game-center achievements group-achievement get --id \"ACHIEVEMENT_ID\"",
+		ShortUsage: "aso game-center achievements group-achievement get --id \"ACHIEVEMENT_ID\"",
 		ShortHelp:  "Get the group achievement for an achievement.",
 		LongHelp: `Get the group achievement for a Game Center achievement.
 
 Examples:
-  asc game-center achievements group-achievement get --id "ACHIEVEMENT_ID"`,
+  aso game-center achievements group-achievement get --id "ACHIEVEMENT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1319,12 +1319,12 @@ func GameCenterAchievementGroupAchievementGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center achievements group-achievement get --id \"ACHIEVEMENT_ID\"",
+		ShortUsage: "aso game-center achievements group-achievement get --id \"ACHIEVEMENT_ID\"",
 		ShortHelp:  "Get a group achievement by achievement ID.",
 		LongHelp: `Get a group achievement by achievement ID.
 
 Examples:
-  asc game-center achievements group-achievement get --id "ACHIEVEMENT_ID"`,
+  aso game-center achievements group-achievement get --id "ACHIEVEMENT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1358,12 +1358,12 @@ func GameCenterAchievementLocalizationImageCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "image",
-		ShortUsage: "asc game-center achievements localizations image get --id \"LOC_ID\"",
+		ShortUsage: "aso game-center achievements localizations image get --id \"LOC_ID\"",
 		ShortHelp:  "Get the image for an achievement localization.",
 		LongHelp: `Get the image for an achievement localization.
 
 Examples:
-  asc game-center achievements localizations image get --id "LOC_ID"`,
+  aso game-center achievements localizations image get --id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1384,12 +1384,12 @@ func GameCenterAchievementLocalizationImageGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center achievements localizations image get --id \"LOC_ID\"",
+		ShortUsage: "aso game-center achievements localizations image get --id \"LOC_ID\"",
 		ShortHelp:  "Get an achievement localization image.",
 		LongHelp: `Get an achievement localization image.
 
 Examples:
-  asc game-center achievements localizations image get --id "LOC_ID"`,
+  aso game-center achievements localizations image get --id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -1423,12 +1423,12 @@ func GameCenterAchievementLocalizationAchievementCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "achievement",
-		ShortUsage: "asc game-center achievements localizations achievement get --id \"LOC_ID\"",
+		ShortUsage: "aso game-center achievements localizations achievement get --id \"LOC_ID\"",
 		ShortHelp:  "Get the achievement for a localization.",
 		LongHelp: `Get the achievement for a Game Center achievement localization.
 
 Examples:
-  asc game-center achievements localizations achievement get --id "LOC_ID"`,
+  aso game-center achievements localizations achievement get --id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -1449,12 +1449,12 @@ func GameCenterAchievementLocalizationAchievementGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc game-center achievements localizations achievement get --id \"LOC_ID\"",
+		ShortUsage: "aso game-center achievements localizations achievement get --id \"LOC_ID\"",
 		ShortHelp:  "Get an achievement for a localization.",
 		LongHelp: `Get an achievement for a Game Center achievement localization.
 
 Examples:
-  asc game-center achievements localizations achievement get --id "LOC_ID"`,
+  aso game-center achievements localizations achievement get --id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

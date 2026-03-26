@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BackgroundAssetsUploadFilesCommand returns the upload files command group.
@@ -20,15 +20,15 @@ func BackgroundAssetsUploadFilesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload-files",
-		ShortUsage: "asc background-assets upload-files <subcommand> [flags]",
+		ShortUsage: "aso background-assets upload-files <subcommand> [flags]",
 		ShortHelp:  "Manage background asset upload files.",
 		LongHelp: `Manage background asset upload files.
 
 Examples:
-  asc background-assets upload-files list --version-id "VERSION_ID"
-  asc background-assets upload-files get --upload-file-id "UPLOAD_FILE_ID"
-  asc background-assets upload-files create --version-id "VERSION_ID" --file "./asset.zip" --asset-type ASSET
-  asc background-assets upload-files update --upload-file-id "UPLOAD_FILE_ID" --uploaded true --file "./asset.zip"`,
+  aso background-assets upload-files list --version-id "VERSION_ID"
+  aso background-assets upload-files get --upload-file-id "UPLOAD_FILE_ID"
+  aso background-assets upload-files create --version-id "VERSION_ID" --file "./asset.zip" --asset-type ASSET
+  aso background-assets upload-files update --upload-file-id "UPLOAD_FILE_ID" --uploaded true --file "./asset.zip"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -55,13 +55,13 @@ func BackgroundAssetsUploadFilesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc background-assets upload-files list --version-id \"VERSION_ID\"",
+		ShortUsage: "aso background-assets upload-files list --version-id \"VERSION_ID\"",
 		ShortHelp:  "List upload files for a background asset version.",
 		LongHelp: `List upload files for a background asset version.
 
 Examples:
-  asc background-assets upload-files list --version-id "VERSION_ID"
-  asc background-assets upload-files list --version-id "VERSION_ID" --paginate`,
+  aso background-assets upload-files list --version-id "VERSION_ID"
+  aso background-assets upload-files list --version-id "VERSION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -126,12 +126,12 @@ func BackgroundAssetsUploadFilesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc background-assets upload-files get --upload-file-id \"UPLOAD_FILE_ID\"",
+		ShortUsage: "aso background-assets upload-files get --upload-file-id \"UPLOAD_FILE_ID\"",
 		ShortHelp:  "Get a background asset upload file by ID.",
 		LongHelp: `Get a background asset upload file by ID.
 
 Examples:
-  asc background-assets upload-files get --upload-file-id "UPLOAD_FILE_ID"`,
+  aso background-assets upload-files get --upload-file-id "UPLOAD_FILE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -171,13 +171,13 @@ func BackgroundAssetsUploadFilesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc background-assets upload-files create --version-id \"VERSION_ID\" --file \"./asset.zip\" --asset-type ASSET",
+		ShortUsage: "aso background-assets upload-files create --version-id \"VERSION_ID\" --file \"./asset.zip\" --asset-type ASSET",
 		ShortHelp:  "Create and upload a background asset file.",
 		LongHelp: `Create and upload a background asset file.
 
 Examples:
-  asc background-assets upload-files create --version-id "VERSION_ID" --file "./asset.zip" --asset-type ASSET
-  asc background-assets upload-files create --version-id "VERSION_ID" --file "./manifest.json" --asset-type MANIFEST --checksum`,
+  aso background-assets upload-files create --version-id "VERSION_ID" --file "./asset.zip" --asset-type ASSET
+  aso background-assets upload-files create --version-id "VERSION_ID" --file "./manifest.json" --asset-type MANIFEST --checksum`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -286,13 +286,13 @@ func BackgroundAssetsUploadFilesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc background-assets upload-files update --upload-file-id \"UPLOAD_FILE_ID\" --uploaded true",
+		ShortUsage: "aso background-assets upload-files update --upload-file-id \"UPLOAD_FILE_ID\" --uploaded true",
 		ShortHelp:  "Update a background asset upload file.",
 		LongHelp: `Update a background asset upload file.
 
 Examples:
-  asc background-assets upload-files update --upload-file-id "UPLOAD_FILE_ID" --uploaded true
-  asc background-assets upload-files update --upload-file-id "UPLOAD_FILE_ID" --uploaded true --file "./asset.zip" --checksum`,
+  aso background-assets upload-files update --upload-file-id "UPLOAD_FILE_ID" --uploaded true
+  aso background-assets upload-files update --upload-file-id "UPLOAD_FILE_ID" --uploaded true --file "./asset.zip" --checksum`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

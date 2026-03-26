@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/screenshotcatalog"
+	"github.com/ASOManiac/aso-cli/internal/screenshotcatalog"
 )
 
 // ScreenshotDimension represents a single allowed screenshot size.
@@ -179,7 +179,7 @@ func ValidateScreenshotDimensions(path, displayType string) error {
 	}
 
 	return fmt.Errorf(
-		"screenshot %q has unsupported size %dx%d for %s (allowed: %s). See \"asc screenshots sizes --display-type %s\".%s",
+		"screenshot %q has unsupported size %dx%d for %s (allowed: %s). See \"aso screenshots sizes --display-type %s\".%s",
 		path,
 		dims.Width,
 		dims.Height,

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // CustomPageLocalizationsPreviewSetsCommand returns the preview sets command group.
@@ -19,14 +19,14 @@ func CustomPageLocalizationsPreviewSetsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "preview-sets",
-		ShortUsage: "asc product-pages custom-pages localizations preview-sets <subcommand> [flags]",
+		ShortUsage: "aso product-pages custom-pages localizations preview-sets <subcommand> [flags]",
 		ShortHelp:  "Manage preview sets for a custom product page localization.",
 		LongHelp: `Manage preview sets for a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations preview-sets list --localization-id "LOCALIZATION_ID"
-  asc product-pages custom-pages localizations preview-sets upload --localization-id "LOCALIZATION_ID" --path "./previews" --device-type "IPHONE_65"
-  asc product-pages custom-pages localizations preview-sets sync --localization-id "LOCALIZATION_ID" --path "./previews" --device-type "IPHONE_65" --confirm`,
+  aso product-pages custom-pages localizations preview-sets list --localization-id "LOCALIZATION_ID"
+  aso product-pages custom-pages localizations preview-sets upload --localization-id "LOCALIZATION_ID" --path "./previews" --device-type "IPHONE_65"
+  aso product-pages custom-pages localizations preview-sets sync --localization-id "LOCALIZATION_ID" --path "./previews" --device-type "IPHONE_65" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -52,12 +52,12 @@ func CustomPageLocalizationsPreviewSetsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc product-pages custom-pages localizations preview-sets list --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso product-pages custom-pages localizations preview-sets list --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:  "List preview sets for a custom product page localization.",
 		LongHelp: `List preview sets for a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations preview-sets list --localization-id "LOCALIZATION_ID"`,
+  aso product-pages custom-pages localizations preview-sets list --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -118,14 +118,14 @@ func CustomPageLocalizationsScreenshotSetsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "screenshot-sets",
-		ShortUsage: "asc product-pages custom-pages localizations screenshot-sets <subcommand> [flags]",
+		ShortUsage: "aso product-pages custom-pages localizations screenshot-sets <subcommand> [flags]",
 		ShortHelp:  "Manage screenshot sets for a custom product page localization.",
 		LongHelp: `Manage screenshot sets for a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations screenshot-sets list --localization-id "LOCALIZATION_ID"
-  asc product-pages custom-pages localizations screenshot-sets upload --localization-id "LOCALIZATION_ID" --path "./screenshots" --device-type "IPHONE_65"
-  asc product-pages custom-pages localizations screenshot-sets sync --localization-id "LOCALIZATION_ID" --path "./screenshots" --device-type "IPHONE_65" --confirm`,
+  aso product-pages custom-pages localizations screenshot-sets list --localization-id "LOCALIZATION_ID"
+  aso product-pages custom-pages localizations screenshot-sets upload --localization-id "LOCALIZATION_ID" --path "./screenshots" --device-type "IPHONE_65"
+  aso product-pages custom-pages localizations screenshot-sets sync --localization-id "LOCALIZATION_ID" --path "./screenshots" --device-type "IPHONE_65" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -151,12 +151,12 @@ func CustomPageLocalizationsScreenshotSetsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc product-pages custom-pages localizations screenshot-sets list --localization-id \"LOCALIZATION_ID\"",
+		ShortUsage: "aso product-pages custom-pages localizations screenshot-sets list --localization-id \"LOCALIZATION_ID\"",
 		ShortHelp:  "List screenshot sets for a custom product page localization.",
 		LongHelp: `List screenshot sets for a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations screenshot-sets list --localization-id "LOCALIZATION_ID"`,
+  aso product-pages custom-pages localizations screenshot-sets list --localization-id "LOCALIZATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

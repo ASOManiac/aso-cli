@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 var betaTesterUsagePeriods = map[string]struct{}{
@@ -34,13 +34,13 @@ func BetaTestersMetricsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "metrics",
-		ShortUsage: "asc testflight beta-testers metrics --tester-id \"TESTER_ID\" --app \"APP_ID\" [flags]",
+		ShortUsage: "aso testflight beta-testers metrics --tester-id \"TESTER_ID\" --app \"APP_ID\" [flags]",
 		ShortHelp:  "Fetch beta tester usage metrics.",
 		LongHelp: `Fetch beta tester usage metrics.
 
 Examples:
-  asc testflight beta-testers metrics --tester-id "TESTER_ID" --app "APP_ID"
-  asc testflight beta-testers metrics --tester-id "TESTER_ID" --app "APP_ID" --period "P30D"`,
+  aso testflight beta-testers metrics --tester-id "TESTER_ID" --app "APP_ID"
+  aso testflight beta-testers metrics --tester-id "TESTER_ID" --app "APP_ID" --period "P30D"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BetaLicenseAgreementsCommand returns the beta license agreements command group.
@@ -19,15 +19,15 @@ func BetaLicenseAgreementsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "beta-license-agreements",
-		ShortUsage: "asc testflight beta-license-agreements <subcommand> [flags]",
+		ShortUsage: "aso testflight beta-license-agreements <subcommand> [flags]",
 		ShortHelp:  "Manage TestFlight beta license agreements.",
 		LongHelp: `Manage TestFlight beta license agreements.
 
 Examples:
-  asc testflight beta-license-agreements list --app "APP_ID"
-  asc testflight beta-license-agreements get --id "AGREEMENT_ID"
-  asc testflight beta-license-agreements get --app "APP_ID"
-  asc testflight beta-license-agreements update --id "AGREEMENT_ID" --agreement-text "Updated terms"`,
+  aso testflight beta-license-agreements list --app "APP_ID"
+  aso testflight beta-license-agreements get --id "AGREEMENT_ID"
+  aso testflight beta-license-agreements get --app "APP_ID"
+  aso testflight beta-license-agreements update --id "AGREEMENT_ID" --agreement-text "Updated terms"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -56,15 +56,15 @@ func BetaLicenseAgreementsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc testflight beta-license-agreements list [flags]",
+		ShortUsage: "aso testflight beta-license-agreements list [flags]",
 		ShortHelp:  "List beta license agreements.",
 		LongHelp: `List beta license agreements.
 
 Examples:
-  asc testflight beta-license-agreements list
-  asc testflight beta-license-agreements list --app "APP_ID"
-  asc testflight beta-license-agreements list --limit 50
-  asc testflight beta-license-agreements list --paginate`,
+  aso testflight beta-license-agreements list
+  aso testflight beta-license-agreements list --app "APP_ID"
+  aso testflight beta-license-agreements list --limit 50
+  aso testflight beta-license-agreements list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -130,13 +130,13 @@ func BetaLicenseAgreementsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight beta-license-agreements get --id \"AGREEMENT_ID\" | --app \"APP_ID\"",
+		ShortUsage: "aso testflight beta-license-agreements get --id \"AGREEMENT_ID\" | --app \"APP_ID\"",
 		ShortHelp:  "Get a beta license agreement by ID or app.",
 		LongHelp: `Get a beta license agreement by ID or app.
 
 Examples:
-  asc testflight beta-license-agreements get --id "AGREEMENT_ID"
-  asc testflight beta-license-agreements get --app "APP_ID"`,
+  aso testflight beta-license-agreements get --id "AGREEMENT_ID"
+  aso testflight beta-license-agreements get --app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -199,12 +199,12 @@ func BetaLicenseAgreementsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc testflight beta-license-agreements update --id \"AGREEMENT_ID\" --agreement-text \"Text\"",
+		ShortUsage: "aso testflight beta-license-agreements update --id \"AGREEMENT_ID\" --agreement-text \"Text\"",
 		ShortHelp:  "Update a beta license agreement.",
 		LongHelp: `Update a beta license agreement.
 
 Examples:
-  asc testflight beta-license-agreements update --id "AGREEMENT_ID" --agreement-text "Updated terms"`,
+  aso testflight beta-license-agreements update --id "AGREEMENT_ID" --agreement-text "Updated terms"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

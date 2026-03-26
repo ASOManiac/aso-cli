@@ -13,8 +13,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func TestSubmitPreflightCommand_MissingApp(t *testing.T) {
@@ -470,7 +470,7 @@ func TestCheckContentRights_NotSet(t *testing.T) {
 	if check.Passed {
 		t.Fatal("expected check to fail when contentRightsDeclaration is nil")
 	}
-	if check.Hint != "asc apps update --id app-123 --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT" {
+	if check.Hint != "aso apps update --id app-123 --content-rights DOES_NOT_USE_THIRD_PARTY_CONTENT" {
 		t.Fatalf("unexpected hint: %q", check.Hint)
 	}
 }
@@ -516,7 +516,7 @@ func TestCheckLocalizationMetadata_UsesSubmitReadinessRulesPerLocale(t *testing.
 	if !strings.Contains(check.Message, "fr-FR (supportUrl)") {
 		t.Fatalf("expected missing supportUrl to be reported, got %q", check.Message)
 	}
-	if check.Hint != "asc metadata push --app app-123 --version 1.0 --platform IOS --dir ./metadata" {
+	if check.Hint != "aso metadata push --app app-123 --version 1.0 --platform IOS --dir ./metadata" {
 		t.Fatalf("expected metadata push hint, got %q", check.Hint)
 	}
 }
@@ -593,7 +593,7 @@ func TestRunPreflight_AllPass(t *testing.T) {
 			if !check.Passed {
 				t.Fatalf("expected App Privacy advisory to serialize as passed, got %+v", check)
 			}
-			if strings.Contains(strings.ToLower(check.Hint), "asc web") {
+			if strings.Contains(strings.ToLower(check.Hint), "aso web") {
 				t.Fatalf("did not expect web command hint in advisory, got %q", check.Hint)
 			}
 		}
@@ -612,7 +612,7 @@ func TestPreflightTextOutput(t *testing.T) {
 		Platform: "IOS",
 		Checks: []checkResult{
 			{Name: "Version exists", Passed: true, Message: "Version 1.0 found"},
-			{Name: "Build attached", Passed: false, Message: "No build", Hint: "asc submit create ..."},
+			{Name: "Build attached", Passed: false, Message: "No build", Hint: "aso submit create ..."},
 			{Name: "App Privacy", Advisory: true, Message: "App Privacy publish state is not verifiable via the public App Store Connect API and may still block submission", Hint: "Confirm App Privacy is published in App Store Connect before submitting: https://appstoreconnect.apple.com/apps/123/appPrivacy"},
 		},
 		PassCount: 1,
@@ -680,7 +680,7 @@ func TestSubmitPreflightCommand_AllPassIncludesPrivacyAdvisory(t *testing.T) {
 	if !strings.Contains(stdout, "App Privacy publish state is not verifiable via the public App Store Connect API") {
 		t.Fatalf("expected App Privacy advisory in stdout, got %q", stdout)
 	}
-	if strings.Contains(strings.ToLower(stdout), "asc web") {
+	if strings.Contains(strings.ToLower(stdout), "aso web") {
 		t.Fatalf("did not expect private/web command references in stdout, got %q", stdout)
 	}
 }
@@ -823,10 +823,10 @@ func TestSubmitPreflightCommand_TextOutput(t *testing.T) {
 	if !strings.Contains(stdout, "Preflight check for app 123 v1.0 (IOS)") {
 		t.Fatalf("expected text output header, got %q", stdout)
 	}
-	if !strings.Contains(stdout, "asc age-rating edit --app 123 --gambling false --violence-realistic NONE ...") {
+	if !strings.Contains(stdout, "aso age-rating edit --app 123 --gambling false --violence-realistic NONE ...") {
 		t.Fatalf("expected text output to suggest age-rating edit, got %q", stdout)
 	}
-	if strings.Contains(stdout, "asc age-rating set --app 123") {
+	if strings.Contains(stdout, "aso age-rating set --app 123") {
 		t.Fatalf("expected text output to avoid stale age-rating set hint, got %q", stdout)
 	}
 }

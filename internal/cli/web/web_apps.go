@@ -9,9 +9,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 // WebAppsCommand returns the detached web apps command group.
@@ -20,13 +20,13 @@ func WebAppsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "apps",
-		ShortUsage: "asc web apps <subcommand> [flags]",
+		ShortUsage: "aso web apps <subcommand> [flags]",
 		ShortHelp:  "[experimental] Unofficial app management via web sessions; canonical path for app creation.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
 Manage app operations using Apple web sessions and internal APIs.
 This command group is detached from official App Store Connect API flows.
-Use ` + "`asc web apps create`" + ` as the canonical app-creation command.
+Use ` + "`aso web apps create`" + ` as the canonical app-creation command.
 
 ` + webWarningText,
 		FlagSet:   fs,
@@ -229,7 +229,7 @@ func WebAppsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc web apps create [flags]",
+		ShortUsage: "aso web apps create [flags]",
 		ShortHelp:  "[experimental] Create app via unofficial Apple web API.",
 		LongHelp: fmt.Sprintf(`EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -257,10 +257,10 @@ Bundle ID preflight:
 `+webWarningText+`
 
 Examples:
-  asc web apps create
-  asc web apps create --name "My App" --bundle-id "com.example.app" --sku "MYAPP123" --apple-id "user@example.com"
-  %s asc web apps create --name "My App" --bundle-id "com.example.app" --sku "MYAPP123" --apple-id "user@example.com"
-  %s='osascript /path/to/get-apple-2fa-code.scpt' asc web apps create --apple-id "user@example.com"`,
+  aso web apps create
+  aso web apps create --name "My App" --bundle-id "com.example.app" --sku "MYAPP123" --apple-id "user@example.com"
+  %s aso web apps create --name "My App" --bundle-id "com.example.app" --sku "MYAPP123" --apple-id "user@example.com"
+  %s='osascript /path/to/get-apple-2fa-code.scpt' aso web apps create --apple-id "user@example.com"`,
 			webPasswordEnvDisplay(),
 			webTwoFactorCodeCommandEnv,
 			webPasswordEnvAssignmentExample(),

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppClipInvocationsCommand returns the invocations command group.
@@ -19,13 +19,13 @@ func AppClipInvocationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "invocations",
-		ShortUsage: "asc app-clips invocations <subcommand> [flags]",
+		ShortUsage: "aso app-clips invocations <subcommand> [flags]",
 		ShortHelp:  "Manage beta App Clip invocations.",
 		LongHelp: `Manage beta App Clip invocations.
 
 Examples:
-  asc app-clips invocations list --build-bundle-id "BUILD_BUNDLE_ID"
-  asc app-clips invocations create --build-bundle-id "BUILD_BUNDLE_ID" --url "https://example.com/clip"`,
+  aso app-clips invocations list --build-bundle-id "BUILD_BUNDLE_ID"
+  aso app-clips invocations create --build-bundle-id "BUILD_BUNDLE_ID" --url "https://example.com/clip"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -54,13 +54,13 @@ func AppClipInvocationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc app-clips invocations list --build-bundle-id \"BUILD_BUNDLE_ID\" [flags]",
+		ShortUsage: "aso app-clips invocations list --build-bundle-id \"BUILD_BUNDLE_ID\" [flags]",
 		ShortHelp:  "List beta App Clip invocations for a build bundle.",
 		LongHelp: `List beta App Clip invocations for a build bundle.
 
 Examples:
-  asc app-clips invocations list --build-bundle-id "BUILD_BUNDLE_ID"
-  asc app-clips invocations list --build-bundle-id "BUILD_BUNDLE_ID" --paginate`,
+  aso app-clips invocations list --build-bundle-id "BUILD_BUNDLE_ID"
+  aso app-clips invocations list --build-bundle-id "BUILD_BUNDLE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -136,12 +136,12 @@ func AppClipInvocationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-clips invocations get --invocation-id \"INVOCATION_ID\"",
+		ShortUsage: "aso app-clips invocations get --invocation-id \"INVOCATION_ID\"",
 		ShortHelp:  "Get a beta App Clip invocation by ID.",
 		LongHelp: `Get a beta App Clip invocation by ID.
 
 Examples:
-  asc app-clips invocations get --invocation-id "INVOCATION_ID"`,
+  aso app-clips invocations get --invocation-id "INVOCATION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -180,12 +180,12 @@ func AppClipInvocationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc app-clips invocations create --build-bundle-id \"BUILD_BUNDLE_ID\" --url \"https://example.com/clip\" [flags]",
+		ShortUsage: "aso app-clips invocations create --build-bundle-id \"BUILD_BUNDLE_ID\" --url \"https://example.com/clip\" [flags]",
 		ShortHelp:  "Create a beta App Clip invocation.",
 		LongHelp: `Create a beta App Clip invocation.
 
 Examples:
-  asc app-clips invocations create --build-bundle-id "BUILD_BUNDLE_ID" --url "https://example.com/clip"`,
+  aso app-clips invocations create --build-bundle-id "BUILD_BUNDLE_ID" --url "https://example.com/clip"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -230,12 +230,12 @@ func AppClipInvocationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc app-clips invocations update --invocation-id \"INVOCATION_ID\" [flags]",
+		ShortUsage: "aso app-clips invocations update --invocation-id \"INVOCATION_ID\" [flags]",
 		ShortHelp:  "Update a beta App Clip invocation.",
 		LongHelp: `Update a beta App Clip invocation.
 
 Examples:
-  asc app-clips invocations update --invocation-id "INVOCATION_ID" --url "https://example.com/clip"`,
+  aso app-clips invocations update --invocation-id "INVOCATION_ID" --url "https://example.com/clip"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -285,12 +285,12 @@ func AppClipInvocationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc app-clips invocations delete --invocation-id \"INVOCATION_ID\" --confirm",
+		ShortUsage: "aso app-clips invocations delete --invocation-id \"INVOCATION_ID\" --confirm",
 		ShortHelp:  "Delete a beta App Clip invocation.",
 		LongHelp: `Delete a beta App Clip invocation.
 
 Examples:
-  asc app-clips invocations delete --invocation-id "INVOCATION_ID" --confirm`,
+  aso app-clips invocations delete --invocation-id "INVOCATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -8,9 +8,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 type validateIAPOptions struct {
@@ -20,7 +20,7 @@ type validateIAPOptions struct {
 	Pretty bool
 }
 
-// ValidateIAPCommand returns the asc validate iap subcommand.
+// ValidateIAPCommand returns the aso validate iap subcommand.
 func ValidateIAPCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("iap", flag.ExitOnError)
 
@@ -30,7 +30,7 @@ func ValidateIAPCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "iap",
-		ShortUsage: "asc validate iap --app \"APP_ID\" [flags]",
+		ShortUsage: "aso validate iap --app \"APP_ID\" [flags]",
 		ShortHelp:  "Validate IAP review readiness (warning-only by default).",
 		LongHelp: `Validate review readiness for in-app purchases.
 
@@ -38,9 +38,9 @@ This command is conservative: it emits warnings for IAPs that look unsubmitted o
 need action, but it does not block by default (use --strict for CI).
 
 Examples:
-  asc validate iap --app "APP_ID"
-  asc validate iap --app "APP_ID" --output table
-  asc validate iap --app "APP_ID" --strict`,
+  aso validate iap --app "APP_ID"
+  aso validate iap --app "APP_ID" --output table
+  aso validate iap --app "APP_ID" --strict`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

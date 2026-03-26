@@ -12,8 +12,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AssetsPreviewsListCommand returns the previews list subcommand.
@@ -25,12 +25,12 @@ func AssetsPreviewsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc video-previews list --version-localization \"LOC_ID\"",
+		ShortUsage: "aso video-previews list --version-localization \"LOC_ID\"",
 		ShortHelp:  "List previews for a localization.",
 		LongHelp: `List previews for a localization.
 
 Examples:
-  asc video-previews list --version-localization "LOC_ID"`,
+  aso video-previews list --version-localization "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -88,16 +88,16 @@ func AssetsPreviewsUploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload",
-		ShortUsage: "asc video-previews upload --version-localization \"LOC_ID\" --path \"./previews\" --device-type \"IPHONE_65\"",
+		ShortUsage: "aso video-previews upload --version-localization \"LOC_ID\" --path \"./previews\" --device-type \"IPHONE_65\"",
 		ShortHelp:  "Upload previews for a localization.",
 		LongHelp: `Upload previews for a localization.
 
 Examples:
-  asc video-previews upload --version-localization "LOC_ID" --path "./previews" --device-type "IPHONE_65"
-  asc video-previews upload --version-localization "LOC_ID" --path "./previews/preview.mov" --device-type "IPHONE_65"
-  asc video-previews upload --version-localization "LOC_ID" --path "./previews" --device-type "IPHONE_65" --skip-existing
-  asc video-previews upload --version-localization "LOC_ID" --path "./previews" --device-type "IPHONE_65" --replace
-  asc video-previews upload --version-localization "LOC_ID" --path "./previews" --device-type "IPHONE_65" --skip-existing --dry-run`,
+  aso video-previews upload --version-localization "LOC_ID" --path "./previews" --device-type "IPHONE_65"
+  aso video-previews upload --version-localization "LOC_ID" --path "./previews/preview.mov" --device-type "IPHONE_65"
+  aso video-previews upload --version-localization "LOC_ID" --path "./previews" --device-type "IPHONE_65" --skip-existing
+  aso video-previews upload --version-localization "LOC_ID" --path "./previews" --device-type "IPHONE_65" --replace
+  aso video-previews upload --version-localization "LOC_ID" --path "./previews" --device-type "IPHONE_65" --skip-existing --dry-run`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -191,14 +191,14 @@ func AssetsPreviewsDownloadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "download",
-		ShortUsage: "asc video-previews download (--id \"PREVIEW_ID\" --output \"./preview.mov\") | (--version-localization \"LOC_ID\" --output-dir \"./previews\")",
+		ShortUsage: "aso video-previews download (--id \"PREVIEW_ID\" --output \"./preview.mov\") | (--version-localization \"LOC_ID\" --output-dir \"./previews\")",
 		ShortHelp:  "Download App Store app preview videos to disk.",
 		LongHelp: `Download App Store app preview videos to disk.
 
 Examples:
-  asc video-previews download --id "PREVIEW_ID" --output "./preview.mov"
-  asc video-previews download --version-localization "LOC_ID" --output-dir "./previews"
-  asc video-previews download --version-localization "LOC_ID" --output-dir "./previews" --overwrite`,
+  aso video-previews download --id "PREVIEW_ID" --output "./preview.mov"
+  aso video-previews download --version-localization "LOC_ID" --output-dir "./previews"
+  aso video-previews download --version-localization "LOC_ID" --output-dir "./previews" --overwrite`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -489,12 +489,12 @@ func AssetsPreviewsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc video-previews delete --id \"PREVIEW_ID\" --confirm",
+		ShortUsage: "aso video-previews delete --id \"PREVIEW_ID\" --confirm",
 		ShortHelp:  "Delete a preview by ID.",
 		LongHelp: `Delete a preview by ID.
 
 Examples:
-  asc video-previews delete --id "PREVIEW_ID" --confirm`,
+  aso video-previews delete --id "PREVIEW_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -540,7 +540,7 @@ func AssetsPreviewsSetPosterFrameCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "set-poster-frame",
-		ShortUsage: `asc video-previews set-poster-frame --id "PREVIEW_ID" --time-code "00:00:05:00"`,
+		ShortUsage: `aso video-previews set-poster-frame --id "PREVIEW_ID" --time-code "00:00:05:00"`,
 		ShortHelp:  "Set the poster frame timecode for a preview.",
 		LongHelp: `Set the poster frame timecode for a preview.
 
@@ -549,8 +549,8 @@ App Store product page. Accepted timecode formats are HH:MM:SS:FF (frames)
 and HH:MM:SS.mmm (milliseconds).
 
 Examples:
-  asc video-previews set-poster-frame --id "PREVIEW_ID" --time-code "00:00:05:00"
-  asc video-previews set-poster-frame --id "PREVIEW_ID" --time-code "00:00:05.000"`,
+  aso video-previews set-poster-frame --id "PREVIEW_ID" --time-code "00:00:05:00"
+  aso video-previews set-poster-frame --id "PREVIEW_ID" --time-code "00:00:05.000"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

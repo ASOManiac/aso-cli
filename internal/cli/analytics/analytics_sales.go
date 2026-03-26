@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AnalyticsSalesCommand downloads sales and trends reports.
@@ -29,16 +29,16 @@ func AnalyticsSalesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "sales",
-		ShortUsage: "asc analytics sales [flags]",
+		ShortUsage: "aso analytics sales [flags]",
 		ShortHelp:  "Download sales and trends reports.",
 		LongHelp: `Download sales and trends reports.
 
 Examples:
-  asc analytics sales --vendor "12345678" --type SALES --subtype SUMMARY --frequency DAILY --date "2024-01-20"
-  asc analytics sales --vendor "12345678" --type SALES --subtype SUMMARY --frequency WEEKLY --date "2024-01-15" # Monday start accepted
-  asc analytics sales --vendor "12345678" --type SUBSCRIPTION --subtype DETAILED --frequency MONTHLY --date "2024-01"
-  asc analytics sales --vendor "12345678" --type SALES --subtype SUMMARY --frequency DAILY --date "2024-01-20" --decompress
-  asc analytics sales --vendor "12345678" --type SALES --subtype SUMMARY --frequency DAILY --date "2024-01-20" --output "reports/daily_sales.tsv.gz"`,
+  aso analytics sales --vendor "12345678" --type SALES --subtype SUMMARY --frequency DAILY --date "2024-01-20"
+  aso analytics sales --vendor "12345678" --type SALES --subtype SUMMARY --frequency WEEKLY --date "2024-01-15" # Monday start accepted
+  aso analytics sales --vendor "12345678" --type SUBSCRIPTION --subtype DETAILED --frequency MONTHLY --date "2024-01"
+  aso analytics sales --vendor "12345678" --type SALES --subtype SUMMARY --frequency DAILY --date "2024-01-20" --decompress
+  aso analytics sales --vendor "12345678" --type SALES --subtype SUMMARY --frequency DAILY --date "2024-01-20" --output "reports/daily_sales.tsv.gz"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-const deprecatedBetaBuildLocalizationsListWarning = "Warning: `asc beta-build-localizations list` is deprecated. Use `asc builds test-notes list`"
+const deprecatedBetaBuildLocalizationsListWarning = "Warning: `aso beta-build-localizations list` is deprecated. Use `aso builds test-notes list`"
 
 func TestBetaBuildLocalizationsListGlobalSuccess(t *testing.T) {
 	setupAuth(t)

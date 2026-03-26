@@ -12,9 +12,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func webXcodeCloudWorkflowsCommand() *ffcli.Command {
@@ -22,7 +22,7 @@ func webXcodeCloudWorkflowsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "workflows",
-		ShortUsage: "asc web xcode-cloud workflows <subcommand> [flags]",
+		ShortUsage: "aso web xcode-cloud workflows <subcommand> [flags]",
 		ShortHelp:  "[experimental] Describe, create, and edit Xcode Cloud workflows.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -38,12 +38,12 @@ Use enable/disable to toggle workflow state.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud workflows describe --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"
-  asc web xcode-cloud workflows create --product-id "UUID" --file ./workflow.json --apple-id "user@example.com"
-  asc web xcode-cloud workflows options product-config --product-id "UUID" --apple-id "user@example.com"
-  asc web xcode-cloud workflows edit --product-id "UUID" --workflow-id "WF-UUID" --patch-file ./workflow.patch.json --apple-id "user@example.com"
-  asc web xcode-cloud workflows enable --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"
-  asc web xcode-cloud workflows disable --product-id "UUID" --workflow-id "WF-UUID" --confirm --apple-id "user@example.com"`,
+  aso web xcode-cloud workflows describe --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"
+  aso web xcode-cloud workflows create --product-id "UUID" --file ./workflow.json --apple-id "user@example.com"
+  aso web xcode-cloud workflows options product-config --product-id "UUID" --apple-id "user@example.com"
+  aso web xcode-cloud workflows edit --product-id "UUID" --workflow-id "WF-UUID" --patch-file ./workflow.patch.json --apple-id "user@example.com"
+  aso web xcode-cloud workflows enable --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"
+  aso web xcode-cloud workflows disable --product-id "UUID" --workflow-id "WF-UUID" --confirm --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -112,7 +112,7 @@ func webXcodeCloudWorkflowDescribeCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "describe",
-		ShortUsage: "asc web xcode-cloud workflows describe --product-id ID --workflow-id ID [flags]",
+		ShortUsage: "aso web xcode-cloud workflows describe --product-id ID --workflow-id ID [flags]",
 		ShortHelp:  "[experimental] Show workflow configuration.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -122,8 +122,8 @@ Includes state, toolchain versions, triggers, actions, and linked shared env var
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud workflows describe --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"
-  asc web xcode-cloud workflows describe --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com" --output table`,
+  aso web xcode-cloud workflows describe --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"
+  aso web xcode-cloud workflows describe --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -192,7 +192,7 @@ func webXcodeCloudWorkflowCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc web xcode-cloud workflows create --product-id ID --file ./workflow.json [--workflow-id ID] [flags]",
+		ShortUsage: "aso web xcode-cloud workflows create --product-id ID --file ./workflow.json [--workflow-id ID] [flags]",
 		ShortHelp:  "[experimental] Create a workflow from a full private payload.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -204,8 +204,8 @@ If --workflow-id is omitted, a UUID is generated automatically.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud workflows create --product-id "UUID" --file ./workflow.json --apple-id "user@example.com"
-  asc web xcode-cloud workflows create --product-id "UUID" --workflow-id "WF-UUID" --file ./workflow.json --apple-id "user@example.com"`,
+  aso web xcode-cloud workflows create --product-id "UUID" --file ./workflow.json --apple-id "user@example.com"
+  aso web xcode-cloud workflows create --product-id "UUID" --workflow-id "WF-UUID" --file ./workflow.json --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -297,7 +297,7 @@ func webXcodeCloudWorkflowEditCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "edit",
-		ShortUsage: "asc web xcode-cloud workflows edit --product-id ID --workflow-id ID --patch-file ./workflow.patch.json [flags]",
+		ShortUsage: "aso web xcode-cloud workflows edit --product-id ID --workflow-id ID --patch-file ./workflow.patch.json [flags]",
 		ShortHelp:  "[experimental] Edit a workflow with a JSON merge patch.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -310,7 +310,7 @@ workflow API does not consistently accept null removals.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud workflows edit --product-id "UUID" --workflow-id "WF-UUID" --patch-file ./workflow.patch.json --apple-id "user@example.com"`,
+  aso web xcode-cloud workflows edit --product-id "UUID" --workflow-id "WF-UUID" --patch-file ./workflow.patch.json --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -406,7 +406,7 @@ func webXcodeCloudWorkflowEnableCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "enable",
-		ShortUsage: "asc web xcode-cloud workflows enable --product-id ID --workflow-id ID [flags]",
+		ShortUsage: "aso web xcode-cloud workflows enable --product-id ID --workflow-id ID [flags]",
 		ShortHelp:  "[experimental] Enable a workflow.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -416,7 +416,7 @@ If already enabled, this command reports no change and exits successfully.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud workflows enable --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"`,
+  aso web xcode-cloud workflows enable --product-id "UUID" --workflow-id "WF-UUID" --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -458,7 +458,7 @@ func webXcodeCloudWorkflowDisableCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "disable",
-		ShortUsage: "asc web xcode-cloud workflows disable --product-id ID --workflow-id ID --confirm [flags]",
+		ShortUsage: "aso web xcode-cloud workflows disable --product-id ID --workflow-id ID --confirm [flags]",
 		ShortHelp:  "[experimental] Disable a workflow.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -469,7 +469,7 @@ If already disabled, this command reports no change and exits successfully.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud workflows disable --product-id "UUID" --workflow-id "WF-UUID" --confirm --apple-id "user@example.com"`,
+  aso web xcode-cloud workflows disable --product-id "UUID" --workflow-id "WF-UUID" --confirm --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,9 +9,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 var (
@@ -61,7 +61,7 @@ func WebAnalyticsSourcesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "sources",
-		ShortUsage: "asc web analytics sources [flags]",
+		ShortUsage: "aso web analytics sources [flags]",
 		ShortHelp:  "[experimental] Recreate the Acquisition > Sources page.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -143,7 +143,7 @@ func WebAnalyticsInAppEventsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "in-app-events",
-		ShortUsage: "asc web analytics in-app-events [flags]",
+		ShortUsage: "aso web analytics in-app-events [flags]",
 		ShortHelp:  "[experimental] Recreate the Acquisition > In-App Events page.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -224,7 +224,7 @@ func WebAnalyticsCampaignsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "campaigns",
-		ShortUsage: "asc web analytics campaigns [flags]",
+		ShortUsage: "aso web analytics campaigns [flags]",
 		ShortHelp:  "[experimental] Recreate the Acquisition > Campaigns page.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -275,7 +275,7 @@ func WebAnalyticsSalesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "sales",
-		ShortUsage: "asc web analytics sales [flags]",
+		ShortUsage: "aso web analytics sales [flags]",
 		ShortHelp:  "[experimental] Recreate the Monetization > Sales page.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -352,7 +352,7 @@ func WebAnalyticsBenchmarksCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "benchmarks",
-		ShortUsage: "asc web analytics benchmarks [flags]",
+		ShortUsage: "aso web analytics benchmarks [flags]",
 		ShortHelp:  "[experimental] Recreate the Benchmarks summary page.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -405,7 +405,7 @@ func newAnalyticsCapabilityCommand(
 
 	return &ffcli.Command{
 		Name:       name,
-		ShortUsage: "asc web analytics " + name + " [flags]",
+		ShortUsage: "aso web analytics " + name + " [flags]",
 		ShortHelp:  shortHelp,
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 

@@ -276,7 +276,7 @@ func TestPricingAvailabilityCommand_UsesExistingAvailabilitySurface(t *testing.T
 		}
 	}
 
-	if !strings.Contains(cmd.LongHelp, `"asc web apps availability create"`) {
+	if !strings.Contains(cmd.LongHelp, `"aso web apps availability create"`) {
 		t.Fatalf("expected pricing availability help to point at web bootstrap flow, got %q", cmd.LongHelp)
 	}
 }

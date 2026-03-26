@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/cmd"
+	"github.com/ASOManiac/aso-cli/cmd"
 )
 
 func TestRunPrintsHintForMissingAuth(t *testing.T) {
@@ -30,7 +30,7 @@ func TestRunPrintsHintForMissingAuth(t *testing.T) {
 	if !strings.Contains(stderr, "missing authentication") {
 		t.Fatalf("expected missing auth error, got %q", stderr)
 	}
-	if !strings.Contains(stderr, "Hint:") || !strings.Contains(stderr, "asc auth login") {
+	if !strings.Contains(stderr, "Hint:") || !strings.Contains(stderr, "aso auth login") {
 		t.Fatalf("expected auth hint, got %q", stderr)
 	}
 }

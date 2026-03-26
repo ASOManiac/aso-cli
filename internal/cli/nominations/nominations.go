@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // NominationsCommand returns the nominations command with subcommands.
@@ -20,16 +20,16 @@ func NominationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "nominations",
-		ShortUsage: "asc nominations <subcommand> [flags]",
+		ShortUsage: "aso nominations <subcommand> [flags]",
 		ShortHelp:  "Manage featuring nominations.",
 		LongHelp: `Manage featuring nominations.
 
 Examples:
-  asc nominations list --status DRAFT
-  asc nominations get --id "NOMINATION_ID"
-  asc nominations create --app "APP_ID" --name "Launch" --type APP_LAUNCH --description "New launch" --submitted=false --publish-start-date "2026-02-01T08:00:00Z"
-  asc nominations update --id "NOMINATION_ID" --notes "Updated notes"
-  asc nominations delete --id "NOMINATION_ID" --confirm`,
+  aso nominations list --status DRAFT
+  aso nominations get --id "NOMINATION_ID"
+  aso nominations create --app "APP_ID" --name "Launch" --type APP_LAUNCH --description "New launch" --submitted=false --publish-start-date "2026-02-01T08:00:00Z"
+  aso nominations update --id "NOMINATION_ID" --notes "Updated notes"
+  aso nominations delete --id "NOMINATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -65,15 +65,15 @@ func NominationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc nominations list --status STATE [flags]",
+		ShortUsage: "aso nominations list --status STATE [flags]",
 		ShortHelp:  "List featuring nominations.",
 		LongHelp: `List featuring nominations.
 
 Examples:
-  asc nominations list --status DRAFT
-  asc nominations list --status DRAFT --type APP_LAUNCH
-  asc nominations list --app "APP_ID" --status SUBMITTED --output table
-  asc nominations list --include relatedApps --related-apps-limit 10`,
+  aso nominations list --status DRAFT
+  aso nominations list --status DRAFT --type APP_LAUNCH
+  aso nominations list --app "APP_ID" --status SUBMITTED --output table
+  aso nominations list --include relatedApps --related-apps-limit 10`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -208,13 +208,13 @@ func NominationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc nominations get --id NOMINATION_ID [flags]",
+		ShortUsage: "aso nominations get --id NOMINATION_ID [flags]",
 		ShortHelp:  "Get a featuring nomination by ID.",
 		LongHelp: `Get a featuring nomination by ID.
 
 Examples:
-  asc nominations get --id "NOMINATION_ID"
-  asc nominations get --id "NOMINATION_ID" --include relatedApps`,
+  aso nominations get --id "NOMINATION_ID"
+  aso nominations get --id "NOMINATION_ID" --include relatedApps`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -315,13 +315,13 @@ func NominationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc nominations create --app APP_ID --name NAME --type TYPE --description DESC --submitted [true|false] --publish-start-date RFC3339 [flags]",
+		ShortUsage: "aso nominations create --app APP_ID --name NAME --type TYPE --description DESC --submitted [true|false] --publish-start-date RFC3339 [flags]",
 		ShortHelp:  "Create a featuring nomination.",
 		LongHelp: `Create a featuring nomination.
 
 Examples:
-  asc nominations create --app "APP_ID" --name "Launch" --type APP_LAUNCH --description "New launch" --submitted=false --publish-start-date "2026-02-01T08:00:00Z"
-  asc nominations create --app "APP_ID" --name "Update" --type APP_ENHANCEMENTS --description "Major update" --submitted=true --publish-start-date "2026-03-01T08:00:00Z" --publish-end-date "2026-04-01T08:00:00Z"`,
+  aso nominations create --app "APP_ID" --name "Launch" --type APP_LAUNCH --description "New launch" --submitted=false --publish-start-date "2026-02-01T08:00:00Z"
+  aso nominations create --app "APP_ID" --name "Update" --type APP_ENHANCEMENTS --description "Major update" --submitted=true --publish-start-date "2026-03-01T08:00:00Z" --publish-end-date "2026-04-01T08:00:00Z"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -472,16 +472,16 @@ func NominationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc nominations update --id NOMINATION_ID --submitted [true|false] [flags]",
+		ShortUsage: "aso nominations update --id NOMINATION_ID --submitted [true|false] [flags]",
 		ShortHelp:  "Update a featuring nomination.",
 		LongHelp: `Update a featuring nomination.
 
 Note: --submitted or --archived is required by the API.
 
 Examples:
-  asc nominations update --id "NOMINATION_ID" --notes "Updated notes"
-  asc nominations update --id "NOMINATION_ID" --type NEW_CONTENT --publish-start-date "2026-03-01T08:00:00Z"
-  asc nominations update --id "NOMINATION_ID" --archived=true`,
+  aso nominations update --id "NOMINATION_ID" --notes "Updated notes"
+  aso nominations update --id "NOMINATION_ID" --type NEW_CONTENT --publish-start-date "2026-03-01T08:00:00Z"
+  aso nominations update --id "NOMINATION_ID" --archived=true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -668,12 +668,12 @@ func NominationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc nominations delete --id NOMINATION_ID --confirm",
+		ShortUsage: "aso nominations delete --id NOMINATION_ID --confirm",
 		ShortHelp:  "Delete a featuring nomination.",
 		LongHelp: `Delete a featuring nomination.
 
 Examples:
-  asc nominations delete --id "NOMINATION_ID" --confirm`,
+  aso nominations delete --id "NOMINATION_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

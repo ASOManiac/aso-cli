@@ -9,9 +9,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/validation"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/validation"
 )
 
 type validateTestFlightOptions struct {
@@ -22,7 +22,7 @@ type validateTestFlightOptions struct {
 	Pretty  bool
 }
 
-// ValidateTestFlightCommand returns the asc validate testflight subcommand.
+// ValidateTestFlightCommand returns the aso validate testflight subcommand.
 func ValidateTestFlightCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("testflight", flag.ExitOnError)
 
@@ -33,7 +33,7 @@ func ValidateTestFlightCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "testflight",
-		ShortUsage: "asc validate testflight --app \"APP_ID\" --build \"BUILD_ID\" [flags]",
+		ShortUsage: "aso validate testflight --app \"APP_ID\" --build \"BUILD_ID\" [flags]",
 		ShortHelp:  "Validate TestFlight build readiness before distribution.",
 		LongHelp: `Validate TestFlight readiness for a build.
 
@@ -43,9 +43,9 @@ Checks:
   - "What to Test" notes present for at least one localization
 
 Examples:
-  asc validate testflight --app "APP_ID" --build "BUILD_ID"
-  asc validate testflight --app "APP_ID" --build "BUILD_ID" --output table
-  asc validate testflight --app "APP_ID" --build "BUILD_ID" --strict`,
+  aso validate testflight --app "APP_ID" --build "BUILD_ID"
+  aso validate testflight --app "APP_ID" --build "BUILD_ID" --output table
+  aso validate testflight --app "APP_ID" --build "BUILD_ID" --strict`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

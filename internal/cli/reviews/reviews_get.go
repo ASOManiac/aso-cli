@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ReviewsGetCommand gets a customer review by ID.
@@ -20,12 +20,12 @@ func ReviewsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc reviews get --id \"REVIEW_ID\"",
+		ShortUsage: "aso reviews get --id \"REVIEW_ID\"",
 		ShortHelp:  "Get a customer review by ID.",
 		LongHelp: `Get a customer review by ID.
 
 Examples:
-  asc reviews get --id "REVIEW_ID"`,
+  aso reviews get --id "REVIEW_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

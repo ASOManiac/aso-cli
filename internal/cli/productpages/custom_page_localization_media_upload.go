@@ -9,9 +9,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/assets"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/assets"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 var customPageMediaClientFactory = shared.GetASCClient
@@ -27,13 +27,13 @@ func CustomPageLocalizationsScreenshotSetsUploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload",
-		ShortUsage: "asc product-pages custom-pages localizations screenshot-sets upload --localization-id \"LOCALIZATION_ID\" --path \"./screenshots\" --device-type \"IPHONE_65\"",
+		ShortUsage: "aso product-pages custom-pages localizations screenshot-sets upload --localization-id \"LOCALIZATION_ID\" --path \"./screenshots\" --device-type \"IPHONE_65\"",
 		ShortHelp:  "Upload screenshots for a custom product page localization.",
 		LongHelp: `Upload screenshots for a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations screenshot-sets upload --localization-id "LOCALIZATION_ID" --path "./screenshots" --device-type "IPHONE_65"
-  asc product-pages custom-pages localizations screenshot-sets upload --localization-id "LOCALIZATION_ID" --path "./screenshots/en-US.png" --device-type "IPHONE_65"`,
+  aso product-pages custom-pages localizations screenshot-sets upload --localization-id "LOCALIZATION_ID" --path "./screenshots" --device-type "IPHONE_65"
+  aso product-pages custom-pages localizations screenshot-sets upload --localization-id "LOCALIZATION_ID" --path "./screenshots/en-US.png" --device-type "IPHONE_65"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -58,14 +58,14 @@ func CustomPageLocalizationsScreenshotSetsSyncCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "sync",
-		ShortUsage: "asc product-pages custom-pages localizations screenshot-sets sync --localization-id \"LOCALIZATION_ID\" --path \"./screenshots\" --device-type \"IPHONE_65\" --confirm",
+		ShortUsage: "aso product-pages custom-pages localizations screenshot-sets sync --localization-id \"LOCALIZATION_ID\" --path \"./screenshots\" --device-type \"IPHONE_65\" --confirm",
 		ShortHelp:  "Sync screenshots for a custom product page localization.",
 		LongHelp: `Sync screenshots for a custom product page localization.
 
 This replaces existing screenshots in the matching display-type set with files from --path.
 
 Examples:
-  asc product-pages custom-pages localizations screenshot-sets sync --localization-id "LOCALIZATION_ID" --path "./screenshots" --device-type "IPHONE_65" --confirm`,
+  aso product-pages custom-pages localizations screenshot-sets sync --localization-id "LOCALIZATION_ID" --path "./screenshots" --device-type "IPHONE_65" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -94,13 +94,13 @@ func CustomPageLocalizationsPreviewSetsUploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload",
-		ShortUsage: "asc product-pages custom-pages localizations preview-sets upload --localization-id \"LOCALIZATION_ID\" --path \"./previews\" --device-type \"IPHONE_65\"",
+		ShortUsage: "aso product-pages custom-pages localizations preview-sets upload --localization-id \"LOCALIZATION_ID\" --path \"./previews\" --device-type \"IPHONE_65\"",
 		ShortHelp:  "Upload previews for a custom product page localization.",
 		LongHelp: `Upload previews for a custom product page localization.
 
 Examples:
-  asc product-pages custom-pages localizations preview-sets upload --localization-id "LOCALIZATION_ID" --path "./previews" --device-type "IPHONE_65"
-  asc product-pages custom-pages localizations preview-sets upload --localization-id "LOCALIZATION_ID" --path "./previews/en-US.mov" --device-type "IPHONE_65"`,
+  aso product-pages custom-pages localizations preview-sets upload --localization-id "LOCALIZATION_ID" --path "./previews" --device-type "IPHONE_65"
+  aso product-pages custom-pages localizations preview-sets upload --localization-id "LOCALIZATION_ID" --path "./previews/en-US.mov" --device-type "IPHONE_65"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -125,14 +125,14 @@ func CustomPageLocalizationsPreviewSetsSyncCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "sync",
-		ShortUsage: "asc product-pages custom-pages localizations preview-sets sync --localization-id \"LOCALIZATION_ID\" --path \"./previews\" --device-type \"IPHONE_65\" --confirm",
+		ShortUsage: "aso product-pages custom-pages localizations preview-sets sync --localization-id \"LOCALIZATION_ID\" --path \"./previews\" --device-type \"IPHONE_65\" --confirm",
 		ShortHelp:  "Sync previews for a custom product page localization.",
 		LongHelp: `Sync previews for a custom product page localization.
 
 This replaces existing previews in the matching preview-type set with files from --path.
 
 Examples:
-  asc product-pages custom-pages localizations preview-sets sync --localization-id "LOCALIZATION_ID" --path "./previews" --device-type "IPHONE_65" --confirm`,
+  aso product-pages custom-pages localizations preview-sets sync --localization-id "LOCALIZATION_ID" --path "./previews" --device-type "IPHONE_65" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -8,8 +8,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppsInfoRelationshipsCommand returns the apps info relationships command group.
@@ -18,13 +18,13 @@ func AppsInfoRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "relationships",
-		ShortUsage: "asc apps info relationships <subcommand> [flags]",
+		ShortUsage: "aso apps info relationships <subcommand> [flags]",
 		ShortHelp:  "Get App Info category relationships.",
 		LongHelp: `Get App Info category relationships.
 
 Examples:
-  asc apps info relationships primary-category --app "APP_ID"
-  asc apps info relationships primary-category --info-id "APP_INFO_ID"`,
+  aso apps info relationships primary-category --app "APP_ID"
+  aso apps info relationships primary-category --info-id "APP_INFO_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -89,13 +89,13 @@ func appsInfoCategoryRelationshipCommand(name, shortHelp string, fetch appInfoCa
 
 	return &ffcli.Command{
 		Name:       name,
-		ShortUsage: fmt.Sprintf("asc apps info relationships %s [flags]", name),
+		ShortUsage: fmt.Sprintf("aso apps info relationships %s [flags]", name),
 		ShortHelp:  shortHelp,
 		LongHelp: fmt.Sprintf(`%s
 
 Examples:
-  asc apps info relationships %s --app "APP_ID"
-  asc apps info relationships %s --info-id "APP_INFO_ID"`, shortHelp, name, name),
+  aso apps info relationships %s --app "APP_ID"
+  aso apps info relationships %s --info-id "APP_INFO_ID"`, shortHelp, name, name),
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

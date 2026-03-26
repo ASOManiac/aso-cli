@@ -14,26 +14,26 @@ import (
 	"github.com/peterbourgon/ff/v3/ffcli"
 	"howett.net/plist"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // EncryptionCommand returns the encryption command group.
 func EncryptionCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "encryption",
-		ShortUsage: "asc encryption <subcommand> [flags]",
+		ShortUsage: "aso encryption <subcommand> [flags]",
 		ShortHelp:  "Manage app encryption declarations and documents.",
 		LongHelp: `Manage app encryption declarations and documents.
 
 Examples:
-  asc encryption declarations list --app "APP_ID"
-  asc encryption declarations get --id "DECL_ID"
-  asc encryption declarations create --app "APP_ID" --app-description "Uses TLS" --contains-proprietary-cryptography=false --contains-third-party-cryptography=true --available-on-french-store=true
-  asc encryption declarations exempt-declare --plist ./Info.plist
-  asc encryption declarations assign-builds --id "DECL_ID" --build "BUILD_ID"
-  asc encryption documents get --id "DOC_ID"
-  asc encryption documents upload --declaration "DECL_ID" --file ./export.pdf`,
+  aso encryption declarations list --app "APP_ID"
+  aso encryption declarations get --id "DECL_ID"
+  aso encryption declarations create --app "APP_ID" --app-description "Uses TLS" --contains-proprietary-cryptography=false --contains-third-party-cryptography=true --available-on-french-store=true
+  aso encryption declarations exempt-declare --plist ./Info.plist
+  aso encryption declarations assign-builds --id "DECL_ID" --build "BUILD_ID"
+  aso encryption documents get --id "DOC_ID"
+  aso encryption documents upload --declaration "DECL_ID" --file ./export.pdf`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			EncryptionDeclarationsCommand(),
@@ -49,16 +49,16 @@ Examples:
 func EncryptionDeclarationsCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "declarations",
-		ShortUsage: "asc encryption declarations <subcommand> [flags]",
+		ShortUsage: "aso encryption declarations <subcommand> [flags]",
 		ShortHelp:  "Manage app encryption declarations.",
 		LongHelp: `Manage app encryption declarations.
 
 Examples:
-  asc encryption declarations list --app "APP_ID"
-  asc encryption declarations get --id "DECL_ID"
-  asc encryption declarations create --app "APP_ID" --app-description "Uses TLS" --contains-proprietary-cryptography=false --contains-third-party-cryptography=true --available-on-french-store=true
-  asc encryption declarations exempt-declare --plist ./Info.plist
-  asc encryption declarations assign-builds --id "DECL_ID" --build "BUILD_ID"`,
+  aso encryption declarations list --app "APP_ID"
+  aso encryption declarations get --id "DECL_ID"
+  aso encryption declarations create --app "APP_ID" --app-description "Uses TLS" --contains-proprietary-cryptography=false --contains-third-party-cryptography=true --available-on-french-store=true
+  aso encryption declarations exempt-declare --plist ./Info.plist
+  aso encryption declarations assign-builds --id "DECL_ID" --build "BUILD_ID"`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			EncryptionDeclarationsListCommand(),
@@ -92,14 +92,14 @@ func EncryptionDeclarationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc encryption declarations list --app \"APP_ID\" [flags]",
+		ShortUsage: "aso encryption declarations list --app \"APP_ID\" [flags]",
 		ShortHelp:  "List encryption declarations for an app.",
 		LongHelp: `List encryption declarations for an app.
 
 Examples:
-  asc encryption declarations list --app "APP_ID"
-  asc encryption declarations list --app "APP_ID" --include appEncryptionDeclarationDocument --document-fields "fileName,fileSize"
-  asc encryption declarations list --app "APP_ID" --paginate`,
+  aso encryption declarations list --app "APP_ID"
+  aso encryption declarations list --app "APP_ID" --include appEncryptionDeclarationDocument --document-fields "fileName,fileSize"
+  aso encryption declarations list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -192,13 +192,13 @@ func EncryptionDeclarationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc encryption declarations get --id \"DECL_ID\"",
+		ShortUsage: "aso encryption declarations get --id \"DECL_ID\"",
 		ShortHelp:  "Get an encryption declaration by ID.",
 		LongHelp: `Get an encryption declaration by ID.
 
 Examples:
-  asc encryption declarations get --id "DECL_ID"
-  asc encryption declarations get --id "DECL_ID" --include appEncryptionDeclarationDocument --document-fields "fileName,fileSize"`,
+  aso encryption declarations get --id "DECL_ID"
+  aso encryption declarations get --id "DECL_ID" --include appEncryptionDeclarationDocument --document-fields "fileName,fileSize"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -260,12 +260,12 @@ func EncryptionDeclarationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc encryption declarations create --app \"APP_ID\" [flags]",
+		ShortUsage: "aso encryption declarations create --app \"APP_ID\" [flags]",
 		ShortHelp:  "Create a new encryption declaration.",
 		LongHelp: `Create a new encryption declaration.
 
 Examples:
-  asc encryption declarations create --app "APP_ID" --app-description "Uses TLS" --contains-proprietary-cryptography=false --contains-third-party-cryptography=true --available-on-french-store=true`,
+  aso encryption declarations create --app "APP_ID" --app-description "Uses TLS" --contains-proprietary-cryptography=false --contains-third-party-cryptography=true --available-on-french-store=true`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -331,7 +331,7 @@ func EncryptionDeclarationsExemptDeclareCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "exempt-declare",
-		ShortUsage: "asc encryption declarations exempt-declare [--plist ./Info.plist]",
+		ShortUsage: "aso encryption declarations exempt-declare [--plist ./Info.plist]",
 		ShortHelp:  "Guide local Info.plist exemption for exempt encryption.",
 		LongHelp: `Guide local Info.plist exemption for exempt encryption.
 
@@ -345,11 +345,11 @@ entry for you to add manually.
 
 This command only updates local project metadata. It does not create or attach
 an App Store Connect encryption declaration. For uploaded builds, use
-"asc submit preflight" to verify ASC-side encryption state.
+"aso submit preflight" to verify ASC-side encryption state.
 
 Examples:
-  asc encryption declarations exempt-declare
-  asc encryption declarations exempt-declare --plist ./MyApp/Info.plist`,
+  aso encryption declarations exempt-declare
+  aso encryption declarations exempt-declare --plist ./MyApp/Info.plist`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -378,7 +378,7 @@ Examples:
 
 Or pass --plist to update it automatically:
 
-  asc encryption declarations exempt-declare --plist ./MyApp/Info.plist
+  aso encryption declarations exempt-declare --plist ./MyApp/Info.plist
 
 This eliminates the encryption compliance dialog on each TestFlight and
 App Store submission. Most apps that only use HTTPS/TLS qualify as exempt.
@@ -387,10 +387,10 @@ This command only updates local project metadata. It does not create or attach
 an App Store Connect encryption declaration.
 
 For uploaded builds in App Store Connect, verify encryption state with:
-  asc submit preflight --app "APP_ID" --version "1.0"
+  aso submit preflight --app "APP_ID" --version "1.0"
 
 If a build still reports non-exempt encryption incorrectly, update the build:
-  asc builds update --build "BUILD_ID" --uses-non-exempt-encryption=false
+  aso builds update --build "BUILD_ID" --uses-non-exempt-encryption=false
 
 For details, see:
   https://developer.apple.com/documentation/bundleresources/information-property-list/itsappusesnonexemptencryption`)
@@ -545,13 +545,13 @@ func EncryptionDeclarationsAssignBuildsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "assign-builds",
-		ShortUsage: "asc encryption declarations assign-builds --id \"DECL_ID\" --build \"BUILD_ID[,BUILD_ID...]\"",
+		ShortUsage: "aso encryption declarations assign-builds --id \"DECL_ID\" --build \"BUILD_ID[,BUILD_ID...]\"",
 		ShortHelp:  "Assign builds to an encryption declaration.",
 		LongHelp: `Assign builds to an encryption declaration.
 
 Examples:
-  asc encryption declarations assign-builds --id "DECL_ID" --build "BUILD_ID"
-  asc encryption declarations assign-builds --id "DECL_ID" --build "BUILD_ID1,BUILD_ID2"`,
+  aso encryption declarations assign-builds --id "DECL_ID" --build "BUILD_ID"
+  aso encryption declarations assign-builds --id "DECL_ID" --build "BUILD_ID1,BUILD_ID2"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -595,13 +595,13 @@ Examples:
 func EncryptionDocumentsCommand() *ffcli.Command {
 	return &ffcli.Command{
 		Name:       "documents",
-		ShortUsage: "asc encryption documents <subcommand> [flags]",
+		ShortUsage: "aso encryption documents <subcommand> [flags]",
 		ShortHelp:  "Manage encryption declaration documents.",
 		LongHelp: `Manage encryption declaration documents.
 
 Examples:
-  asc encryption documents get --id "DOC_ID"
-  asc encryption documents upload --declaration "DECL_ID" --file ./export.pdf`,
+  aso encryption documents get --id "DOC_ID"
+  aso encryption documents upload --declaration "DECL_ID" --file ./export.pdf`,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
 			EncryptionDocumentsGetCommand(),
@@ -623,12 +623,12 @@ func EncryptionDocumentsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc encryption documents get --id \"DOC_ID\"",
+		ShortUsage: "aso encryption documents get --id \"DOC_ID\"",
 		ShortHelp:  "Get an encryption declaration document by ID.",
 		LongHelp: `Get an encryption declaration document by ID.
 
 Examples:
-  asc encryption documents get --id "DOC_ID"`,
+  aso encryption documents get --id "DOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -671,12 +671,12 @@ func EncryptionDocumentsUploadCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "upload",
-		ShortUsage: "asc encryption documents upload --declaration \"DECL_ID\" --file ./export.pdf",
+		ShortUsage: "aso encryption documents upload --declaration \"DECL_ID\" --file ./export.pdf",
 		ShortHelp:  "Upload an encryption declaration document.",
 		LongHelp: `Upload an encryption declaration document.
 
 Examples:
-  asc encryption documents upload --declaration "DECL_ID" --file ./export.pdf`,
+  aso encryption documents upload --declaration "DECL_ID" --file ./export.pdf`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // ProfilesRelationshipsCommand returns the profiles links command group.
@@ -20,14 +20,14 @@ func ProfilesRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc profiles links <bundle-id|certificates|devices> [flags]",
+		ShortUsage: "aso profiles links <bundle-id|certificates|devices> [flags]",
 		ShortHelp:  "View profile relationship linkages.",
 		LongHelp: `View profile relationship linkages.
 
 Examples:
-  asc profiles links bundle-id --id "PROFILE_ID"
-  asc profiles links certificates --id "PROFILE_ID"
-  asc profiles links devices --id "PROFILE_ID"`,
+  aso profiles links bundle-id --id "PROFILE_ID"
+  aso profiles links certificates --id "PROFILE_ID"
+  aso profiles links devices --id "PROFILE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -50,12 +50,12 @@ func ProfilesRelationshipsBundleIDCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "bundle-id",
-		ShortUsage: "asc profiles links bundle-id --id \"PROFILE_ID\"",
+		ShortUsage: "aso profiles links bundle-id --id \"PROFILE_ID\"",
 		ShortHelp:  "Get bundle ID relationship for a profile.",
 		LongHelp: `Get bundle ID relationship for a profile.
 
 Examples:
-  asc profiles links bundle-id --id "PROFILE_ID"`,
+  aso profiles links bundle-id --id "PROFILE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -95,13 +95,13 @@ func ProfilesRelationshipsCertificatesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "certificates",
-		ShortUsage: "asc profiles links certificates --id \"PROFILE_ID\" [flags]",
+		ShortUsage: "aso profiles links certificates --id \"PROFILE_ID\" [flags]",
 		ShortHelp:  "Get certificate relationship linkages for a profile.",
 		LongHelp: `Get certificate relationship linkages for a profile.
 
 Examples:
-  asc profiles links certificates --id "PROFILE_ID"
-  asc profiles links certificates --id "PROFILE_ID" --paginate`,
+  aso profiles links certificates --id "PROFILE_ID"
+  aso profiles links certificates --id "PROFILE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -180,13 +180,13 @@ func ProfilesRelationshipsDevicesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "devices",
-		ShortUsage: "asc profiles links devices --id \"PROFILE_ID\" [flags]",
+		ShortUsage: "aso profiles links devices --id \"PROFILE_ID\" [flags]",
 		ShortHelp:  "Get device relationship linkages for a profile.",
 		LongHelp: `Get device relationship linkages for a profile.
 
 Examples:
-  asc profiles links devices --id "PROFILE_ID"
-  asc profiles links devices --id "PROFILE_ID" --paginate`,
+  aso profiles links devices --id "PROFILE_ID"
+  aso profiles links devices --id "PROFILE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -275,32 +275,32 @@ func DeprecatedProfilesRelationshipsAliasCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "relationships",
-		ShortUsage: "asc profiles links <bundle-id|certificates|devices> [flags]",
-		ShortHelp:  "DEPRECATED: use `asc profiles links ...`.",
-		LongHelp:   "Deprecated compatibility alias for `asc profiles links ...`.",
+		ShortUsage: "aso profiles links <bundle-id|certificates|devices> [flags]",
+		ShortHelp:  "DEPRECATED: use `aso profiles links ...`.",
+		LongHelp:   "Deprecated compatibility alias for `aso profiles links ...`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
 			shared.DeprecatedAliasLeafCommand(
 				ProfilesRelationshipsBundleIDCommand(),
 				"bundle-id",
-				"asc profiles links bundle-id --id \"PROFILE_ID\"",
-				"asc profiles links bundle-id",
-				"Warning: `asc profiles relationships bundle-id` is deprecated. Use `asc profiles links bundle-id`.",
+				"aso profiles links bundle-id --id \"PROFILE_ID\"",
+				"aso profiles links bundle-id",
+				"Warning: `aso profiles relationships bundle-id` is deprecated. Use `aso profiles links bundle-id`.",
 			),
 			shared.DeprecatedAliasLeafCommand(
 				ProfilesRelationshipsCertificatesCommand(),
 				"certificates",
-				"asc profiles links certificates --id \"PROFILE_ID\" [flags]",
-				"asc profiles links certificates",
-				"Warning: `asc profiles relationships certificates` is deprecated. Use `asc profiles links certificates`.",
+				"aso profiles links certificates --id \"PROFILE_ID\" [flags]",
+				"aso profiles links certificates",
+				"Warning: `aso profiles relationships certificates` is deprecated. Use `aso profiles links certificates`.",
 			),
 			shared.DeprecatedAliasLeafCommand(
 				ProfilesRelationshipsDevicesCommand(),
 				"devices",
-				"asc profiles links devices --id \"PROFILE_ID\" [flags]",
-				"asc profiles links devices",
-				"Warning: `asc profiles relationships devices` is deprecated. Use `asc profiles links devices`.",
+				"aso profiles links devices --id \"PROFILE_ID\" [flags]",
+				"aso profiles links devices",
+				"Warning: `aso profiles relationships devices` is deprecated. Use `aso profiles links devices`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // UsersCommand returns the users command with subcommands.
@@ -19,21 +19,21 @@ func UsersCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "users",
-		ShortUsage: "asc users <subcommand> [flags]",
+		ShortUsage: "aso users <subcommand> [flags]",
 		ShortHelp:  "Manage users and invitations in App Store Connect.",
 		LongHelp: `Manage users and invitations in App Store Connect.
 
 Examples:
-  asc users list
-  asc users get --id "USER_ID"
-  asc users get --id "USER_ID" --include visibleApps
-  asc users update --id "USER_ID" --roles "ADMIN"
-  asc users delete --id "USER_ID" --confirm
-  asc users invite --email "user@example.com" --roles "ADMIN" --all-apps
-  asc users invites list
-  asc users invites visible-apps list --id "INVITE_ID"
-  asc users visible-apps list --id "USER_ID"
-  asc users visible-apps get --id "USER_ID"`,
+  aso users list
+  aso users get --id "USER_ID"
+  aso users get --id "USER_ID" --include visibleApps
+  aso users update --id "USER_ID" --roles "ADMIN"
+  aso users delete --id "USER_ID" --confirm
+  aso users invite --email "user@example.com" --roles "ADMIN" --all-apps
+  aso users invites list
+  aso users invites visible-apps list --id "INVITE_ID"
+  aso users visible-apps list --id "USER_ID"
+  aso users visible-apps get --id "USER_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -64,17 +64,17 @@ func UsersListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc users list [flags]",
+		ShortUsage: "aso users list [flags]",
 		ShortHelp:  "List users in App Store Connect.",
 		LongHelp: `List users in App Store Connect.
 
 Examples:
-  asc users list
-  asc users list --email "user@example.com"
-  asc users list --role "ADMIN"
-  asc users list --role "DEVELOPER,APP_MANAGER"
-  asc users list --limit 50
-  asc users list --paginate`,
+  aso users list
+  aso users list --email "user@example.com"
+  aso users list --role "ADMIN"
+  aso users list --role "DEVELOPER,APP_MANAGER"
+  aso users list --limit 50
+  aso users list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -137,13 +137,13 @@ func UsersGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc users get --id USER_ID",
+		ShortUsage: "aso users get --id USER_ID",
 		ShortHelp:  "Get a user by ID.",
 		LongHelp: `Get a user by ID.
 
 Examples:
-  asc users get --id "USER_ID"
-  asc users get --id "USER_ID" --include visibleApps`,
+  aso users get --id "USER_ID"
+  aso users get --id "USER_ID" --include visibleApps`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -192,13 +192,13 @@ func UsersUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc users update --id USER_ID --roles ROLE_ID[,ROLE_ID...] [--visible-app APP_ID[,APP_ID...]]",
+		ShortUsage: "aso users update --id USER_ID --roles ROLE_ID[,ROLE_ID...] [--visible-app APP_ID[,APP_ID...]]",
 		ShortHelp:  "Update a user.",
 		LongHelp: `Update a user by ID.
 
 Examples:
-  asc users update --id "USER_ID" --roles "ADMIN"
-  asc users update --id "USER_ID" --roles "ADMIN" --visible-app "APP_ID"`,
+  aso users update --id "USER_ID" --roles "ADMIN"
+  aso users update --id "USER_ID" --roles "ADMIN" --visible-app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -258,12 +258,12 @@ func UsersDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc users delete --id USER_ID --confirm",
+		ShortUsage: "aso users delete --id USER_ID --confirm",
 		ShortHelp:  "Delete a user.",
 		LongHelp: `Delete a user by ID.
 
 Examples:
-  asc users delete --id "USER_ID" --confirm`,
+  aso users delete --id "USER_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -314,13 +314,13 @@ func UsersInviteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "invite",
-		ShortUsage: "asc users invite --email EMAIL --first-name NAME --last-name NAME --roles ROLE[,ROLE...] [--all-apps | --visible-app APP_ID[,APP_ID...]]",
+		ShortUsage: "aso users invite --email EMAIL --first-name NAME --last-name NAME --roles ROLE[,ROLE...] [--all-apps | --visible-app APP_ID[,APP_ID...]]",
 		ShortHelp:  "Invite a user.",
 		LongHelp: `Invite a new user to App Store Connect.
 
 Examples:
-  asc users invite --email "user@example.com" --first-name "Jane" --last-name "Doe" --roles "ADMIN" --all-apps
-  asc users invite --email "user@example.com" --first-name "John" --last-name "Smith" --roles "DEVELOPER" --visible-app "APP_ID"`,
+  aso users invite --email "user@example.com" --first-name "Jane" --last-name "Doe" --roles "ADMIN" --all-apps
+  aso users invite --email "user@example.com" --first-name "John" --last-name "Smith" --roles "DEVELOPER" --visible-app "APP_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -398,15 +398,15 @@ func UsersInvitesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "invites",
-		ShortUsage: "asc users invites <subcommand> [flags]",
+		ShortUsage: "aso users invites <subcommand> [flags]",
 		ShortHelp:  "Manage user invitations.",
 		LongHelp: `Manage user invitations.
 
 Examples:
-  asc users invites list
-  asc users invites get --id "INVITE_ID"
-  asc users invites revoke --id "INVITE_ID" --confirm
-  asc users invites visible-apps list --id "INVITE_ID"`,
+  aso users invites list
+  aso users invites get --id "INVITE_ID"
+  aso users invites revoke --id "INVITE_ID" --confirm
+  aso users invites visible-apps list --id "INVITE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -432,14 +432,14 @@ func UsersInvitesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc users invites list [flags]",
+		ShortUsage: "aso users invites list [flags]",
 		ShortHelp:  "List user invitations.",
 		LongHelp: `List user invitations.
 
 Examples:
-  asc users invites list
-  asc users invites list --limit 50
-  asc users invites list --paginate`,
+  aso users invites list
+  aso users invites list --limit 50
+  aso users invites list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -499,12 +499,12 @@ func UsersInvitesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc users invites get --id INVITE_ID",
+		ShortUsage: "aso users invites get --id INVITE_ID",
 		ShortHelp:  "Get a user invitation by ID.",
 		LongHelp: `Get a user invitation by ID.
 
 Examples:
-  asc users invites get --id "INVITE_ID"`,
+  aso users invites get --id "INVITE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -542,12 +542,12 @@ func UsersInvitesRevokeCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "revoke",
-		ShortUsage: "asc users invites revoke --id INVITE_ID --confirm",
+		ShortUsage: "aso users invites revoke --id INVITE_ID --confirm",
 		ShortHelp:  "Revoke a user invitation.",
 		LongHelp: `Revoke a user invitation by ID.
 
 Examples:
-  asc users invites revoke --id "INVITE_ID" --confirm`,
+  aso users invites revoke --id "INVITE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

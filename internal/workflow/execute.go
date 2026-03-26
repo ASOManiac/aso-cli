@@ -543,7 +543,7 @@ func (r *runner) resumeCommand() string {
 		return ""
 	}
 
-	parts := []string{"asc", "workflow", "run"}
+	parts := []string{"aso", "workflow", "run"}
 	if strings.TrimSpace(r.opts.WorkflowFile) != "" {
 		parts = append(parts, "--file", shellQuote(r.opts.WorkflowFile))
 	}

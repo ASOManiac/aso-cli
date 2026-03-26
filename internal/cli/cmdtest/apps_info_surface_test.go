@@ -125,7 +125,7 @@ func TestDeprecatedAppInfoGetAliasWarnsAndMatchesAppsInfoViewOutput(t *testing.T
 	if canonicalStderr != "" {
 		t.Fatalf("expected canonical command to avoid warnings, got %q", canonicalStderr)
 	}
-	if !strings.Contains(aliasStderr, "Warning: `asc app-info get` is deprecated. Use `asc apps info view`.") {
+	if !strings.Contains(aliasStderr, "Warning: `aso app-info get` is deprecated. Use `aso apps info view`.") {
 		t.Fatalf("expected deprecation warning, got %q", aliasStderr)
 	}
 
@@ -188,7 +188,7 @@ func TestDeprecatedAppInfosListAliasWarnsAndMatchesAppsInfoListOutput(t *testing
 	if canonicalStderr != "" {
 		t.Fatalf("expected canonical command to avoid warnings, got %q", canonicalStderr)
 	}
-	if !strings.Contains(aliasStderr, "Warning: `asc app-infos list` is deprecated. Use `asc apps info list`.") {
+	if !strings.Contains(aliasStderr, "Warning: `aso app-infos list` is deprecated. Use `aso apps info list`.") {
 		t.Fatalf("expected deprecation warning, got %q", aliasStderr)
 	}
 
@@ -256,7 +256,7 @@ func TestAppsInfoViewIncludeFailsWhenAppInfoIsAmbiguous(t *testing.T) {
 	}
 	for _, want := range []string{
 		`multiple app infos found for app "app-1"`,
-		`asc apps info list --app "app-1"`,
+		`aso apps info list --app "app-1"`,
 		"READY_FOR_DISTRIBUTION",
 		"REJECTED",
 	} {

@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // MarketplaceWebhooksCommand returns the marketplace webhooks command group.
@@ -19,13 +19,13 @@ func MarketplaceWebhooksCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "webhooks",
-		ShortUsage: "asc marketplace webhooks <subcommand> [flags]",
+		ShortUsage: "aso marketplace webhooks <subcommand> [flags]",
 		ShortHelp:  "Manage marketplace webhooks.",
 		LongHelp: `Manage marketplace webhooks.
 
 Examples:
-  asc marketplace webhooks list
-  asc marketplace webhooks get --webhook-id "WEBHOOK_ID"`,
+  aso marketplace webhooks list
+  aso marketplace webhooks get --webhook-id "WEBHOOK_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -53,14 +53,14 @@ func MarketplaceWebhooksListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc marketplace webhooks list [flags]",
+		ShortUsage: "aso marketplace webhooks list [flags]",
 		ShortHelp:  "List marketplace webhooks.",
 		LongHelp: `List marketplace webhooks.
 
 Examples:
-  asc marketplace webhooks list
-  asc marketplace webhooks list --limit 10
-  asc marketplace webhooks list --paginate`,
+  aso marketplace webhooks list
+  aso marketplace webhooks list --limit 10
+  aso marketplace webhooks list --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -130,12 +130,12 @@ func MarketplaceWebhooksGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc marketplace webhooks get --webhook-id \"WEBHOOK_ID\" [flags]",
+		ShortUsage: "aso marketplace webhooks get --webhook-id \"WEBHOOK_ID\" [flags]",
 		ShortHelp:  "Get a marketplace webhook by ID.",
 		LongHelp: `Get a marketplace webhook by ID.
 
 Examples:
-  asc marketplace webhooks get --webhook-id "WEBHOOK_ID"`,
+  aso marketplace webhooks get --webhook-id "WEBHOOK_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -175,12 +175,12 @@ func MarketplaceWebhooksCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc marketplace webhooks create --url \"URL\" --secret \"SECRET\" [flags]",
+		ShortUsage: "aso marketplace webhooks create --url \"URL\" --secret \"SECRET\" [flags]",
 		ShortHelp:  "Create a marketplace webhook.",
 		LongHelp: `Create a marketplace webhook.
 
 Examples:
-  asc marketplace webhooks create --url "https://example.com/webhook" --secret "placeholder123"`,
+  aso marketplace webhooks create --url "https://example.com/webhook" --secret "placeholder123"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -226,13 +226,13 @@ func MarketplaceWebhooksUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc marketplace webhooks update --webhook-id \"WEBHOOK_ID\" [flags]",
+		ShortUsage: "aso marketplace webhooks update --webhook-id \"WEBHOOK_ID\" [flags]",
 		ShortHelp:  "Update a marketplace webhook.",
 		LongHelp: `Update a marketplace webhook.
 
 Examples:
-  asc marketplace webhooks update --webhook-id "WEBHOOK_ID" --url "https://example.com/webhook"
-  asc marketplace webhooks update --webhook-id "WEBHOOK_ID" --secret "new-secret"`,
+  aso marketplace webhooks update --webhook-id "WEBHOOK_ID" --url "https://example.com/webhook"
+  aso marketplace webhooks update --webhook-id "WEBHOOK_ID" --secret "new-secret"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -292,12 +292,12 @@ func MarketplaceWebhooksDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc marketplace webhooks delete --webhook-id \"WEBHOOK_ID\" --confirm",
+		ShortUsage: "aso marketplace webhooks delete --webhook-id \"WEBHOOK_ID\" --confirm",
 		ShortHelp:  "Delete a marketplace webhook.",
 		LongHelp: `Delete a marketplace webhook.
 
 Examples:
-  asc marketplace webhooks delete --webhook-id "WEBHOOK_ID" --confirm`,
+  aso marketplace webhooks delete --webhook-id "WEBHOOK_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

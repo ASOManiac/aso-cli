@@ -9,7 +9,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 const spinnerDisabledEnvVar = "ASC_SPINNER_DISABLED"
@@ -152,7 +152,7 @@ func PaginateWithSpinner(ctx context.Context, fetch FetchFunc, next asc.Paginate
 
 func debugOrRetryLogsEnabled() bool {
 	// Root-level flags should take effect immediately, even before shared.GetASCClient() applies
-	// overrides into the asc package, so we need to resolve “effective” values here.
+	// overrides into the aso package, so we need to resolve “effective” values here.
 
 	debugEnabled := false
 	if debug.IsSet() {

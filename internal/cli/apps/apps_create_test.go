@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	cliweb "github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/web"
+	cliweb "github.com/ASOManiac/aso-cli/internal/cli/web"
 )
 
 func captureAppsCreateOutput(t *testing.T, fn func()) (string, string) {
@@ -75,7 +75,7 @@ func TestAppsCreateCommandHelpMentionsDeprecationAndCanonicalPath(t *testing.T) 
 	if !strings.Contains(cmd.ShortHelp, "[deprecated]") {
 		t.Fatalf("expected deprecated short help, got %q", cmd.ShortHelp)
 	}
-	if !strings.Contains(cmd.LongHelp, "asc web apps create") {
+	if !strings.Contains(cmd.LongHelp, "aso web apps create") {
 		t.Fatalf("expected canonical command in long help, got %q", cmd.LongHelp)
 	}
 	if !strings.Contains(cmd.LongHelp, "removed after one release cycle") {

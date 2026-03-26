@@ -1,4 +1,4 @@
-module github.com/rudrankriyam/App-Store-Connect-CLI
+module github.com/ASOManiac/aso-cli
 
 go 1.26.0
 

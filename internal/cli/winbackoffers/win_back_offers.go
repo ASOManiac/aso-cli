@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -79,16 +79,16 @@ func WinBackOffersCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "win-back-offers",
-		ShortUsage: "asc win-back-offers <subcommand> [flags]",
+		ShortUsage: "aso win-back-offers <subcommand> [flags]",
 		ShortHelp:  "Manage win-back offers for subscriptions.",
 		LongHelp: `Manage win-back offers for subscriptions.
 
 Examples:
-  asc win-back-offers list --subscription-id "SUB_ID"
-  asc win-back-offers get --id "OFFER_ID"
-  asc win-back-offers create --subscription-id "SUB_ID" --reference-name "spring-2026" --offer-id "OFFER-1" --duration ONE_MONTH --offer-mode PAY_AS_YOU_GO --period-count 1 --eligibility-paid-months 6 --eligibility-last-subscribed-min 3 --eligibility-last-subscribed-max 12 --start-date "2026-02-01" --priority HIGH --price "PRICE_ID"
-  asc win-back-offers update --id "OFFER_ID" --priority NORMAL
-  asc win-back-offers prices --id "OFFER_ID"`,
+  aso win-back-offers list --subscription-id "SUB_ID"
+  aso win-back-offers get --id "OFFER_ID"
+  aso win-back-offers create --subscription-id "SUB_ID" --reference-name "spring-2026" --offer-id "OFFER-1" --duration ONE_MONTH --offer-mode PAY_AS_YOU_GO --period-count 1 --eligibility-paid-months 6 --eligibility-last-subscribed-min 3 --eligibility-last-subscribed-max 12 --start-date "2026-02-01" --priority HIGH --price "PRICE_ID"
+  aso win-back-offers update --id "OFFER_ID" --priority NORMAL
+  aso win-back-offers prices --id "OFFER_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -102,17 +102,17 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				WinBackOffersPricesRelationshipsCommand(),
 				"prices-relationships",
-				"asc win-back-offers prices-links --id OFFER_ID [flags]",
-				"asc win-back-offers prices-links",
-				"Warning: `asc win-back-offers prices-relationships` is deprecated. Use `asc win-back-offers prices-links`.",
+				"aso win-back-offers prices-links --id OFFER_ID [flags]",
+				"aso win-back-offers prices-links",
+				"Warning: `aso win-back-offers prices-relationships` is deprecated. Use `aso win-back-offers prices-links`.",
 			),
 			WinBackOffersRelationshipsCommand(),
 			shared.DeprecatedAliasLeafCommand(
 				WinBackOffersRelationshipsCommand(),
 				"relationships",
-				"asc win-back-offers links --subscription-id SUB_ID [flags]",
-				"asc win-back-offers links",
-				"Warning: `asc win-back-offers relationships` is deprecated. Use `asc win-back-offers links`.",
+				"aso win-back-offers links --subscription-id SUB_ID [flags]",
+				"aso win-back-offers links",
+				"Warning: `aso win-back-offers relationships` is deprecated. Use `aso win-back-offers links`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {
@@ -137,14 +137,14 @@ func WinBackOffersListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc win-back-offers list [flags]",
+		ShortUsage: "aso win-back-offers list [flags]",
 		ShortHelp:  "List win-back offers for a subscription.",
 		LongHelp: `List win-back offers for a subscription.
 
 Examples:
-  asc win-back-offers list --subscription-id "SUB_ID"
-  asc win-back-offers list --subscription-id "SUB_ID" --limit 50
-  asc win-back-offers list --subscription-id "SUB_ID" --include prices --price-fields territory --prices-limit 10`,
+  aso win-back-offers list --subscription-id "SUB_ID"
+  aso win-back-offers list --subscription-id "SUB_ID" --limit 50
+  aso win-back-offers list --subscription-id "SUB_ID" --include prices --price-fields territory --prices-limit 10`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -234,12 +234,12 @@ func WinBackOffersGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "get",
 		Name:        "get",
-		ShortUsage:  "asc win-back-offers get --id OFFER_ID",
+		ShortUsage:  "aso win-back-offers get --id OFFER_ID",
 		ShortHelp:   "Get a win-back offer by ID.",
 		LongHelp: `Get a win-back offer by ID.
 
 Examples:
-  asc win-back-offers get --id "OFFER_ID"`,
+  aso win-back-offers get --id "OFFER_ID"`,
 		IDFlag:      "id",
 		IDUsage:     "Win-back offer ID",
 		ErrorPrefix: "win-back-offers get",
@@ -277,12 +277,12 @@ func WinBackOffersCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc win-back-offers create [flags]",
+		ShortUsage: "aso win-back-offers create [flags]",
 		ShortHelp:  "Create a win-back offer.",
 		LongHelp: `Create a win-back offer.
 
 Examples:
-  asc win-back-offers create --subscription-id "SUB_ID" --reference-name "spring-2026" --offer-id "OFFER-1" --duration ONE_MONTH --offer-mode PAY_AS_YOU_GO --period-count 1 --eligibility-paid-months 6 --eligibility-last-subscribed-min 3 --eligibility-last-subscribed-max 12 --start-date "2026-02-01" --priority HIGH --price "PRICE_ID"`,
+  aso win-back-offers create --subscription-id "SUB_ID" --reference-name "spring-2026" --offer-id "OFFER-1" --duration ONE_MONTH --offer-mode PAY_AS_YOU_GO --period-count 1 --eligibility-paid-months 6 --eligibility-last-subscribed-min 3 --eligibility-last-subscribed-max 12 --start-date "2026-02-01" --priority HIGH --price "PRICE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -491,13 +491,13 @@ func WinBackOffersUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc win-back-offers update [flags]",
+		ShortUsage: "aso win-back-offers update [flags]",
 		ShortHelp:  "Update a win-back offer.",
 		LongHelp: `Update a win-back offer.
 
 Examples:
-  asc win-back-offers update --id "OFFER_ID" --priority NORMAL
-  asc win-back-offers update --id "OFFER_ID" --end-date "2026-04-01"`,
+  aso win-back-offers update --id "OFFER_ID" --priority NORMAL
+  aso win-back-offers update --id "OFFER_ID" --end-date "2026-04-01"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -616,12 +616,12 @@ func WinBackOffersDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc win-back-offers delete --id OFFER_ID --confirm",
+		ShortUsage: "aso win-back-offers delete --id OFFER_ID --confirm",
 		ShortHelp:  "Delete a win-back offer.",
 		LongHelp: `Delete a win-back offer.
 
 Examples:
-  asc win-back-offers delete --id "OFFER_ID" --confirm`,
+  aso win-back-offers delete --id "OFFER_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -674,13 +674,13 @@ func WinBackOffersPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "prices",
-		ShortUsage: "asc win-back-offers prices --id OFFER_ID [flags]",
+		ShortUsage: "aso win-back-offers prices --id OFFER_ID [flags]",
 		ShortHelp:  "List prices for a win-back offer.",
 		LongHelp: `List prices for a win-back offer.
 
 Examples:
-  asc win-back-offers prices --id "OFFER_ID"
-  asc win-back-offers prices --id "OFFER_ID" --include territory --territory-fields currency`,
+  aso win-back-offers prices --id "OFFER_ID"
+  aso win-back-offers prices --id "OFFER_ID" --include territory --territory-fields currency`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -772,13 +772,13 @@ func WinBackOffersPricesRelationshipsCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "prices-links",
 		Name:        "prices-links",
-		ShortUsage:  "asc win-back-offers prices-links --id OFFER_ID [flags]",
+		ShortUsage:  "aso win-back-offers prices-links --id OFFER_ID [flags]",
 		ShortHelp:   "List price relationships for a win-back offer.",
 		LongHelp: `List price relationships for a win-back offer.
 
 Examples:
-  asc win-back-offers prices-links --id "OFFER_ID"
-  asc win-back-offers prices-links --id "OFFER_ID" --paginate`,
+  aso win-back-offers prices-links --id "OFFER_ID"
+  aso win-back-offers prices-links --id "OFFER_ID" --paginate`,
 		ParentFlag:  "id",
 		ParentUsage: "Win-back offer ID",
 		LimitMax:    winBackOffersMaxLimit,
@@ -798,13 +798,13 @@ func WinBackOffersRelationshipsCommand() *ffcli.Command {
 	return shared.BuildPaginatedListCommand(shared.PaginatedListCommandConfig{
 		FlagSetName: "links",
 		Name:        "links",
-		ShortUsage:  "asc win-back-offers links --subscription-id SUB_ID [flags]",
+		ShortUsage:  "aso win-back-offers links --subscription-id SUB_ID [flags]",
 		ShortHelp:   "List win-back offer relationships for a subscription.",
 		LongHelp: `List win-back offer relationships for a subscription.
 
 Examples:
-  asc win-back-offers links --subscription-id "SUB_ID"
-  asc win-back-offers links --subscription-id "SUB_ID" --paginate`,
+  aso win-back-offers links --subscription-id "SUB_ID"
+  aso win-back-offers links --subscription-id "SUB_ID" --paginate`,
 		ParentFlag:  "subscription-id",
 		ParentUsage: "Subscription ID",
 		LimitMax:    winBackOffersMaxLimit,

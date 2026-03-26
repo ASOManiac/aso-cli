@@ -8,7 +8,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // RemovedPreReleaseVersionsCommand keeps the old root path available only to
@@ -17,8 +17,8 @@ func RemovedPreReleaseVersionsCommand() *ffcli.Command {
 	cmd := PreReleaseVersionsCommand()
 	configureRemovedPreReleaseTree(
 		cmd,
-		"asc pre-release-versions",
-		"asc testflight pre-release",
+		"aso pre-release-versions",
+		"aso testflight pre-release",
 		map[string]string{
 			"pre-release-versions": "pre-release",
 			"relationships":        "links",
@@ -39,8 +39,8 @@ func configureRemovedPreReleaseTree(cmd *ffcli.Command, oldPath, newPath string,
 		cmd.ShortUsage = newPath + " [flags]"
 	}
 
-	if oldPath == "asc pre-release-versions" {
-		cmd.ShortHelp = "DEPRECATED: use `asc testflight pre-release`."
+	if oldPath == "aso pre-release-versions" {
+		cmd.ShortHelp = "DEPRECATED: use `aso testflight pre-release`."
 	} else {
 		cmd.ShortHelp = fmt.Sprintf("REMOVED: use `%s`.", newPath)
 	}

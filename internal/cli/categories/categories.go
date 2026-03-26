@@ -7,8 +7,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // CategoriesCommand returns the categories command with subcommands.
@@ -17,16 +17,16 @@ func CategoriesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "categories",
-		ShortUsage: "asc categories <subcommand> [flags]",
+		ShortUsage: "aso categories <subcommand> [flags]",
 		ShortHelp:  "Manage App Store categories.",
 		LongHelp: `Manage App Store categories.
 
 Examples:
-  asc categories list
-  asc categories get --category-id "GAMES"
-  asc categories parent --category-id "GAMES"
-  asc categories subcategories --category-id "GAMES"
-  asc categories set --app APP_ID --primary GAMES`,
+  aso categories list
+  aso categories get --category-id "GAMES"
+  aso categories parent --category-id "GAMES"
+  aso categories subcategories --category-id "GAMES"
+  aso categories set --app APP_ID --primary GAMES`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -51,7 +51,7 @@ func CategoriesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc categories list [flags]",
+		ShortUsage: "aso categories list [flags]",
 		ShortHelp:  "List available App Store categories.",
 		LongHelp: `List available App Store categories.
 
@@ -59,8 +59,8 @@ Category IDs can be used when updating app information to set primary
 and secondary categories.
 
 Examples:
-  asc categories list
-  asc categories list --output table`,
+  aso categories list
+  aso categories list --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -90,21 +90,21 @@ Examples:
 func CategoriesSetCommand() *ffcli.Command {
 	return shared.NewCategoriesSetCommand(shared.CategoriesSetCommandConfig{
 		FlagSetName: "categories set",
-		ShortUsage:  "asc categories set --app APP_ID --primary CATEGORY_ID [--secondary CATEGORY_ID] [flags]",
+		ShortUsage:  "aso categories set --app APP_ID --primary CATEGORY_ID [--secondary CATEGORY_ID] [flags]",
 		ShortHelp:   "Set primary and secondary categories for an app.",
 		LongHelp: `Set the primary and secondary categories for an app.
 
-Use 'asc categories list' to find valid category IDs.
-Use 'asc categories subcategories --category-id GAMES' to find valid subcategory IDs.
+Use 'aso categories list' to find valid category IDs.
+Use 'aso categories subcategories --category-id GAMES' to find valid subcategory IDs.
 
 Note: The app must have an editable version in PREPARE_FOR_SUBMISSION state.
 
 Examples:
-  asc categories set --app 123456789 --primary GAMES
-  asc categories set --app 123456789 --primary GAMES --secondary ENTERTAINMENT
-  asc categories set --app 123456789 --primary GAMES --primary-subcategory-one GAMES_ACTION --primary-subcategory-two GAMES_SIMULATION
-  asc categories set --app 123456789 --primary GAMES --primary-subcategory-one GAMES_ACTION --secondary ENTERTAINMENT
-  asc categories set --app 123456789 --primary PHOTO_AND_VIDEO`,
+  aso categories set --app 123456789 --primary GAMES
+  aso categories set --app 123456789 --primary GAMES --secondary ENTERTAINMENT
+  aso categories set --app 123456789 --primary GAMES --primary-subcategory-one GAMES_ACTION --primary-subcategory-two GAMES_SIMULATION
+  aso categories set --app 123456789 --primary GAMES --primary-subcategory-one GAMES_ACTION --secondary ENTERTAINMENT
+  aso categories set --app 123456789 --primary PHOTO_AND_VIDEO`,
 		ErrorPrefix:    "categories set",
 		IncludeAppInfo: true,
 	})

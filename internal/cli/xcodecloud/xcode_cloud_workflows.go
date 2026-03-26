@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 func xcodeCloudWorkflowsListFlags(fs *flag.FlagSet) (appID *string, limit *int, next *string, paginate *bool, output *string, pretty *bool) {
@@ -32,17 +32,17 @@ func XcodeCloudWorkflowsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "workflows",
-		ShortUsage: "asc xcode-cloud workflows [flags]",
+		ShortUsage: "aso xcode-cloud workflows [flags]",
 		ShortHelp:  "Manage Xcode Cloud workflows.",
 		LongHelp: `Manage Xcode Cloud workflows.
 
 Examples:
-  asc xcode-cloud workflows --app "APP_ID"
-  asc xcode-cloud workflows list --app "APP_ID"
-  asc xcode-cloud workflows get --id "WORKFLOW_ID"
-  asc xcode-cloud workflows repository --id "WORKFLOW_ID"
-  asc xcode-cloud workflows --app "APP_ID" --limit 50
-  asc xcode-cloud workflows --app "APP_ID" --paginate`,
+  aso xcode-cloud workflows --app "APP_ID"
+  aso xcode-cloud workflows list --app "APP_ID"
+  aso xcode-cloud workflows get --id "WORKFLOW_ID"
+  aso xcode-cloud workflows repository --id "WORKFLOW_ID"
+  aso xcode-cloud workflows --app "APP_ID" --limit 50
+  aso xcode-cloud workflows --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -66,14 +66,14 @@ func XcodeCloudWorkflowsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc xcode-cloud workflows list [flags]",
+		ShortUsage: "aso xcode-cloud workflows list [flags]",
 		ShortHelp:  "List Xcode Cloud workflows for an app.",
 		LongHelp: `List Xcode Cloud workflows for an app.
 
 Examples:
-  asc xcode-cloud workflows list --app "APP_ID"
-  asc xcode-cloud workflows list --app "APP_ID" --limit 50
-  asc xcode-cloud workflows list --app "APP_ID" --paginate`,
+  aso xcode-cloud workflows list --app "APP_ID"
+  aso xcode-cloud workflows list --app "APP_ID" --limit 50
+  aso xcode-cloud workflows list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -86,13 +86,13 @@ func XcodeCloudWorkflowsGetCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "get",
 		Name:        "get",
-		ShortUsage:  "asc xcode-cloud workflows get --id \"WORKFLOW_ID\"",
+		ShortUsage:  "aso xcode-cloud workflows get --id \"WORKFLOW_ID\"",
 		ShortHelp:   "Get details for a workflow.",
 		LongHelp: `Get details for a workflow.
 
 Examples:
-  asc xcode-cloud workflows get --id "WORKFLOW_ID"
-  asc xcode-cloud workflows get --id "WORKFLOW_ID" --output table`,
+  aso xcode-cloud workflows get --id "WORKFLOW_ID"
+  aso xcode-cloud workflows get --id "WORKFLOW_ID" --output table`,
 		IDFlag:      "id",
 		IDUsage:     "Workflow ID",
 		ErrorPrefix: "xcode-cloud workflows get",
@@ -109,13 +109,13 @@ func XcodeCloudWorkflowsRepositoryCommand() *ffcli.Command {
 	return shared.BuildIDGetCommand(shared.IDGetCommandConfig{
 		FlagSetName: "repository",
 		Name:        "repository",
-		ShortUsage:  "asc xcode-cloud workflows repository --id \"WORKFLOW_ID\"",
+		ShortUsage:  "aso xcode-cloud workflows repository --id \"WORKFLOW_ID\"",
 		ShortHelp:   "Get the repository for a workflow.",
 		LongHelp: `Get the repository for a workflow.
 
 Examples:
-  asc xcode-cloud workflows repository --id "WORKFLOW_ID"
-  asc xcode-cloud workflows repository --id "WORKFLOW_ID" --output table`,
+  aso xcode-cloud workflows repository --id "WORKFLOW_ID"
+  aso xcode-cloud workflows repository --id "WORKFLOW_ID" --output table`,
 		IDFlag:      "id",
 		IDUsage:     "Workflow ID",
 		ErrorPrefix: "xcode-cloud workflows repository",
@@ -140,12 +140,12 @@ func XcodeCloudWorkflowsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc xcode-cloud workflows create --file ./workflow.json",
+		ShortUsage: "aso xcode-cloud workflows create --file ./workflow.json",
 		ShortHelp:  "Create a workflow.",
 		LongHelp: `Create a workflow.
 
 Examples:
-  asc xcode-cloud workflows create --file ./workflow.json`,
+  aso xcode-cloud workflows create --file ./workflow.json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -187,12 +187,12 @@ func XcodeCloudWorkflowsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc xcode-cloud workflows update --id \"WORKFLOW_ID\" --file ./workflow.json",
+		ShortUsage: "aso xcode-cloud workflows update --id \"WORKFLOW_ID\" --file ./workflow.json",
 		ShortHelp:  "Update a workflow.",
 		LongHelp: `Update a workflow.
 
 Examples:
-  asc xcode-cloud workflows update --id "WORKFLOW_ID" --file ./workflow.json`,
+  aso xcode-cloud workflows update --id "WORKFLOW_ID" --file ./workflow.json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -234,12 +234,12 @@ func XcodeCloudWorkflowsDeleteCommand() *ffcli.Command {
 	return shared.BuildConfirmDeleteCommand(shared.ConfirmDeleteCommandConfig{
 		FlagSetName: "delete",
 		Name:        "delete",
-		ShortUsage:  "asc xcode-cloud workflows delete --id \"WORKFLOW_ID\" --confirm",
+		ShortUsage:  "aso xcode-cloud workflows delete --id \"WORKFLOW_ID\" --confirm",
 		ShortHelp:   "Delete a workflow.",
 		LongHelp: `Delete a workflow.
 
 Examples:
-  asc xcode-cloud workflows delete --id "WORKFLOW_ID" --confirm`,
+  aso xcode-cloud workflows delete --id "WORKFLOW_ID" --confirm`,
 		IDFlag:      "id",
 		IDUsage:     "Workflow ID",
 		ErrorPrefix: "xcode-cloud workflows delete",

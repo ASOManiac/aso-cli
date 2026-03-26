@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppEventsCommand returns the app events command group.
@@ -19,17 +19,17 @@ func AppEventsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "app-events",
-		ShortUsage: "asc app-events <subcommand> [flags]",
+		ShortUsage: "aso app-events <subcommand> [flags]",
 		ShortHelp:  "Manage App Store in-app events.",
 		LongHelp: `Manage App Store in-app events.
 
 Examples:
-  asc app-events list --app "APP_ID"
-  asc app-events get --event-id "EVENT_ID"
-  asc app-events create --app "APP_ID" --name "Summer Challenge" --event-type CHALLENGE --start "2026-06-01T00:00:00Z" --end "2026-06-30T23:59:59Z"
-  asc app-events update --event-id "EVENT_ID" --priority HIGH
-  asc app-events delete --event-id "EVENT_ID" --confirm
-  asc app-events links --event-id "EVENT_ID"`,
+  aso app-events list --app "APP_ID"
+  aso app-events get --event-id "EVENT_ID"
+  aso app-events create --app "APP_ID" --name "Summer Challenge" --event-type CHALLENGE --start "2026-06-01T00:00:00Z" --end "2026-06-30T23:59:59Z"
+  aso app-events update --event-id "EVENT_ID" --priority HIGH
+  aso app-events delete --event-id "EVENT_ID" --confirm
+  aso app-events links --event-id "EVENT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -43,9 +43,9 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				AppEventsRelationshipsCommand(),
 				"relationships",
-				"asc app-events links --event-id \"EVENT_ID\" [flags]",
-				"asc app-events links",
-				"Warning: `asc app-events relationships` is deprecated. Use `asc app-events links`.",
+				"aso app-events links --event-id \"EVENT_ID\" [flags]",
+				"aso app-events links",
+				"Warning: `aso app-events relationships` is deprecated. Use `aso app-events links`.",
 			),
 			AppEventScreenshotsCommand(),
 			AppEventVideoClipsCommand(),
@@ -69,13 +69,13 @@ func AppEventsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc app-events list [flags]",
+		ShortUsage: "aso app-events list [flags]",
 		ShortHelp:  "List in-app events for an app.",
 		LongHelp: `List in-app events for an app.
 
 Examples:
-  asc app-events list --app "APP_ID"
-  asc app-events list --app "APP_ID" --paginate`,
+  aso app-events list --app "APP_ID"
+  aso app-events list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -140,12 +140,12 @@ func AppEventsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-events get --event-id \"EVENT_ID\"",
+		ShortUsage: "aso app-events get --event-id \"EVENT_ID\"",
 		ShortHelp:  "Get an in-app event by ID.",
 		LongHelp: `Get an in-app event by ID.
 
 Examples:
-  asc app-events get --event-id "EVENT_ID"`,
+  aso app-events get --event-id "EVENT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -193,14 +193,14 @@ func AppEventsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc app-events create [flags]",
+		ShortUsage: "aso app-events create [flags]",
 		ShortHelp:  "Create a new in-app event.",
 		LongHelp: `Create a new in-app event.
 
 Examples:
-  asc app-events create --app "APP_ID" --name "Summer Challenge" --event-type CHALLENGE --start "2026-06-01T00:00:00Z" --end "2026-06-30T23:59:59Z"
-  asc app-events create --app "APP_ID" --name "Launch Party" --event-type PREMIERE --priority HIGH --purpose ATTRACT_NEW_USERS
-  asc app-events create --app "APP_ID" --name "Retro Challenge" --event-type LIVE_EVENT --priority HIGH --purpose APPROPRIATE_FOR_ALL_USERS`,
+  aso app-events create --app "APP_ID" --name "Summer Challenge" --event-type CHALLENGE --start "2026-06-01T00:00:00Z" --end "2026-06-30T23:59:59Z"
+  aso app-events create --app "APP_ID" --name "Launch Party" --event-type PREMIERE --priority HIGH --purpose ATTRACT_NEW_USERS
+  aso app-events create --app "APP_ID" --name "Retro Challenge" --event-type LIVE_EVENT --priority HIGH --purpose APPROPRIATE_FOR_ALL_USERS`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -320,14 +320,14 @@ func AppEventsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc app-events update [flags]",
+		ShortUsage: "aso app-events update [flags]",
 		ShortHelp:  "Update an in-app event.",
 		LongHelp: `Update an in-app event.
 
 Examples:
-  asc app-events update --event-id "EVENT_ID" --priority HIGH
-  asc app-events update --event-id "EVENT_ID" --name "New Name" --event-type SPECIAL_EVENT
-  asc app-events update --event-id "EVENT_ID" --purchase-requirement NO_COST_ASSOCIATED --primary-locale en-US`,
+  aso app-events update --event-id "EVENT_ID" --priority HIGH
+  aso app-events update --event-id "EVENT_ID" --name "New Name" --event-type SPECIAL_EVENT
+  aso app-events update --event-id "EVENT_ID" --purchase-requirement NO_COST_ASSOCIATED --primary-locale en-US`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -470,12 +470,12 @@ func AppEventsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc app-events delete --event-id \"EVENT_ID\" --confirm",
+		ShortUsage: "aso app-events delete --event-id \"EVENT_ID\" --confirm",
 		ShortHelp:  "Delete an in-app event.",
 		LongHelp: `Delete an in-app event.
 
 Examples:
-  asc app-events delete --event-id "EVENT_ID" --confirm`,
+  aso app-events delete --event-id "EVENT_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

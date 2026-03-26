@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 // ResolveAppStoreVersionIDAndState finds a version ID and state by version string and platform.
@@ -55,7 +55,7 @@ func ResolveAppInfoID(ctx context.Context, client *asc.Client, appID, appInfoID 
 		selected, reason := autoSelectEditableAppInfoID(resp)
 		if selected == "" {
 			candidates := asc.FormatAppInfoCandidates(asc.AppInfoCandidates(resp.Data))
-			return "", fmt.Errorf("multiple app infos found for app %q (%s); run `asc apps info list --app %q` to inspect candidates, then pass the explicit app info ID", appID, candidates, appID)
+			return "", fmt.Errorf("multiple app infos found for app %q (%s); run `aso apps info list --app %q` to inspect candidates, then pass the explicit app info ID", appID, candidates, appID)
 		}
 		fmt.Fprintf(os.Stderr, "Multiple app infos found for app %s, auto-selected %s (%s).\n", appID, selected, reason)
 		return selected, nil

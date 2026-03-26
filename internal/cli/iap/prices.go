@@ -15,8 +15,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -78,14 +78,14 @@ func IAPPricesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "summary",
-		ShortUsage: "asc iap pricing summary [flags]",
+		ShortUsage: "aso iap pricing summary [flags]",
 		ShortHelp:  "Show consolidated in-app purchase pricing summary.",
 		LongHelp: `Show consolidated in-app purchase pricing summary.
 
 Examples:
-  asc iap pricing summary --app "APP_ID"
-  asc iap pricing summary --iap-id "IAP_ID"
-  asc iap pricing summary --app "APP_ID" --territory "USA" --output table`,
+  aso iap pricing summary --app "APP_ID"
+  aso iap pricing summary --iap-id "IAP_ID"
+  aso iap pricing summary --app "APP_ID" --territory "USA" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

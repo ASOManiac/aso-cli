@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AppEventLocalizationsCommand returns the app event localizations command group.
@@ -19,14 +19,14 @@ func AppEventLocalizationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "localizations",
-		ShortUsage: "asc app-events localizations <subcommand> [flags]",
+		ShortUsage: "aso app-events localizations <subcommand> [flags]",
 		ShortHelp:  "Manage in-app event localizations.",
 		LongHelp: `Manage in-app event localizations.
 
 Examples:
-  asc app-events localizations list --event-id "EVENT_ID"
-  asc app-events localizations get --localization-id "LOC_ID"
-  asc app-events localizations screenshots list --localization-id "LOC_ID"`,
+  aso app-events localizations list --event-id "EVENT_ID"
+  aso app-events localizations get --localization-id "LOC_ID"
+  aso app-events localizations screenshots list --localization-id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -38,17 +38,17 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				AppEventLocalizationScreenshotsRelationshipsCommand(),
 				"screenshots-relationships",
-				"asc app-events localizations screenshots-links --localization-id \"LOC_ID\" [flags]",
-				"asc app-events localizations screenshots-links",
-				"Warning: `asc app-events localizations screenshots-relationships` is deprecated. Use `asc app-events localizations screenshots-links`.",
+				"aso app-events localizations screenshots-links --localization-id \"LOC_ID\" [flags]",
+				"aso app-events localizations screenshots-links",
+				"Warning: `aso app-events localizations screenshots-relationships` is deprecated. Use `aso app-events localizations screenshots-links`.",
 			),
 			AppEventLocalizationVideoClipsRelationshipsCommand(),
 			shared.DeprecatedAliasLeafCommand(
 				AppEventLocalizationVideoClipsRelationshipsCommand(),
 				"video-clips-relationships",
-				"asc app-events localizations video-clips-links --localization-id \"LOC_ID\" [flags]",
-				"asc app-events localizations video-clips-links",
-				"Warning: `asc app-events localizations video-clips-relationships` is deprecated. Use `asc app-events localizations video-clips-links`.",
+				"aso app-events localizations video-clips-links --localization-id \"LOC_ID\" [flags]",
+				"aso app-events localizations video-clips-links",
+				"Warning: `aso app-events localizations video-clips-relationships` is deprecated. Use `aso app-events localizations video-clips-links`.",
 			),
 			AppEventLocalizationsCreateCommand(),
 			AppEventLocalizationsUpdateCommand(),
@@ -72,13 +72,13 @@ func AppEventLocalizationsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc app-events localizations list [flags]",
+		ShortUsage: "aso app-events localizations list [flags]",
 		ShortHelp:  "List localizations for an in-app event.",
 		LongHelp: `List localizations for an in-app event.
 
 Examples:
-  asc app-events localizations list --event-id "EVENT_ID"
-  asc app-events localizations list --event-id "EVENT_ID" --paginate`,
+  aso app-events localizations list --event-id "EVENT_ID"
+  aso app-events localizations list --event-id "EVENT_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -143,12 +143,12 @@ func AppEventLocalizationsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc app-events localizations get --localization-id \"LOC_ID\"",
+		ShortUsage: "aso app-events localizations get --localization-id \"LOC_ID\"",
 		ShortHelp:  "Get an in-app event localization by ID.",
 		LongHelp: `Get an in-app event localization by ID.
 
 Examples:
-  asc app-events localizations get --localization-id "LOC_ID"`,
+  aso app-events localizations get --localization-id "LOC_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -189,13 +189,13 @@ func AppEventLocalizationsCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc app-events localizations create [flags]",
+		ShortUsage: "aso app-events localizations create [flags]",
 		ShortHelp:  "Create an in-app event localization.",
 		LongHelp: `Create an in-app event localization.
 
 Examples:
-  asc app-events localizations create --event-id "EVENT_ID" --locale "en-US" --name "Summer Challenge"
-  asc app-events localizations create --event-id "EVENT_ID" --locale "ja-JP" --short-description "Short text"`,
+  aso app-events localizations create --event-id "EVENT_ID" --locale "en-US" --name "Summer Challenge"
+  aso app-events localizations create --event-id "EVENT_ID" --locale "ja-JP" --short-description "Short text"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -248,13 +248,13 @@ func AppEventLocalizationsUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc app-events localizations update [flags]",
+		ShortUsage: "aso app-events localizations update [flags]",
 		ShortHelp:  "Update an in-app event localization.",
 		LongHelp: `Update an in-app event localization.
 
 Examples:
-  asc app-events localizations update --localization-id "LOC_ID" --name "New Name"
-  asc app-events localizations update --localization-id "LOC_ID" --short-description "Updated text"`,
+  aso app-events localizations update --localization-id "LOC_ID" --name "New Name"
+  aso app-events localizations update --localization-id "LOC_ID" --short-description "Updated text"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -318,12 +318,12 @@ func AppEventLocalizationsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc app-events localizations delete --localization-id \"LOC_ID\" --confirm",
+		ShortUsage: "aso app-events localizations delete --localization-id \"LOC_ID\" --confirm",
 		ShortHelp:  "Delete an in-app event localization.",
 		LongHelp: `Delete an in-app event localization.
 
 Examples:
-  asc app-events localizations delete --localization-id "LOC_ID" --confirm`,
+  aso app-events localizations delete --localization-id "LOC_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

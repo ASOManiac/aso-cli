@@ -15,7 +15,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/urlsanitize"
+	"github.com/ASOManiac/aso-cli/internal/urlsanitize"
 )
 
 // newRequest creates a new HTTP request with JWT authentication

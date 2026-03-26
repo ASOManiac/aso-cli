@@ -1,7 +1,7 @@
-# App-Store-Connect-CLI Makefile
+# ASO CLI Makefile
 
 # Variables
-BINARY_NAME := asc
+BINARY_NAME := aso
 VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo "dev")
 COMMIT := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 DATE := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -211,7 +211,7 @@ release: clean
 .PHONY: help
 help:
 	@echo ""
-	@echo "$(GREEN)App-Store-Connect-CLI$(NC) - Build System"
+	@echo "$(GREEN)ASO CLI$(NC) - Build System"
 	@echo ""
 	@echo "Targets:"
 	@echo "  build          Build the binary"

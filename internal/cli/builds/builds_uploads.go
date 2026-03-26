@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // BuildsUploadsCommand returns the builds uploads command group.
@@ -19,15 +19,15 @@ func BuildsUploadsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "uploads",
-		ShortUsage: "asc builds uploads <subcommand> [flags]",
+		ShortUsage: "aso builds uploads <subcommand> [flags]",
 		ShortHelp:  "Manage build uploads.",
 		LongHelp: `Manage build uploads.
 
 Examples:
-  asc builds uploads list --app "APP_ID"
-  asc builds uploads get --id "UPLOAD_ID"
-  asc builds uploads delete --id "UPLOAD_ID" --confirm
-  asc builds uploads files list --upload "UPLOAD_ID"`,
+  aso builds uploads list --app "APP_ID"
+  aso builds uploads get --id "UPLOAD_ID"
+  aso builds uploads delete --id "UPLOAD_ID" --confirm
+  aso builds uploads files list --upload "UPLOAD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -59,15 +59,15 @@ func BuildsUploadsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc builds uploads list [flags]",
+		ShortUsage: "aso builds uploads list [flags]",
 		ShortHelp:  "List build uploads for an app.",
 		LongHelp: `List build uploads for an app.
 
 Examples:
-  asc builds uploads list --app "APP_ID"
-  asc builds uploads list --app "APP_ID" --cf-bundle-short-version "1.0.0"
-  asc builds uploads list --app "APP_ID" --platform "IOS" --sort "-uploadedDate"
-  asc builds uploads list --app "APP_ID" --paginate`,
+  aso builds uploads list --app "APP_ID"
+  aso builds uploads list --app "APP_ID" --cf-bundle-short-version "1.0.0"
+  aso builds uploads list --app "APP_ID" --platform "IOS" --sort "-uploadedDate"
+  aso builds uploads list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -149,12 +149,12 @@ func BuildsUploadsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc builds uploads get --id \"UPLOAD_ID\"",
+		ShortUsage: "aso builds uploads get --id \"UPLOAD_ID\"",
 		ShortHelp:  "Get a build upload by ID.",
 		LongHelp: `Get a build upload by ID.
 
 Examples:
-  asc builds uploads get --id "UPLOAD_ID"`,
+  aso builds uploads get --id "UPLOAD_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -192,12 +192,12 @@ func BuildsUploadsDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc builds uploads delete --id \"UPLOAD_ID\" --confirm",
+		ShortUsage: "aso builds uploads delete --id \"UPLOAD_ID\" --confirm",
 		ShortHelp:  "Delete a build upload by ID.",
 		LongHelp: `Delete a build upload by ID.
 
 Examples:
-  asc builds uploads delete --id "UPLOAD_ID" --confirm`,
+  aso builds uploads delete --id "UPLOAD_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -239,13 +239,13 @@ func BuildsUploadFilesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "files",
-		ShortUsage: "asc builds uploads files <subcommand> [flags]",
+		ShortUsage: "aso builds uploads files <subcommand> [flags]",
 		ShortHelp:  "Manage build upload files.",
 		LongHelp: `Manage build upload files.
 
 Examples:
-  asc builds uploads files list --upload "UPLOAD_ID"
-  asc builds uploads files get --id "FILE_ID"`,
+  aso builds uploads files list --upload "UPLOAD_ID"
+  aso builds uploads files get --id "FILE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -270,13 +270,13 @@ func BuildsUploadFilesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc builds uploads files list [flags]",
+		ShortUsage: "aso builds uploads files list [flags]",
 		ShortHelp:  "List build upload files for a build upload.",
 		LongHelp: `List build upload files for a build upload.
 
 Examples:
-  asc builds uploads files list --upload "UPLOAD_ID"
-  asc builds uploads files list --upload "UPLOAD_ID" --paginate`,
+  aso builds uploads files list --upload "UPLOAD_ID"
+  aso builds uploads files list --upload "UPLOAD_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -347,12 +347,12 @@ func BuildsUploadFilesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc builds uploads files get --id \"FILE_ID\"",
+		ShortUsage: "aso builds uploads files get --id \"FILE_ID\"",
 		ShortHelp:  "Get a build upload file by ID.",
 		LongHelp: `Get a build upload file by ID.
 
 Examples:
-  asc builds uploads files get --id "FILE_ID"`,
+  aso builds uploads files get --id "FILE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

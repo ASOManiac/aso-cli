@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // GameCenterEnabledVersionsCommand returns the enabled versions command group.
@@ -19,13 +19,13 @@ func GameCenterEnabledVersionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "enabled-versions",
-		ShortUsage: "asc game-center enabled-versions <subcommand> [flags]",
+		ShortUsage: "aso game-center enabled-versions <subcommand> [flags]",
 		ShortHelp:  "Manage Game Center enabled versions.",
 		LongHelp: `Manage Game Center enabled versions.
 
 Examples:
-  asc game-center enabled-versions list --app "APP_ID"
-  asc game-center enabled-versions compatible-versions --id "ENABLED_VERSION_ID"`,
+  aso game-center enabled-versions list --app "APP_ID"
+  aso game-center enabled-versions compatible-versions --id "ENABLED_VERSION_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -50,14 +50,14 @@ func GameCenterEnabledVersionsListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc game-center enabled-versions list [flags]",
+		ShortUsage: "aso game-center enabled-versions list [flags]",
 		ShortHelp:  "List Game Center enabled versions for an app.",
 		LongHelp: `List Game Center enabled versions for an app.
 
 Examples:
-  asc game-center enabled-versions list --app "APP_ID"
-  asc game-center enabled-versions list --app "APP_ID" --limit 50
-  asc game-center enabled-versions list --app "APP_ID" --paginate`,
+  aso game-center enabled-versions list --app "APP_ID"
+  aso game-center enabled-versions list --app "APP_ID" --limit 50
+  aso game-center enabled-versions list --app "APP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -129,14 +129,14 @@ func GameCenterEnabledVersionsCompatibleVersionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "compatible-versions",
-		ShortUsage: "asc game-center enabled-versions compatible-versions --id \"ENABLED_VERSION_ID\"",
+		ShortUsage: "aso game-center enabled-versions compatible-versions --id \"ENABLED_VERSION_ID\"",
 		ShortHelp:  "List compatible Game Center enabled versions.",
 		LongHelp: `List compatible Game Center enabled versions.
 
 Examples:
-  asc game-center enabled-versions compatible-versions --id "ENABLED_VERSION_ID"
-  asc game-center enabled-versions compatible-versions --id "ENABLED_VERSION_ID" --limit 50
-  asc game-center enabled-versions compatible-versions --id "ENABLED_VERSION_ID" --paginate`,
+  aso game-center enabled-versions compatible-versions --id "ENABLED_VERSION_ID"
+  aso game-center enabled-versions compatible-versions --id "ENABLED_VERSION_ID" --limit 50
+  aso game-center enabled-versions compatible-versions --id "ENABLED_VERSION_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

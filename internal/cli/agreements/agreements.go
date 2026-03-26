@@ -10,8 +10,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AgreementsCommand returns the agreements command group.
@@ -20,12 +20,12 @@ func AgreementsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "agreements",
-		ShortUsage: "asc agreements <subcommand> [flags]",
+		ShortUsage: "aso agreements <subcommand> [flags]",
 		ShortHelp:  "Manage agreements in App Store Connect.",
 		LongHelp: `Manage agreements in App Store Connect.
 
 Examples:
-  asc agreements territories list --id "EULA_ID"`,
+  aso agreements territories list --id "EULA_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -43,12 +43,12 @@ func AgreementsTerritoriesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "territories",
-		ShortUsage: "asc agreements territories <subcommand> [flags]",
+		ShortUsage: "aso agreements territories <subcommand> [flags]",
 		ShortHelp:  "List EULA territories.",
 		LongHelp: `List EULA territories.
 
 Examples:
-  asc agreements territories list --id "EULA_ID"`,
+  aso agreements territories list --id "EULA_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -72,13 +72,13 @@ func AgreementsTerritoriesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc agreements territories list --id \"EULA_ID\" [flags]",
+		ShortUsage: "aso agreements territories list --id \"EULA_ID\" [flags]",
 		ShortHelp:  "List territories for an EULA.",
 		LongHelp: `List territories for an EULA.
 
 Examples:
-  asc agreements territories list --id "EULA_ID"
-  asc agreements territories list --id "EULA_ID" --paginate`,
+  aso agreements territories list --id "EULA_ID"
+  aso agreements territories list --id "EULA_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

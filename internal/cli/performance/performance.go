@@ -5,7 +5,7 @@ import (
 	"flag"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PerformanceCommand returns the performance command group.
@@ -14,16 +14,16 @@ func PerformanceCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "performance",
-		ShortUsage: "asc performance <subcommand> [flags]",
+		ShortUsage: "aso performance <subcommand> [flags]",
 		ShortHelp:  "Access performance metrics and diagnostic logs.",
 		LongHelp: `Access performance metrics and diagnostic logs.
 
 Examples:
-  asc performance metrics list --app "APP_ID"
-  asc performance metrics get --build "BUILD_ID"
-  asc performance diagnostics list --build "BUILD_ID"
-  asc performance diagnostics get --id "SIGNATURE_ID"
-  asc performance download --build "BUILD_ID" --output ./metrics.json`,
+  aso performance metrics list --app "APP_ID"
+  aso performance metrics get --build "BUILD_ID"
+  aso performance diagnostics list --build "BUILD_ID"
+  aso performance diagnostics get --id "SIGNATURE_ID"
+  aso performance download --build "BUILD_ID" --output ./metrics.json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{

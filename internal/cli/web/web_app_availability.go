@@ -8,9 +8,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 var (
@@ -35,7 +35,7 @@ func WebAppsAvailabilityCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "availability",
-		ShortUsage: "asc web apps availability <subcommand> [flags]",
+		ShortUsage: "aso web apps availability <subcommand> [flags]",
 		ShortHelp:  "[experimental] Bootstrap app availability via web sessions.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -67,7 +67,7 @@ func WebAppsAvailabilityCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc web apps availability create --app APP_ID --territory \"USA,GBR\" [flags]",
+		ShortUsage: "aso web apps availability create --app APP_ID --territory \"USA,GBR\" [flags]",
 		ShortHelp:  "[experimental] Create initial app availability via web API.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -75,8 +75,8 @@ Create the initial app availability record for an app that does not yet have one
 The territories passed with --territory become initially available.
 
 Examples:
-  asc web apps availability create --app "123456789" --territory "USA" --available-in-new-territories false
-  asc web apps availability create --app "123456789" --territory "USA,GBR" --available-in-new-territories true
+  aso web apps availability create --app "123456789" --territory "USA" --available-in-new-territories false
+  aso web apps availability create --app "123456789" --territory "USA,GBR" --available-in-new-territories true
 
 ` + webWarningText,
 		FlagSet:   fs,

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/cmd"
+	"github.com/ASOManiac/aso-cli/cmd"
 )
 
 //go:embed templates/ASC.md

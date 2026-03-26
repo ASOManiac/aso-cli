@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PassTypeIDCertificatesCommand returns the certificates subcommand group.
@@ -19,13 +19,13 @@ func PassTypeIDCertificatesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "certificates",
-		ShortUsage: "asc pass-type-ids certificates <subcommand> [flags]",
+		ShortUsage: "aso pass-type-ids certificates <subcommand> [flags]",
 		ShortHelp:  "List pass type ID certificates.",
 		LongHelp: `List pass type ID certificates.
 
 Examples:
-  asc pass-type-ids certificates list --pass-type-id "PASS_ID"
-  asc pass-type-ids certificates get --pass-type-id "PASS_ID"`,
+  aso pass-type-ids certificates list --pass-type-id "PASS_ID"
+  aso pass-type-ids certificates get --pass-type-id "PASS_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -56,13 +56,13 @@ func PassTypeIDCertificatesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc pass-type-ids certificates list --pass-type-id \"PASS_ID\" [flags]",
+		ShortUsage: "aso pass-type-ids certificates list --pass-type-id \"PASS_ID\" [flags]",
 		ShortHelp:  "List certificates for a pass type ID.",
 		LongHelp: `List certificates for a pass type ID.
 
 Examples:
-  asc pass-type-ids certificates list --pass-type-id "PASS_ID"
-  asc pass-type-ids certificates list --pass-type-id "PASS_ID" --paginate`,
+  aso pass-type-ids certificates list --pass-type-id "PASS_ID"
+  aso pass-type-ids certificates list --pass-type-id "PASS_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -160,13 +160,13 @@ func PassTypeIDCertificatesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc pass-type-ids certificates get --pass-type-id \"PASS_ID\" [flags]",
+		ShortUsage: "aso pass-type-ids certificates get --pass-type-id \"PASS_ID\" [flags]",
 		ShortHelp:  "Get certificate relationships for a pass type ID.",
 		LongHelp: `Get certificate relationships for a pass type ID.
 
 Examples:
-  asc pass-type-ids certificates get --pass-type-id "PASS_ID"
-  asc pass-type-ids certificates get --pass-type-id "PASS_ID" --paginate`,
+  aso pass-type-ids certificates get --pass-type-id "PASS_ID"
+  aso pass-type-ids certificates get --pass-type-id "PASS_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

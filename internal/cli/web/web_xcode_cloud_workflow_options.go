@@ -10,9 +10,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	webcore "github.com/rudrankriyam/App-Store-Connect-CLI/internal/web"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	webcore "github.com/ASOManiac/aso-cli/internal/web"
 )
 
 func bindJSONOnlyOutputFlags(fs *flag.FlagSet) shared.OutputFlags {
@@ -37,7 +37,7 @@ func webXcodeCloudWorkflowOptionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "options",
-		ShortUsage: "asc web xcode-cloud workflows options <subcommand> [flags]",
+		ShortUsage: "aso web xcode-cloud workflows options <subcommand> [flags]",
 		ShortHelp:  "[experimental] Inspect private workflow editor option endpoints.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -49,11 +49,11 @@ targets. JSON output only.
 ` + webWarningText + `
 
 Examples:
-  asc web xcode-cloud workflows options team-config --apple-id "user@example.com"
-  asc web xcode-cloud workflows options product-config --product-id "UUID" --apple-id "user@example.com"
-  asc web xcode-cloud workflows options schemes --product-id "UUID" --container-file-path "App.xcodeproj" --apple-id "user@example.com"
-  asc web xcode-cloud workflows options test-destinations --xcode-version "latest:stable" --apple-id "user@example.com"
-  asc web xcode-cloud workflows options slack-channels --apple-id "user@example.com"`,
+  aso web xcode-cloud workflows options team-config --apple-id "user@example.com"
+  aso web xcode-cloud workflows options product-config --product-id "UUID" --apple-id "user@example.com"
+  aso web xcode-cloud workflows options schemes --product-id "UUID" --container-file-path "App.xcodeproj" --apple-id "user@example.com"
+  aso web xcode-cloud workflows options test-destinations --xcode-version "latest:stable" --apple-id "user@example.com"
+  aso web xcode-cloud workflows options slack-channels --apple-id "user@example.com"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -78,7 +78,7 @@ func webXcodeCloudWorkflowOptionsTeamConfigCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "team-config",
-		ShortUsage: "asc web xcode-cloud workflows options team-config [flags]",
+		ShortUsage: "aso web xcode-cloud workflows options team-config [flags]",
 		ShortHelp:  "[experimental] Show team workflow editor configuration.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -110,7 +110,7 @@ func webXcodeCloudWorkflowOptionsBuildVersionsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "build-versions",
-		ShortUsage: "asc web xcode-cloud workflows options build-versions [flags]",
+		ShortUsage: "aso web xcode-cloud workflows options build-versions [flags]",
 		ShortHelp:  "[experimental] Show workflow build version defaults.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -143,7 +143,7 @@ func webXcodeCloudWorkflowOptionsProductConfigCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "product-config",
-		ShortUsage: "asc web xcode-cloud workflows options product-config --product-id ID [flags]",
+		ShortUsage: "aso web xcode-cloud workflows options product-config --product-id ID [flags]",
 		ShortHelp:  "[experimental] Show product workflow configuration options.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -185,7 +185,7 @@ func webXcodeCloudWorkflowOptionsSchemesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "schemes",
-		ShortUsage: "asc web xcode-cloud workflows options schemes --product-id ID [flags]",
+		ShortUsage: "aso web xcode-cloud workflows options schemes --product-id ID [flags]",
 		ShortHelp:  "[experimental] Show available workflow schemes.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -228,7 +228,7 @@ func webXcodeCloudWorkflowOptionsTestDestinationsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "test-destinations",
-		ShortUsage: "asc web xcode-cloud workflows options test-destinations --xcode-version VALUE [flags]",
+		ShortUsage: "aso web xcode-cloud workflows options test-destinations --xcode-version VALUE [flags]",
 		ShortHelp:  "[experimental] Show workflow test destination options.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -265,7 +265,7 @@ func webXcodeCloudWorkflowOptionsSlackProviderCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "slack-provider",
-		ShortUsage: "asc web xcode-cloud workflows options slack-provider [flags]",
+		ShortUsage: "aso web xcode-cloud workflows options slack-provider [flags]",
 		ShortHelp:  "[experimental] Show Slack workflow notification integration state.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 
@@ -297,7 +297,7 @@ func webXcodeCloudWorkflowOptionsSlackChannelsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "slack-channels",
-		ShortUsage: "asc web xcode-cloud workflows options slack-channels [flags]",
+		ShortUsage: "aso web xcode-cloud workflows options slack-channels [flags]",
 		ShortHelp:  "[experimental] Show Slack channels available to workflow notifications.",
 		LongHelp: `EXPERIMENTAL / UNOFFICIAL / DISCOURAGED
 

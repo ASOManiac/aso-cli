@@ -16,8 +16,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 const (
@@ -31,14 +31,14 @@ func InsightsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "insights",
-		ShortUsage: "asc insights <subcommand> [flags]",
+		ShortUsage: "aso insights <subcommand> [flags]",
 		ShortHelp:  "Generate weekly and daily insights from App Store data sources.",
 		LongHelp: `Generate weekly and daily insights from App Store data sources.
 
 Examples:
-  asc insights weekly --app "123456789" --source analytics --week "2026-02-16"
-  asc insights weekly --app "123456789" --source sales --week "2026-02-16" --vendor "12345678"
-  asc insights daily --app "123456789" --vendor "12345678" --date "2026-02-20"`,
+  aso insights weekly --app "123456789" --source analytics --week "2026-02-16"
+  aso insights weekly --app "123456789" --source sales --week "2026-02-16" --vendor "12345678"
+  aso insights daily --app "123456789" --vendor "12345678" --date "2026-02-20"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -62,7 +62,7 @@ func insightsWeeklyCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "weekly",
-		ShortUsage: "asc insights weekly --app \"APP_ID\" --source analytics|sales --week \"YYYY-MM-DD\" [flags]",
+		ShortUsage: "aso insights weekly --app \"APP_ID\" --source analytics|sales --week \"YYYY-MM-DD\" [flags]",
 		ShortHelp:  "Summarize this week vs last week metrics.",
 		LongHelp: `Summarize this week vs last week metrics.
 
@@ -72,9 +72,9 @@ For --source sales, totals are scoped to the selected app and include linked in-
 and subscriptions by matching Parent Identifier against the app SKU.
 
 Examples:
-  asc insights weekly --app "123456789" --source analytics --week "2026-02-16"
-  asc insights weekly --app "123456789" --source sales --week "2026-02-16" --vendor "12345678"
-  asc insights weekly --app "123456789" --source sales --week "2026-02-16" --output table`,
+  aso insights weekly --app "123456789" --source analytics --week "2026-02-16"
+  aso insights weekly --app "123456789" --source sales --week "2026-02-16" --vendor "12345678"
+  aso insights weekly --app "123456789" --source sales --week "2026-02-16" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -142,7 +142,7 @@ func insightsDailyCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "daily",
-		ShortUsage: "asc insights daily --app \"APP_ID\" --vendor \"VENDOR\" --date \"YYYY-MM-DD\" [flags]",
+		ShortUsage: "aso insights daily --app \"APP_ID\" --vendor \"VENDOR\" --date \"YYYY-MM-DD\" [flags]",
 		ShortHelp:  "Summarize daily subscription renewal signals from sales exports.",
 		LongHelp: `Summarize daily subscription renewal signals from sales exports.
 
@@ -150,8 +150,8 @@ This command is sales-only and app-scoped. It compares the selected day to the p
 Renewal metrics are derived from rows where Subscription equals "Renewal" for products linked to the app.
 
 Examples:
-  asc insights daily --app "123456789" --vendor "12345678" --date "2026-02-20"
-  asc insights daily --app "123456789" --vendor "12345678" --date "2026-02-20" --output table`,
+  aso insights daily --app "123456789" --vendor "12345678" --date "2026-02-20"
+  aso insights daily --app "123456789" --vendor "12345678" --date "2026-02-20" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

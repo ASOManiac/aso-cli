@@ -31,20 +31,20 @@ func TestSanitizeRepoURLForOutputRedactsCredentials(t *testing.T) {
 
 func TestSigningCommandLongHelpUsesOutputDirForSyncPull(t *testing.T) {
 	cmd := SigningCommand()
-	if !strings.Contains(cmd.LongHelp, "asc signing sync pull --repo git@github.com:team/certs.git --output-dir ./signing") {
+	if !strings.Contains(cmd.LongHelp, "aso signing sync pull --repo git@github.com:team/certs.git --output-dir ./signing") {
 		t.Fatalf("expected top-level help to use --output-dir for sync pull, got %q", cmd.LongHelp)
 	}
-	if strings.Contains(cmd.LongHelp, "asc signing sync pull --repo git@github.com:team/certs.git --output ./signing") {
+	if strings.Contains(cmd.LongHelp, "aso signing sync pull --repo git@github.com:team/certs.git --output ./signing") {
 		t.Fatalf("expected top-level help to avoid --output for sync pull, got %q", cmd.LongHelp)
 	}
 }
 
 func TestSigningSyncCommandLongHelpPullExampleOmitsUnsupportedFlags(t *testing.T) {
 	cmd := SigningSyncCommand()
-	if strings.Contains(cmd.LongHelp, "asc signing sync pull --bundle-id") {
+	if strings.Contains(cmd.LongHelp, "aso signing sync pull --bundle-id") {
 		t.Fatalf("expected pull example to omit --bundle-id, got %q", cmd.LongHelp)
 	}
-	if strings.Contains(cmd.LongHelp, "asc signing sync pull --profile-type") {
+	if strings.Contains(cmd.LongHelp, "aso signing sync pull --profile-type") {
 		t.Fatalf("expected pull example to omit --profile-type, got %q", cmd.LongHelp)
 	}
 }

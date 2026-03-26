@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 // ContextWithResolvedTimeout returns a context with ASC timeout resolution and

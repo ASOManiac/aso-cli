@@ -9,7 +9,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // PricingTiersCommand returns the tiers subcommand.
@@ -23,7 +23,7 @@ func PricingTiersCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "tiers",
-		ShortUsage: "asc pricing tiers --app \"APP_ID\" [--territory \"USA\"] [--refresh]",
+		ShortUsage: "aso pricing tiers --app \"APP_ID\" [--territory \"USA\"] [--refresh]",
 		ShortHelp:  "List pricing tiers for an app in a territory.",
 		LongHelp: `List pricing tiers for an app in a territory.
 
@@ -34,10 +34,10 @@ Free (0.00) price points are excluded.
 Results are cached locally (~/.asc/cache/) for 24 hours. Use --refresh to force a refresh.
 
 Examples:
-  asc pricing tiers --app "123456789"
-  asc pricing tiers --app "123456789" --territory "USA"
-  asc pricing tiers --app "123456789" --territory "JPN" --refresh
-  asc pricing tiers --app "123456789" --output table`,
+  aso pricing tiers --app "123456789"
+  aso pricing tiers --app "123456789" --territory "USA"
+  aso pricing tiers --app "123456789" --territory "JPN" --refresh
+  aso pricing tiers --app "123456789" --output table`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

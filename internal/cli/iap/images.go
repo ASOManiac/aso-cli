@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // IAPImagesCommand returns the images command group.
@@ -19,16 +19,16 @@ func IAPImagesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "images",
-		ShortUsage: "asc iap images <subcommand> [flags]",
+		ShortUsage: "aso iap images <subcommand> [flags]",
 		ShortHelp:  "Manage in-app purchase images.",
 		LongHelp: `Manage in-app purchase images.
 
 Examples:
-  asc iap images list --iap-id "IAP_ID"
-  asc iap images get --image-id "IMAGE_ID"
-  asc iap images create --iap-id "IAP_ID" --file "./image.png"
-  asc iap images update --image-id "IMAGE_ID" --file "./image.png"
-  asc iap images delete --image-id "IMAGE_ID" --confirm`,
+  aso iap images list --iap-id "IAP_ID"
+  aso iap images get --image-id "IMAGE_ID"
+  aso iap images create --iap-id "IAP_ID" --file "./image.png"
+  aso iap images update --image-id "IMAGE_ID" --file "./image.png"
+  aso iap images delete --image-id "IMAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -56,13 +56,13 @@ func IAPImagesListCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "list",
-		ShortUsage: "asc iap images list --iap-id \"IAP_ID\"",
+		ShortUsage: "aso iap images list --iap-id \"IAP_ID\"",
 		ShortHelp:  "List images for an in-app purchase.",
 		LongHelp: `List images for an in-app purchase.
 
 Examples:
-  asc iap images list --iap-id "IAP_ID"
-  asc iap images list --iap-id "IAP_ID" --paginate`,
+  aso iap images list --iap-id "IAP_ID"
+  aso iap images list --iap-id "IAP_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -128,12 +128,12 @@ func IAPImagesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc iap images get --image-id \"IMAGE_ID\"",
+		ShortUsage: "aso iap images get --image-id \"IMAGE_ID\"",
 		ShortHelp:  "Get an in-app purchase image by ID.",
 		LongHelp: `Get an in-app purchase image by ID.
 
 Examples:
-  asc iap images get --image-id "IMAGE_ID"`,
+  aso iap images get --image-id "IMAGE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -171,12 +171,12 @@ func IAPImagesCreateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "create",
-		ShortUsage: "asc iap images create --iap-id \"IAP_ID\" --file \"./image.png\"",
+		ShortUsage: "aso iap images create --iap-id \"IAP_ID\" --file \"./image.png\"",
 		ShortHelp:  "Upload an in-app purchase image.",
 		LongHelp: `Upload an in-app purchase image.
 
 Examples:
-  asc iap images create --iap-id "IAP_ID" --file "./image.png"`,
+  aso iap images create --iap-id "IAP_ID" --file "./image.png"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -250,12 +250,12 @@ func IAPImagesUpdateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "update",
-		ShortUsage: "asc iap images update --image-id \"IMAGE_ID\" --file \"./image.png\"",
+		ShortUsage: "aso iap images update --image-id \"IMAGE_ID\" --file \"./image.png\"",
 		ShortHelp:  "Re-upload an in-app purchase image.",
 		LongHelp: `Re-upload an in-app purchase image.
 
 Examples:
-  asc iap images update --image-id "IMAGE_ID" --file "./image.png"`,
+  aso iap images update --image-id "IMAGE_ID" --file "./image.png"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -353,12 +353,12 @@ func IAPImagesDeleteCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "delete",
-		ShortUsage: "asc iap images delete --image-id \"IMAGE_ID\" --confirm",
+		ShortUsage: "aso iap images delete --image-id \"IMAGE_ID\" --confirm",
 		ShortHelp:  "Delete an in-app purchase image.",
 		LongHelp: `Delete an in-app purchase image.
 
 Examples:
-  asc iap images delete --image-id "IMAGE_ID" --confirm`,
+  aso iap images delete --image-id "IMAGE_ID" --confirm`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

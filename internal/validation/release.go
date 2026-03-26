@@ -25,7 +25,7 @@ func releaseChecks(releaseType, earliestReleaseDate string) []CheckResult {
 					Severity:    SeverityWarning,
 					Field:       "earliestReleaseDate",
 					Message:     fmt.Sprintf("Scheduled release date %s is in the past; the app will be released immediately after approval", date),
-					Remediation: "Update the earliest release date to a future date using `asc versions update --version-id VERSION --earliest-release-date DATE` or change the release type",
+					Remediation: "Update the earliest release date to a future date using `aso versions update --version-id VERSION --earliest-release-date DATE` or change the release type",
 				})
 			}
 		}
@@ -37,7 +37,7 @@ func releaseChecks(releaseType, earliestReleaseDate string) []CheckResult {
 			Severity:    SeverityInfo,
 			Field:       "releaseType",
 			Message:     "Release type is MANUAL — the app will not be released automatically after approval",
-			Remediation: "After approval, release manually using `asc versions release --version-id VERSION --confirm` or change the release type to AFTER_APPROVAL",
+			Remediation: "After approval, release manually using `aso versions release --version-id VERSION --confirm` or change the release type to AFTER_APPROVAL",
 		})
 	}
 

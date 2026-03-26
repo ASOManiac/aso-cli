@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 var betaTesterRelationshipKinds = map[string]relationshipKind{
@@ -25,13 +25,13 @@ func BetaTestersRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "relationships",
-		ShortUsage: "asc testflight beta-testers relationships <subcommand> [flags]",
+		ShortUsage: "aso testflight beta-testers relationships <subcommand> [flags]",
 		ShortHelp:  "View beta tester relationship linkages.",
 		LongHelp: `View beta tester relationship linkages.
 
 Examples:
-  asc testflight beta-testers relationships get --tester-id "TESTER_ID" --type "apps"
-  asc testflight beta-testers relationships get --tester-id "TESTER_ID" --type "betaGroups" --paginate`,
+  aso testflight beta-testers relationships get --tester-id "TESTER_ID" --type "apps"
+  aso testflight beta-testers relationships get --tester-id "TESTER_ID" --type "betaGroups" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -57,13 +57,13 @@ func BetaTestersRelationshipsGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc testflight beta-testers relationships get --tester-id \"TESTER_ID\" --type \"RELATIONSHIP\" [flags]",
+		ShortUsage: "aso testflight beta-testers relationships get --tester-id \"TESTER_ID\" --type \"RELATIONSHIP\" [flags]",
 		ShortHelp:  "Get beta tester relationship linkages.",
 		LongHelp: `Get beta tester relationship linkages.
 
 Examples:
-  asc testflight beta-testers relationships get --tester-id "TESTER_ID" --type "apps"
-  asc testflight beta-testers relationships get --tester-id "TESTER_ID" --type "builds" --paginate`,
+  aso testflight beta-testers relationships get --tester-id "TESTER_ID" --type "apps"
+  aso testflight beta-testers relationships get --tester-id "TESTER_ID" --type "builds" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

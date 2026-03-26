@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/asc"
 )
 
 func TestBuildsCountCommand_MissingApp(t *testing.T) {
@@ -119,7 +119,7 @@ func TestBuildsCountCommand_ShortHelp(t *testing.T) {
 func TestBuildsCountCommand_LongHelpHasExamples(t *testing.T) {
 	cmd := BuildsCountCommand()
 
-	if !strings.Contains(cmd.LongHelp, "asc builds count") {
+	if !strings.Contains(cmd.LongHelp, "aso builds count") {
 		t.Errorf("expected LongHelp to contain example invocation, got %q", cmd.LongHelp)
 	}
 }

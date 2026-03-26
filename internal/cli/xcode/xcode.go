@@ -11,9 +11,9 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
-	localxcode "github.com/rudrankriyam/App-Store-Connect-CLI/internal/xcode"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	localxcode "github.com/ASOManiac/aso-cli/internal/xcode"
 )
 
 var (
@@ -67,7 +67,7 @@ func XcodeCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "xcode",
-		ShortUsage: "asc xcode <subcommand> [flags]",
+		ShortUsage: "aso xcode <subcommand> [flags]",
 		ShortHelp:  "Local Xcode archive/export helpers (macOS only).",
 		LongHelp: `Local Xcode archive/export helpers.
 
@@ -75,14 +75,14 @@ These commands wrap local xcodebuild flows and are visible on every platform so
 docs and workflows stay consistent, but execution is supported on macOS only.
 
 Use these commands to produce deterministic .xcarchive and .ipa paths that can
-be passed directly into asc upload and publish commands.
+be passed directly into aso upload and publish commands.
 
 Examples:
-  asc xcode archive --workspace App.xcworkspace --scheme App --archive-path .asc/artifacts/App.xcarchive --output json
-  asc xcode export --archive-path .asc/artifacts/App.xcarchive --export-options ExportOptions.plist --ipa-path .asc/artifacts/App.ipa --output json
-  asc xcode version view
-  asc xcode version bump --type patch
-  asc xcode version edit --version "1.3.0" --build-number "42"`,
+  aso xcode archive --workspace App.xcworkspace --scheme App --archive-path .asc/artifacts/App.xcarchive --output json
+  aso xcode export --archive-path .asc/artifacts/App.xcarchive --export-options ExportOptions.plist --ipa-path .asc/artifacts/App.ipa --output json
+  aso xcode version view
+  aso xcode version bump --type patch
+  aso xcode version edit --version "1.3.0" --build-number "42"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -114,7 +114,7 @@ func XcodeArchiveCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "archive",
-		ShortUsage: "asc xcode archive [flags]",
+		ShortUsage: "aso xcode archive [flags]",
 		ShortHelp:  "Create an .xcarchive at an exact path.",
 		LongHelp: `Create an .xcarchive at an exact path.
 
@@ -122,9 +122,9 @@ Provide exactly one of --workspace or --project, plus --scheme and
 --archive-path.
 
 Examples:
-  asc xcode archive --workspace App.xcworkspace --scheme App --archive-path .asc/artifacts/App.xcarchive
-  asc xcode archive --project App.xcodeproj --scheme App --configuration Release --clean --archive-path .asc/artifacts/App.xcarchive
-  asc xcode archive --workspace App.xcworkspace --scheme App --archive-path .asc/artifacts/App.xcarchive --xcodebuild-flag=-destination --xcodebuild-flag=generic/platform=iOS --output json`,
+  aso xcode archive --workspace App.xcworkspace --scheme App --archive-path .asc/artifacts/App.xcarchive
+  aso xcode archive --project App.xcodeproj --scheme App --configuration Release --clean --archive-path .asc/artifacts/App.xcarchive
+  aso xcode archive --workspace App.xcworkspace --scheme App --archive-path .asc/artifacts/App.xcarchive --xcodebuild-flag=-destination --xcodebuild-flag=generic/platform=iOS --output json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -197,21 +197,21 @@ func XcodeExportCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "export",
-		ShortUsage: "asc xcode export [flags]",
+		ShortUsage: "aso xcode export [flags]",
 		ShortHelp:  "Export an archive to a deterministic IPA path or direct upload.",
 		LongHelp: `Export an archive to a deterministic IPA path or direct upload.
 
 This command runs xcodebuild -exportArchive into a temporary directory.
-When ExportOptions.plist produces a local IPA, asc moves it to --ipa-path.
+When ExportOptions.plist produces a local IPA, aso moves it to --ipa-path.
 When ExportOptions.plist uses destination=upload, xcodebuild uploads directly
-to App Store Connect and asc returns archive metadata without writing a local
+to App Store Connect and aso returns archive metadata without writing a local
 IPA at --ipa-path. Use --wait to poll until the uploaded build appears and
 finishes processing.
 
 Examples:
-  asc xcode export --archive-path .asc/artifacts/App.xcarchive --export-options ExportOptions.plist --ipa-path .asc/artifacts/App.ipa
-  asc xcode export --archive-path .asc/artifacts/App.xcarchive --export-options UploadExportOptions.plist --ipa-path .asc/artifacts/App.ipa --wait
-  asc xcode export --archive-path .asc/artifacts/App.xcarchive --export-options ExportOptions.plist --ipa-path .asc/artifacts/App.ipa --xcodebuild-flag=-allowProvisioningUpdates --output json`,
+  aso xcode export --archive-path .asc/artifacts/App.xcarchive --export-options ExportOptions.plist --ipa-path .asc/artifacts/App.ipa
+  aso xcode export --archive-path .asc/artifacts/App.xcarchive --export-options UploadExportOptions.plist --ipa-path .asc/artifacts/App.ipa --wait
+  aso xcode export --archive-path .asc/artifacts/App.xcarchive --export-options ExportOptions.plist --ipa-path .asc/artifacts/App.ipa --xcodebuild-flag=-allowProvisioningUpdates --output json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -339,7 +339,7 @@ func XcodeValidateCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "validate",
-		ShortUsage: "asc xcode validate [flags]",
+		ShortUsage: "aso xcode validate [flags]",
 		ShortHelp:  "Validate an IPA with Apple before upload.",
 		LongHelp: `Validate an IPA with Apple before upload.
 
@@ -347,8 +347,8 @@ This command wraps xcrun altool --validate-app to check whether an IPA passes
 Apple's server-side validation before you upload or submit it.
 
 Examples:
-  asc xcode validate --ipa .asc/artifacts/App.ipa
-  asc xcode validate --ipa .asc/artifacts/App.ipa --api-key KEY123ABC --api-issuer 00000000-0000-0000-0000-000000000000 --output json`,
+  aso xcode validate --ipa .asc/artifacts/App.ipa
+  aso xcode validate --ipa .asc/artifacts/App.ipa --api-key KEY123ABC --api-issuer 00000000-0000-0000-0000-000000000000 --output json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // CertificatesRelationshipsCommand returns the links command group.
@@ -17,12 +17,12 @@ func CertificatesRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc certificates links <subcommand> [flags]",
+		ShortUsage: "aso certificates links <subcommand> [flags]",
 		ShortHelp:  "View certificate relationship linkages.",
 		LongHelp: `View certificate relationship linkages.
 
 Examples:
-  asc certificates links pass-type-id --id "CERT_ID"`,
+  aso certificates links pass-type-id --id "CERT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -43,12 +43,12 @@ func CertificatesRelationshipsPassTypeIDCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "pass-type-id",
-		ShortUsage: "asc certificates links pass-type-id --id \"CERT_ID\"",
+		ShortUsage: "aso certificates links pass-type-id --id \"CERT_ID\"",
 		ShortHelp:  "Get pass type ID relationship for a certificate.",
 		LongHelp: `Get pass type ID relationship for a certificate.
 
 Examples:
-  asc certificates links pass-type-id --id "CERT_ID"`,
+  aso certificates links pass-type-id --id "CERT_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -83,18 +83,18 @@ func DeprecatedCertificatesRelationshipsAliasCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "relationships",
-		ShortUsage: "asc certificates links <subcommand> [flags]",
-		ShortHelp:  "DEPRECATED: use `asc certificates links ...`.",
-		LongHelp:   "Deprecated compatibility alias for `asc certificates links ...`.",
+		ShortUsage: "aso certificates links <subcommand> [flags]",
+		ShortHelp:  "DEPRECATED: use `aso certificates links ...`.",
+		LongHelp:   "Deprecated compatibility alias for `aso certificates links ...`.",
 		FlagSet:    fs,
 		UsageFunc:  shared.DeprecatedUsageFunc,
 		Subcommands: []*ffcli.Command{
 			shared.DeprecatedAliasLeafCommand(
 				CertificatesRelationshipsPassTypeIDCommand(),
 				"pass-type-id",
-				"asc certificates links pass-type-id --id \"CERT_ID\"",
-				"asc certificates links pass-type-id",
-				"Warning: `asc certificates relationships pass-type-id` is deprecated. Use `asc certificates links pass-type-id`.",
+				"aso certificates links pass-type-id --id \"CERT_ID\"",
+				"aso certificates links pass-type-id",
+				"Warning: `aso certificates relationships pass-type-id` is deprecated. Use `aso certificates links pass-type-id`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {

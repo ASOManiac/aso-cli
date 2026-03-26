@@ -9,8 +9,8 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/asc"
-	"github.com/rudrankriyam/App-Store-Connect-CLI/internal/cli/shared"
+	"github.com/ASOManiac/aso-cli/internal/asc"
+	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // AnalyticsInstancesCommand returns the analytics instances command group.
@@ -19,14 +19,14 @@ func AnalyticsInstancesCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "instances",
-		ShortUsage: "asc analytics instances <subcommand> [flags]",
+		ShortUsage: "aso analytics instances <subcommand> [flags]",
 		ShortHelp:  "Get analytics report instances or relationships.",
 		LongHelp: `Get analytics report instances or relationships.
 
 Examples:
-  asc analytics instances get --instance-id "INSTANCE_ID"
-  asc analytics instances links --instance-id "INSTANCE_ID"
-  asc analytics instances links --instance-id "INSTANCE_ID" --paginate`,
+  aso analytics instances get --instance-id "INSTANCE_ID"
+  aso analytics instances links --instance-id "INSTANCE_ID"
+  aso analytics instances links --instance-id "INSTANCE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.VisibleUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -35,9 +35,9 @@ Examples:
 			shared.DeprecatedAliasLeafCommand(
 				AnalyticsInstancesRelationshipsCommand(),
 				"relationships",
-				"asc analytics instances links --instance-id \"INSTANCE_ID\" [flags]",
-				"asc analytics instances links",
-				"Warning: `asc analytics instances relationships` is deprecated. Use `asc analytics instances links`.",
+				"aso analytics instances links --instance-id \"INSTANCE_ID\" [flags]",
+				"aso analytics instances links",
+				"Warning: `aso analytics instances relationships` is deprecated. Use `aso analytics instances links`.",
 			),
 		},
 		Exec: func(ctx context.Context, args []string) error {
@@ -55,12 +55,12 @@ func AnalyticsInstancesGetCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "get",
-		ShortUsage: "asc analytics instances get --instance-id \"INSTANCE_ID\" [flags]",
+		ShortUsage: "aso analytics instances get --instance-id \"INSTANCE_ID\" [flags]",
 		ShortHelp:  "Get an analytics report instance by ID.",
 		LongHelp: `Get an analytics report instance by ID.
 
 Examples:
-  asc analytics instances get --instance-id "INSTANCE_ID"`,
+  aso analytics instances get --instance-id "INSTANCE_ID"`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -99,13 +99,13 @@ func AnalyticsInstancesRelationshipsCommand() *ffcli.Command {
 
 	return &ffcli.Command{
 		Name:       "links",
-		ShortUsage: "asc analytics instances links --instance-id \"INSTANCE_ID\" [flags]",
+		ShortUsage: "aso analytics instances links --instance-id \"INSTANCE_ID\" [flags]",
 		ShortHelp:  "List analytics report segment relationships.",
 		LongHelp: `List analytics report segment relationships.
 
 Examples:
-  asc analytics instances links --instance-id "INSTANCE_ID"
-  asc analytics instances links --instance-id "INSTANCE_ID" --paginate`,
+  aso analytics instances links --instance-id "INSTANCE_ID"
+  aso analytics instances links --instance-id "INSTANCE_ID" --paginate`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -104,28 +104,28 @@ func TestDeprecatedHelpShowsCanonicalPathsOnly(t *testing.T) {
 		{
 			name:        "feedback root help",
 			args:        []string{"feedback"},
-			wantUsage:   "asc testflight feedback list [flags]",
+			wantUsage:   "aso testflight feedback list [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc feedback [flags]",
+				"aso feedback [flags]",
 			},
 		},
 		{
 			name:        "crashes root help",
 			args:        []string{"crashes"},
-			wantUsage:   "asc testflight crashes list [flags]",
+			wantUsage:   "aso testflight crashes list [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc crashes [flags]",
+				"aso crashes [flags]",
 			},
 		},
 		{
 			name:        "beta details alias help",
 			args:        []string{"testflight", "beta-details"},
-			wantUsage:   "asc testflight distribution <subcommand> [flags]",
+			wantUsage:   "aso testflight distribution <subcommand> [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight beta-details <subcommand> [flags]",
+				"aso testflight beta-details <subcommand> [flags]",
 				"get",
 				"update",
 			},
@@ -133,16 +133,16 @@ func TestDeprecatedHelpShowsCanonicalPathsOnly(t *testing.T) {
 		{
 			name:        "beta groups alias help",
 			args:        []string{"testflight", "beta-groups"},
-			wantUsage:   "asc testflight groups <subcommand> [flags]",
+			wantUsage:   "aso testflight groups <subcommand> [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight beta-groups <subcommand> [flags]",
+				"aso testflight beta-groups <subcommand> [flags]",
 			},
 		},
 		{
 			name:        "beta groups leaf help",
 			args:        []string{"testflight", "beta-groups", "get"},
-			wantUsage:   "asc testflight groups view [flags]",
+			wantUsage:   "aso testflight groups view [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
 				"Get a TestFlight beta group by ID.",
@@ -151,112 +151,112 @@ func TestDeprecatedHelpShowsCanonicalPathsOnly(t *testing.T) {
 		{
 			name:        "beta groups relationships alias help",
 			args:        []string{"testflight", "beta-groups", "relationships"},
-			wantUsage:   "asc testflight groups links <subcommand> [flags]",
+			wantUsage:   "aso testflight groups links <subcommand> [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight groups relationships <subcommand> [flags]",
+				"aso testflight groups relationships <subcommand> [flags]",
 			},
 		},
 		{
 			name:        "beta testers alias help",
 			args:        []string{"testflight", "beta-testers"},
-			wantUsage:   "asc testflight testers <subcommand> [flags]",
+			wantUsage:   "aso testflight testers <subcommand> [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight beta-testers <subcommand> [flags]",
+				"aso testflight beta-testers <subcommand> [flags]",
 			},
 		},
 		{
 			name:        "beta testers relationships alias help",
 			args:        []string{"testflight", "beta-testers", "relationships"},
-			wantUsage:   "asc testflight testers links <subcommand> [flags]",
+			wantUsage:   "aso testflight testers links <subcommand> [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight testers relationships <subcommand> [flags]",
+				"aso testflight testers relationships <subcommand> [flags]",
 			},
 		},
 		{
 			name:        "beta agreements alias help",
 			args:        []string{"testflight", "beta-license-agreements"},
-			wantUsage:   "asc testflight agreements <subcommand> [flags]",
+			wantUsage:   "aso testflight agreements <subcommand> [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight beta-license-agreements <subcommand> [flags]",
+				"aso testflight beta-license-agreements <subcommand> [flags]",
 			},
 		},
 		{
 			name:        "beta notifications alias help",
 			args:        []string{"testflight", "beta-notifications"},
-			wantUsage:   "asc testflight notifications send --build \"BUILD_ID\"",
+			wantUsage:   "aso testflight notifications send --build \"BUILD_ID\"",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight beta-notifications <subcommand> [flags]",
+				"aso testflight beta-notifications <subcommand> [flags]",
 			},
 		},
 		{
 			name:        "beta app localizations root help",
 			args:        []string{"beta-app-localizations"},
-			wantUsage:   "asc testflight app-localizations <subcommand> [flags]",
+			wantUsage:   "aso testflight app-localizations <subcommand> [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc beta-app-localizations <subcommand> [flags]",
+				"aso beta-app-localizations <subcommand> [flags]",
 			},
 		},
 		{
 			name:        "beta app localizations leaf help",
 			args:        []string{"beta-app-localizations", "get"},
-			wantUsage:   "asc testflight app-localizations view --id \"LOCALIZATION_ID\"",
+			wantUsage:   "aso testflight app-localizations view --id \"LOCALIZATION_ID\"",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc beta-app-localizations get --id \"LOCALIZATION_ID\"",
+				"aso beta-app-localizations get --id \"LOCALIZATION_ID\"",
 			},
 		},
 		{
 			name:        "pre-release relationships alias help",
 			args:        []string{"testflight", "pre-release", "relationships"},
-			wantUsage:   "asc testflight pre-release links <subcommand> [flags]",
+			wantUsage:   "aso testflight pre-release links <subcommand> [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight pre-release relationships <subcommand> [flags]",
+				"aso testflight pre-release relationships <subcommand> [flags]",
 			},
 		},
 		{
 			name:        "sync alias help",
 			args:        []string{"testflight", "sync"},
-			wantUsage:   "asc testflight config export [flags]",
+			wantUsage:   "aso testflight config export [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight sync <subcommand> [flags]",
+				"aso testflight sync <subcommand> [flags]",
 			},
 		},
 		{
 			name:        "metrics beta tester usages alias help",
 			args:        []string{"testflight", "metrics", "beta-tester-usages"},
-			wantUsage:   "asc testflight metrics app-testers --app \"APP_ID\" [flags]",
+			wantUsage:   "aso testflight metrics app-testers --app \"APP_ID\" [flags]",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight metrics beta-tester-usages --app \"APP_ID\" [flags]",
+				"aso testflight metrics beta-tester-usages --app \"APP_ID\" [flags]",
 			},
 		},
 		{
 			name:        "beta feedback alias help",
 			args:        []string{"testflight", "beta-feedback"},
-			wantUsage:   "asc testflight feedback <subcommand> | asc testflight crashes <subcommand>",
+			wantUsage:   "aso testflight feedback <subcommand> | aso testflight crashes <subcommand>",
 			wantWarning: "",
 			wantNotShown: []string{
 				"crash-submissions",
 				"screenshot-submissions",
 				"crash-log",
-				"asc testflight beta-feedback <subcommand> [flags]",
+				"aso testflight beta-feedback <subcommand> [flags]",
 			},
 		},
 		{
 			name:        "beta crash logs alias help",
 			args:        []string{"testflight", "beta-crash-logs"},
-			wantUsage:   "asc testflight crashes log --crash-log-id \"CRASH_LOG_ID\"",
+			wantUsage:   "aso testflight crashes log --crash-log-id \"CRASH_LOG_ID\"",
 			wantWarning: "",
 			wantNotShown: []string{
-				"asc testflight beta-crash-logs <subcommand> [flags]",
+				"aso testflight beta-crash-logs <subcommand> [flags]",
 				"get",
 			},
 		},
@@ -360,10 +360,10 @@ func TestTestFlightAppsShowsRemovedGuidance(t *testing.T) {
 	if stdout != "" {
 		t.Fatalf("expected empty stdout, got %q", stdout)
 	}
-	if !strings.Contains(stderr, "Error: `asc testflight apps` was removed. Use `asc apps list` instead.") {
+	if !strings.Contains(stderr, "Error: `aso testflight apps` was removed. Use `aso apps list` instead.") {
 		t.Fatalf("expected removed guidance, got %q", stderr)
 	}
-	if !strings.Contains(stderr, "asc apps <subcommand> [flags]") {
+	if !strings.Contains(stderr, "aso apps <subcommand> [flags]") {
 		t.Fatalf("expected deprecated usage redirect, got %q", stderr)
 	}
 }
@@ -402,10 +402,10 @@ func TestTestFlightAppsSingleAppGuidanceUsesView(t *testing.T) {
 			if stdout != "" {
 				t.Fatalf("expected empty stdout, got %q", stdout)
 			}
-			if !strings.Contains(stderr, "Error: `asc testflight apps` was removed. Use `asc apps view --id APP_ID` instead.") {
+			if !strings.Contains(stderr, "Error: `aso testflight apps` was removed. Use `aso apps view --id APP_ID` instead.") {
 				t.Fatalf("expected removed single-app guidance to use view, got %q", stderr)
 			}
-			if strings.Contains(stderr, "asc apps get --id APP_ID") {
+			if strings.Contains(stderr, "aso apps get --id APP_ID") {
 				t.Fatalf("expected removed single-app guidance to drop get, got %q", stderr)
 			}
 		})
@@ -1134,13 +1134,13 @@ func TestLegacyFeedbackAndCrashAliasesWarnAndDelegate(t *testing.T) {
 			name:        "root feedback shim",
 			args:        []string{"feedback", "--app", "123"},
 			wantPath:    "/v1/apps/123/betaFeedbackScreenshotSubmissions",
-			wantWarning: "Warning: `asc feedback` is deprecated. Use `asc testflight feedback list`.",
+			wantWarning: "Warning: `aso feedback` is deprecated. Use `aso testflight feedback list`.",
 		},
 		{
 			name:        "root crashes shim",
 			args:        []string{"crashes", "--app", "123"},
 			wantPath:    "/v1/apps/123/betaFeedbackCrashSubmissions",
-			wantWarning: "Warning: `asc crashes` is deprecated. Use `asc testflight crashes list`.",
+			wantWarning: "Warning: `aso crashes` is deprecated. Use `aso testflight crashes list`.",
 		},
 		{
 			name:        "beta feedback alias",
@@ -1480,7 +1480,7 @@ func TestLegacyBetaAppLocalizationsGetAliasWarnsAndDelegates(t *testing.T) {
 	if !strings.Contains(stdout, `"id":"loc-1"`) {
 		t.Fatalf("expected delegated output, got %q", stdout)
 	}
-	requireStderrContainsWarning(t, stderr, "Warning: `asc beta-app-localizations get` is deprecated. Use `asc testflight app-localizations view`.")
+	requireStderrContainsWarning(t, stderr, "Warning: `aso beta-app-localizations get` is deprecated. Use `aso testflight app-localizations view`.")
 }
 
 func TestTestFlightAppLocalizationsListOutputHasNoDeprecationWarning(t *testing.T) {
@@ -1623,7 +1623,7 @@ func TestTopLevelPreReleaseVersionsRemoved(t *testing.T) {
 	if strings.Contains(stderr, "Unknown command: pre-release-versions") {
 		t.Fatalf("expected targeted migration guidance, got %q", stderr)
 	}
-	if !strings.Contains(stderr, "Error: `asc pre-release-versions` was removed. Use `asc testflight pre-release` instead.") {
+	if !strings.Contains(stderr, "Error: `aso pre-release-versions` was removed. Use `aso testflight pre-release` instead.") {
 		t.Fatalf("expected migration guidance, got %q", stderr)
 	}
 }
@@ -1637,22 +1637,22 @@ func TestRemovedPreReleaseVersionsCommandsShowMigrationGuidance(t *testing.T) {
 		{
 			name:    "list command",
 			args:    []string{"pre-release-versions", "list", "--app", "APP_ID"},
-			wantErr: "Error: `asc pre-release-versions list` was removed. Use `asc testflight pre-release list` instead.",
+			wantErr: "Error: `aso pre-release-versions list` was removed. Use `aso testflight pre-release list` instead.",
 		},
 		{
 			name:    "view command",
 			args:    []string{"pre-release-versions", "get", "--id", "PR_ID"},
-			wantErr: "Error: `asc pre-release-versions get` was removed. Use `asc testflight pre-release view` instead.",
+			wantErr: "Error: `aso pre-release-versions get` was removed. Use `aso testflight pre-release view` instead.",
 		},
 		{
 			name:    "app view command",
 			args:    []string{"pre-release-versions", "app", "get", "--id", "PR_ID"},
-			wantErr: "Error: `asc pre-release-versions app get` was removed. Use `asc testflight pre-release app view` instead.",
+			wantErr: "Error: `aso pre-release-versions app get` was removed. Use `aso testflight pre-release app view` instead.",
 		},
 		{
 			name:    "relationships view command",
 			args:    []string{"pre-release-versions", "relationships", "get", "--id", "PR_ID", "--type", "app"},
-			wantErr: "Error: `asc pre-release-versions relationships get` was removed. Use `asc testflight pre-release links view` instead.",
+			wantErr: "Error: `aso pre-release-versions relationships get` was removed. Use `aso testflight pre-release links view` instead.",
 		},
 	}
 
