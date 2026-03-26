@@ -15,10 +15,10 @@ import (
 
 // WhoamiCommand returns the "whoami" subcommand that displays the current user.
 func WhoamiCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso aso whoami", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso whoami", flag.ExitOnError)
 	return &ffcli.Command{
 		Name:       "whoami",
-		ShortUsage: "aso aso whoami",
+		ShortUsage: "aso whoami",
 		ShortHelp:  "Display the current authenticated ASO Maniac user.",
 		LongHelp:   `Shows your email, plan, and API usage statistics.`,
 		FlagSet:    fs,
@@ -32,11 +32,11 @@ func WhoamiCommand() *ffcli.Command {
 func runWhoami(ctx context.Context, configPath string, w io.Writer) error {
 	cfg, err := asomaniac.ReadConfig(configPath)
 	if err != nil {
-		return fmt.Errorf("not logged in. Run 'aso aso login' to authenticate")
+		return fmt.Errorf("not logged in. Run 'aso login' to authenticate")
 	}
 
 	if !cfg.IsAuthenticated() {
-		return fmt.Errorf("not logged in. Run 'aso aso login' to authenticate")
+		return fmt.Errorf("not logged in. Run 'aso login' to authenticate")
 	}
 
 	client := asomaniac.NewClientFromConfig(cfg)

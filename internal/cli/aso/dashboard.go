@@ -16,15 +16,15 @@ import (
 
 // DashboardCommand returns the "dashboard" subcommand.
 func DashboardCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso aso dashboard", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso dashboard", flag.ExitOnError)
 	return &ffcli.Command{
 		Name:       "dashboard",
-		ShortUsage: "aso aso dashboard",
+		ShortUsage: "aso dashboard",
 		ShortHelp:  "View your ASO portfolio dashboard overview.",
 		LongHelp: `Display a summary of your tracked apps, keywords, and recent changes.
 
 Example:
-  aso aso dashboard`,
+  aso dashboard`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -36,10 +36,10 @@ Example:
 func runDashboard(ctx context.Context, configPath string, w io.Writer) error {
 	cfg, err := asomaniac.ReadConfig(configPath)
 	if err != nil {
-		return fmt.Errorf("not logged in. Run 'aso aso login' to authenticate")
+		return fmt.Errorf("not logged in. Run 'aso login' to authenticate")
 	}
 	if !cfg.IsAuthenticated() {
-		return fmt.Errorf("not logged in. Run 'aso aso login' to authenticate")
+		return fmt.Errorf("not logged in. Run 'aso login' to authenticate")
 	}
 
 	client := asomaniac.NewClientFromConfig(cfg)

@@ -16,18 +16,18 @@ import (
 
 // CompetitorsCommand returns the "competitors" subcommand.
 func CompetitorsCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso aso competitors", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso competitors", flag.ExitOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 
 	return &ffcli.Command{
 		Name:       "competitors",
-		ShortUsage: "aso aso competitors <appId> [flags]",
+		ShortUsage: "aso competitors <appId> [flags]",
 		ShortHelp:  "Analyze competitor keyword overlap.",
 		LongHelp: `Find and analyze competitor apps for a given app ID.
 
 Examples:
-  aso aso competitors 123456789
-  aso aso competitors 123456789 --storefront GB`,
+  aso competitors 123456789
+  aso competitors 123456789 --storefront GB`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -42,10 +42,10 @@ Examples:
 func runCompetitors(ctx context.Context, configPath, appID, storefront string, w io.Writer) error {
 	cfg, err := asomaniac.ReadConfig(configPath)
 	if err != nil {
-		return fmt.Errorf("not logged in. Run 'aso aso login' to authenticate")
+		return fmt.Errorf("not logged in. Run 'aso login' to authenticate")
 	}
 	if !cfg.IsAuthenticated() {
-		return fmt.Errorf("not logged in. Run 'aso aso login' to authenticate")
+		return fmt.Errorf("not logged in. Run 'aso login' to authenticate")
 	}
 
 	client := asomaniac.NewClientFromConfig(cfg)

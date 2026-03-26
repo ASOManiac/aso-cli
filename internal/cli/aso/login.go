@@ -26,10 +26,10 @@ var openBrowserFunc = openBrowser
 
 // LoginCommand returns the "login" subcommand for ASO Maniac authentication.
 func LoginCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso aso login", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso login", flag.ExitOnError)
 	return &ffcli.Command{
 		Name:       "login",
-		ShortUsage: "aso aso login",
+		ShortUsage: "aso login",
 		ShortHelp:  "Authenticate with your ASO Maniac account via browser.",
 		LongHelp: `Opens a browser window to authenticate with asomaniac.com.
 
@@ -98,7 +98,7 @@ func runLogin(ctx context.Context, configPath string, w *os.File) error {
 		profile, err := client.GetProfile(ctx)
 		if err != nil {
 			fmt.Fprintf(w, "\nAPI key saved but could not verify: %v\n", err)
-			fmt.Fprintf(w, "You may need to run 'aso aso login' again.\n")
+			fmt.Fprintf(w, "You may need to run 'aso login' again.\n")
 			return nil
 		}
 
