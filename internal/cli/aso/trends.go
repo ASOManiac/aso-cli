@@ -2,24 +2,62 @@ package aso
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
+	"fmt"
+	"io"
+	"os"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
+	"github.com/ASOManiac/aso-cli/internal/asomaniac"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
-// TrendsCommand returns the "trends" subcommand stub.
+// TrendsCommand returns the "trends" subcommand.
 func TrendsCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("aso aso trends", flag.ExitOnError)
+	storefront := fs.String("storefront", "US", "App Store storefront code")
+	from := fs.String("from", "", "Start date (YYYY-MM-DD)")
+	to := fs.String("to", "", "End date (YYYY-MM-DD)")
+
 	return &ffcli.Command{
 		Name:       "trends",
-		ShortUsage: "aso aso trends <subcommand> [flags]",
+		ShortUsage: "aso aso trends <keyword> [<keyword>...] [flags]",
 		ShortHelp:  "View keyword popularity trends over time.",
-		FlagSet:    fs,
-		UsageFunc:  shared.DefaultUsageFunc,
+		LongHelp: `View historical popularity trends for one or more keywords.
+
+Examples:
+  aso aso trends camera
+  aso aso trends camera photo --storefront GB
+  aso aso trends vpn --from 2026-01-01 --to 2026-03-01`,
+		FlagSet:   fs,
+		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
-			return flag.ErrHelp
+			if len(args) == 0 {
+				return fmt.Errorf("at least one keyword is required")
+			}
+			return runTrends(ctx, asomaniac.DefaultConfigPath(), args, *storefront, *from, *to, os.Stdout)
 		},
 	}
+}
+
+func runTrends(ctx context.Context, configPath string, keywords []string, storefront, from, to string, w io.Writer) error {
+	cfg, err := asomaniac.ReadConfig(configPath)
+	if err != nil {
+		return fmt.Errorf("not logged in. Run 'aso aso login' to authenticate")
+	}
+	if !cfg.IsAuthenticated() {
+		return fmt.Errorf("not logged in. Run 'aso aso login' to authenticate")
+	}
+
+	client := asomaniac.NewClientFromConfig(cfg)
+	results, err := client.GetTrends(ctx, keywords, storefront, from, to)
+	if err != nil {
+		return fmt.Errorf("get trends: %w", err)
+	}
+
+	enc := json.NewEncoder(w)
+	enc.SetIndent("", "  ")
+	return enc.Encode(results)
 }

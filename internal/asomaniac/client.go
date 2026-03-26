@@ -150,10 +150,14 @@ func (c *Client) GetUsage(ctx context.Context) (*UsageStats, error) {
 	return decodeResponse[UsageStats](resp)
 }
 
-// AnalyzeKeywords analyzes a keyword in a given storefront.
-func (c *Client) AnalyzeKeywords(ctx context.Context, keyword, storefront string) (*KeywordAnalysis, error) {
+// AnalyzeKeyword analyzes a single keyword in a given storefront.
+// fields is optional — if non-empty the server returns only the requested sections.
+func (c *Client) AnalyzeKeyword(ctx context.Context, keyword, storefront string, fields []string) (*KeywordAnalysis, error) {
 	path := fmt.Sprintf("/keywords/analyze?keyword=%s&storefront=%s",
 		url.QueryEscape(keyword), url.QueryEscape(storefront))
+	if len(fields) > 0 {
+		path += "&fields=" + url.QueryEscape(strings.Join(fields, ","))
+	}
 	resp, err := c.do(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -161,10 +165,24 @@ func (c *Client) AnalyzeKeywords(ctx context.Context, keyword, storefront string
 	return decodeResponse[KeywordAnalysis](resp)
 }
 
-// GetRecommendations fetches keyword recommendations for an app.
-func (c *Client) GetRecommendations(ctx context.Context, appID, storefront string) (*[]KeywordRecommendation, error) {
-	path := fmt.Sprintf("/keywords/recommendations?appId=%s&storefront=%s",
-		url.QueryEscape(appID), url.QueryEscape(storefront))
+// AnalyzeKeywords is a convenience wrapper: it calls AnalyzeKeyword for each
+// keyword and collects the results.
+func (c *Client) AnalyzeKeywords(ctx context.Context, keywords []string, storefront string, fields []string) ([]KeywordAnalysis, error) {
+	results := make([]KeywordAnalysis, 0, len(keywords))
+	for _, kw := range keywords {
+		r, err := c.AnalyzeKeyword(ctx, kw, storefront, fields)
+		if err != nil {
+			return nil, fmt.Errorf("analyze %q: %w", kw, err)
+		}
+		results = append(results, *r)
+	}
+	return results, nil
+}
+
+// GetRecommendations fetches keyword recommendations for a seed keyword.
+func (c *Client) GetRecommendations(ctx context.Context, seed, storefront string, limit int) (*[]KeywordRecommendation, error) {
+	path := fmt.Sprintf("/keywords/recommendations?seed=%s&storefront=%s&limit=%d",
+		url.QueryEscape(seed), url.QueryEscape(storefront), limit)
 	resp, err := c.do(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -191,15 +209,15 @@ func (c *Client) BatchAnalyze(ctx context.Context, keywords, storefronts []strin
 	return decodeResponse[BatchResult](resp)
 }
 
-// GetCompetitors analyzes the keyword overlap between two apps.
-func (c *Client) GetCompetitors(ctx context.Context, appID, competitorID, storefront string) (*CompetitorAnalysis, error) {
-	path := fmt.Sprintf("/competitors/analyze?appId=%s&competitorId=%s&storefront=%s",
-		url.QueryEscape(appID), url.QueryEscape(competitorID), url.QueryEscape(storefront))
+// GetCompetitors finds competitor apps for the given app ID and storefront.
+func (c *Client) GetCompetitors(ctx context.Context, appID, storefront string) (*[]CompetitorAnalysis, error) {
+	path := fmt.Sprintf("/competitors?appId=%s&storefront=%s",
+		url.QueryEscape(appID), url.QueryEscape(storefront))
 	resp, err := c.do(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
 	}
-	return decodeResponse[CompetitorAnalysis](resp)
+	return decodeResponse[[]CompetitorAnalysis](resp)
 }
 
 // TrackAppRequest is the request body for tracking an app.
@@ -232,10 +250,15 @@ func (c *Client) GetDashboard(ctx context.Context) (*PortfolioDashboard, error) 
 	return decodeResponse[PortfolioDashboard](resp)
 }
 
-// Export exports keyword data in the specified format.
-func (c *Client) Export(ctx context.Context, format, appID, storefront string) (*ExportResult, error) {
-	path := fmt.Sprintf("/export?format=%s&appId=%s&storefront=%s",
-		url.QueryEscape(format), url.QueryEscape(appID), url.QueryEscape(storefront))
+// Export exports data in the specified format.
+// dataType is one of: rankings, keywords, apps.
+// filters is reserved for future use and may be nil.
+func (c *Client) Export(ctx context.Context, format, dataType string, filters map[string]string) (*ExportResult, error) {
+	path := fmt.Sprintf("/export?format=%s&type=%s",
+		url.QueryEscape(format), url.QueryEscape(dataType))
+	for k, v := range filters {
+		path += fmt.Sprintf("&%s=%s", url.QueryEscape(k), url.QueryEscape(v))
+	}
 	resp, err := c.do(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
@@ -243,21 +266,43 @@ func (c *Client) Export(ctx context.Context, format, appID, storefront string) (
 	return decodeResponse[ExportResult](resp)
 }
 
-// GetTrends fetches popularity trends for a keyword.
-func (c *Client) GetTrends(ctx context.Context, keyword, storefront string) (*TrendResult, error) {
-	path := fmt.Sprintf("/keywords/trends?keyword=%s&storefront=%s",
-		url.QueryEscape(keyword), url.QueryEscape(storefront))
-	resp, err := c.do(ctx, http.MethodGet, path, nil)
-	if err != nil {
-		return nil, err
+// GetTrends fetches popularity trends for keywords.
+// from and to are optional date strings (YYYY-MM-DD); pass "" to omit.
+func (c *Client) GetTrends(ctx context.Context, keywords []string, storefront, from, to string) ([]TrendResult, error) {
+	results := make([]TrendResult, 0, len(keywords))
+	for _, kw := range keywords {
+		path := fmt.Sprintf("/keywords/trends?keyword=%s&storefront=%s",
+			url.QueryEscape(kw), url.QueryEscape(storefront))
+		if from != "" {
+			path += "&from=" + url.QueryEscape(from)
+		}
+		if to != "" {
+			path += "&to=" + url.QueryEscape(to)
+		}
+		resp, err := c.do(ctx, http.MethodGet, path, nil)
+		if err != nil {
+			return nil, fmt.Errorf("trends %q: %w", kw, err)
+		}
+		r, err := decodeResponse[TrendResult](resp)
+		if err != nil {
+			return nil, fmt.Errorf("trends %q: %w", kw, err)
+		}
+		results = append(results, *r)
 	}
-	return decodeResponse[TrendResult](resp)
+	return results, nil
 }
 
 // GetRankHistory fetches rank history for a tracked app's keyword.
-func (c *Client) GetRankHistory(ctx context.Context, appID, keyword, storefront string) (*RankHistory, error) {
+// from and to are optional date strings (YYYY-MM-DD); pass "" to omit.
+func (c *Client) GetRankHistory(ctx context.Context, appID, keyword, storefront, from, to string) (*RankHistory, error) {
 	path := fmt.Sprintf("/portfolio/rank-history?appId=%s&keyword=%s&storefront=%s",
 		url.QueryEscape(appID), url.QueryEscape(keyword), url.QueryEscape(storefront))
+	if from != "" {
+		path += "&from=" + url.QueryEscape(from)
+	}
+	if to != "" {
+		path += "&to=" + url.QueryEscape(to)
+	}
 	resp, err := c.do(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err

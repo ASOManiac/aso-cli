@@ -56,9 +56,9 @@ func TestAnalyzeKeywords(t *testing.T) {
 	defer srv.Close()
 
 	client := NewClient(srv.URL, "test-api-key")
-	got, err := client.AnalyzeKeywords(context.Background(), "photo editor", "US")
+	got, err := client.AnalyzeKeyword(context.Background(), "photo editor", "US", nil)
 	if err != nil {
-		t.Fatalf("AnalyzeKeywords: %v", err)
+		t.Fatalf("AnalyzeKeyword: %v", err)
 	}
 
 	if got.Keyword != want.Keyword {
@@ -144,7 +144,7 @@ func TestUnauthorizedError(t *testing.T) {
 	defer srv.Close()
 
 	client := NewClient(srv.URL, "bad-key")
-	_, err := client.AnalyzeKeywords(context.Background(), "test", "US")
+	_, err := client.AnalyzeKeyword(context.Background(), "test", "US", nil)
 	if err == nil {
 		t.Fatal("expected error for 401 response")
 	}
@@ -203,7 +203,7 @@ func TestNoAuthHeader(t *testing.T) {
 
 	// Empty API key should not send Authorization header.
 	client := NewClient(srv.URL, "")
-	_, err := client.AnalyzeKeywords(context.Background(), "test", "US")
+	_, err := client.AnalyzeKeyword(context.Background(), "test", "US", nil)
 	if err == nil {
 		t.Fatal("expected error for unauthorized request")
 	}
