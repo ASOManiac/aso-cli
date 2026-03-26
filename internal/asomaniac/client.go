@@ -1,0 +1,266 @@
+package asomaniac
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+	"net/url"
+	"strings"
+)
+
+// Client communicates with the ASO Maniac API.
+type Client struct {
+	baseURL    string
+	apiKey     string
+	httpClient *http.Client
+}
+
+// NewClient creates a new API client with the given base URL and API key.
+func NewClient(baseURL, apiKey string) *Client {
+	return &Client{
+		baseURL:    strings.TrimRight(baseURL, "/"),
+		apiKey:     apiKey,
+		httpClient: http.DefaultClient,
+	}
+}
+
+// NewClientFromConfig creates a new API client from a Config.
+func NewClientFromConfig(cfg *Config) *Client {
+	base := cfg.BaseURL
+	if base == "" {
+		base = DefaultBaseURL
+	}
+	return NewClient(base, cfg.APIKey)
+}
+
+// do executes an HTTP request and returns the response.
+func (c *Client) do(ctx context.Context, method, path string, body any) (*http.Response, error) {
+	u := c.baseURL + path
+
+	var bodyReader io.Reader
+	if body != nil {
+		data, err := json.Marshal(body)
+		if err != nil {
+			return nil, fmt.Errorf("marshal request body: %w", err)
+		}
+		bodyReader = bytes.NewReader(data)
+	}
+
+	req, err := http.NewRequestWithContext(ctx, method, u, bodyReader)
+	if err != nil {
+		return nil, fmt.Errorf("create request: %w", err)
+	}
+
+	if c.apiKey != "" {
+		req.Header.Set("Authorization", "Bearer "+c.apiKey)
+	}
+	if body != nil {
+		req.Header.Set("Content-Type", "application/json")
+	}
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("User-Agent", "aso-cli")
+
+	return c.httpClient.Do(req)
+}
+
+// doAbsolute executes an HTTP request against an absolute URL (not relative to baseURL).
+func (c *Client) doAbsolute(ctx context.Context, method, absoluteURL string, body any) (*http.Response, error) {
+	var bodyReader io.Reader
+	if body != nil {
+		data, err := json.Marshal(body)
+		if err != nil {
+			return nil, fmt.Errorf("marshal request body: %w", err)
+		}
+		bodyReader = bytes.NewReader(data)
+	}
+
+	req, err := http.NewRequestWithContext(ctx, method, absoluteURL, bodyReader)
+	if err != nil {
+		return nil, fmt.Errorf("create request: %w", err)
+	}
+
+	if c.apiKey != "" {
+		req.Header.Set("Authorization", "Bearer "+c.apiKey)
+	}
+	if body != nil {
+		req.Header.Set("Content-Type", "application/json")
+	}
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("User-Agent", "aso-cli")
+
+	return c.httpClient.Do(req)
+}
+
+// decodeResponse reads the HTTP response, handles errors, and unmarshals the data.
+func decodeResponse[T any](resp *http.Response) (*T, error) {
+	defer resp.Body.Close()
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("read response body: %w", err)
+	}
+
+	if resp.StatusCode >= 400 {
+		var apiErr APIError
+		if json.Unmarshal(data, &apiErr) == nil && apiErr.Error.Code != "" {
+			return nil, fmt.Errorf("api error %s: %s", apiErr.Error.Code, apiErr.Error.Message)
+		}
+		return nil, fmt.Errorf("http %d: %s", resp.StatusCode, string(data))
+	}
+
+	var wrapped APIResponse[T]
+	if err := json.Unmarshal(data, &wrapped); err != nil {
+		return nil, fmt.Errorf("decode response: %w", err)
+	}
+
+	return &wrapped.Data, nil
+}
+
+// profileBaseURL derives the auth base URL from the v1 base URL.
+// e.g. "https://asomaniac.com/api/v1" -> "https://asomaniac.com"
+func (c *Client) profileBaseURL() string {
+	u, err := url.Parse(c.baseURL)
+	if err != nil {
+		return c.baseURL
+	}
+	u.Path = ""
+	return u.String()
+}
+
+// GetProfile fetches the authenticated user's profile.
+// The profile endpoint lives at /api/auth/me (not under /api/v1/).
+func (c *Client) GetProfile(ctx context.Context) (*UserProfile, error) {
+	profileURL := c.profileBaseURL() + "/api/auth/me"
+	resp, err := c.doAbsolute(ctx, http.MethodGet, profileURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[UserProfile](resp)
+}
+
+// GetUsage fetches the current usage stats for the authenticated user.
+func (c *Client) GetUsage(ctx context.Context) (*UsageStats, error) {
+	resp, err := c.do(ctx, http.MethodGet, "/usage", nil)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[UsageStats](resp)
+}
+
+// AnalyzeKeywords analyzes a keyword in a given storefront.
+func (c *Client) AnalyzeKeywords(ctx context.Context, keyword, storefront string) (*KeywordAnalysis, error) {
+	path := fmt.Sprintf("/keywords/analyze?keyword=%s&storefront=%s",
+		url.QueryEscape(keyword), url.QueryEscape(storefront))
+	resp, err := c.do(ctx, http.MethodGet, path, nil)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[KeywordAnalysis](resp)
+}
+
+// GetRecommendations fetches keyword recommendations for an app.
+func (c *Client) GetRecommendations(ctx context.Context, appID, storefront string) (*[]KeywordRecommendation, error) {
+	path := fmt.Sprintf("/keywords/recommendations?appId=%s&storefront=%s",
+		url.QueryEscape(appID), url.QueryEscape(storefront))
+	resp, err := c.do(ctx, http.MethodGet, path, nil)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[[]KeywordRecommendation](resp)
+}
+
+// BatchAnalyzeRequest is the request body for batch keyword analysis.
+type BatchAnalyzeRequest struct {
+	Keywords    []string `json:"keywords"`
+	Storefronts []string `json:"storefronts"`
+}
+
+// BatchAnalyze analyzes multiple keywords across multiple storefronts.
+func (c *Client) BatchAnalyze(ctx context.Context, keywords, storefronts []string) (*BatchResult, error) {
+	body := BatchAnalyzeRequest{
+		Keywords:    keywords,
+		Storefronts: storefronts,
+	}
+	resp, err := c.do(ctx, http.MethodPost, "/keywords/batch", body)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[BatchResult](resp)
+}
+
+// GetCompetitors analyzes the keyword overlap between two apps.
+func (c *Client) GetCompetitors(ctx context.Context, appID, competitorID, storefront string) (*CompetitorAnalysis, error) {
+	path := fmt.Sprintf("/competitors/analyze?appId=%s&competitorId=%s&storefront=%s",
+		url.QueryEscape(appID), url.QueryEscape(competitorID), url.QueryEscape(storefront))
+	resp, err := c.do(ctx, http.MethodGet, path, nil)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[CompetitorAnalysis](resp)
+}
+
+// TrackAppRequest is the request body for tracking an app.
+type TrackAppRequest struct {
+	AppID      string   `json:"appId"`
+	Storefront string   `json:"storefront"`
+	Keywords   []string `json:"keywords,omitempty"`
+}
+
+// TrackApp adds an app to the user's tracked portfolio.
+func (c *Client) TrackApp(ctx context.Context, appID, storefront string, keywords []string) (*TrackedApp, error) {
+	body := TrackAppRequest{
+		AppID:      appID,
+		Storefront: storefront,
+		Keywords:   keywords,
+	}
+	resp, err := c.do(ctx, http.MethodPost, "/portfolio/track", body)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[TrackedApp](resp)
+}
+
+// GetDashboard fetches the portfolio dashboard overview.
+func (c *Client) GetDashboard(ctx context.Context) (*PortfolioDashboard, error) {
+	resp, err := c.do(ctx, http.MethodGet, "/portfolio/dashboard", nil)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[PortfolioDashboard](resp)
+}
+
+// Export exports keyword data in the specified format.
+func (c *Client) Export(ctx context.Context, format, appID, storefront string) (*ExportResult, error) {
+	path := fmt.Sprintf("/export?format=%s&appId=%s&storefront=%s",
+		url.QueryEscape(format), url.QueryEscape(appID), url.QueryEscape(storefront))
+	resp, err := c.do(ctx, http.MethodGet, path, nil)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[ExportResult](resp)
+}
+
+// GetTrends fetches popularity trends for a keyword.
+func (c *Client) GetTrends(ctx context.Context, keyword, storefront string) (*TrendResult, error) {
+	path := fmt.Sprintf("/keywords/trends?keyword=%s&storefront=%s",
+		url.QueryEscape(keyword), url.QueryEscape(storefront))
+	resp, err := c.do(ctx, http.MethodGet, path, nil)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[TrendResult](resp)
+}
+
+// GetRankHistory fetches rank history for a tracked app's keyword.
+func (c *Client) GetRankHistory(ctx context.Context, appID, keyword, storefront string) (*RankHistory, error) {
+	path := fmt.Sprintf("/portfolio/rank-history?appId=%s&keyword=%s&storefront=%s",
+		url.QueryEscape(appID), url.QueryEscape(keyword), url.QueryEscape(storefront))
+	resp, err := c.do(ctx, http.MethodGet, path, nil)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[RankHistory](resp)
+}
