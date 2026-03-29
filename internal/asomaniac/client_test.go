@@ -51,7 +51,9 @@ func TestAnalyzeKeywords(t *testing.T) {
 
 		resp := APIResponse[KeywordAnalysis]{Data: want}
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			t.Fatalf("encode response: %v", err)
+		}
 	}))
 	defer srv.Close()
 
@@ -102,7 +104,9 @@ func TestGetProfile(t *testing.T) {
 
 		resp := APIResponse[UserProfile]{Data: want}
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			t.Fatalf("encode response: %v", err)
+		}
 	}))
 	defer srv.Close()
 
@@ -131,7 +135,7 @@ func TestUnauthorizedError(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusUnauthorized)
-		json.NewEncoder(w).Encode(APIError{
+		if err := json.NewEncoder(w).Encode(APIError{
 			Error: struct {
 				Code    string `json:"code"`
 				Message string `json:"message"`
@@ -139,7 +143,9 @@ func TestUnauthorizedError(t *testing.T) {
 				Code:    "UNAUTHORIZED",
 				Message: "Invalid API key",
 			},
-		})
+		}); err != nil {
+			t.Fatalf("encode response: %v", err)
+		}
 	}))
 	defer srv.Close()
 
@@ -160,7 +166,7 @@ func TestRateLimitedError(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusTooManyRequests)
-		json.NewEncoder(w).Encode(APIError{
+		if err := json.NewEncoder(w).Encode(APIError{
 			Error: struct {
 				Code    string `json:"code"`
 				Message string `json:"message"`
@@ -168,7 +174,9 @@ func TestRateLimitedError(t *testing.T) {
 				Code:    "RATE_LIMITED",
 				Message: "Too many requests",
 			},
-		})
+		}); err != nil {
+			t.Fatalf("encode response: %v", err)
+		}
 	}))
 	defer srv.Close()
 
@@ -189,7 +197,7 @@ func TestNoAuthHeader(t *testing.T) {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusUnauthorized)
-		json.NewEncoder(w).Encode(APIError{
+		if err := json.NewEncoder(w).Encode(APIError{
 			Error: struct {
 				Code    string `json:"code"`
 				Message string `json:"message"`
@@ -197,7 +205,9 @@ func TestNoAuthHeader(t *testing.T) {
 				Code:    "UNAUTHORIZED",
 				Message: "Missing API key",
 			},
-		})
+		}); err != nil {
+			t.Fatalf("encode response: %v", err)
+		}
 	}))
 	defer srv.Close()
 
@@ -262,7 +272,9 @@ func TestBatchAnalyze(t *testing.T) {
 			},
 		}
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			t.Fatalf("encode response: %v", err)
+		}
 	}))
 	defer srv.Close()
 
@@ -282,7 +294,7 @@ func TestBatchAnalyze(t *testing.T) {
 func TestNon400ErrorWithoutAPIErrorBody(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("internal server error"))
+		_, _ = w.Write([]byte("internal server error"))
 	}))
 	defer srv.Close()
 
