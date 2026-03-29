@@ -128,6 +128,10 @@ aso <subcommand> [flags]
 - `notify` - Send notifications to external services.
 - `migrate` - Migrate metadata from/to fastlane format.
 
+### Aso Maniac Commands
+
+- `maniac` - ASO Maniac — AI-powered keyword intelligence and rank tracking.
+
 ### Utility
 
 - `version` - Print version information and exit.
