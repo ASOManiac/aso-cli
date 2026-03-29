@@ -38,9 +38,13 @@ func TestWhoamiAuthenticated(t *testing.T) {
 
 		switch {
 		case r.URL.Path == "/api/auth/me":
-			json.NewEncoder(w).Encode(asomaniac.APIResponse[asomaniac.UserProfile]{Data: profile})
+			if err := json.NewEncoder(w).Encode(asomaniac.APIResponse[asomaniac.UserProfile]{Data: profile}); err != nil {
+				t.Fatalf("encode profile: %v", err)
+			}
 		case r.URL.Path == "/api/v1/usage":
-			json.NewEncoder(w).Encode(asomaniac.APIResponse[asomaniac.UsageStats]{Data: usage})
+			if err := json.NewEncoder(w).Encode(asomaniac.APIResponse[asomaniac.UsageStats]{Data: usage}); err != nil {
+				t.Fatalf("encode usage: %v", err)
+			}
 		default:
 			t.Errorf("unexpected request path: %s", r.URL.Path)
 			http.Error(w, "not found", http.StatusNotFound)

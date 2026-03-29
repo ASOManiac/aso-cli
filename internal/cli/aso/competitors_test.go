@@ -50,7 +50,9 @@ func TestCompetitorsJSON(t *testing.T) {
 		if sf := r.URL.Query().Get("storefront"); sf != "US" {
 			t.Errorf("storefront = %q, want %q", sf, "US")
 		}
-		json.NewEncoder(w).Encode(asomaniac.APIResponse[[]asomaniac.CompetitorAnalysis]{Data: competitors})
+		if err := json.NewEncoder(w).Encode(asomaniac.APIResponse[[]asomaniac.CompetitorAnalysis]{Data: competitors}); err != nil {
+			t.Fatalf("encode response: %v", err)
+		}
 	}))
 	defer srv.Close()
 

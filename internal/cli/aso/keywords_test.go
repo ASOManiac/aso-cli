@@ -61,7 +61,9 @@ func TestKeywordsAnalyzeJSON(t *testing.T) {
 			return
 		}
 		callCount++
-		json.NewEncoder(w).Encode(resp)
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			t.Fatalf("encode response: %v", err)
+		}
 	}))
 	defer srv.Close()
 
