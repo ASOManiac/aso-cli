@@ -53,8 +53,19 @@ jobs:
       - name: Create release directory
         run: mkdir -p release
 
+      - name: Check code signing availability
+        id: check-signing
+        run: |
+          if [ -n "$CERT" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No signing certificate configured. Skipping code signing."
+          fi
+        env:
+          CERT: ${{ secrets.APPLE_DEVELOPER_ID_CERT }}
+
       - name: Import Apple certificate
-        if: ${{ secrets.APPLE_DEVELOPER_ID_CERT != '' }}
+        if: steps.check-signing.outputs.available == 'true'
         id: codesign
         uses: apple-actions/import-codesign-certs@v6
         with:
@@ -69,7 +80,7 @@ jobs:
           GOOS=darwin GOARCH=arm64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/aso_${VERSION}_macOS_arm64 .
 
       - name: Code sign macOS binaries
-        if: ${{ secrets.APPLE_DEVELOPER_ID_CERT != '' }}
+        if: steps.check-signing.outputs.available == 'true'
         run: |
           IDENTITY=$(security find-identity -v -p codesigning | grep "Developer ID Application" | head -1 | awk -F'"' '{print $2}')
           if [ -n "$IDENTITY" ]; then
