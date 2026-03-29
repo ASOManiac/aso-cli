@@ -1,5 +1,8 @@
 # ASO CLI
 
+[![Release](https://img.shields.io/github/v/release/ASOManiac/aso-cli)](https://github.com/ASOManiac/aso-cli/releases/latest)
+[![Homebrew](https://img.shields.io/badge/homebrew-asomaniac%2Ftap%2Faso-orange)](https://github.com/ASOManiac/homebrew-tap)
+
 App Store Optimization + App Store Connect CLI.
 
 A fork of [App-Store-Connect-CLI](https://github.com/rudrankriyam/App-Store-Connect-CLI) with premium ASO commands powered by [asomaniac.com](https://asomaniac.com).
