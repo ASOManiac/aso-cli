@@ -1,16 +1,16 @@
-# asc cli reference
+# aso cli reference
 
 Unofficial CLI for the App Store Connect API. AI-friendly command catalog and
-workflow notes for the asc cli. Use this alongside the asc cli readme
-(examples) and `asc --help` (source of truth). Generate this file in any repo
-with `asc init` (or `asc docs init`).
+workflow notes for the aso cli. Use this alongside the aso cli readme
+(examples) and `aso --help` (source of truth). Generate this file in any repo
+with `aso init` (or `aso docs init`).
 
 ## Command Discovery (Source of Truth)
 
 ```bash
-asc --help
-asc <command> --help
-asc <command> <subcommand> --help
+aso --help
+aso <command> --help
+aso <command> <subcommand> --help
 ```
 
 Do not memorize flags. Always use `--help` for the current interface.
@@ -37,90 +37,90 @@ Do not memorize flags. Always use `--help` for the current interface.
 
 | Task | Command |
 |------|---------|
-| Check auth status | `asc auth status` |
-| Run auth doctor | `asc doctor --output json` |
-| Check account health | `asc account status` |
-| Generate ASC.md | `asc init` |
-| Create an app (unofficial web flow) | `asc web apps create --name "My App" --bundle-id "com.example.app" --sku "SKU123"` |
-| List apps | `asc apps` |
-| List builds | `asc builds list --app "APP_ID"` |
-| List TestFlight groups | `asc testflight groups list --app "APP_ID"` |
-| List internal TestFlight groups | `asc testflight groups list --app "APP_ID" --internal` |
-| Stage a release (pre-submit) | `asc release stage --app "APP_ID" --version "VERSION" --build "BUILD_ID" --copy-metadata-from "PREVIOUS_VERSION" --dry-run` |
-| Release (full pipeline) | `asc release run --app "APP_ID" --version "VERSION" --build "BUILD_ID" --metadata-dir "./metadata/version/VERSION" --dry-run` |
-| Submit for review (low-level) | `asc submit create --app "APP_ID" --version "VERSION" --build "BUILD_ID" --confirm` |
-| Weekly insights summary | `asc insights weekly --app "APP_ID" --source analytics --week "YYYY-MM-DD"` |
-| Download localizations | `asc localizations download --version "VERSION_ID" --path "./localizations"` |
+| Check auth status | `aso auth status` |
+| Run auth doctor | `aso doctor --output json` |
+| Check account health | `aso account status` |
+| Generate ASC.md | `aso init` |
+| Create an app (unofficial web flow) | `aso web apps create --name "My App" --bundle-id "com.example.app" --sku "SKU123"` |
+| List apps | `aso apps` |
+| List builds | `aso builds list --app "APP_ID"` |
+| List TestFlight groups | `aso testflight groups list --app "APP_ID"` |
+| List internal TestFlight groups | `aso testflight groups list --app "APP_ID" --internal` |
+| Stage a release (pre-submit) | `aso release stage --app "APP_ID" --version "VERSION" --build "BUILD_ID" --copy-metadata-from "PREVIOUS_VERSION" --dry-run` |
+| Release (full pipeline) | `aso release run --app "APP_ID" --version "VERSION" --build "BUILD_ID" --metadata-dir "./metadata/version/VERSION" --dry-run` |
+| Submit for review (low-level) | `aso submit create --app "APP_ID" --version "VERSION" --build "BUILD_ID" --confirm` |
+| Weekly insights summary | `aso insights weekly --app "APP_ID" --source analytics --week "YYYY-MM-DD"` |
+| Download localizations | `aso localizations download --version "VERSION_ID" --path "./localizations"` |
 
 ## Common Workflows
 
 ### Find an App ID and Recent Builds
 
 ```bash
-asc apps
-asc builds list --app "APP_ID" --sort -uploadedDate --limit 5
+aso apps
+aso builds list --app "APP_ID" --sort -uploadedDate --limit 5
 ```
 
 ### Stage for Review (high-level: ensure version + copy/apply metadata + attach + validate)
 
 ```bash
 # Dry-run the staging plan using metadata carry-forward
-asc release stage --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --copy-metadata-from "0.9.0" --dry-run
+aso release stage --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --copy-metadata-from "0.9.0" --dry-run
 
 # Stage the version without submitting it for review yet
-asc release stage --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --copy-metadata-from "0.9.0" --confirm
+aso release stage --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --copy-metadata-from "0.9.0" --confirm
 ```
 
 ### Release (high-level: ensure version + apply metadata + attach + validate + submit)
 
 ```bash
 # Dry-run first to preview all planned steps
-asc release run --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --metadata-dir "./metadata/version/1.0.0" --dry-run
+aso release run --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --metadata-dir "./metadata/version/1.0.0" --dry-run
 
 # Run the full pipeline
-asc release run --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --metadata-dir "./metadata/version/1.0.0" --confirm
+aso release run --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --metadata-dir "./metadata/version/1.0.0" --confirm
 
 # Monitor status after submission
-asc status --app "APP_ID"
+aso status --app "APP_ID"
 ```
 
 Lower-level alternatives for scripting or partial workflows:
 
 ```bash
-asc versions list --app "APP_ID"
-asc versions attach-build --version-id "VERSION_ID" --build "BUILD_ID"
-asc validate --app "APP_ID" --version "1.0.0"
-asc submit create --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --confirm
+aso versions list --app "APP_ID"
+aso versions attach-build --version-id "VERSION_ID" --build "BUILD_ID"
+aso validate --app "APP_ID" --version "1.0.0"
+aso submit create --app "APP_ID" --version "1.0.0" --build "BUILD_ID" --confirm
 ```
 
 ### Distribute to TestFlight Group
 
 ```bash
-asc testflight groups list --app "APP_ID"
-asc testflight groups list --app "APP_ID" --internal
-asc builds add-groups --build "BUILD_ID" --group "GROUP_ID"
-asc builds add-groups --build "BUILD_ID" --group "GROUP_ID" --submit --confirm
+aso testflight groups list --app "APP_ID"
+aso testflight groups list --app "APP_ID" --internal
+aso builds add-groups --build "BUILD_ID" --group "GROUP_ID"
+aso builds add-groups --build "BUILD_ID" --group "GROUP_ID" --submit --confirm
 ```
 
 ### Migrate Metadata (Fastlane)
 
 ```bash
-asc migrate validate --fastlane-dir ./metadata
-asc migrate import --app "APP_ID" --fastlane-dir ./metadata
-asc migrate export --app "APP_ID" --output ./exported-metadata
+aso migrate validate --fastlane-dir ./metadata
+aso migrate import --app "APP_ID" --fastlane-dir ./metadata
+aso migrate export --app "APP_ID" --output ./exported-metadata
 ```
 
 ## Command Groups
 
-Use `asc <command> --help` for subcommands and flags.
+Use `aso <command> --help` for subcommands and flags.
 
 - `auth` - Manage authentication for the App Store Connect API.
 - `doctor` - Diagnose authentication configuration issues.
-- `web` - `[experimental]` Unofficial Apple web-session `/iris` workflows (discouraged; not part of the official API). Uses low-rate calls, user-owned Apple ID sessions, and signed-URL redaction by default. Use `asc web apps create` as the canonical app-creation path in this family.
+- `web` - `[experimental]` Unofficial Apple web-session `/iris` workflows (discouraged; not part of the official API). Uses low-rate calls, user-owned Apple ID sessions, and signed-URL redaction by default. Use `aso web apps create` as the canonical app-creation path in this family.
 - `account` - Inspect account-level health and access signals.
-- `install-skills` - Install the asc skill pack for App Store Connect workflows.
-- `init` - Initialize asc helper docs in the current repo.
-- `docs` - Generate asc cli reference docs for a repo.
+- `install-skills` - Install the aso skill pack for App Store Connect workflows.
+- `init` - Initialize aso helper docs in the current repo.
+- `docs` - Generate aso cli reference docs for a repo.
 - `diff` - Generate deterministic non-mutating diff plans.
 - `status` - Show a release pipeline dashboard for an app.
 - `insights` - Generate weekly insights from App Store data sources.
@@ -130,7 +130,7 @@ Use `asc <command> --help` for subcommands and flags.
 - `analytics` - Request and download analytics and sales reports.
 - `performance` - Access performance metrics and diagnostic logs.
 - `finance` - Download payments and financial reports.
-- `apps` - List and manage apps in App Store Connect. `asc apps create` is a deprecated compatibility shim; use `asc web apps create` for new app creation.
+- `apps` - List and manage apps in App Store Connect. `aso apps create` is a deprecated compatibility shim; use `aso web apps create` for new app creation.
 - `app-clips` - Manage App Clip experiences and invocations.
 - `android-ios-mapping` - Manage Android-to-iOS app mapping details.
 - `app-setup` - Post-create app setup automation.
@@ -187,6 +187,7 @@ Use `asc <command> --help` for subcommands and flags.
 - `completion` - Print shell completion scripts.
 - `schema` - Inspect App Store Connect API endpoint schemas at runtime.
 - `snitch` - Report CLI friction as a GitHub issue.
+- `maniac` - ASO Maniac — AI-powered keyword intelligence and rank tracking.
 
 ## Global Flags
 
@@ -206,7 +207,7 @@ Use `asc <command> --help` for subcommands and flags.
 - `ASC_TIMEOUT`, `ASC_TIMEOUT_SECONDS` - Request timeout
 - `ASC_UPLOAD_TIMEOUT`, `ASC_UPLOAD_TIMEOUT_SECONDS` - Upload timeout
 - `ASC_DEBUG` - Debug output (`api` enables HTTP logs)
-- Web password environment variable (`ASC_WEB` + `_PASSWORD`) - Password source for `asc web auth login` and `asc web apps create`
+- Web password environment variable (`ASC_WEB` + `_PASSWORD`) - Password source for `aso web auth login` and `aso web apps create`
 - `ASC_WEB_SESSION_CACHE`, `ASC_WEB_SESSION_CACHE_DIR`, `ASC_WEB_SESSION_CACHE_BACKEND` - Web-session cache controls for unofficial web flows
 - `ASC_IRIS_SESSION_CACHE`, `ASC_IRIS_SESSION_CACHE_DIR` - Deprecated legacy app-create cache settings; imported into the web session cache during the transition window
 - `ASC_SPINNER_DISABLED` - Disable interactive stderr spinner
@@ -214,6 +215,6 @@ Use `asc <command> --help` for subcommands and flags.
 
 ## API References (Offline)
 
-In the asc cli repo, see:
+In the aso cli repo, see:
 - `docs/openapi/latest.json`
 - `docs/openapi/paths.txt`

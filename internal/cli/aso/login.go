@@ -26,21 +26,66 @@ var openBrowserFunc = openBrowser
 
 // LoginCommand returns the "login" subcommand for ASO Maniac authentication.
 func LoginCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso login", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso maniac login", flag.ExitOnError)
+	apiKey := fs.String("api-key", "", "Set API key directly instead of opening the browser")
 	return &ffcli.Command{
 		Name:       "login",
-		ShortUsage: "aso login",
-		ShortHelp:  "Authenticate with your ASO Maniac account via browser.",
-		LongHelp: `Opens a browser window to authenticate with asomaniac.com.
+		ShortUsage: "aso maniac login [--api-key <KEY>]",
+		ShortHelp:  "Sign in to your ASO Maniac account via browser or API key.",
+		LongHelp: `Authenticate with your asomaniac.com account.
+
+By default, opens a browser window for OAuth sign-in. Use --api-key to set
+a key directly (useful for CI, scripts, or copying a key from the dashboard).
 
 After successful authentication, your API key is saved to ~/.asomaniac/config.json.
-Free plan includes 100 API calls per month.`,
+You can also set the ASO_MANIAC_API_KEY environment variable to override the
+saved key at runtime (e.g. in CI pipelines or Docker containers).
+
+Free plan includes 100 API calls per month. Upgrade at https://asomaniac.com/pricing.
+
+Examples:
+  aso maniac login                          # Browser OAuth flow
+  aso maniac login --api-key asm_k_abc123   # Direct key from dashboard
+  ASO_MANIAC_API_KEY=asm_k_abc123 aso maniac status  # Env var override`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
+			if *apiKey != "" {
+				return runLoginWithKey(ctx, asomaniac.DefaultConfigPath(), *apiKey, os.Stderr)
+			}
 			return runLogin(ctx, asomaniac.DefaultConfigPath(), os.Stderr)
 		},
 	}
+}
+
+func runLoginWithKey(ctx context.Context, configPath, apiKey string, w *os.File) error {
+	cfg := &asomaniac.Config{
+		APIKey:  apiKey,
+		BaseURL: asomaniac.DefaultBaseURL,
+	}
+
+	// Verify the key before saving.
+	client := asomaniac.NewClientFromConfig(cfg)
+	profile, err := client.GetProfile(ctx)
+	if err != nil {
+		// Save anyway — the API might be temporarily unreachable.
+		fmt.Fprintf(w, "Warning: could not verify API key: %v\n", err)
+		fmt.Fprintf(w, "Saving key anyway. Run 'aso maniac status' to check later.\n\n")
+	}
+
+	if err := asomaniac.WriteConfig(configPath, cfg); err != nil {
+		return fmt.Errorf("save config: %w", err)
+	}
+
+	if profile != nil {
+		name := profile.Email
+		if profile.Name != nil && *profile.Name != "" {
+			name = *profile.Name
+		}
+		fmt.Fprintf(w, "Authenticated as %s (%s plan).\n", name, profile.Plan)
+	}
+	fmt.Fprintf(w, "API key saved to %s\n", configPath)
+	return nil
 }
 
 func runLogin(ctx context.Context, configPath string, w *os.File) error {
@@ -98,7 +143,7 @@ func runLogin(ctx context.Context, configPath string, w *os.File) error {
 		profile, err := client.GetProfile(ctx)
 		if err != nil {
 			fmt.Fprintf(w, "\nAPI key saved but could not verify: %v\n", err)
-			fmt.Fprintf(w, "You may need to run 'aso login' again.\n")
+			fmt.Fprintf(w, "You may need to run 'aso maniac login' again.\n")
 			return nil
 		}
 

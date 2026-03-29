@@ -187,8 +187,8 @@ func Subcommands(version string) []*ffcli.Command {
 		VersionCommand(version),
 	}
 
-	// Register ASO Maniac commands at root level (aso login, aso keywords, etc.)
-	subs = append(subs, asocmd.ASOCommands()...)
+	// Register ASO Maniac commands under "aso maniac" namespace.
+	subs = append(subs, asocmd.ManiacCommand())
 
 	for i, sub := range subs {
 		subs[i] = shared.NormalizeViewEditCommandTree(sub, editPaths)

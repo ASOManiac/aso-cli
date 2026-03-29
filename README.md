@@ -4,11 +4,9 @@
 [![Homebrew](https://img.shields.io/badge/homebrew-asomaniac%2Ftap%2Faso-orange)](https://github.com/ASOManiac/homebrew-tap)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-App Store Optimization + App Store Connect CLI.
+**App Store Optimization + App Store Connect in one CLI.**
 
-A fork of [App-Store-Connect-CLI](https://github.com/rudrankriyam/App-Store-Connect-CLI) with premium ASO commands powered by [asomaniac.com](https://asomaniac.com).
-
-All original App Store Connect commands work out of the box, plus premium ASO commands for AI-powered keyword research, competitor analysis, rank tracking, and more.
+A fork of [App-Store-Connect-CLI](https://github.com/rudrankriyam/App-Store-Connect-CLI) with premium ASO intelligence powered by [asomaniac.com](https://asomaniac.com). All 70+ original App Store Connect commands work out of the box, plus AI-powered keyword research, competitor analysis, and rank tracking under `aso maniac`.
 
 ## Quick Start
 
@@ -17,10 +15,13 @@ All original App Store Connect commands work out of the box, plus premium ASO co
 brew install asomaniac/tap/aso
 
 # Authenticate with ASO Maniac (free: 100 API calls/month)
-aso login
+aso maniac login
 
-# Try a command
-aso keywords suggest --app-id 1234567890 --storefront us
+# Analyze a keyword
+aso maniac keywords analyze "vpn" --storefront us
+
+# Check your App Store Connect setup too
+aso auth status
 ```
 
 ## Installation
@@ -43,11 +44,117 @@ curl -fsSL https://raw.githubusercontent.com/ASOManiac/aso-cli/main/install.sh |
 go install github.com/ASOManiac/aso-cli@latest
 ```
 
-**GitHub releases**: download the binary for your platform from [Releases](https://github.com/ASOManiac/aso-cli/releases/latest).
+**Binary**: grab the latest from [Releases](https://github.com/ASOManiac/aso-cli/releases/latest).
 
-## Free Commands (App Store Connect)
+## Two CLIs in One
 
-All commands from the upstream App Store Connect CLI are included and free to use. Authenticate with your App Store Connect API key:
+`aso` ships two command families that use **separate auth**:
+
+| Family | Prefix | Auth | What it does |
+|--------|--------|------|-------------|
+| App Store Connect | `aso <command>` | ASC API key (.p8) | Manage apps, builds, TestFlight, releases, metadata, analytics |
+| ASO Maniac | `aso maniac <command>` | asomaniac.com API key | AI keyword analysis, competitor intel, rank tracking, trends |
+
+Run `aso --help` for the full command tree.
+
+---
+
+## ASO Maniac Commands
+
+Premium keyword intelligence at your fingertips.
+
+### Authentication
+
+Three ways to authenticate — pick what fits:
+
+```bash
+# 1. Browser OAuth (interactive)
+aso maniac login
+
+# 2. Paste an API key from asomaniac.com/settings
+aso maniac login --api-key asm_k_abc123
+
+# 3. Environment variable (CI/Docker/scripts)
+export ASO_MANIAC_API_KEY=asm_k_abc123
+```
+
+Key resolution order: `ASO_MANIAC_API_KEY` env var > `~/.asomaniac/config.json`.
+
+```bash
+# Check what's active
+aso maniac status
+
+# See your plan and usage
+aso maniac whoami
+```
+
+### Keyword Intelligence
+
+```bash
+# Analyze a keyword — popularity, difficulty, top-ranking apps
+aso maniac keywords analyze "photo editor" --storefront us
+
+# AI-powered keyword suggestions from a seed
+aso maniac keywords recommend "fitness tracker" --storefront us --limit 20
+
+# Batch analyze across multiple storefronts
+aso maniac keywords batch "vpn,proxy,privacy" --storefronts us,gb,de
+```
+
+### Competitor Analysis
+
+```bash
+# Find competitor apps and compare keyword overlap
+aso maniac competitors --app-id 1234567890 --storefront us
+```
+
+### Rank Tracking
+
+```bash
+# Start tracking an app's keywords
+aso maniac rank track 1234567890 --storefront us --keywords "vpn,proxy"
+
+# View ranking history over time
+aso maniac rank history 1234567890 --keyword "vpn" --storefront us
+```
+
+### Trends & Data
+
+```bash
+# Keyword popularity trends
+aso maniac trends "vpn" --storefront us --from 2025-01-01
+
+# Portfolio dashboard
+aso maniac dashboard
+
+# Export data for spreadsheets or pipelines
+aso maniac export --format csv --type keywords
+
+# List all 60+ supported storefronts
+aso maniac storefronts
+```
+
+### Command Reference
+
+| Command | Description |
+|---------|-------------|
+| `aso maniac login` | Sign in via browser or `--api-key` |
+| `aso maniac logout` | Remove stored credentials |
+| `aso maniac whoami` | Show account, plan, and API usage |
+| `aso maniac status` | Check connection, auth, and key source |
+| `aso maniac keywords` | Analyze, recommend, and batch-process keywords |
+| `aso maniac competitors` | Competitor keyword overlap analysis |
+| `aso maniac trends` | Keyword popularity over time |
+| `aso maniac rank` | Track and view keyword ranking history |
+| `aso maniac dashboard` | Portfolio overview with alerts |
+| `aso maniac export` | Download data as CSV, JSON, or TSV |
+| `aso maniac storefronts` | List all supported App Store country codes |
+
+---
+
+## App Store Connect Commands
+
+All 70+ commands from the upstream ASC CLI are included. Authenticate with your App Store Connect API key:
 
 ```bash
 aso auth login \
@@ -58,57 +165,43 @@ aso auth login \
   --network
 ```
 
-Then use any command: `aso apps list`, `aso builds list`, `aso testflight`, `aso submit`, `aso release run`, etc.
-
-For full documentation on all inherited commands, see the [upstream CLI docs](https://github.com/rudrankriyam/App-Store-Connect-CLI).
-
-## Premium ASO Commands
-
-Premium ASO commands are available at the top level. Authenticate once with `aso login`.
-
-| Command | Description |
-|---------|-------------|
-| `aso login` | Authenticate with your ASO Maniac account via browser |
-| `aso logout` | Remove stored ASO Maniac credentials |
-| `aso whoami` | Display current user, plan, and API usage |
-| `aso keywords` | Analyze, suggest, and batch-process keywords |
-| `aso competitors` | Analyze competitor keyword overlap |
-| `aso rank` | Track and view keyword ranking history |
-| `aso trends` | View keyword popularity trends over time |
-| `aso export` | Export keyword data in CSV, JSON, or TSV format |
-| `aso dashboard` | View your ASO portfolio dashboard overview |
-| `aso storefronts` | List all supported App Store storefronts |
-
-## Authentication
-
-ASO Maniac commands use a separate auth flow from App Store Connect:
+Then use any command:
 
 ```bash
-# Opens a browser window to authenticate with asomaniac.com
-aso login
-
-# Verify your session
-aso whoami
-
-# Remove credentials
-aso logout
+aso apps                                          # List apps
+aso builds list --app "APP_ID"                    # Recent builds
+aso testflight groups list --app "APP_ID"         # TestFlight groups
+aso release run --app "APP_ID" --version "1.0.0"  # Full release pipeline
+aso metadata pull --app "APP_ID"                  # Pull metadata
+aso submit create --app "APP_ID" --confirm        # Submit for review
+aso schema search "appStoreVersions"              # Inspect 1,208 API endpoints
 ```
 
-Credentials are stored in `~/.asomaniac/config.json`. Free plan includes 100 API calls per month.
+For full documentation, see [upstream CLI docs](https://github.com/rudrankriyam/App-Store-Connect-CLI).
+
+### Schema Inspector
+
+The CLI embeds the full App Store Connect OpenAPI spec (1,208 endpoints) for offline reference:
+
+```bash
+aso schema search "screenshots"       # Find endpoints by path
+aso schema search "GET.appInfos"      # Filter by method + path
+aso schema show "/v1/apps/{id}"       # Full endpoint detail
+```
 
 ## Output Formats
 
-Default output is JSON, designed for piping to `jq` and consumption by AI agents:
+Default output is JSON, designed for piping to `jq` and AI agents:
 
 ```bash
-# Pipe to jq for filtering
-aso keywords suggest --app-id 1234567890 --storefront us | jq '.keywords[:5]'
+# Pipe to jq
+aso maniac keywords analyze "vpn" --storefront us | jq '.popularity'
 
-# Export to CSV for spreadsheets
-aso export --app-id 1234567890 --format csv > keywords.csv
+# Export to CSV
+aso maniac export --format csv --type keywords > keywords.csv
 ```
 
-In an interactive terminal, `aso` auto-detects TTY and defaults to `table` for App Store Connect commands. Override with `--output json` or `--output table` on any command.
+In interactive terminals, App Store Connect commands auto-detect TTY and default to `table`. Override with `--output json|table|markdown`.
 
 ## Attribution
 
@@ -116,4 +209,4 @@ Built on [App-Store-Connect-CLI](https://github.com/rudrankriyam/App-Store-Conne
 
 ## License
 
-MIT License -- see [LICENSE](LICENSE) for details.
+MIT License — see [LICENSE](LICENSE) for details.

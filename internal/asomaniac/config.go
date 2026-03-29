@@ -10,6 +10,55 @@ import (
 // DefaultBaseURL is the base URL for the ASO Maniac API v1.
 const DefaultBaseURL = "https://asomaniac.com/api/v1"
 
+// EnvAPIKey is the environment variable that overrides the config file API key.
+const EnvAPIKey = "ASO_MANIAC_API_KEY"
+
+// KeySource describes where an API key was resolved from.
+type KeySource string
+
+const (
+	KeySourceNone   KeySource = "none"
+	KeySourceEnv    KeySource = "env"
+	KeySourceConfig KeySource = "config"
+)
+
+// ResolvedConfig is a Config with metadata about where the API key came from.
+type ResolvedConfig struct {
+	*Config
+	Source KeySource
+}
+
+// ResolveConfig loads the API key using the precedence chain: env var > config file.
+func ResolveConfig(configPath string) *ResolvedConfig {
+	// 1. Check environment variable first.
+	if envKey := os.Getenv(EnvAPIKey); envKey != "" {
+		cfg := LoadOrDefault(configPath)
+		cfg.APIKey = envKey
+		return &ResolvedConfig{Config: cfg, Source: KeySourceEnv}
+	}
+
+	// 2. Fall back to config file.
+	cfg, err := ReadConfig(configPath)
+	if err != nil {
+		return &ResolvedConfig{
+			Config: &Config{BaseURL: DefaultBaseURL, OutputFormat: "json"},
+			Source: KeySourceNone,
+		}
+	}
+	if cfg.BaseURL == "" {
+		cfg.BaseURL = DefaultBaseURL
+	}
+	if cfg.OutputFormat == "" {
+		cfg.OutputFormat = "json"
+	}
+
+	source := KeySourceConfig
+	if cfg.APIKey == "" {
+		source = KeySourceNone
+	}
+	return &ResolvedConfig{Config: cfg, Source: source}
+}
+
 // Config holds the CLI configuration for connecting to the ASO Maniac API.
 type Config struct {
 	APIKey            string `json:"api_key"`

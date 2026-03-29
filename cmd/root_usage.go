@@ -69,6 +69,10 @@ var rootUsageGroups = []rootCommandGroup{
 		commands: []string{"webhooks", "xcode-cloud", "notify", "migrate"},
 	},
 	{
+		title:    "ASO MANIAC COMMANDS",
+		commands: []string{"maniac"},
+	},
+	{
 		title:    "UTILITY COMMANDS",
 		commands: []string{"version", "completion", "schema"},
 	},

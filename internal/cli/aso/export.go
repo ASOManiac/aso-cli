@@ -16,20 +16,20 @@ import (
 
 // ExportCommand returns the "export" subcommand.
 func ExportCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso export", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso maniac export", flag.ExitOnError)
 	dataType := fs.String("type", "", "Data type to export: rankings, keywords, or apps (required)")
 	format := fs.String("format", "json", "Output format: json or csv")
 
 	return &ffcli.Command{
 		Name:       "export",
-		ShortUsage: "aso export --type rankings [--format csv]",
-		ShortHelp:  "Export keyword data in CSV, JSON, or TSV format.",
-		LongHelp: `Export your ASO data for external analysis.
+		ShortUsage: "aso maniac export --type rankings [--format csv]",
+		ShortHelp:  "Download your keyword and ranking data as CSV or JSON.",
+		LongHelp: `Export your ASO data for external analysis in spreadsheets or scripts.
 
 Examples:
-  aso export --type rankings --format csv
-  aso export --type keywords
-  aso export --type apps --format json`,
+  aso maniac export --type rankings --format csv
+  aso maniac export --type keywords
+  aso maniac export --type apps --format json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -52,15 +52,11 @@ Examples:
 }
 
 func runExport(ctx context.Context, configPath, format, dataType string, w io.Writer) error {
-	cfg, err := asomaniac.ReadConfig(configPath)
+	client, err := requireAuth(configPath)
 	if err != nil {
-		return fmt.Errorf("not logged in. Run 'aso login' to authenticate")
-	}
-	if !cfg.IsAuthenticated() {
-		return fmt.Errorf("not logged in. Run 'aso login' to authenticate")
+		return err
 	}
 
-	client := asomaniac.NewClientFromConfig(cfg)
 	result, err := client.Export(ctx, format, dataType, nil)
 	if err != nil {
 		return fmt.Errorf("export: %w", err)
