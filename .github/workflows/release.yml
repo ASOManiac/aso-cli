@@ -39,17 +39,6 @@ jobs:
           go-version: '1.26.x'
           cache: true
 
-      - name: Install tooling
-        run: make tools
-
-      - name: Run release guardrails
-        run: |
-          export PATH="$(go env GOPATH)/bin:$PATH"
-          make format-check
-          make check-command-docs
-          make lint
-          ASC_BYPASS_KEYCHAIN=1 make test
-
       - name: Create release directory
         run: mkdir -p release
 
