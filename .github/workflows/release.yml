@@ -46,6 +46,8 @@ jobs:
         run: mkdir -p release
 
       - name: Import Apple certificate
+        if: ${{ secrets.APPLE_DEVELOPER_ID_CERT != '' }}
+        id: codesign
         uses: apple-actions/import-codesign-certs@v6
         with:
           p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_CERT }}
@@ -59,13 +61,17 @@ jobs:
           GOOS=darwin GOARCH=arm64 go build -ldflags "-s -w -X main.version=${VERSION} -X main.commit=${COMMIT} -X main.date=${DATE}" -o release/aso_${VERSION}_macOS_arm64 .
 
       - name: Code sign macOS binaries
-        if: env.APPLE_DEVELOPER_ID != ''
+        if: ${{ secrets.APPLE_DEVELOPER_ID_CERT != '' }}
         run: |
-          for binary in release/aso_*_macOS_*; do
-            codesign --force --sign "${{ secrets.APPLE_DEVELOPER_ID }}" --timestamp --options=runtime "$binary"
-          done
-        env:
-          APPLE_DEVELOPER_ID: ${{ secrets.APPLE_DEVELOPER_ID }}
+          IDENTITY=$(security find-identity -v -p codesigning | grep "Developer ID Application" | head -1 | awk -F'"' '{print $2}')
+          if [ -n "$IDENTITY" ]; then
+            echo "Signing with: $IDENTITY"
+            for binary in release/aso_*_macOS_*; do
+              codesign --force --sign "$IDENTITY" --timestamp --options=runtime "$binary"
+            done
+          else
+            echo "No signing identity found. Skipping code signing."
+          fi
 
       - name: Build for Linux
         run: |
@@ -108,39 +114,60 @@ jobs:
             exit 0
           fi
 
-          SHA256=$(shasum -a 256 release/aso_${VERSION}_macOS_arm64 | cut -d ' ' -f 1)
+          # Compute checksums for all platforms
+          SHA_MAC_ARM64=$(shasum -a 256 release/aso_${VERSION}_macOS_arm64 | cut -d ' ' -f 1)
+          SHA_MAC_AMD64=$(shasum -a 256 release/aso_${VERSION}_macOS_amd64 | cut -d ' ' -f 1)
+          SHA_LINUX_ARM64=$(shasum -a 256 release/aso_${VERSION}_linux_arm64 | cut -d ' ' -f 1)
+          SHA_LINUX_AMD64=$(shasum -a 256 release/aso_${VERSION}_linux_amd64 | cut -d ' ' -f 1)
 
           # Clone the tap repo
-          git clone https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/asomaniac/homebrew-tap.git homebrew-tap || {
+          git clone https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/ASOManiac/homebrew-tap.git homebrew-tap || {
             echo "Homebrew tap update failed (auth/permissions). Skipping."
             exit 0
           }
           cd homebrew-tap
 
           # Update the formula
-          cat > Formula/aso.rb << EOF
+          cat > Formula/aso.rb << FORMULA
           # typed: false
           # frozen_string_literal: true
 
           class Aso < Formula
-            desc "ASO CLI — App Store Optimization + App Store Connect"
-            homepage 'https://github.com/ASOManiac/aso-cli'
-            url 'https://github.com/ASOManiac/aso-cli/releases/download/${VERSION}/aso_${VERSION}_macOS_arm64'
-            version '${VERSION}'
-            sha256 '${SHA256}'
-            license 'MIT'
+            desc "ASO CLI - App Store Optimization + App Store Connect"
+            homepage "https://github.com/ASOManiac/aso-cli"
+            license "MIT"
+            version "${VERSION}"
 
-            depends_on :macos
+            on_macos do
+              if Hardware::CPU.arm?
+                url "https://github.com/ASOManiac/aso-cli/releases/download/${VERSION}/aso_${VERSION}_macOS_arm64"
+                sha256 "${SHA_MAC_ARM64}"
+              else
+                url "https://github.com/ASOManiac/aso-cli/releases/download/${VERSION}/aso_${VERSION}_macOS_amd64"
+                sha256 "${SHA_MAC_AMD64}"
+              end
+            end
+
+            on_linux do
+              if Hardware::CPU.arm?
+                url "https://github.com/ASOManiac/aso-cli/releases/download/${VERSION}/aso_${VERSION}_linux_arm64"
+                sha256 "${SHA_LINUX_ARM64}"
+              else
+                url "https://github.com/ASOManiac/aso-cli/releases/download/${VERSION}/aso_${VERSION}_linux_amd64"
+                sha256 "${SHA_LINUX_AMD64}"
+              end
+            end
 
             def install
-              bin.install 'aso_${VERSION}_macOS_arm64' => 'aso'
+              binary = Dir["aso_*"].first || Dir["aso"].first
+              bin.install binary => "aso"
             end
 
             test do
               assert_match "ASO CLI", shell_output("#{bin}/aso --help")
             end
           end
-          EOF
+          FORMULA
 
           # Commit and push
           git config user.name "ASOManiac"
