@@ -13,6 +13,7 @@
 *.so
 *.dylib
 /aso
+/aso-cli
 /aso-debug
 /asc
 /asc-debug
