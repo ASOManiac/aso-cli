@@ -15,10 +15,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/creack/pty"
 	"github.com/ASOManiac/aso-cli/internal/appleauth"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 	webcore "github.com/ASOManiac/aso-cli/internal/web"
+	"github.com/creack/pty"
 )
 
 func TestReadPasswordFromInput(t *testing.T) {

@@ -7,9 +7,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/peterbourgon/ff/v3/ffcli"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 	"github.com/ASOManiac/aso-cli/internal/screenshots"
+	"github.com/peterbourgon/ff/v3/ffcli"
 )
 
 // ShotsReviewApproveCommand returns screenshots review-approve subcommand.

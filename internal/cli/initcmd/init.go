@@ -1,8 +1,8 @@
 package initcmd
 
 import (
-	"github.com/peterbourgon/ff/v3/ffcli"
 	"github.com/ASOManiac/aso-cli/internal/cli/docs"
+	"github.com/peterbourgon/ff/v3/ffcli"
 )
 
 // InitCommand returns the root init command.

@@ -69,7 +69,7 @@ func TestWriteConfigPermissions(t *testing.T) {
 		t.Fatalf("Stat: %v", err)
 	}
 	perm := info.Mode().Perm()
-	if perm != 0600 {
+	if perm != 0o600 {
 		t.Errorf("file permissions = %o, want 0600", perm)
 	}
 }
@@ -97,7 +97,7 @@ func TestReadConfigMissing(t *testing.T) {
 func TestReadConfigInvalidJSON(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "config.json")
-	if err := os.WriteFile(path, []byte("not json"), 0600); err != nil {
+	if err := os.WriteFile(path, []byte("not json"), 0o600); err != nil {
 		t.Fatal(err)
 	}
 

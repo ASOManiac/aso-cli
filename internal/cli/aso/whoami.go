@@ -24,8 +24,8 @@ func WhoamiCommand() *ffcli.Command {
 
 Example:
   aso maniac whoami`,
-		FlagSet:    fs,
-		UsageFunc:  shared.DefaultUsageFunc,
+		FlagSet:   fs,
+		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
 			return runWhoami(ctx, asomaniac.DefaultConfigPath(), os.Stdout)
 		},

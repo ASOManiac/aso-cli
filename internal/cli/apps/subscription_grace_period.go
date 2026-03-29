@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/peterbourgon/ff/v3/ffcli"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/peterbourgon/ff/v3/ffcli"
 )
 
 // AppsSubscriptionGracePeriodCommand returns the subscription grace period command group.

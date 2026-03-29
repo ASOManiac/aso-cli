@@ -4,8 +4,8 @@ import (
 	"context"
 	"flag"
 
-	"github.com/peterbourgon/ff/v3/ffcli"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/peterbourgon/ff/v3/ffcli"
 )
 
 // SigningCommand returns the signing command with subcommands.

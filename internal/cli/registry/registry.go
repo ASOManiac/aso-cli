@@ -8,7 +8,6 @@ import (
 
 	"github.com/ASOManiac/aso-cli/internal/cli/accessibility"
 	"github.com/ASOManiac/aso-cli/internal/cli/account"
-	asocmd "github.com/ASOManiac/aso-cli/internal/cli/aso"
 	"github.com/ASOManiac/aso-cli/internal/cli/actors"
 	"github.com/ASOManiac/aso-cli/internal/cli/agerating"
 	"github.com/ASOManiac/aso-cli/internal/cli/agreements"
@@ -18,6 +17,7 @@ import (
 	"github.com/ASOManiac/aso-cli/internal/cli/app_events"
 	"github.com/ASOManiac/aso-cli/internal/cli/appclips"
 	"github.com/ASOManiac/aso-cli/internal/cli/apps"
+	asocmd "github.com/ASOManiac/aso-cli/internal/cli/aso"
 	"github.com/ASOManiac/aso-cli/internal/cli/auth"
 	"github.com/ASOManiac/aso-cli/internal/cli/backgroundassets"
 	"github.com/ASOManiac/aso-cli/internal/cli/betaapplocalizations"

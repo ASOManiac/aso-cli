@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/peterbourgon/ff/v3/ffcli"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/peterbourgon/ff/v3/ffcli"
 )
 
 // BetaAppLocalizationsAppCommand returns the app command group.

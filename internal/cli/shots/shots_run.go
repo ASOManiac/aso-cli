@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/peterbourgon/ff/v3/ffcli"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 	"github.com/ASOManiac/aso-cli/internal/screenshots"
+	"github.com/peterbourgon/ff/v3/ffcli"
 )
 
 // ShotsRunCommand returns the screenshots run subcommand.

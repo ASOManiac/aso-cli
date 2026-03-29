@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/peterbourgon/ff/v3/ffcli"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
+	"github.com/peterbourgon/ff/v3/ffcli"
 )
 
 // AnalyticsSegmentsCommand returns the analytics segments command group.

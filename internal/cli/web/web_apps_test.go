@@ -10,10 +10,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/AlecAivazis/survey/v2"
 	"github.com/ASOManiac/aso-cli/internal/asc"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 	webcore "github.com/ASOManiac/aso-cli/internal/web"
+	"github.com/AlecAivazis/survey/v2"
 )
 
 func TestWebAppsCreatePassesPasswordCompatibilityFlagToSessionResolver(t *testing.T) {

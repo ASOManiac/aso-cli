@@ -92,14 +92,14 @@ func ReadConfig(path string) (*Config, error) {
 // WriteConfig writes the config to the given path, creating directories as needed.
 func WriteConfig(path string, cfg *Config) error {
 	dir := filepath.Dir(path)
-	if err := os.MkdirAll(dir, 0700); err != nil {
+	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return fmt.Errorf("create config dir: %w", err)
 	}
 	data, err := json.MarshalIndent(cfg, "", "  ")
 	if err != nil {
 		return fmt.Errorf("marshal config: %w", err)
 	}
-	return os.WriteFile(path, data, 0600)
+	return os.WriteFile(path, data, 0o600)
 }
 
 // LoadOrDefault reads the config from path, returning sensible defaults on failure.

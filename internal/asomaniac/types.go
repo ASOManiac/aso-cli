@@ -54,7 +54,7 @@ type BatchResult struct {
 
 // BatchKeywordResult holds analysis results for a single keyword across storefronts.
 type BatchKeywordResult struct {
-	Keyword     string                    `json:"keyword"`
+	Keyword     string                     `json:"keyword"`
 	Storefronts map[string]KeywordAnalysis `json:"storefronts"`
 }
 
