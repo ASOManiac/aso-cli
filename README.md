@@ -2,6 +2,7 @@
 
 [![Release](https://img.shields.io/github/v/release/ASOManiac/aso-cli)](https://github.com/ASOManiac/aso-cli/releases/latest)
 [![Homebrew](https://img.shields.io/badge/homebrew-asomaniac%2Ftap%2Faso-orange)](https://github.com/ASOManiac/homebrew-tap)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 App Store Optimization + App Store Connect CLI.
 
