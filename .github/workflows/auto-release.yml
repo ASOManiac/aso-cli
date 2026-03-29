@@ -75,8 +75,16 @@ jobs:
           VERSION="${{ steps.version.outputs.next }}"
           git tag "$VERSION"
 
-          # Use PAT to push tag — GITHUB_TOKEN can't trigger other workflows
+          # Use PAT to push tag
           git remote set-url origin "https://x-access-token:${TAP_GITHUB_TOKEN}@github.com/ASOManiac/aso-cli.git"
           git push origin "$VERSION"
           echo "Tagged and pushed: $VERSION"
-          echo "Release workflow will now trigger automatically."
+
+      - name: Trigger release workflow
+        if: steps.bump.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.next }}"
+          gh workflow run release.yml -R ASOManiac/aso-cli -f version="$VERSION"
+          echo "Release workflow dispatched for $VERSION"
