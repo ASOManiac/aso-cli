@@ -16,22 +16,22 @@ import (
 
 // TrendsCommand returns the "trends" subcommand.
 func TrendsCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso maniac trends", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso trends", flag.ExitOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 	from := fs.String("from", "", "Start date (YYYY-MM-DD)")
 	to := fs.String("to", "", "End date (YYYY-MM-DD)")
 
 	return &ffcli.Command{
 		Name:       "trends",
-		ShortUsage: "aso maniac trends <keyword> [<keyword>...] [flags]",
+		ShortUsage: "aso trends <keyword> [<keyword>...] [flags]",
 		ShortHelp:  "View how keyword popularity changes over time.",
 		LongHelp: `View historical popularity trends for one or more keywords.
 Useful for spotting seasonal patterns and rising opportunities.
 
 Examples:
-  aso maniac trends camera
-  aso maniac trends camera photo --storefront GB
-  aso maniac trends vpn --from 2026-01-01 --to 2026-03-01`,
+  aso trends camera
+  aso trends camera photo --storefront GB
+  aso trends vpn --from 2026-01-01 --to 2026-03-01`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

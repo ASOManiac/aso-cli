@@ -18,6 +18,13 @@ type rootCommandGroup struct {
 
 var rootUsageGroups = []rootCommandGroup{
 	{
+		title: "KEYWORD INTELLIGENCE COMMANDS",
+		commands: []string{
+			"keywords", "competitors", "trends", "rank",
+			"dashboard", "export", "storefronts",
+		},
+	},
+	{
 		title:    "GETTING STARTED COMMANDS",
 		commands: []string{"auth", "doctor", "install-skills", "init", "docs"},
 	},
@@ -67,10 +74,6 @@ var rootUsageGroups = []rootCommandGroup{
 	{
 		title:    "AUTOMATION COMMANDS",
 		commands: []string{"webhooks", "xcode-cloud", "notify", "migrate"},
-	},
-	{
-		title:    "ASO MANIAC COMMANDS",
-		commands: []string{"maniac"},
 	},
 	{
 		title:    "UTILITY COMMANDS",

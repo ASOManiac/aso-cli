@@ -15,16 +15,16 @@ import (
 
 // StorefrontsCommand returns the "storefronts" subcommand.
 func StorefrontsCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso maniac storefronts", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso storefronts", flag.ExitOnError)
 	return &ffcli.Command{
 		Name:       "storefronts",
-		ShortUsage: "aso maniac storefronts",
+		ShortUsage: "aso storefronts",
 		ShortHelp:  "List all 60+ supported App Store country codes.",
 		LongHelp: `Print all supported App Store storefront codes as JSON.
 No authentication required — this is a free command.
 
 Example:
-  aso maniac storefronts`,
+  aso storefronts`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

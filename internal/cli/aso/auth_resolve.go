@@ -11,7 +11,7 @@ import (
 func requireAuth(configPath string) (*asomaniac.Client, error) {
 	resolved := asomaniac.ResolveConfig(configPath)
 	if !resolved.IsAuthenticated() {
-		return nil, fmt.Errorf("not logged in. Run 'aso maniac login' to authenticate")
+		return nil, fmt.Errorf("not logged in. Run 'aso auth maniac login' to authenticate")
 	}
 	return asomaniac.NewClientFromConfig(resolved.Config), nil
 }

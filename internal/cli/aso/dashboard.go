@@ -16,16 +16,16 @@ import (
 
 // DashboardCommand returns the "dashboard" subcommand.
 func DashboardCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso maniac dashboard", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso dashboard", flag.ExitOnError)
 	return &ffcli.Command{
 		Name:       "dashboard",
-		ShortUsage: "aso maniac dashboard",
+		ShortUsage: "aso dashboard",
 		ShortHelp:  "Portfolio overview — tracked apps, rank changes, and alerts.",
 		LongHelp: `Display a summary of your tracked apps, keyword rankings, recent rank
 changes, and any alerts that need attention.
 
 Example:
-  aso maniac dashboard`,
+  aso dashboard`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

@@ -16,20 +16,20 @@ import (
 
 // ExportCommand returns the "export" subcommand.
 func ExportCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso maniac export", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso export", flag.ExitOnError)
 	dataType := fs.String("type", "", "Data type to export: rankings, keywords, or apps (required)")
 	format := fs.String("format", "json", "Output format: json or csv")
 
 	return &ffcli.Command{
 		Name:       "export",
-		ShortUsage: "aso maniac export --type rankings [--format csv]",
+		ShortUsage: "aso export --type rankings [--format csv]",
 		ShortHelp:  "Download your keyword and ranking data as CSV or JSON.",
 		LongHelp: `Export your ASO data for external analysis in spreadsheets or scripts.
 
 Examples:
-  aso maniac export --type rankings --format csv
-  aso maniac export --type keywords
-  aso maniac export --type apps --format json`,
+  aso export --type rankings --format csv
+  aso export --type keywords
+  aso export --type apps --format json`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

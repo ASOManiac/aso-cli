@@ -23,13 +23,13 @@ cat > "$OUTPUT" << MANIFEST
   },
   "auth": {
     "methods": [
-      { "name": "Browser OAuth", "command": "aso maniac login" },
-      { "name": "Direct API key", "command": "aso maniac login --api-key <KEY>" },
+      { "name": "Browser OAuth", "command": "aso auth maniac login" },
+      { "name": "Direct API key", "command": "aso auth maniac login --api-key <KEY>" },
       { "name": "Environment variable", "command": "export ASO_MANIAC_API_KEY=<KEY>" }
     ]
   },
   "commands": {
-    "maniac": [
+    "intelligence": [
       { "name": "keywords analyze", "description": "Score keyword popularity, difficulty, and top apps" },
       { "name": "keywords recommend", "description": "AI-powered keyword suggestions from a seed" },
       { "name": "keywords batch", "description": "Analyze multiple keywords across storefronts" },
@@ -39,7 +39,7 @@ cat > "$OUTPUT" << MANIFEST
       { "name": "rank history", "description": "View historical rank positions" },
       { "name": "dashboard", "description": "Open the web dashboard for your portfolio" },
       { "name": "export", "description": "Export rankings and keyword data (CSV/JSON)" },
-      { "name": "config", "description": "Manage CLI configuration and defaults" }
+      { "name": "storefronts", "description": "List all 60+ supported storefront codes" }
     ],
     "asc": [
       { "name": "apps list", "description": "List all apps in App Store Connect" },
@@ -53,4 +53,4 @@ cat > "$OUTPUT" << MANIFEST
 }
 MANIFEST
 
-echo "Generated $OUTPUT"
+echo "Generated \$OUTPUT"

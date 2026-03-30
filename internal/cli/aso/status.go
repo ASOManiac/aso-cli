@@ -17,15 +17,15 @@ import (
 
 // StatusCommand returns the "status" subcommand that checks auth and API health.
 func StatusCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso maniac status", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso auth maniac status", flag.ExitOnError)
 	return &ffcli.Command{
 		Name:       "status",
-		ShortUsage: "aso maniac status",
+		ShortUsage: "aso auth maniac status",
 		ShortHelp:  "Check connection and authentication health.",
 		LongHelp: `Verify that your ASO Maniac credentials are valid and the API is reachable.
 
 Example:
-  aso maniac status`,
+  aso auth maniac status`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -41,7 +41,7 @@ func runStatus(ctx context.Context, configPath string, w io.Writer) error {
 
 	if !resolved.IsAuthenticated() {
 		fmt.Fprintf(w, "Auth:    not logged in\n")
-		fmt.Fprintf(w, "\nRun 'aso maniac login' to authenticate.\n")
+		fmt.Fprintf(w, "\nRun 'aso auth maniac login' to authenticate.\n")
 		return nil
 	}
 
@@ -72,7 +72,7 @@ func runStatus(ctx context.Context, configPath string, w io.Writer) error {
 	profile, err := client.GetProfile(ctx)
 	if err != nil {
 		fmt.Fprintf(w, "Auth:    invalid (%v)\n", err)
-		fmt.Fprintf(w, "\nRun 'aso maniac login' to re-authenticate.\n")
+		fmt.Fprintf(w, "\nRun 'aso auth maniac login' to re-authenticate.\n")
 		return nil
 	}
 

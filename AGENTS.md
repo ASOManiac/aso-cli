@@ -9,7 +9,7 @@ The CLI has two distinct command families under one binary (`aso`):
 | Family | Prefix | Auth | Purpose |
 |--------|--------|------|---------|
 | **App Store Connect** | `aso builds`, `aso apps`, etc. | ASC API Key (.p8 JWT) | Full ASC API access (builds, TestFlight, metadata, submissions) |
-| **ASO Maniac** | `aso maniac` | asomaniac.com API key | AI-powered keyword intelligence, rank tracking, competitor analysis |
+| **ASO Maniac** | `aso keywords`, `aso rank`, etc. | asomaniac.com API key | AI-powered keyword intelligence, rank tracking, competitor analysis |
 
 Both families share the same binary, flags system, and output conventions.
 
@@ -32,8 +32,8 @@ Agent Skills for automating `aso` workflows including builds, TestFlight, metada
 aso --help                    # List all top-level commands and command groups
 aso builds --help             # List builds subcommands
 aso builds list --help        # Show all flags for a command
-aso maniac --help             # List all ASO Maniac subcommands
-aso maniac keywords --help    # List keyword subcommands
+aso --help                    # All commands (intelligence commands listed first)
+aso keywords --help           # List keyword subcommands
 ```
 
 Do not memorize commands. Always check `--help` for the current interface.
@@ -73,10 +73,10 @@ Premium ASO commands powered by [asomaniac.com](https://asomaniac.com).
 
 ```bash
 # Method 1: Browser OAuth (interactive)
-aso maniac login
+aso auth maniac login
 
 # Method 2: Direct API key (CI/scripts/dashboard)
-aso maniac login --api-key asm_k_abc123
+aso auth maniac login --api-key asm_k_abc123
 
 # Method 3: Environment variable (CI pipelines, Docker, automation)
 export ASO_MANIAC_API_KEY=asm_k_abc123
@@ -88,20 +88,20 @@ export ASO_MANIAC_API_KEY=asm_k_abc123
 
 | Command | Description | Auth Required |
 |---------|-------------|---------------|
-| `aso maniac login` | Sign in via browser OAuth or `--api-key` | No |
-| `aso maniac logout` | Remove stored credentials | No |
-| `aso maniac status` | Check connection, auth health, and key source | Yes |
-| `aso maniac whoami` | Show account, plan, and API usage stats | Yes |
-| `aso maniac keywords analyze` | Score keyword popularity, difficulty, top apps | Yes |
-| `aso maniac keywords recommend` | AI-powered keyword suggestions from a seed | Yes |
-| `aso maniac keywords batch` | Analyze multiple keywords across storefronts | Yes |
-| `aso maniac competitors <appId>` | Competitor keyword overlap analysis | Yes |
-| `aso maniac trends <keyword>` | Historical keyword popularity trends | Yes |
-| `aso maniac rank track` | Start tracking keyword rankings for an app | Yes |
-| `aso maniac rank history` | View historical rank positions | Yes |
-| `aso maniac dashboard` | Portfolio overview (apps, rank changes, alerts) | Yes |
-| `aso maniac export` | Download data as CSV, JSON, or TSV | Yes |
-| `aso maniac storefronts` | List all 60+ supported storefront codes | No |
+| `aso auth maniac login` | Sign in via browser OAuth or `--api-key` | No |
+| `aso auth maniac logout` | Remove stored credentials | No |
+| `aso auth maniac status` | Check connection, auth health, and key source | Yes |
+| `aso auth maniac whoami` | Show account, plan, and API usage stats | Yes |
+| `aso keywords analyze` | Score keyword popularity, difficulty, top apps | Yes |
+| `aso keywords recommend` | AI-powered keyword suggestions from a seed | Yes |
+| `aso keywords batch` | Analyze multiple keywords across storefronts | Yes |
+| `aso competitors <appId>` | Competitor keyword overlap analysis | Yes |
+| `aso trends <keyword>` | Historical keyword popularity trends | Yes |
+| `aso rank track` | Start tracking keyword rankings for an app | Yes |
+| `aso rank history` | View historical rank positions | Yes |
+| `aso dashboard` | Portfolio overview (apps, rank changes, alerts) | Yes |
+| `aso export` | Download data as CSV, JSON, or TSV | Yes |
+| `aso storefronts` | List all 60+ supported storefront codes | No |
 
 ### Common Flags
 
@@ -117,27 +117,27 @@ export ASO_MANIAC_API_KEY=asm_k_abc123
 
 ```bash
 # Keyword research workflow
-aso maniac keywords analyze camera --storefront US
-aso maniac keywords recommend "security camera" --storefront US
-aso maniac keywords batch camera,photo,security --storefront US,GB,DE
+aso keywords analyze camera --storefront US
+aso keywords recommend "security camera" --storefront US
+aso keywords batch camera,photo,security --storefront US,GB,DE
 
 # Competitor analysis
-aso maniac competitors 123456789 --storefront US
+aso competitors 123456789 --storefront US
 
 # Trend spotting
-aso maniac trends camera photo --storefront US --from 2026-01-01
+aso trends camera photo --storefront US --from 2026-01-01
 
 # Rank tracking
-aso maniac rank track --app 123456789 --keywords camera,security
-aso maniac rank history --app 123456789 --keyword camera
+aso rank track --app 123456789 --keywords camera,security
+aso rank history --app 123456789 --keyword camera
 
 # Data export
-aso maniac export --type rankings --format csv
-aso maniac export --type keywords --format json
+aso export --type rankings --format csv
+aso export --type keywords --format json
 
 # Account info
-aso maniac status
-aso maniac whoami
+aso auth maniac status
+aso auth maniac whoami
 ```
 
 ## Documentation
@@ -317,11 +317,11 @@ API keys are generated at https://appstoreconnect.apple.com/access/integrations/
 
 ### ASO Maniac Auth
 API keys are obtained from https://asomaniac.com/dashboard/settings. Three methods:
-1. **Browser OAuth**: `aso maniac login` (interactive)
-2. **Direct key**: `aso maniac login --api-key asm_k_...` (saved to `~/.asomaniac/config.json`)
+1. **Browser OAuth**: `aso auth maniac login` (interactive)
+2. **Direct key**: `aso auth maniac login --api-key asm_k_...` (saved to `~/.asomaniac/config.json`)
 3. **Env var**: `ASO_MANIAC_API_KEY=asm_k_...` (overrides config file, ideal for CI)
 
-Resolution chain: env var > config file. Use `aso maniac status` to check which source is active.
+Resolution chain: env var > config file. Use `aso auth maniac status` to check which source is active.
 
 ## Environment Variables
 

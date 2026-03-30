@@ -11,40 +11,24 @@ import (
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
-// ManiacCommand returns the "maniac" parent command with all ASO Maniac subcommands.
-func ManiacCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso maniac", flag.ExitOnError)
+// ManiacAuthCommand returns the "maniac" subcommand for aso auth, grouping
+// ASO Maniac authentication commands (login, logout, whoami, status).
+func ManiacAuthCommand() *ffcli.Command {
+	fs := flag.NewFlagSet("aso auth maniac", flag.ExitOnError)
 	return &ffcli.Command{
 		Name:       "maniac",
-		ShortUsage: "aso maniac <subcommand> [flags]",
-		ShortHelp:  "ASO Maniac — AI-powered keyword intelligence and rank tracking.",
-		LongHelp: `Premium ASO commands powered by asomaniac.com.
+		ShortUsage: "aso auth maniac <subcommand> [flags]",
+		ShortHelp:  "Manage authentication for the ASO Maniac API.",
+		LongHelp: `Manage authentication for the ASO Maniac keyword intelligence API.
 
 Free plan: 100 API calls/month. Upgrade at https://asomaniac.com/pricing.
 
 Authentication (pick one):
-  aso maniac login                          Browser OAuth (interactive)
-  aso maniac login --api-key <KEY>          Paste a key from the dashboard
-  export ASO_MANIAC_API_KEY=<KEY>           Env var override (CI/scripts)
+  aso auth maniac login                          Browser OAuth (interactive)
+  aso auth maniac login --api-key <KEY>          Paste a key from the dashboard
+  export ASO_MANIAC_API_KEY=<KEY>                Env var override (CI/scripts)
 
-Key resolution order: ASO_MANIAC_API_KEY env var > ~/.asomaniac/config.json.
-
-Auth & Account:
-  login         Sign in via browser or API key
-  logout        Remove stored credentials
-  whoami        Show account, plan, and API usage
-  status        Check connection, auth health, and key source
-
-Keyword Intelligence:
-  keywords      Analyze, suggest, and batch-process keywords
-  competitors   Find competitor keyword overlap for any app
-  trends        View keyword popularity over time
-  rank          Track keyword rankings for your apps
-
-Data:
-  dashboard     Portfolio overview — tracked apps, rank changes, alerts
-  export        Download keyword data as CSV, JSON, or TSV
-  storefronts   List all 60+ supported App Store storefronts`,
+Key resolution order: ASO_MANIAC_API_KEY env var > ~/.asomaniac/config.json.`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Subcommands: []*ffcli.Command{
@@ -52,13 +36,6 @@ Data:
 			LogoutCommand(),
 			WhoamiCommand(),
 			StatusCommand(),
-			KeywordsCommand(),
-			CompetitorsCommand(),
-			TrendsCommand(),
-			RankCommand(),
-			DashboardCommand(),
-			ExportCommand(),
-			StorefrontsCommand(),
 		},
 		Exec: func(ctx context.Context, args []string) error {
 			if len(args) == 0 {

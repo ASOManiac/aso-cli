@@ -105,8 +105,12 @@ func Subcommands(version string) []*ffcli.Command {
 		"aso pricing availability set":   {},
 	}
 
+	// Build auth command and inject ASO Maniac auth subcommand.
+	authCmd := auth.AuthCommand()
+	authCmd.Subcommands = append(authCmd.Subcommands, asocmd.ManiacAuthCommand())
+
 	subs := []*ffcli.Command{
-		auth.AuthCommand(),
+		authCmd,
 		auth.AuthDoctorCommand(),
 		web.WebCommand(),
 		account.AccountCommand(),
@@ -187,8 +191,16 @@ func Subcommands(version string) []*ffcli.Command {
 		VersionCommand(version),
 	}
 
-	// Register ASO Maniac commands under "aso maniac" namespace.
-	subs = append(subs, asocmd.ManiacCommand())
+	// Register ASO Maniac intelligence commands at root level.
+	subs = append(subs,
+		asocmd.KeywordsCommand(),
+		asocmd.CompetitorsCommand(),
+		asocmd.TrendsCommand(),
+		asocmd.RankCommand(),
+		asocmd.DashboardCommand(),
+		asocmd.ExportCommand(),
+		asocmd.StorefrontsCommand(),
+	)
 
 	for i, sub := range subs {
 		subs[i] = shared.NormalizeViewEditCommandTree(sub, editPaths)

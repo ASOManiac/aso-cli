@@ -16,19 +16,19 @@ import (
 
 // CompetitorsCommand returns the "competitors" subcommand.
 func CompetitorsCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso maniac competitors", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso competitors", flag.ExitOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 
 	return &ffcli.Command{
 		Name:       "competitors",
-		ShortUsage: "aso maniac competitors <appId> [flags]",
+		ShortUsage: "aso competitors <appId> [flags]",
 		ShortHelp:  "Find competitor apps and compare keyword overlap.",
 		LongHelp: `Discover competitor apps for a given app ID and compare shared vs unique
 keywords, ranking positions, and keyword overlap.
 
 Examples:
-  aso maniac competitors 123456789
-  aso maniac competitors 123456789 --storefront GB`,
+  aso competitors 123456789
+  aso competitors 123456789 --storefront GB`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {

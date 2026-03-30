@@ -26,11 +26,11 @@ var openBrowserFunc = openBrowser
 
 // LoginCommand returns the "login" subcommand for ASO Maniac authentication.
 func LoginCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso maniac login", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso auth maniac login", flag.ExitOnError)
 	apiKey := fs.String("api-key", "", "Set API key directly instead of opening the browser")
 	return &ffcli.Command{
 		Name:       "login",
-		ShortUsage: "aso maniac login [--api-key <KEY>]",
+		ShortUsage: "aso auth maniac login [--api-key <KEY>]",
 		ShortHelp:  "Sign in to your ASO Maniac account via browser or API key.",
 		LongHelp: `Authenticate with your asomaniac.com account.
 
@@ -44,9 +44,9 @@ saved key at runtime (e.g. in CI pipelines or Docker containers).
 Free plan includes 100 API calls per month. Upgrade at https://asomaniac.com/pricing.
 
 Examples:
-  aso maniac login                          # Browser OAuth flow
-  aso maniac login --api-key asm_k_abc123   # Direct key from dashboard
-  ASO_MANIAC_API_KEY=asm_k_abc123 aso maniac status  # Env var override`,
+  aso auth maniac login                          # Browser OAuth flow
+  aso auth maniac login --api-key asm_k_abc123   # Direct key from dashboard
+  ASO_MANIAC_API_KEY=asm_k_abc123 aso auth maniac status  # Env var override`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -70,7 +70,7 @@ func runLoginWithKey(ctx context.Context, configPath, apiKey string, w *os.File)
 	if err != nil {
 		// Save anyway — the API might be temporarily unreachable.
 		fmt.Fprintf(w, "Warning: could not verify API key: %v\n", err)
-		fmt.Fprintf(w, "Saving key anyway. Run 'aso maniac status' to check later.\n\n")
+		fmt.Fprintf(w, "Saving key anyway. Run 'aso auth maniac status' to check later.\n\n")
 	}
 
 	if err := asomaniac.WriteConfig(configPath, cfg); err != nil {
@@ -143,7 +143,7 @@ func runLogin(ctx context.Context, configPath string, w *os.File) error {
 		profile, err := client.GetProfile(ctx)
 		if err != nil {
 			fmt.Fprintf(w, "\nAPI key saved but could not verify: %v\n", err)
-			fmt.Fprintf(w, "You may need to run 'aso maniac login' again.\n")
+			fmt.Fprintf(w, "You may need to run 'aso auth maniac login' again.\n")
 			return nil
 		}
 
