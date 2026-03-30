@@ -10,7 +10,7 @@ Requirements:
 Clone and build:
 ```bash
 git clone https://github.com/ASOManiac/aso-cli.git
-cd App-Store-Connect-CLI
+cd aso-cli
 make build
 ```
 

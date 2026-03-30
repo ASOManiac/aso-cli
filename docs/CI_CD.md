@@ -2,10 +2,10 @@
 
 ## GitHub Actions
 
-Install `aso` using the official setup action:
+Install `aso` using the setup action:
 
 ```yaml
-- uses: rudrankriyam/setup-asc@v1
+- uses: ASOManiac/setup-aso@v1
   with:
     version: latest
 
@@ -13,34 +13,34 @@ Install `aso` using the official setup action:
 ```
 
 For end-to-end examples, see:
-https://github.com/rudrankriyam/setup-asc
+https://github.com/ASOManiac/setup-aso
 
 ## GitLab CI/CD Components
 
-Use the official `asc-ci-components` repository:
+Use the `aso-ci-components` repository:
 
 ```yaml
 include:
-  - component: gitlab.com/rudrankriyam/asc-ci-components/run@main
+  - component: gitlab.com/ASOManiac/aso-ci-components/run@main
     inputs:
       stage: deploy
       job_prefix: release
-      asc_version: latest
+      aso_version: latest
       command: aso --help
 ```
 
 For install/run templates and self-managed examples:
-https://github.com/rudrankriyam/asc-ci-components
+https://github.com/ASOManiac/aso-ci-components
 
 ## Bitrise
 
-Use the official `setup-asc` Bitrise step repository:
+Use the `setup-aso` Bitrise step repository:
 
 ```yaml
 workflows:
   primary:
     steps:
-    - git::https://github.com/rudrankriyam/steps-setup-asc.git@main:
+    - git::https://github.com/ASOManiac/steps-setup-aso.git@main:
         inputs:
         - mode: run
         - version: latest
@@ -49,5 +49,5 @@ workflows:
 
 ## CircleCI
 
-Use the official CircleCI orb repository:
-https://github.com/rudrankriyam/asc-orb
+Use the CircleCI orb repository:
+https://github.com/ASOManiac/aso-orb

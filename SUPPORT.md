@@ -24,17 +24,17 @@
 
 Include as many of these as you can:
 
-- `asc version`
+- `aso version`
 - Your OS and shell
-- How you installed `asc` (`brew`, install script, source build, other)
+- How you installed `aso` (`brew`, install script, source build, other)
 - The exact command you ran
 - Redacted stdout/stderr output
 - Whether the issue still reproduces with `ASC_BYPASS_KEYCHAIN=1`
-- Redacted `ASC_DEBUG=api` or `asc --api-debug ...` output when safe
+- Redacted `ASC_DEBUG=api` or `aso --api-debug ...` output when safe
 
 ## Common Gotchas
 
-- `asc` is unofficial and the App Store Connect API can change underneath it
+- `aso` is unofficial and the App Store Connect API can change underneath it
 - Authentication can resolve from keychain, config, and environment variables; `ASC_STRICT_AUTH=true` can help catch mixed sources
 - Output defaults are TTY-aware: interactive terminals default to `table`, pipes and CI default to `json`
-- If keychain access is blocked, use `ASC_BYPASS_KEYCHAIN=1` or `asc auth login --bypass-keychain`
+- If keychain access is blocked, use `ASC_BYPASS_KEYCHAIN=1` or `aso auth login --bypass-keychain`
