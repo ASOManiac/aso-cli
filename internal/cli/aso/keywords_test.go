@@ -42,25 +42,38 @@ func TestKeywordsAnalyzeJSON(t *testing.T) {
 	callCount := 0
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		if !strings.HasPrefix(r.URL.Path, "/api/v1/keywords/analyze") {
+		if r.URL.Path != "/api/v1/keywords/analyze" {
 			t.Errorf("unexpected path: %s", r.URL.Path)
 			http.Error(w, "not found", http.StatusNotFound)
 			return
 		}
-
-		kw := r.URL.Query().Get("keyword")
-		var resp any
-		switch kw {
-		case "camera":
-			resp = asomaniac.APIResponse[asomaniac.KeywordAnalysis]{Data: kw1}
-		case "photo":
-			resp = asomaniac.APIResponse[asomaniac.KeywordAnalysis]{Data: kw2}
-		default:
-			t.Errorf("unexpected keyword: %s", kw)
-			http.Error(w, "bad keyword", http.StatusBadRequest)
+		if r.Method != http.MethodPost {
+			t.Errorf("method = %s, want POST", r.Method)
+			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
+
+		var body asomaniac.AnalyzeKeywordRequest
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			t.Fatalf("decode request body: %v", err)
+		}
+
+		// Return analysis for each requested keyword.
+		results := make([]asomaniac.KeywordAnalysis, 0, len(body.Keywords))
+		for _, kw := range body.Keywords {
+			switch kw {
+			case "camera":
+				results = append(results, kw1)
+			case "photo":
+				results = append(results, kw2)
+			default:
+				t.Errorf("unexpected keyword: %s", kw)
+				http.Error(w, "bad keyword", http.StatusBadRequest)
+				return
+			}
+		}
 		callCount++
+		resp := asomaniac.APIResponse[[]asomaniac.KeywordAnalysis]{Data: results}
 		if err := json.NewEncoder(w).Encode(resp); err != nil {
 			t.Fatalf("encode response: %v", err)
 		}
@@ -104,8 +117,8 @@ func TestKeywordsAnalyzeJSON(t *testing.T) {
 	if results[1].Popularity != 85 {
 		t.Errorf("results[1].Popularity = %d, want 85", results[1].Popularity)
 	}
-	if callCount != 2 {
-		t.Errorf("expected 2 API calls, got %d", callCount)
+	if callCount != 1 {
+		t.Errorf("expected 1 API call (batch POST), got %d", callCount)
 	}
 }
 

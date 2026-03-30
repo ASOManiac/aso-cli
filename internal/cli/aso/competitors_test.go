@@ -39,13 +39,10 @@ func TestCompetitorsJSON(t *testing.T) {
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		if r.URL.Path != "/api/v1/competitors" {
+		if r.URL.Path != "/api/v1/competitors/111" {
 			t.Errorf("unexpected path: %s", r.URL.Path)
 			http.Error(w, "not found", http.StatusNotFound)
 			return
-		}
-		if appID := r.URL.Query().Get("appId"); appID != "111" {
-			t.Errorf("appId = %q, want %q", appID, "111")
 		}
 		if sf := r.URL.Query().Get("storefront"); sf != "US" {
 			t.Errorf("storefront = %q, want %q", sf, "US")

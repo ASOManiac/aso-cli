@@ -33,23 +33,31 @@ func TestAnalyzeKeywords(t *testing.T) {
 	}
 
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodGet {
-			t.Errorf("method = %s, want GET", r.Method)
+		if r.Method != http.MethodPost {
+			t.Errorf("method = %s, want POST", r.Method)
 		}
-		if !strings.HasPrefix(r.URL.Path, "/keywords/analyze") {
-			t.Errorf("path = %q, want /keywords/analyze prefix", r.URL.Path)
+		if r.URL.Path != "/keywords/analyze" {
+			t.Errorf("path = %q, want /keywords/analyze", r.URL.Path)
 		}
-		if r.URL.Query().Get("keyword") != "photo editor" {
-			t.Errorf("keyword param = %q, want %q", r.URL.Query().Get("keyword"), "photo editor")
-		}
-		if r.URL.Query().Get("storefront") != "US" {
-			t.Errorf("storefront param = %q, want %q", r.URL.Query().Get("storefront"), "US")
+		if ct := r.Header.Get("Content-Type"); ct != "application/json" {
+			t.Errorf("Content-Type = %q, want application/json", ct)
 		}
 		if auth := r.Header.Get("Authorization"); auth != "Bearer test-api-key" {
 			t.Errorf("Authorization = %q, want %q", auth, "Bearer test-api-key")
 		}
 
-		resp := APIResponse[KeywordAnalysis]{Data: want}
+		var body AnalyzeKeywordRequest
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			t.Fatalf("decode request body: %v", err)
+		}
+		if len(body.Keywords) != 1 || body.Keywords[0] != "photo editor" {
+			t.Errorf("keywords = %v, want [photo editor]", body.Keywords)
+		}
+		if body.Storefront != "US" {
+			t.Errorf("storefront = %q, want US", body.Storefront)
+		}
+
+		resp := APIResponse[[]KeywordAnalysis]{Data: []KeywordAnalysis{want}}
 		w.Header().Set("Content-Type", "application/json")
 		if err := json.NewEncoder(w).Encode(resp); err != nil {
 			t.Fatalf("encode response: %v", err)
@@ -58,11 +66,15 @@ func TestAnalyzeKeywords(t *testing.T) {
 	defer srv.Close()
 
 	client := NewClient(srv.URL, "test-api-key")
-	got, err := client.AnalyzeKeyword(context.Background(), "photo editor", "US", nil)
+	results, err := client.AnalyzeKeywords(context.Background(), []string{"photo editor"}, "US", nil)
 	if err != nil {
-		t.Fatalf("AnalyzeKeyword: %v", err)
+		t.Fatalf("AnalyzeKeywords: %v", err)
 	}
 
+	if len(results) != 1 {
+		t.Fatalf("results len = %d, want 1", len(results))
+	}
+	got := results[0]
 	if got.Keyword != want.Keyword {
 		t.Errorf("Keyword = %q, want %q", got.Keyword, want.Keyword)
 	}
@@ -150,7 +162,7 @@ func TestUnauthorizedError(t *testing.T) {
 	defer srv.Close()
 
 	client := NewClient(srv.URL, "bad-key")
-	_, err := client.AnalyzeKeyword(context.Background(), "test", "US", nil)
+	_, err := client.AnalyzeKeywords(context.Background(), []string{"test"}, "US", nil)
 	if err == nil {
 		t.Fatal("expected error for 401 response")
 	}
@@ -213,7 +225,7 @@ func TestNoAuthHeader(t *testing.T) {
 
 	// Empty API key should not send Authorization header.
 	client := NewClient(srv.URL, "")
-	_, err := client.AnalyzeKeyword(context.Background(), "test", "US", nil)
+	_, err := client.AnalyzeKeywords(context.Background(), []string{"test"}, "US", nil)
 	if err == nil {
 		t.Fatal("expected error for unauthorized request")
 	}
@@ -246,8 +258,8 @@ func TestBatchAnalyze(t *testing.T) {
 		if r.Method != http.MethodPost {
 			t.Errorf("method = %s, want POST", r.Method)
 		}
-		if r.URL.Path != "/keywords/batch" {
-			t.Errorf("path = %q, want /keywords/batch", r.URL.Path)
+		if r.URL.Path != "/keywords/batch-analyze" {
+			t.Errorf("path = %q, want /keywords/batch-analyze", r.URL.Path)
 		}
 		if ct := r.Header.Get("Content-Type"); ct != "application/json" {
 			t.Errorf("Content-Type = %q, want application/json", ct)

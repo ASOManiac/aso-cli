@@ -150,38 +150,37 @@ func (c *Client) GetUsage(ctx context.Context) (*UsageStats, error) {
 	return decodeResponse[UsageStats](resp)
 }
 
-// AnalyzeKeyword analyzes a single keyword in a given storefront.
-// fields is optional — if non-empty the server returns only the requested sections.
-func (c *Client) AnalyzeKeyword(ctx context.Context, keyword, storefront string, fields []string) (*KeywordAnalysis, error) {
-	path := fmt.Sprintf("/keywords/analyze?keyword=%s&storefront=%s",
-		url.QueryEscape(keyword), url.QueryEscape(storefront))
-	if len(fields) > 0 {
-		path += "&fields=" + url.QueryEscape(strings.Join(fields, ","))
+// AnalyzeKeywordRequest is the request body for the analyze endpoint.
+type AnalyzeKeywordRequest struct {
+	Keywords   []string `json:"keywords"`
+	Storefront string   `json:"storefront"`
+	Fields     []string `json:"fields,omitempty"`
+}
+
+// AnalyzeKeywords analyzes one or more keywords in a given storefront.
+// The API accepts a batch of keywords in a single POST request.
+func (c *Client) AnalyzeKeywords(ctx context.Context, keywords []string, storefront string, fields []string) ([]KeywordAnalysis, error) {
+	body := AnalyzeKeywordRequest{
+		Keywords:   keywords,
+		Storefront: storefront,
 	}
-	resp, err := c.do(ctx, http.MethodGet, path, nil)
+	if len(fields) > 0 {
+		body.Fields = fields
+	}
+	resp, err := c.do(ctx, http.MethodPost, "/keywords/analyze", body)
 	if err != nil {
 		return nil, err
 	}
-	return decodeResponse[KeywordAnalysis](resp)
-}
-
-// AnalyzeKeywords is a convenience wrapper: it calls AnalyzeKeyword for each
-// keyword and collects the results.
-func (c *Client) AnalyzeKeywords(ctx context.Context, keywords []string, storefront string, fields []string) ([]KeywordAnalysis, error) {
-	results := make([]KeywordAnalysis, 0, len(keywords))
-	for _, kw := range keywords {
-		r, err := c.AnalyzeKeyword(ctx, kw, storefront, fields)
-		if err != nil {
-			return nil, fmt.Errorf("analyze %q: %w", kw, err)
-		}
-		results = append(results, *r)
+	result, err := decodeResponse[[]KeywordAnalysis](resp)
+	if err != nil {
+		return nil, err
 	}
-	return results, nil
+	return *result, nil
 }
 
 // GetRecommendations fetches keyword recommendations for a seed keyword.
 func (c *Client) GetRecommendations(ctx context.Context, seed, storefront string, limit int) (*[]KeywordRecommendation, error) {
-	path := fmt.Sprintf("/keywords/recommendations?seed=%s&storefront=%s&limit=%d",
+	path := fmt.Sprintf("/keywords/recommendations?keyword=%s&storefront=%s&limit=%d",
 		url.QueryEscape(seed), url.QueryEscape(storefront), limit)
 	resp, err := c.do(ctx, http.MethodGet, path, nil)
 	if err != nil {
@@ -202,7 +201,7 @@ func (c *Client) BatchAnalyze(ctx context.Context, keywords, storefronts []strin
 		Keywords:    keywords,
 		Storefronts: storefronts,
 	}
-	resp, err := c.do(ctx, http.MethodPost, "/keywords/batch", body)
+	resp, err := c.do(ctx, http.MethodPost, "/keywords/batch-analyze", body)
 	if err != nil {
 		return nil, err
 	}
@@ -211,8 +210,8 @@ func (c *Client) BatchAnalyze(ctx context.Context, keywords, storefronts []strin
 
 // GetCompetitors finds competitor apps for the given app ID and storefront.
 func (c *Client) GetCompetitors(ctx context.Context, appID, storefront string) (*[]CompetitorAnalysis, error) {
-	path := fmt.Sprintf("/competitors?appId=%s&storefront=%s",
-		url.QueryEscape(appID), url.QueryEscape(storefront))
+	path := fmt.Sprintf("/competitors/%s?storefront=%s",
+		url.PathEscape(appID), url.QueryEscape(storefront))
 	resp, err := c.do(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
