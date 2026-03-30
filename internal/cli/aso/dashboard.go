@@ -16,7 +16,7 @@ import (
 
 // DashboardCommand returns the "dashboard" subcommand.
 func DashboardCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso dashboard", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso dashboard", flag.ContinueOnError)
 	return &ffcli.Command{
 		Name:       "dashboard",
 		ShortUsage: "aso dashboard",

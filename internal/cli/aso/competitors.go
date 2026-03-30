@@ -16,7 +16,7 @@ import (
 
 // CompetitorsCommand returns the "competitors" subcommand.
 func CompetitorsCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso competitors", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso competitors", flag.ContinueOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 
 	return &ffcli.Command{

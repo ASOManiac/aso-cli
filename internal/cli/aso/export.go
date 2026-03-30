@@ -16,7 +16,7 @@ import (
 
 // ExportCommand returns the "export" subcommand.
 func ExportCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso export", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso export", flag.ContinueOnError)
 	dataType := fs.String("type", "", "Data type to export: rankings, keywords, or apps (required)")
 	format := fs.String("format", "json", "Output format: json or csv")
 

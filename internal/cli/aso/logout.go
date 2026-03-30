@@ -16,7 +16,7 @@ import (
 
 // LogoutCommand returns the "logout" subcommand that removes stored credentials.
 func LogoutCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso auth maniac logout", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso auth maniac logout", flag.ContinueOnError)
 	return &ffcli.Command{
 		Name:       "logout",
 		ShortUsage: "aso auth maniac logout",

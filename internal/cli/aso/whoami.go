@@ -15,7 +15,7 @@ import (
 
 // WhoamiCommand returns the "whoami" subcommand that displays the current user.
 func WhoamiCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso auth maniac whoami", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso auth maniac whoami", flag.ContinueOnError)
 	return &ffcli.Command{
 		Name:       "whoami",
 		ShortUsage: "aso auth maniac whoami",

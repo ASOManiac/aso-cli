@@ -17,7 +17,7 @@ import (
 
 // StatusCommand returns the "status" subcommand that checks auth and API health.
 func StatusCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso auth maniac status", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso auth maniac status", flag.ContinueOnError)
 	return &ffcli.Command{
 		Name:       "status",
 		ShortUsage: "aso auth maniac status",

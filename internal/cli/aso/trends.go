@@ -16,7 +16,7 @@ import (
 
 // TrendsCommand returns the "trends" subcommand.
 func TrendsCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso trends", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso trends", flag.ContinueOnError)
 	appID := fs.String("app-id", "", "App Store app ID (required)")
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 	from := fs.String("from", "", "Start date (YYYY-MM-DD)")

@@ -26,7 +26,7 @@ var openBrowserFunc = openBrowser
 
 // LoginCommand returns the "login" subcommand for ASO Maniac authentication.
 func LoginCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso auth maniac login", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso auth maniac login", flag.ContinueOnError)
 	apiKey := fs.String("api-key", "", "Set API key directly instead of opening the browser")
 	return &ffcli.Command{
 		Name:       "login",

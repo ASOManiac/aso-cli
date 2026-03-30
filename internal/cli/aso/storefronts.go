@@ -15,7 +15,7 @@ import (
 
 // StorefrontsCommand returns the "storefronts" subcommand.
 func StorefrontsCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso storefronts", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso storefronts", flag.ContinueOnError)
 	return &ffcli.Command{
 		Name:       "storefronts",
 		ShortUsage: "aso storefronts",

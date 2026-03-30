@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"os"
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
@@ -14,7 +13,7 @@ import (
 // ManiacAuthCommand returns the "maniac" subcommand for aso auth, grouping
 // ASO Maniac authentication commands (login, logout, whoami, status).
 func ManiacAuthCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso auth maniac", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso auth maniac", flag.ContinueOnError)
 	return &ffcli.Command{
 		Name:       "maniac",
 		ShortUsage: "aso auth maniac <subcommand> [flags]",
@@ -39,10 +38,9 @@ Key resolution order: ASO_MANIAC_API_KEY env var > ~/.asomaniac/config.json.`,
 		},
 		Exec: func(ctx context.Context, args []string) error {
 			if len(args) == 0 {
-				return flag.ErrHelp
+				return fmt.Errorf("missing subcommand. Run 'aso auth maniac --help' for usage")
 			}
-			fmt.Fprintf(os.Stderr, "Unknown subcommand: %s\n\n", args[0])
-			return flag.ErrHelp
+			return fmt.Errorf("unknown subcommand %q. Run 'aso auth maniac --help' for usage", args[0])
 		},
 	}
 }

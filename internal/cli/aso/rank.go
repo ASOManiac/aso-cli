@@ -17,7 +17,7 @@ import (
 
 // RankCommand returns the "rank" subcommand with track and history.
 func RankCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso rank", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso rank", flag.ContinueOnError)
 	return &ffcli.Command{
 		Name:       "rank",
 		ShortUsage: "aso rank <subcommand> [flags]",
@@ -35,16 +35,15 @@ Subcommands:
 		},
 		Exec: func(ctx context.Context, args []string) error {
 			if len(args) == 0 {
-				return flag.ErrHelp
+				return fmt.Errorf("missing subcommand. Run 'aso rank --help' for usage")
 			}
-			fmt.Fprintf(os.Stderr, "Unknown subcommand: %s\n\n", args[0])
-			return flag.ErrHelp
+			return fmt.Errorf("unknown subcommand %q. Run 'aso rank --help' for usage", args[0])
 		},
 	}
 }
 
 func rankTrackCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso rank track", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso rank track", flag.ContinueOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 	keywords := fs.String("keywords", "", "Comma-separated keywords to track")
 
@@ -90,7 +89,7 @@ func runRankTrack(ctx context.Context, configPath, appID, storefront string, key
 }
 
 func rankHistoryCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso rank history", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso rank history", flag.ContinueOnError)
 	keywordID := fs.String("keyword-id", "", "Keyword ID to get rank history for (required)")
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 	from := fs.String("from", "", "Start date YYYY-MM-DD (required)")

@@ -17,7 +17,7 @@ import (
 
 // KeywordsCommand returns the "keywords" subcommand with analyze, recommend, and batch.
 func KeywordsCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso keywords", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso keywords", flag.ContinueOnError)
 	return &ffcli.Command{
 		Name:       "keywords",
 		ShortUsage: "aso keywords <subcommand> [flags]",
@@ -37,16 +37,15 @@ Subcommands:
 		},
 		Exec: func(ctx context.Context, args []string) error {
 			if len(args) == 0 {
-				return flag.ErrHelp
+				return fmt.Errorf("missing subcommand. Run 'aso keywords --help' for usage")
 			}
-			fmt.Fprintf(os.Stderr, "Unknown subcommand: %s\n\n", args[0])
-			return flag.ErrHelp
+			return fmt.Errorf("unknown subcommand %q. Run 'aso keywords --help' for usage", args[0])
 		},
 	}
 }
 
 func keywordsAnalyzeCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso keywords analyze", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso keywords analyze", flag.ContinueOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 	fields := fs.String("fields", "", "Comma-separated fields: popularity,difficulty,topApps,relatedSearches")
 
@@ -94,7 +93,7 @@ func runKeywordsAnalyze(ctx context.Context, configPath string, keywords []strin
 }
 
 func keywordsRecommendCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso keywords recommend", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso keywords recommend", flag.ContinueOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 	limit := fs.Int("limit", 50, "Maximum number of recommendations")
 
@@ -137,7 +136,7 @@ func runKeywordsRecommend(ctx context.Context, configPath string, seed, storefro
 }
 
 func keywordsBatchCommand() *ffcli.Command {
-	fs := flag.NewFlagSet("aso keywords batch", flag.ExitOnError)
+	fs := flag.NewFlagSet("aso keywords batch", flag.ContinueOnError)
 	storefronts := fs.String("storefronts", "US", "Comma-separated storefront codes")
 
 	return &ffcli.Command{
