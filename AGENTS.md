@@ -2,9 +2,20 @@
 
 Unofficial, fast, lightweight, agent-assisted, reviewer-owned CLI for the App Store Connect API. Built in Go with [ffcli](https://github.com/peterbourgon/ff).
 
-## asc skills
+## Two Command Families
 
-Agent Skills for automating `asc` workflows including builds, TestFlight, metadata sync, submissions, and signing. https://github.com/rudrankriyam/app-store-connect-cli-skills
+The CLI has two distinct command families under one binary (`aso`):
+
+| Family | Prefix | Auth | Purpose |
+|--------|--------|------|---------|
+| **App Store Connect** | `aso builds`, `aso apps`, etc. | ASC API Key (.p8 JWT) | Full ASC API access (builds, TestFlight, metadata, submissions) |
+| **ASO Maniac** | `aso maniac` | asomaniac.com API key | AI-powered keyword intelligence, rank tracking, competitor analysis |
+
+Both families share the same binary, flags system, and output conventions.
+
+## aso skills
+
+Agent Skills for automating `aso` workflows including builds, TestFlight, metadata sync, submissions, and signing. https://github.com/ASOManiac/aso-cli-skills
 
 ## Core Principles
 
@@ -15,15 +26,119 @@ Agent Skills for automating `asc` workflows including builds, TestFlight, metada
 
 ## Discovering Commands
 
-**Before implementing or testing any command, run `--help` to confirm the exact interface.** The CLI is self-documenting:
+**Before implementing, testing, or using any command, run `--help` to confirm the exact interface.** The CLI is self-documenting:
 
 ```bash
-asc --help                    # List all commands
-asc builds --help             # List builds subcommands
-asc builds list --help        # Show all flags for a command
+aso --help                    # List all top-level commands and command groups
+aso builds --help             # List builds subcommands
+aso builds list --help        # Show all flags for a command
+aso maniac --help             # List all ASO Maniac subcommands
+aso maniac keywords --help    # List keyword subcommands
 ```
 
 Do not memorize commands. Always check `--help` for the current interface.
+
+### Schema Inspector (Self-Discovery for Agents)
+
+The `aso schema` command lets agents discover App Store Connect API endpoints at runtime without pre-stuffed documentation:
+
+```bash
+aso schema apps                           # All endpoints matching "apps"
+aso schema "GET /v1/apps"                 # Exact method+path match
+aso schema apps.list                      # Dot-notation query
+aso schema --method POST apps             # Only POST endpoints for apps
+aso schema --list                         # List all 1200+ endpoints
+aso schema --list --method DELETE          # List all DELETE endpoints
+aso schema "builds" --pretty              # Pretty-print results
+```
+
+Returns machine-readable JSON with parameters, request attributes, and response schema names. Use this whenever you need to know what fields, filters, or parameters an endpoint accepts.
+
+### When You Don't Know What to Do
+
+If you encounter an unfamiliar command, flag, or workflow:
+
+1. **Run `--help`** on the command or parent command to see available subcommands and flags
+2. **Run `aso schema`** to discover API endpoints and their parameters
+3. **Check `docs/COMMANDS.md`** for the full generated command reference
+4. **Check `docs/openapi/latest.json`** for raw API schema details
+
+Never guess at flag names or command structure. The CLI is the source of truth for its own interface.
+
+## ASO Maniac Commands
+
+Premium ASO commands powered by [asomaniac.com](https://asomaniac.com).
+
+### Authentication (3 methods)
+
+```bash
+# Method 1: Browser OAuth (interactive)
+aso maniac login
+
+# Method 2: Direct API key (CI/scripts/dashboard)
+aso maniac login --api-key asm_k_abc123
+
+# Method 3: Environment variable (CI pipelines, Docker, automation)
+export ASO_MANIAC_API_KEY=asm_k_abc123
+```
+
+**Key resolution order**: `ASO_MANIAC_API_KEY` env var > `~/.asomaniac/config.json` file.
+
+### Available Commands
+
+| Command | Description | Auth Required |
+|---------|-------------|---------------|
+| `aso maniac login` | Sign in via browser OAuth or `--api-key` | No |
+| `aso maniac logout` | Remove stored credentials | No |
+| `aso maniac status` | Check connection, auth health, and key source | Yes |
+| `aso maniac whoami` | Show account, plan, and API usage stats | Yes |
+| `aso maniac keywords analyze` | Score keyword popularity, difficulty, top apps | Yes |
+| `aso maniac keywords recommend` | AI-powered keyword suggestions from a seed | Yes |
+| `aso maniac keywords batch` | Analyze multiple keywords across storefronts | Yes |
+| `aso maniac competitors <appId>` | Competitor keyword overlap analysis | Yes |
+| `aso maniac trends <keyword>` | Historical keyword popularity trends | Yes |
+| `aso maniac rank track` | Start tracking keyword rankings for an app | Yes |
+| `aso maniac rank history` | View historical rank positions | Yes |
+| `aso maniac dashboard` | Portfolio overview (apps, rank changes, alerts) | Yes |
+| `aso maniac export` | Download data as CSV, JSON, or TSV | Yes |
+| `aso maniac storefronts` | List all 60+ supported storefront codes | No |
+
+### Common Flags
+
+| Flag | Used By | Purpose |
+|------|---------|---------|
+| `--storefront` | keywords, competitors, trends | App Store country code (default: US) |
+| `--api-key` | login | Set API key directly |
+| `--from`, `--to` | trends | Date range (YYYY-MM-DD) |
+| `--format` | export | Output format: json or csv |
+| `--type` | export | Data type: rankings, keywords, or apps |
+
+### Example Workflows
+
+```bash
+# Keyword research workflow
+aso maniac keywords analyze camera --storefront US
+aso maniac keywords recommend "security camera" --storefront US
+aso maniac keywords batch camera,photo,security --storefront US,GB,DE
+
+# Competitor analysis
+aso maniac competitors 123456789 --storefront US
+
+# Trend spotting
+aso maniac trends camera photo --storefront US --from 2026-01-01
+
+# Rank tracking
+aso maniac rank track --app 123456789 --keywords camera,security
+aso maniac rank history --app 123456789 --keyword camera
+
+# Data export
+aso maniac export --type rankings --format csv
+aso maniac export --type keywords --format json
+
+# Account info
+aso maniac status
+aso maniac whoami
+```
 
 ## Documentation
 
@@ -97,9 +212,9 @@ Canonical test rule: all test runs must use `ASC_BYPASS_KEYCHAIN=1` to avoid hos
 - For new features, begin with CLI-level tests (flags, output, errors) and add unit tests for core logic.
 - Verify the test fails for the right reason before implementing; keep tests green incrementally.
 - **Test realistic CLI invocation patterns**, not invented happy paths. For example, when testing argument parsing, always consider:
-  - Flags before subcommands: `asc --flag subcmd` vs `asc subcmd --flag`
-  - Flag values that look like subcommands: `asc --report junit completion`
-  - Multiple flags with values: `asc -a val1 -b val2 subcmd`
+  - Flags before subcommands: `aso --flag subcmd` vs `aso subcmd --flag`
+  - Flag values that look like subcommands: `aso --report junit completion`
+  - Multiple flags with values: `aso -a val1 -b val2 subcmd`
 - **Model tests on actual CLI usage**, not assumed patterns. Check `--help` output to understand real command structure before writing tests.
 
 ## Debugging & Bug Fixing
@@ -115,7 +230,7 @@ Canonical test rule: all test runs must use `ASC_BYPASS_KEYCHAIN=1` to avoid hos
 - **Isolate test auth/env state**: Tests that touch auth must set/clear relevant env vars (`ASC_BYPASS_KEYCHAIN`, `ASC_PROFILE`, `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_PRIVATE_KEY_PATH`, `ASC_PRIVATE_KEY`, `ASC_PRIVATE_KEY_B64`, `ASC_STRICT_AUTH`) locally and restore exact original state.
 - **Local test command**: When running repository tests manually, use `ASC_BYPASS_KEYCHAIN=1 make test` to prevent macOS keychain profile prompts from host environment bleed-through.
 - **Strict skip policy**: `t.Skip` is allowed only for specific, documented, reproducible conditions (exact error code/condition). Generic skip patterns are not allowed.
-- **Use proper workflow**: Branch → change → test → PR. Not: main → change → push.
+- **Use proper workflow**: Branch -> change -> test -> PR. Not: main -> change -> push.
 
 ## Definition of Done (Single-Pass)
 
@@ -131,13 +246,13 @@ Canonical test rule: all test runs must use `ASC_BYPASS_KEYCHAIN=1` to avoid hos
   - For JSON/XML output tests, parse output (`json.Unmarshal`/`xml.Unmarshal`) instead of relying only on string matching.
   - For report/artifact file outputs, test both successful write and write-failure behavior.
   - Verify CLI exit behavior using a built binary (not only `go run`) for black-box checks:
-    - `go build -o /tmp/asc .`
-    - run `/tmp/asc ...` and assert exit code + stderr/stdout
+    - `go build -o /tmp/aso .`
+    - run `/tmp/aso ...` and assert exit code + stderr/stdout
   - For any new/changed API-facing flag (query params or request attributes), cross-check `docs/openapi/latest.json` to ensure:
     - the attribute exists in the correct request schema (create-only vs update-only is common)
     - the query parameter is permitted for that endpoint (top-level vs relationship endpoints can differ)
     - if the API doesn't support it, don't ship a flag; implement client-side behavior or document the limitation explicitly
-  - If the change depends on ASC API quirks and you have credentials available locally, run a minimal live smoke test with a built binary (`/tmp/asc`).
+  - If the change depends on ASC API quirks and you have credentials available locally, run a minimal live smoke test with a built binary (`/tmp/aso`).
     - Prefer read-only commands first; for write operations, use a throwaway app/resource and clean up (create-then-delete).
 - Before opening/updating a PR, always run:
   - `make format`
@@ -191,12 +306,26 @@ A change is not done if the reviewer cannot explain command behavior and trade-o
 - For outbound HTTP, use `shared.ContextWithTimeout` (or `shared.ContextWithUploadTimeout`) so `ASC_TIMEOUT` applies.
 - Validate required flags and assert stderr error messages in tests (not just `flag.ErrHelp`).
 - Add `internal/cli/cmdtest` coverage for new commands; use `httptest` for network payload tests.
+- ASO Maniac commands live in `internal/cli/aso/` and use `internal/asomaniac/` for client/config.
 
 ## Authentication
 
+The CLI supports two independent auth systems:
+
+### App Store Connect Auth
 API keys are generated at https://appstoreconnect.apple.com/access/integrations/api and stored in the system keychain (with local config fallback). Never commit keys to version control.
 
+### ASO Maniac Auth
+API keys are obtained from https://asomaniac.com/dashboard/settings. Three methods:
+1. **Browser OAuth**: `aso maniac login` (interactive)
+2. **Direct key**: `aso maniac login --api-key asm_k_...` (saved to `~/.asomaniac/config.json`)
+3. **Env var**: `ASO_MANIAC_API_KEY=asm_k_...` (overrides config file, ideal for CI)
+
+Resolution chain: env var > config file. Use `aso maniac status` to check which source is active.
+
 ## Environment Variables
+
+### App Store Connect
 
 | Variable | Purpose |
 |----------|---------|
@@ -215,6 +344,12 @@ API keys are generated at https://appstoreconnect.apple.com/access/integrations/
 When `ASC_DEFAULT_OUTPUT` is unset, defaults are TTY-aware (`table` in terminals, `json` for non-interactive output).
 Explicit `--output` flags always override `ASC_DEFAULT_OUTPUT` and TTY-aware defaults.
 
+### ASO Maniac
+
+| Variable | Purpose |
+|----------|---------|
+| `ASO_MANIAC_API_KEY` | API key override (takes precedence over config file) |
+
 ## References
 
 Detailed guidance on specific topics (only read when needed):
@@ -224,3 +359,4 @@ Detailed guidance on specific topics (only read when needed):
 - **Git workflow, CLI structure, adding features**: `docs/CONTRIBUTING.md`
 - **API quirks (analytics, finance, sandbox)**: `docs/API_NOTES.md`
 - **Development setup, PRs**: `CONTRIBUTING.md` (root)
+- **Full command reference**: `docs/COMMANDS.md` (auto-generated, 74 commands)
