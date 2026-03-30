@@ -32,10 +32,11 @@ Examples:
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
-			if len(args) == 0 {
+			positional := resolveArgs(fs, args, false)
+			if len(positional) == 0 {
 				return fmt.Errorf("app ID is required")
 			}
-			return runCompetitors(ctx, asomaniac.DefaultConfigPath(), args[0], *storefront, os.Stdout)
+			return runCompetitors(ctx, asomaniac.DefaultConfigPath(), positional[0], *storefront, os.Stdout)
 		},
 	}
 }

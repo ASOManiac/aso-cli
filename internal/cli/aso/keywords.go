@@ -64,14 +64,15 @@ Examples:
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
-			if len(args) == 0 {
+			keywords := resolveArgs(fs, args, true)
+			if len(keywords) == 0 {
 				return fmt.Errorf("at least one keyword is required")
 			}
 			var fieldSlice []string
 			if *fields != "" {
 				fieldSlice = strings.Split(*fields, ",")
 			}
-			return runKeywordsAnalyze(ctx, asomaniac.DefaultConfigPath(), args, *storefront, fieldSlice, os.Stdout)
+			return runKeywordsAnalyze(ctx, asomaniac.DefaultConfigPath(), keywords, *storefront, fieldSlice, os.Stdout)
 		},
 	}
 }
@@ -110,10 +111,11 @@ Examples:
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
-			if len(args) == 0 {
+			positional := resolveArgs(fs, args, false)
+			if len(positional) == 0 {
 				return fmt.Errorf("seed keyword is required")
 			}
-			return runKeywordsRecommend(ctx, asomaniac.DefaultConfigPath(), args[0], *storefront, *limit, os.Stdout)
+			return runKeywordsRecommend(ctx, asomaniac.DefaultConfigPath(), positional[0], *storefront, *limit, os.Stdout)
 		},
 	}
 }
@@ -151,11 +153,12 @@ Examples:
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
-			if len(args) == 0 {
+			keywords := resolveArgs(fs, args, true)
+			if len(keywords) == 0 {
 				return fmt.Errorf("at least one keyword is required")
 			}
 			sfList := strings.Split(*storefronts, ",")
-			return runKeywordsBatch(ctx, asomaniac.DefaultConfigPath(), args, sfList, os.Stdout)
+			return runKeywordsBatch(ctx, asomaniac.DefaultConfigPath(), keywords, sfList, os.Stdout)
 		},
 	}
 }

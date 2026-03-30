@@ -60,14 +60,15 @@ Examples:
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
-			if len(args) == 0 {
+			positional := resolveArgs(fs, args, false)
+			if len(positional) == 0 {
 				return fmt.Errorf("app ID is required")
 			}
 			var kwList []string
 			if *keywords != "" {
 				kwList = strings.Split(*keywords, ",")
 			}
-			return runRankTrack(ctx, asomaniac.DefaultConfigPath(), args[0], *storefront, kwList, os.Stdout)
+			return runRankTrack(ctx, asomaniac.DefaultConfigPath(), positional[0], *storefront, kwList, os.Stdout)
 		},
 	}
 }
@@ -109,7 +110,8 @@ Examples:
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
-			if len(args) == 0 {
+			positional := resolveArgs(fs, args, false)
+			if len(positional) == 0 {
 				return fmt.Errorf("app ID is required")
 			}
 			if *keywordID == "" {
@@ -118,7 +120,7 @@ Examples:
 			if *from == "" || *to == "" {
 				return fmt.Errorf("--from and --to are required")
 			}
-			return runRankHistory(ctx, asomaniac.DefaultConfigPath(), args[0], *keywordID, *storefront, *from, *to, *granularity, *aggregation, os.Stdout)
+			return runRankHistory(ctx, asomaniac.DefaultConfigPath(), positional[0], *keywordID, *storefront, *from, *to, *granularity, *aggregation, os.Stdout)
 		},
 	}
 }

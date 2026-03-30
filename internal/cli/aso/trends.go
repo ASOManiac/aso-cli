@@ -36,13 +36,14 @@ Examples:
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
+			keywords := resolveArgs(fs, args, true)
 			if *appID == "" {
 				return fmt.Errorf("--app-id is required")
 			}
-			if len(args) == 0 {
+			if len(keywords) == 0 {
 				return fmt.Errorf("at least one keyword is required")
 			}
-			return runTrends(ctx, asomaniac.DefaultConfigPath(), args, *storefront, *appID, *from, *to, os.Stdout)
+			return runTrends(ctx, asomaniac.DefaultConfigPath(), keywords, *storefront, *appID, *from, *to, os.Stdout)
 		},
 	}
 }
