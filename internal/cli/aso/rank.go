@@ -90,41 +90,46 @@ func runRankTrack(ctx context.Context, configPath, appID, storefront string, key
 
 func rankHistoryCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("aso rank history", flag.ExitOnError)
-	keyword := fs.String("keyword", "", "Keyword to get rank history for (required)")
+	keywordID := fs.String("keyword-id", "", "Keyword ID to get rank history for (required)")
 	storefront := fs.String("storefront", "US", "App Store storefront code")
-	from := fs.String("from", "", "Start date (YYYY-MM-DD)")
-	to := fs.String("to", "", "End date (YYYY-MM-DD)")
+	from := fs.String("from", "", "Start date YYYY-MM-DD (required)")
+	to := fs.String("to", "", "End date YYYY-MM-DD (required)")
+	granularity := fs.String("granularity", "day", "Time granularity: day, week, or month")
+	aggregation := fs.String("aggregation", "avg", "Aggregation function: avg, min, or max")
 
 	return &ffcli.Command{
 		Name:       "history",
-		ShortUsage: "aso rank history <appId> --keyword camera [flags]",
+		ShortUsage: "aso rank history <appId> --keyword-id <id> --from <date> --to <date> [flags]",
 		ShortHelp:  "View historical rank data for an app's keyword.",
 		LongHelp: `View rank history for a tracked app and keyword.
 
 Examples:
-  aso rank history 123456789 --keyword camera
-  aso rank history 123456789 --keyword vpn --from 2026-01-01 --to 2026-03-01`,
+  aso rank history 123456789 --keyword-id kw_abc --from 2026-01-01 --to 2026-03-01
+  aso rank history 123456789 --keyword-id kw_abc --from 2026-01-01 --to 2026-03-01 --granularity week`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
 			if len(args) == 0 {
 				return fmt.Errorf("app ID is required")
 			}
-			if *keyword == "" {
-				return fmt.Errorf("--keyword is required")
+			if *keywordID == "" {
+				return fmt.Errorf("--keyword-id is required")
 			}
-			return runRankHistory(ctx, asomaniac.DefaultConfigPath(), args[0], *keyword, *storefront, *from, *to, os.Stdout)
+			if *from == "" || *to == "" {
+				return fmt.Errorf("--from and --to are required")
+			}
+			return runRankHistory(ctx, asomaniac.DefaultConfigPath(), args[0], *keywordID, *storefront, *from, *to, *granularity, *aggregation, os.Stdout)
 		},
 	}
 }
 
-func runRankHistory(ctx context.Context, configPath, appID, keyword, storefront, from, to string, w io.Writer) error {
+func runRankHistory(ctx context.Context, configPath, appID, keywordID, storefront, from, to, granularity, aggregation string, w io.Writer) error {
 	client, err := requireAuth(configPath)
 	if err != nil {
 		return err
 	}
 
-	result, err := client.GetRankHistory(ctx, appID, keyword, storefront, from, to)
+	result, err := client.GetRankHistory(ctx, appID, keywordID, storefront, from, to, granularity, aggregation)
 	if err != nil {
 		return fmt.Errorf("get rank history: %w", err)
 	}

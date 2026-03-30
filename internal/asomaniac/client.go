@@ -233,7 +233,7 @@ func (c *Client) TrackApp(ctx context.Context, appID, storefront string, keyword
 		Storefront: storefront,
 		Keywords:   keywords,
 	}
-	resp, err := c.do(ctx, http.MethodPost, "/portfolio/track", body)
+	resp, err := c.do(ctx, http.MethodPost, "/apps/track", body)
 	if err != nil {
 		return nil, err
 	}
@@ -242,23 +242,30 @@ func (c *Client) TrackApp(ctx context.Context, appID, storefront string, keyword
 
 // GetDashboard fetches the portfolio dashboard overview.
 func (c *Client) GetDashboard(ctx context.Context) (*PortfolioDashboard, error) {
-	resp, err := c.do(ctx, http.MethodGet, "/portfolio/dashboard", nil)
+	resp, err := c.do(ctx, http.MethodGet, "/dashboard", nil)
 	if err != nil {
 		return nil, err
 	}
 	return decodeResponse[PortfolioDashboard](resp)
 }
 
+// ExportRequestBody is the JSON body for the export endpoint.
+type ExportRequestBody struct {
+	Format  string            `json:"format"`
+	Type    string            `json:"type"`
+	Filters map[string]string `json:"filters,omitempty"`
+}
+
 // Export exports data in the specified format.
 // dataType is one of: rankings, keywords, apps.
 // filters is reserved for future use and may be nil.
 func (c *Client) Export(ctx context.Context, format, dataType string, filters map[string]string) (*ExportResult, error) {
-	path := fmt.Sprintf("/export?format=%s&type=%s",
-		url.QueryEscape(format), url.QueryEscape(dataType))
-	for k, v := range filters {
-		path += fmt.Sprintf("&%s=%s", url.QueryEscape(k), url.QueryEscape(v))
+	body := ExportRequestBody{
+		Format:  format,
+		Type:    dataType,
+		Filters: filters,
 	}
-	resp, err := c.do(ctx, http.MethodGet, path, nil)
+	resp, err := c.do(ctx, http.MethodPost, "/export", body)
 	if err != nil {
 		return nil, err
 	}
@@ -266,12 +273,12 @@ func (c *Client) Export(ctx context.Context, format, dataType string, filters ma
 }
 
 // GetTrends fetches popularity trends for keywords.
-// from and to are optional date strings (YYYY-MM-DD); pass "" to omit.
-func (c *Client) GetTrends(ctx context.Context, keywords []string, storefront, from, to string) ([]TrendResult, error) {
+// appID is the App Store ID; from and to are optional date strings (YYYY-MM-DD); pass "" to omit.
+func (c *Client) GetTrends(ctx context.Context, keywords []string, storefront, appID, from, to string) ([]TrendResult, error) {
 	results := make([]TrendResult, 0, len(keywords))
 	for _, kw := range keywords {
-		path := fmt.Sprintf("/keywords/trends?keyword=%s&storefront=%s",
-			url.QueryEscape(kw), url.QueryEscape(storefront))
+		path := fmt.Sprintf("/trends?keyword=%s&storefront=%s&appId=%s",
+			url.QueryEscape(kw), url.QueryEscape(storefront), url.QueryEscape(appID))
 		if from != "" {
 			path += "&from=" + url.QueryEscape(from)
 		}
@@ -292,16 +299,13 @@ func (c *Client) GetTrends(ctx context.Context, keywords []string, storefront, f
 }
 
 // GetRankHistory fetches rank history for a tracked app's keyword.
-// from and to are optional date strings (YYYY-MM-DD); pass "" to omit.
-func (c *Client) GetRankHistory(ctx context.Context, appID, keyword, storefront, from, to string) (*RankHistory, error) {
-	path := fmt.Sprintf("/portfolio/rank-history?appId=%s&keyword=%s&storefront=%s",
-		url.QueryEscape(appID), url.QueryEscape(keyword), url.QueryEscape(storefront))
-	if from != "" {
-		path += "&from=" + url.QueryEscape(from)
-	}
-	if to != "" {
-		path += "&to=" + url.QueryEscape(to)
-	}
+// from and to are date strings (YYYY-MM-DD). granularity is "day", "week", or "month".
+// aggregation is "avg", "min", or "max".
+func (c *Client) GetRankHistory(ctx context.Context, appID, keywordID, storefront, from, to, granularity, aggregation string) (*RankHistory, error) {
+	path := fmt.Sprintf("/timeseries/rankings?appId=%s&keywordId=%s&storefront=%s&startDate=%s&endDate=%s&granularity=%s&aggregation=%s",
+		url.QueryEscape(appID), url.QueryEscape(keywordID), url.QueryEscape(storefront),
+		url.QueryEscape(from), url.QueryEscape(to),
+		url.QueryEscape(granularity), url.QueryEscape(aggregation))
 	resp, err := c.do(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
