@@ -64,7 +64,7 @@ func TestCompetitorsJSON(t *testing.T) {
 	}
 
 	var buf bytes.Buffer
-	err := runCompetitors(context.Background(), configPath, "111", "US", &buf)
+	err := runCompetitors(context.Background(), configPath, "111", "US", nil, &buf)
 	if err != nil {
 		t.Fatalf("runCompetitors: %v", err)
 	}
@@ -89,7 +89,7 @@ func TestCompetitorsRequiresAuth(t *testing.T) {
 	configPath := filepath.Join(t.TempDir(), "nonexistent", "config.json")
 
 	var buf bytes.Buffer
-	err := runCompetitors(context.Background(), configPath, "111", "US", &buf)
+	err := runCompetitors(context.Background(), configPath, "111", "US", nil, &buf)
 	if err == nil {
 		t.Fatal("expected error for unauthenticated user, got nil")
 	}

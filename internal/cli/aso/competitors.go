@@ -2,8 +2,7 @@ package aso
 
 import (
 	"context"
-	"encoding/json"
-	"flag"
+"flag"
 	"fmt"
 	"io"
 	"os"
@@ -18,6 +17,7 @@ import (
 func CompetitorsCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("aso competitors", flag.ContinueOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
+	exclude := fs.String("exclude", "", "Comma-separated fields to hide from output (e.g. keywordOverlap)")
 
 	return &ffcli.Command{
 		Name:       "competitors",
@@ -28,7 +28,8 @@ keywords, ranking positions, and keyword overlap.
 
 Examples:
   aso competitors 123456789
-  aso competitors 123456789 --storefront GB`,
+  aso competitors 123456789 --storefront GB
+  aso competitors 123456789 --exclude keywordOverlap`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -36,12 +37,12 @@ Examples:
 			if len(positional) == 0 {
 				return fmt.Errorf("app ID is required")
 			}
-			return runCompetitors(ctx, asomaniac.DefaultConfigPath(), positional[0], *storefront, os.Stdout)
+			return runCompetitors(ctx, asomaniac.DefaultConfigPath(), positional[0], *storefront, parseExclude(*exclude), os.Stdout)
 		},
 	}
 }
 
-func runCompetitors(ctx context.Context, configPath, appID, storefront string, w io.Writer) error {
+func runCompetitors(ctx context.Context, configPath, appID, storefront string, exclude []string, w io.Writer) error {
 	client, err := requireAuth(configPath)
 	if err != nil {
 		return err
@@ -52,7 +53,5 @@ func runCompetitors(ctx context.Context, configPath, appID, storefront string, w
 		return fmt.Errorf("get competitors: %w", err)
 	}
 
-	enc := json.NewEncoder(w)
-	enc.SetIndent("", "  ")
-	return enc.Encode(result)
+	return writeJSON(w, result, exclude)
 }

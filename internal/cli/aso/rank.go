@@ -2,8 +2,7 @@ package aso
 
 import (
 	"context"
-	"encoding/json"
-	"flag"
+"flag"
 	"fmt"
 	"io"
 	"os"
@@ -46,6 +45,7 @@ func rankTrackCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("aso rank track", flag.ContinueOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 	keywords := fs.String("keywords", "", "Comma-separated keywords to track")
+	excludeTrack := fs.String("exclude", "", "Comma-separated fields to hide from output")
 
 	return &ffcli.Command{
 		Name:       "track",
@@ -67,12 +67,12 @@ Examples:
 			if *keywords != "" {
 				kwList = strings.Split(*keywords, ",")
 			}
-			return runRankTrack(ctx, asomaniac.DefaultConfigPath(), positional[0], *storefront, kwList, os.Stdout)
+			return runRankTrack(ctx, asomaniac.DefaultConfigPath(), positional[0], *storefront, kwList, parseExclude(*excludeTrack), os.Stdout)
 		},
 	}
 }
 
-func runRankTrack(ctx context.Context, configPath, appID, storefront string, keywords []string, w io.Writer) error {
+func runRankTrack(ctx context.Context, configPath, appID, storefront string, keywords, exclude []string, w io.Writer) error {
 	client, err := requireAuth(configPath)
 	if err != nil {
 		return err
@@ -83,9 +83,7 @@ func runRankTrack(ctx context.Context, configPath, appID, storefront string, key
 		return fmt.Errorf("track app: %w", err)
 	}
 
-	enc := json.NewEncoder(w)
-	enc.SetIndent("", "  ")
-	return enc.Encode(result)
+	return writeJSON(w, result, exclude)
 }
 
 func rankHistoryCommand() *ffcli.Command {
@@ -96,6 +94,7 @@ func rankHistoryCommand() *ffcli.Command {
 	to := fs.String("to", "", "End date YYYY-MM-DD (required)")
 	granularity := fs.String("granularity", "day", "Time granularity: day, week, or month")
 	aggregation := fs.String("aggregation", "avg", "Aggregation function: avg, min, or max")
+	excludeHist := fs.String("exclude", "", "Comma-separated fields to hide from output")
 
 	return &ffcli.Command{
 		Name:       "history",
@@ -119,12 +118,12 @@ Examples:
 			if *from == "" || *to == "" {
 				return fmt.Errorf("--from and --to are required")
 			}
-			return runRankHistory(ctx, asomaniac.DefaultConfigPath(), positional[0], *keywordID, *storefront, *from, *to, *granularity, *aggregation, os.Stdout)
+			return runRankHistory(ctx, asomaniac.DefaultConfigPath(), positional[0], *keywordID, *storefront, *from, *to, *granularity, *aggregation, parseExclude(*excludeHist), os.Stdout)
 		},
 	}
 }
 
-func runRankHistory(ctx context.Context, configPath, appID, keywordID, storefront, from, to, granularity, aggregation string, w io.Writer) error {
+func runRankHistory(ctx context.Context, configPath, appID, keywordID, storefront, from, to, granularity, aggregation string, exclude []string, w io.Writer) error {
 	client, err := requireAuth(configPath)
 	if err != nil {
 		return err
@@ -135,7 +134,5 @@ func runRankHistory(ctx context.Context, configPath, appID, keywordID, storefron
 		return fmt.Errorf("get rank history: %w", err)
 	}
 
-	enc := json.NewEncoder(w)
-	enc.SetIndent("", "  ")
-	return enc.Encode(result)
+	return writeJSON(w, result, exclude)
 }

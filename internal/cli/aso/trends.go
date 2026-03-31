@@ -2,8 +2,7 @@ package aso
 
 import (
 	"context"
-	"encoding/json"
-	"flag"
+"flag"
 	"fmt"
 	"io"
 	"os"
@@ -21,6 +20,7 @@ func TrendsCommand() *ffcli.Command {
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 	from := fs.String("from", "", "Start date (YYYY-MM-DD)")
 	to := fs.String("to", "", "End date (YYYY-MM-DD)")
+	exclude := fs.String("exclude", "", "Comma-separated fields to hide from output")
 
 	return &ffcli.Command{
 		Name:       "trends",
@@ -43,12 +43,12 @@ Examples:
 			if len(keywords) == 0 {
 				return fmt.Errorf("at least one keyword is required")
 			}
-			return runTrends(ctx, asomaniac.DefaultConfigPath(), keywords, *storefront, *appID, *from, *to, os.Stdout)
+			return runTrends(ctx, asomaniac.DefaultConfigPath(), keywords, *storefront, *appID, *from, *to, parseExclude(*exclude), os.Stdout)
 		},
 	}
 }
 
-func runTrends(ctx context.Context, configPath string, keywords []string, storefront, appID, from, to string, w io.Writer) error {
+func runTrends(ctx context.Context, configPath string, keywords []string, storefront, appID, from, to string, exclude []string, w io.Writer) error {
 	client, err := requireAuth(configPath)
 	if err != nil {
 		return err
@@ -59,7 +59,5 @@ func runTrends(ctx context.Context, configPath string, keywords []string, storef
 		return fmt.Errorf("get trends: %w", err)
 	}
 
-	enc := json.NewEncoder(w)
-	enc.SetIndent("", "  ")
-	return enc.Encode(results)
+	return writeJSON(w, results, exclude)
 }

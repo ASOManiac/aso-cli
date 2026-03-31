@@ -91,7 +91,7 @@ func TestKeywordsAnalyzeJSON(t *testing.T) {
 	}
 
 	var buf bytes.Buffer
-	err := runKeywordsAnalyze(context.Background(), configPath, []string{"camera", "photo"}, "US", nil, &buf)
+	err := runKeywordsAnalyze(context.Background(), configPath, []string{"camera", "photo"}, "US", nil, nil, &buf)
 	if err != nil {
 		t.Fatalf("runKeywordsAnalyze: %v", err)
 	}
@@ -127,7 +127,7 @@ func TestKeywordsAnalyzeRequiresAuth(t *testing.T) {
 	configPath := filepath.Join(t.TempDir(), "nonexistent", "config.json")
 
 	var buf bytes.Buffer
-	err := runKeywordsAnalyze(context.Background(), configPath, []string{"camera"}, "US", nil, &buf)
+	err := runKeywordsAnalyze(context.Background(), configPath, []string{"camera"}, "US", nil, nil, &buf)
 	if err == nil {
 		t.Fatal("expected error for unauthenticated user, got nil")
 	}
@@ -148,7 +148,7 @@ func TestKeywordsAnalyzeEmptyAPIKey(t *testing.T) {
 	}
 
 	var buf bytes.Buffer
-	err := runKeywordsAnalyze(context.Background(), configPath, []string{"camera"}, "US", nil, &buf)
+	err := runKeywordsAnalyze(context.Background(), configPath, []string{"camera"}, "US", nil, nil, &buf)
 	if err == nil {
 		t.Fatal("expected error for empty API key, got nil")
 	}

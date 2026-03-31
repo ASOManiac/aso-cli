@@ -2,8 +2,7 @@ package aso
 
 import (
 	"context"
-	"encoding/json"
-	"flag"
+"flag"
 	"fmt"
 	"io"
 	"os"
@@ -17,6 +16,7 @@ import (
 // DashboardCommand returns the "dashboard" subcommand.
 func DashboardCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("aso dashboard", flag.ContinueOnError)
+	exclude := fs.String("exclude", "", "Comma-separated fields to hide from output")
 	return &ffcli.Command{
 		Name:       "dashboard",
 		ShortUsage: "aso dashboard",
@@ -29,12 +29,12 @@ Example:
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
-			return runDashboard(ctx, asomaniac.DefaultConfigPath(), os.Stdout)
+			return runDashboard(ctx, asomaniac.DefaultConfigPath(), parseExclude(*exclude), os.Stdout)
 		},
 	}
 }
 
-func runDashboard(ctx context.Context, configPath string, w io.Writer) error {
+func runDashboard(ctx context.Context, configPath string, exclude []string, w io.Writer) error {
 	client, err := requireAuth(configPath)
 	if err != nil {
 		return err
@@ -45,7 +45,5 @@ func runDashboard(ctx context.Context, configPath string, w io.Writer) error {
 		return fmt.Errorf("get dashboard: %w", err)
 	}
 
-	enc := json.NewEncoder(w)
-	enc.SetIndent("", "  ")
-	return enc.Encode(result)
+	return writeJSON(w, result, exclude)
 }

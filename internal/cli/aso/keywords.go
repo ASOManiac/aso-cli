@@ -2,7 +2,6 @@ package aso
 
 import (
 	"context"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -47,7 +46,8 @@ Subcommands:
 func keywordsAnalyzeCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("aso keywords analyze", flag.ContinueOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
-	fields := fs.String("fields", "", "Comma-separated fields: popularity,difficulty,topApps,relatedSearches")
+	fields := fs.String("fields", "", "Comma-separated fields to request from server: popularity,difficulty,topApps,relatedSearches")
+	exclude := fs.String("exclude", "", "Comma-separated fields to hide from output (e.g. topApps,relatedSearches)")
 
 	return &ffcli.Command{
 		Name:       "analyze",
@@ -59,7 +59,8 @@ score (0-100), difficulty score, competition data, and top-ranking apps.
 Examples:
   aso keywords analyze "photo editor"
   aso keywords analyze camera photo --storefront GB
-  aso keywords analyze vpn --fields popularity,difficulty`,
+  aso keywords analyze vpn --fields popularity,difficulty
+  aso keywords analyze camera --exclude topApps,relatedSearches`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -71,12 +72,12 @@ Examples:
 			if *fields != "" {
 				fieldSlice = strings.Split(*fields, ",")
 			}
-			return runKeywordsAnalyze(ctx, asomaniac.DefaultConfigPath(), keywords, *storefront, fieldSlice, os.Stdout)
+			return runKeywordsAnalyze(ctx, asomaniac.DefaultConfigPath(), keywords, *storefront, fieldSlice, parseExclude(*exclude), os.Stdout)
 		},
 	}
 }
 
-func runKeywordsAnalyze(ctx context.Context, configPath string, keywords []string, storefront string, fields []string, w io.Writer) error {
+func runKeywordsAnalyze(ctx context.Context, configPath string, keywords []string, storefront string, fields, exclude []string, w io.Writer) error {
 	client, err := requireAuth(configPath)
 	if err != nil {
 		return err
@@ -87,15 +88,14 @@ func runKeywordsAnalyze(ctx context.Context, configPath string, keywords []strin
 		return fmt.Errorf("analyze keywords: %w", err)
 	}
 
-	enc := json.NewEncoder(w)
-	enc.SetIndent("", "  ")
-	return enc.Encode(results)
+	return writeJSON(w, results, exclude)
 }
 
 func keywordsRecommendCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("aso keywords recommend", flag.ContinueOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 	limit := fs.Int("limit", 50, "Maximum number of recommendations")
+	exclude := fs.String("exclude", "", "Comma-separated fields to hide from output")
 
 	return &ffcli.Command{
 		Name:       "recommend",
@@ -106,7 +106,8 @@ keywords ranked by popularity and difficulty.
 
 Examples:
   aso keywords recommend "photo editor"
-  aso keywords recommend camera --storefront GB --limit 25`,
+  aso keywords recommend camera --storefront GB --limit 25
+  aso keywords recommend camera --exclude topApps`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -114,12 +115,12 @@ Examples:
 			if len(positional) == 0 {
 				return fmt.Errorf("seed keyword is required")
 			}
-			return runKeywordsRecommend(ctx, asomaniac.DefaultConfigPath(), positional[0], *storefront, *limit, os.Stdout)
+			return runKeywordsRecommend(ctx, asomaniac.DefaultConfigPath(), positional[0], *storefront, *limit, parseExclude(*exclude), os.Stdout)
 		},
 	}
 }
 
-func runKeywordsRecommend(ctx context.Context, configPath string, seed, storefront string, limit int, w io.Writer) error {
+func runKeywordsRecommend(ctx context.Context, configPath string, seed, storefront string, limit int, exclude []string, w io.Writer) error {
 	client, err := requireAuth(configPath)
 	if err != nil {
 		return err
@@ -130,14 +131,13 @@ func runKeywordsRecommend(ctx context.Context, configPath string, seed, storefro
 		return fmt.Errorf("get recommendations: %w", err)
 	}
 
-	enc := json.NewEncoder(w)
-	enc.SetIndent("", "  ")
-	return enc.Encode(results)
+	return writeJSON(w, results, exclude)
 }
 
 func keywordsBatchCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("aso keywords batch", flag.ContinueOnError)
 	storefronts := fs.String("storefronts", "US", "Comma-separated storefront codes")
+	exclude := fs.String("exclude", "", "Comma-separated fields to hide from output")
 
 	return &ffcli.Command{
 		Name:       "batch",
@@ -148,7 +148,8 @@ More efficient than calling analyze repeatedly.
 
 Examples:
   aso keywords batch camera photo vpn
-  aso keywords batch "photo editor" "video editor" --storefronts US,GB,DE`,
+  aso keywords batch "photo editor" "video editor" --storefronts US,GB,DE
+  aso keywords batch camera photo --exclude topApps`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
 		Exec: func(ctx context.Context, args []string) error {
@@ -157,12 +158,12 @@ Examples:
 				return fmt.Errorf("at least one keyword is required")
 			}
 			sfList := strings.Split(*storefronts, ",")
-			return runKeywordsBatch(ctx, asomaniac.DefaultConfigPath(), keywords, sfList, os.Stdout)
+			return runKeywordsBatch(ctx, asomaniac.DefaultConfigPath(), keywords, sfList, parseExclude(*exclude), os.Stdout)
 		},
 	}
 }
 
-func runKeywordsBatch(ctx context.Context, configPath string, keywords, storefronts []string, w io.Writer) error {
+func runKeywordsBatch(ctx context.Context, configPath string, keywords, storefronts, exclude []string, w io.Writer) error {
 	client, err := requireAuth(configPath)
 	if err != nil {
 		return err
@@ -173,7 +174,5 @@ func runKeywordsBatch(ctx context.Context, configPath string, keywords, storefro
 		return fmt.Errorf("batch analyze: %w", err)
 	}
 
-	enc := json.NewEncoder(w)
-	enc.SetIndent("", "  ")
-	return enc.Encode(result)
+	return writeJSON(w, result, exclude)
 }
