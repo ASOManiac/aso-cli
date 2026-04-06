@@ -18,10 +18,11 @@ import argparse
 import json
 import os
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 
-REPO = "rudrankriyam/App-Store-Connect-CLI"
+REPO = "ASOManiac/aso-cli"
 FORMULA = "aso"
 WRITEUP = "https://til.bhupesh.me/shell/get-download-stats-github-brew"
 
@@ -94,8 +95,16 @@ def github_release_asset_downloads() -> int:
 def homebrew_install_on_request() -> dict[str, int]:
     url = f"https://formulae.brew.sh/api/formula/{FORMULA}.json"
     req = urllib.request.Request(url, headers={"User-Agent": "asc-download-stats"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        data = json.load(r)
+    try:
+        with urllib.request.urlopen(req, timeout=30) as r:
+            data = json.load(r)
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            # Formula is in a custom tap (ASOManiac/homebrew-tap), not core Homebrew.
+            # Tap formulae don't have public analytics on formulae.brew.sh.
+            print(f"Homebrew: formula '{FORMULA}' not in core (404) — tap installs not tracked", file=sys.stderr)
+            return {"30d": 0, "90d": 0, "365d": 0}
+        raise
     ior = (data.get("analytics") or {}).get("install_on_request") or {}
     out = {}
     for window in ("30d", "90d", "365d"):
