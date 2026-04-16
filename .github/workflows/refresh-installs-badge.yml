@@ -9,9 +9,7 @@ on:
     types: [published]
 
 permissions:
-  actions: write
   contents: write
-  pull-requests: write
 
 concurrency:
   group: refresh-installs-badge
@@ -39,36 +37,15 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: python3 scripts/download_stats_total.py --write-badge docs/badges/installs-total.json
 
-      - name: Create or update badge refresh PR
-        id: create_pr
-        uses: peter-evans/create-pull-request@v8
-        with:
-          # Use PAT because the default GITHUB_TOKEN is blocked from
-          # creating PRs by the repo-level "Allow GitHub Actions to create
-          # and approve pull requests" setting.
-          token: ${{ secrets.TAP_GITHUB_TOKEN }}
-          add-paths: docs/badges/installs-total.json
-          base: main
-          branch: automation/refresh-installs-badge
-          commit-message: "chore: refresh estimated downloads badge"
-          delete-branch: true
-          title: "chore: refresh estimated downloads badge"
-          body: |
-            Automated refresh for `docs/badges/installs-total.json`.
-
-            This PR is created by the `refresh-installs-badge` workflow because
-            `main` is protected and badge updates must go through the normal PR checks.
-
-      - name: Dispatch PR checks for bot branch
-        if: steps.create_pr.outputs.pull-request-operation != 'none'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR_BRANCH: ${{ steps.create_pr.outputs.pull-request-branch }}
+      - name: Commit badge update to main
         run: |
-          curl --fail-with-body --location \
-            --request POST \
-            --header "Accept: application/vnd.github+json" \
-            --header "Authorization: Bearer ${GH_TOKEN}" \
-            --header "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/pr-checks.yml/dispatches" \
-            --data "{\"ref\":\"${PR_BRANCH}\"}"
+          if git diff --quiet docs/badges/installs-total.json; then
+            echo "Badge unchanged; nothing to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/badges/installs-total.json
+          git commit -m "chore: refresh estimated downloads badge"
+          git push origin main
