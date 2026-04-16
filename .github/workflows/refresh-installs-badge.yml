@@ -43,6 +43,10 @@ jobs:
         id: create_pr
         uses: peter-evans/create-pull-request@v8
         with:
+          # Use PAT because the default GITHUB_TOKEN is blocked from
+          # creating PRs by the repo-level "Allow GitHub Actions to create
+          # and approve pull requests" setting.
+          token: ${{ secrets.TAP_GITHUB_TOKEN }}
           add-paths: docs/badges/installs-total.json
           base: main
           branch: automation/refresh-installs-badge
