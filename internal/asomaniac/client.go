@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 // Client communicates with the ASO Maniac API.
@@ -18,12 +19,17 @@ type Client struct {
 	httpClient *http.Client
 }
 
+// DefaultHTTPTimeout is the default timeout for API requests.
+const DefaultHTTPTimeout = 30 * time.Second
+
 // NewClient creates a new API client with the given base URL and API key.
 func NewClient(baseURL, apiKey string) *Client {
 	return &Client{
-		baseURL:    strings.TrimRight(baseURL, "/"),
-		apiKey:     apiKey,
-		httpClient: http.DefaultClient,
+		baseURL: strings.TrimRight(baseURL, "/"),
+		apiKey:  apiKey,
+		httpClient: &http.Client{
+			Timeout: DefaultHTTPTimeout,
+		},
 	}
 }
 
