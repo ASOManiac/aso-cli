@@ -100,7 +100,7 @@ export ASO_MANIAC_API_KEY=asm_k_abc123
 | `aso rank track` | Start tracking keyword rankings for an app | Yes |
 | `aso rank history` | View historical rank positions | Yes |
 | `aso dashboard` | Portfolio overview (apps, rank changes, alerts) | Yes |
-| `aso export` | Download data as CSV, JSON, or TSV | Yes |
+| `aso export` | Download data as CSV or JSON | Yes |
 | `aso storefronts` | List all 60+ supported storefront codes | No |
 
 ### Common Flags
@@ -128,8 +128,8 @@ aso competitors 123456789 --storefront US
 aso trends camera photo --storefront US --from 2026-01-01
 
 # Rank tracking
-aso rank track --app 123456789 --keywords camera,security
-aso rank history --app 123456789 --keyword camera
+aso rank track 123456789 --keywords camera,security
+aso rank history 123456789 --keyword-id kw_abc --from 2026-01-01 --to 2026-03-01
 
 # Data export
 aso export --type rankings --format csv

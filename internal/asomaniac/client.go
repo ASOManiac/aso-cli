@@ -23,6 +23,10 @@ type Client struct {
 // DefaultHTTPTimeout is the default timeout for API requests.
 const DefaultHTTPTimeout = 30 * time.Second
 
+// Version is the CLI version string, set at initialization time.
+// Used in the User-Agent header. Defaults to "dev" if not set.
+var Version = "dev"
+
 // NewClient creates a new API client with the given base URL and API key.
 func NewClient(baseURL, apiKey string) *Client {
 	return &Client{
@@ -68,7 +72,7 @@ func (c *Client) do(ctx context.Context, method, path string, body any) (*http.R
 		req.Header.Set("Content-Type", "application/json")
 	}
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", "aso-cli")
+	req.Header.Set("User-Agent", "aso-cli/"+Version)
 
 	return c.httpClient.Do(req)
 }
@@ -96,7 +100,7 @@ func (c *Client) doAbsolute(ctx context.Context, method, absoluteURL string, bod
 		req.Header.Set("Content-Type", "application/json")
 	}
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", "aso-cli")
+	req.Header.Set("User-Agent", "aso-cli/"+Version)
 
 	return c.httpClient.Do(req)
 }

@@ -12,6 +12,7 @@ import (
 
 	"github.com/peterbourgon/ff/v3/ffcli"
 
+	"github.com/ASOManiac/aso-cli/internal/asomaniac"
 	"github.com/ASOManiac/aso-cli/internal/cli/install"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 	"github.com/ASOManiac/aso-cli/internal/cli/shared/errfmt"
@@ -23,6 +24,14 @@ var maybeCheckForSkillUpdates = install.MaybeCheckForSkillUpdates
 // It returns the intended process exit code.
 func Run(args []string, versionInfo string) int {
 	defer shared.CleanupTempPrivateKeys()
+
+	// Set the ASO Maniac client version for User-Agent headers.
+	// Extract the short version (e.g. "0.47.1") from the full info string.
+	if v, _, ok := strings.Cut(versionInfo, " "); ok {
+		asomaniac.Version = v
+	} else {
+		asomaniac.Version = versionInfo
+	}
 
 	// Fast path for the most common version check invocation. This avoids
 	// building/parsing the entire command tree just to print the version.
