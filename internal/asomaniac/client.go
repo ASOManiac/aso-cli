@@ -47,62 +47,111 @@ func NewClientFromConfig(cfg *Config) *Client {
 	return NewClient(base, cfg.APIKey)
 }
 
-// do executes an HTTP request and returns the response.
-func (c *Client) do(ctx context.Context, method, path string, body any) (*http.Response, error) {
-	u := c.baseURL + path
+// retryMaxAttempts is the maximum number of attempts (1 initial + 2 retries).
+const retryMaxAttempts = 3
 
-	var bodyReader io.Reader
-	if body != nil {
-		data, err := json.Marshal(body)
-		if err != nil {
-			return nil, fmt.Errorf("marshal request body: %w", err)
-		}
-		bodyReader = bytes.NewReader(data)
-	}
+// retryBaseDelay is the initial backoff delay before the first retry.
+const retryBaseDelay = 1 * time.Second
 
-	req, err := http.NewRequestWithContext(ctx, method, u, bodyReader)
-	if err != nil {
-		return nil, fmt.Errorf("create request: %w", err)
-	}
-
-	if c.apiKey != "" {
-		req.Header.Set("Authorization", "Bearer "+c.apiKey)
-	}
-	if body != nil {
-		req.Header.Set("Content-Type", "application/json")
-	}
-	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", "aso-cli/"+Version)
-
-	return c.httpClient.Do(req)
+// isRetryableStatus returns true for HTTP status codes that warrant a retry.
+func isRetryableStatus(code int) bool {
+	return code == http.StatusTooManyRequests || code == http.StatusBadGateway || code == http.StatusServiceUnavailable
 }
 
-// doAbsolute executes an HTTP request against an absolute URL (not relative to baseURL).
+// isRetryableError returns true for transient network/connection errors.
+func isRetryableError(err error) bool {
+	if err == nil {
+		return false
+	}
+	// Context cancellation/deadline should not be retried.
+	if ctx_err := context.Canceled; err == ctx_err {
+		return false
+	}
+	if ctx_err := context.DeadlineExceeded; err == ctx_err {
+		return false
+	}
+	// All other errors (connection refused, DNS, TLS, etc.) are retryable.
+	return true
+}
+
+// do executes an HTTP request with retry and returns the response.
+func (c *Client) do(ctx context.Context, method, path string, body any) (*http.Response, error) {
+	u := c.baseURL + path
+	return c.executeWithRetry(ctx, method, u, body)
+}
+
+// doAbsolute executes an HTTP request against an absolute URL with retry.
 func (c *Client) doAbsolute(ctx context.Context, method, absoluteURL string, body any) (*http.Response, error) {
-	var bodyReader io.Reader
+	return c.executeWithRetry(ctx, method, absoluteURL, body)
+}
+
+// executeWithRetry sends an HTTP request, retrying on transient failures.
+// Retries up to 2 times (3 total attempts) with exponential backoff (1s, 2s)
+// on 429, 502, 503 status codes or connection errors.
+func (c *Client) executeWithRetry(ctx context.Context, method, url string, body any) (*http.Response, error) {
+	var bodyData []byte
 	if body != nil {
-		data, err := json.Marshal(body)
+		var err error
+		bodyData, err = json.Marshal(body)
 		if err != nil {
 			return nil, fmt.Errorf("marshal request body: %w", err)
 		}
-		bodyReader = bytes.NewReader(data)
 	}
 
-	req, err := http.NewRequestWithContext(ctx, method, absoluteURL, bodyReader)
-	if err != nil {
-		return nil, fmt.Errorf("create request: %w", err)
+	var lastErr error
+	for attempt := range retryMaxAttempts {
+		if attempt > 0 {
+			delay := retryBaseDelay * time.Duration(1<<(attempt-1)) // 1s, 2s
+			select {
+			case <-ctx.Done():
+				return nil, ctx.Err()
+			case <-time.After(delay):
+			}
+		}
+
+		var bodyReader io.Reader
+		if bodyData != nil {
+			bodyReader = bytes.NewReader(bodyData)
+		}
+
+		req, err := http.NewRequestWithContext(ctx, method, url, bodyReader)
+		if err != nil {
+			return nil, fmt.Errorf("create request: %w", err)
+		}
+
+		if c.apiKey != "" {
+			req.Header.Set("Authorization", "Bearer "+c.apiKey)
+		}
+		if body != nil {
+			req.Header.Set("Content-Type", "application/json")
+		}
+		req.Header.Set("Accept", "application/json")
+		req.Header.Set("User-Agent", "aso-cli/"+Version)
+
+		resp, err := c.httpClient.Do(req)
+		if err != nil {
+			lastErr = err
+			if !isRetryableError(err) {
+				return nil, err
+			}
+			continue
+		}
+
+		if isRetryableStatus(resp.StatusCode) {
+			// On the last attempt, return the response so the caller can
+			// decode the API error body (e.g. RATE_LIMITED).
+			if attempt == retryMaxAttempts-1 {
+				return resp, nil
+			}
+			resp.Body.Close()
+			lastErr = fmt.Errorf("http %d", resp.StatusCode)
+			continue
+		}
+
+		return resp, nil
 	}
 
-	if c.apiKey != "" {
-		req.Header.Set("Authorization", "Bearer "+c.apiKey)
-	}
-	if body != nil {
-		req.Header.Set("Content-Type", "application/json")
-	}
-	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", "aso-cli/"+Version)
-
-	return c.httpClient.Do(req)
+	return nil, fmt.Errorf("request failed after %d attempts: %w", retryMaxAttempts, lastErr)
 }
 
 // decodeResponse reads the HTTP response, handles errors, and unmarshals the data.
