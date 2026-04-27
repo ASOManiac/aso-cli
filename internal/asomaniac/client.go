@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -278,28 +279,53 @@ func (c *Client) Export(ctx context.Context, format, dataType string, filters ma
 	return decodeResponse[ExportResult](resp)
 }
 
-// GetTrends fetches popularity trends for keywords.
+// trendsConcurrency is the maximum number of parallel trend requests.
+const trendsConcurrency = 5
+
+// GetTrends fetches popularity trends for keywords in parallel.
 // appID is the App Store ID; from and to are optional date strings (YYYY-MM-DD); pass "" to omit.
 func (c *Client) GetTrends(ctx context.Context, keywords []string, storefront, appID, from, to string) ([]TrendResult, error) {
-	results := make([]TrendResult, 0, len(keywords))
-	for _, kw := range keywords {
-		path := fmt.Sprintf("/trends?keyword=%s&storefront=%s&appId=%s",
-			url.QueryEscape(kw), url.QueryEscape(storefront), url.QueryEscape(appID))
-		if from != "" {
-			path += "&from=" + url.QueryEscape(from)
-		}
-		if to != "" {
-			path += "&to=" + url.QueryEscape(to)
-		}
-		resp, err := c.do(ctx, http.MethodGet, path, nil)
+	results := make([]TrendResult, len(keywords))
+	errs := make([]error, len(keywords))
+
+	sem := make(chan struct{}, trendsConcurrency)
+	var wg sync.WaitGroup
+
+	for i, kw := range keywords {
+		wg.Add(1)
+		go func(idx int, keyword string) {
+			defer wg.Done()
+			sem <- struct{}{}
+			defer func() { <-sem }()
+
+			path := fmt.Sprintf("/trends?keyword=%s&storefront=%s&appId=%s",
+				url.QueryEscape(keyword), url.QueryEscape(storefront), url.QueryEscape(appID))
+			if from != "" {
+				path += "&from=" + url.QueryEscape(from)
+			}
+			if to != "" {
+				path += "&to=" + url.QueryEscape(to)
+			}
+			resp, err := c.do(ctx, http.MethodGet, path, nil)
+			if err != nil {
+				errs[idx] = fmt.Errorf("trends %q: %w", keyword, err)
+				return
+			}
+			r, err := decodeResponse[TrendResult](resp)
+			if err != nil {
+				errs[idx] = fmt.Errorf("trends %q: %w", keyword, err)
+				return
+			}
+			results[idx] = *r
+		}(i, kw)
+	}
+	wg.Wait()
+
+	// Return the first error encountered (preserves keyword order).
+	for _, err := range errs {
 		if err != nil {
-			return nil, fmt.Errorf("trends %q: %w", kw, err)
+			return nil, err
 		}
-		r, err := decodeResponse[TrendResult](resp)
-		if err != nil {
-			return nil, fmt.Errorf("trends %q: %w", kw, err)
-		}
-		results = append(results, *r)
 	}
 	return results, nil
 }
