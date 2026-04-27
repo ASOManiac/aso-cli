@@ -39,10 +39,27 @@ func runStatus(ctx context.Context, configPath string, w io.Writer) error {
 
 	fmt.Fprintf(w, "Config:  %s\n", configPath)
 
+	// Show whether a key exists in the config file.
+	fileCfg, fileErr := asomaniac.ReadConfig(configPath)
+	if fileErr != nil {
+		fmt.Fprintf(w, "Stored:  no config file found\n")
+	} else if fileCfg.APIKey == "" {
+		fmt.Fprintf(w, "Stored:  config file exists, no key stored\n")
+	} else {
+		fmt.Fprintf(w, "Stored:  key present in config file\n")
+	}
+
+	// Show whether env var is set.
+	if os.Getenv(asomaniac.EnvAPIKey) != "" {
+		fmt.Fprintf(w, "Env:     %s is set (takes priority)\n", asomaniac.EnvAPIKey)
+	} else {
+		fmt.Fprintf(w, "Env:     %s is not set\n", asomaniac.EnvAPIKey)
+	}
+
 	if !resolved.IsAuthenticated() {
 		fmt.Fprintf(w, "Auth:    not logged in\n")
 		fmt.Fprintf(w, "\nRun 'aso auth maniac login' to authenticate.\n")
-		return nil
+		return fmt.Errorf("not authenticated")
 	}
 
 	keyPreview := resolved.APIKey
@@ -73,7 +90,7 @@ func runStatus(ctx context.Context, configPath string, w io.Writer) error {
 	if err != nil {
 		fmt.Fprintf(w, "Auth:    invalid (%v)\n", err)
 		fmt.Fprintf(w, "\nRun 'aso auth maniac login' to re-authenticate.\n")
-		return nil
+		return fmt.Errorf("authentication invalid")
 	}
 
 	name := profile.Email
