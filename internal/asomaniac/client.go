@@ -119,6 +119,32 @@ func decodeResponse[T any](resp *http.Response) (*T, error) {
 	return &wrapped.Data, nil
 }
 
+// decodeFullResponse reads the HTTP response, handles errors, and unmarshals
+// the entire payload (data + meta) into T. Use this for endpoints that return
+// a meaningful meta block alongside data.
+func decodeFullResponse[T any](resp *http.Response) (*T, error) {
+	defer resp.Body.Close()
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("read response body: %w", err)
+	}
+
+	if resp.StatusCode >= 400 {
+		var apiErr APIError
+		if json.Unmarshal(data, &apiErr) == nil && apiErr.Error.Code != "" {
+			return nil, fmt.Errorf("api error %s: %s", apiErr.Error.Code, apiErr.Error.Message)
+		}
+		return nil, fmt.Errorf("http %d: %s", resp.StatusCode, string(data))
+	}
+
+	var out T
+	if err := json.Unmarshal(data, &out); err != nil {
+		return nil, fmt.Errorf("decode response: %w", err)
+	}
+	return &out, nil
+}
+
 // profileBaseURL derives the auth base URL from the v1 base URL.
 // e.g. "https://asomaniac.com/api/v1" -> "https://asomaniac.com"
 func (c *Client) profileBaseURL() string {
@@ -158,8 +184,9 @@ type AnalyzeKeywordRequest struct {
 }
 
 // AnalyzeKeywords analyzes one or more keywords in a given storefront.
-// The API accepts a batch of keywords in a single POST request.
-func (c *Client) AnalyzeKeywords(ctx context.Context, keywords []string, storefront string, fields []string) ([]KeywordAnalysis, error) {
+// The API accepts a batch of keywords in a single POST request. The returned
+// AnalyzeResponse includes a Meta block describing pending keywords and timeouts.
+func (c *Client) AnalyzeKeywords(ctx context.Context, keywords []string, storefront string, fields []string) (*AnalyzeResponse, error) {
 	body := AnalyzeKeywordRequest{
 		Keywords:   keywords,
 		Storefront: storefront,
@@ -171,22 +198,20 @@ func (c *Client) AnalyzeKeywords(ctx context.Context, keywords []string, storefr
 	if err != nil {
 		return nil, err
 	}
-	result, err := decodeResponse[[]KeywordAnalysis](resp)
-	if err != nil {
-		return nil, err
-	}
-	return *result, nil
+	return decodeFullResponse[AnalyzeResponse](resp)
 }
 
 // GetRecommendations fetches keyword recommendations for a seed keyword.
-func (c *Client) GetRecommendations(ctx context.Context, seed, storefront string, limit int) (*[]KeywordRecommendation, error) {
+// The returned RecommendResponse includes a Meta block describing the request
+// elapsed time and timeout state.
+func (c *Client) GetRecommendations(ctx context.Context, seed, storefront string, limit int) (*RecommendResponse, error) {
 	path := fmt.Sprintf("/keywords/recommendations?keyword=%s&storefront=%s&limit=%d",
 		url.QueryEscape(seed), url.QueryEscape(storefront), limit)
 	resp, err := c.do(ctx, http.MethodGet, path, nil)
 	if err != nil {
 		return nil, err
 	}
-	return decodeResponse[[]KeywordRecommendation](resp)
+	return decodeFullResponse[RecommendResponse](resp)
 }
 
 // BatchAnalyzeRequest is the request body for batch keyword analysis.
@@ -195,8 +220,10 @@ type BatchAnalyzeRequest struct {
 	Storefronts []string `json:"storefronts"`
 }
 
-// BatchAnalyze analyzes multiple keywords across multiple storefronts.
-func (c *Client) BatchAnalyze(ctx context.Context, keywords, storefronts []string) (*BatchResult, error) {
+// SubmitBatchAnalyze submits an async batch keyword analysis job. The server
+// returns 202 Accepted with a JobSubmitResponse; the caller must then poll
+// GetJob until the job reaches a terminal state.
+func (c *Client) SubmitBatchAnalyze(ctx context.Context, keywords, storefronts []string) (*JobSubmitResponse, error) {
 	body := BatchAnalyzeRequest{
 		Keywords:    keywords,
 		Storefronts: storefronts,
@@ -205,7 +232,32 @@ func (c *Client) BatchAnalyze(ctx context.Context, keywords, storefronts []strin
 	if err != nil {
 		return nil, err
 	}
-	return decodeResponse[BatchResult](resp)
+	return decodeResponse[JobSubmitResponse](resp)
+}
+
+// GetJob fetches the current state of an async keyword analysis job.
+func (c *Client) GetJob(ctx context.Context, jobID string) (*JobPollResponse, error) {
+	path := "/keywords/jobs/" + url.PathEscape(jobID)
+	resp, err := c.do(ctx, http.MethodGet, path, nil)
+	if err != nil {
+		return nil, err
+	}
+	return decodeResponse[JobPollResponse](resp)
+}
+
+// CancelJob marks a job CANCELLED. Idempotent.
+func (c *Client) CancelJob(ctx context.Context, jobID string) error {
+	path := "/keywords/jobs/" + url.PathEscape(jobID)
+	resp, err := c.do(ctx, http.MethodDelete, path, nil)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode >= 400 {
+		data, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("cancel job: http %d: %s", resp.StatusCode, string(data))
+	}
+	return nil
 }
 
 // GetCompetitors finds competitor apps for the given app ID and storefront.

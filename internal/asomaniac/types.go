@@ -5,6 +5,83 @@ type APIResponse[T any] struct {
 	Data T `json:"data"`
 }
 
+// AnalyzeMeta is the meta block returned by POST /keywords/analyze.
+type AnalyzeMeta struct {
+	Pending   []string `json:"pending"`
+	TimedOut  bool     `json:"timedOut"`
+	ElapsedMs int64    `json:"elapsedMs"`
+}
+
+// AnalyzeResponse is the full response from POST /keywords/analyze.
+type AnalyzeResponse struct {
+	Data []KeywordAnalysis `json:"data"`
+	Meta AnalyzeMeta       `json:"meta"`
+}
+
+// BatchPerStorefront is the per-storefront meta entry in a batch-analyze response.
+type BatchPerStorefront struct {
+	ResolvedCount int   `json:"resolvedCount"`
+	PendingCount  int   `json:"pendingCount"`
+	TimedOut      bool  `json:"timedOut"`
+	ElapsedMs     int64 `json:"elapsedMs"`
+}
+
+// BatchMeta is the meta block returned by POST /keywords/batch-analyze.
+type BatchMeta struct {
+	Pending       map[string][]string           `json:"pending"`
+	TimedOut      bool                          `json:"timedOut"`
+	ElapsedMs     int64                         `json:"elapsedMs"`
+	PerStorefront map[string]BatchPerStorefront `json:"perStorefront"`
+}
+
+// BatchAnalyzeResponse is the full response from POST /keywords/batch-analyze.
+type BatchAnalyzeResponse struct {
+	Data BatchResult `json:"data"`
+	Meta BatchMeta   `json:"meta"`
+}
+
+// JobSubmitResponse is returned by POST /keywords/batch-analyze (202 Accepted).
+type JobSubmitResponse struct {
+	JobID      string `json:"jobId"`
+	StatusURL  string `json:"statusUrl"`
+	TotalCount int    `json:"totalCount"`
+}
+
+// JobItemSummary is one entry in a job poll response.
+type JobItemSummary struct {
+	Term       string           `json:"term"`
+	Storefront string           `json:"storefront"`
+	Status     string           `json:"status"` // PENDING|RUNNING|DONE|FAILED|CANCELLED
+	Error      *string          `json:"error,omitempty"`
+	Result     *KeywordAnalysis `json:"result,omitempty"`
+}
+
+// JobPollResponse is the body returned by GET /keywords/jobs/:id.
+type JobPollResponse struct {
+	ID             string           `json:"id"`
+	Status         string           `json:"status"` // QUEUED|RUNNING|COMPLETED|FAILED|CANCELLED
+	Storefronts    []string         `json:"storefronts"`
+	TotalCount     int              `json:"totalCount"`
+	ProcessedCount int              `json:"processedCount"`
+	CreatedAt      string           `json:"createdAt"`
+	StartedAt      *string          `json:"startedAt,omitempty"`
+	CompletedAt    *string          `json:"completedAt,omitempty"`
+	Error          *string          `json:"error,omitempty"`
+	Items          []JobItemSummary `json:"items"`
+}
+
+// RecommendMeta is the meta block returned by GET /keywords/recommendations.
+type RecommendMeta struct {
+	ElapsedMs int64 `json:"elapsedMs"`
+	TimedOut  bool  `json:"timedOut"`
+}
+
+// RecommendResponse is the full response from GET /keywords/recommendations.
+type RecommendResponse struct {
+	Data []KeywordRecommendation `json:"data"`
+	Meta RecommendMeta           `json:"meta"`
+}
+
 // APIError is the error shape from the ASO Maniac API.
 type APIError struct {
 	Error struct {

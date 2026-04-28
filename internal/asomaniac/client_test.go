@@ -57,7 +57,10 @@ func TestAnalyzeKeywords(t *testing.T) {
 			t.Errorf("storefront = %q, want US", body.Storefront)
 		}
 
-		resp := APIResponse[[]KeywordAnalysis]{Data: []KeywordAnalysis{want}}
+		resp := AnalyzeResponse{
+			Data: []KeywordAnalysis{want},
+			Meta: AnalyzeMeta{Pending: []string{}, TimedOut: false, ElapsedMs: 42},
+		}
 		w.Header().Set("Content-Type", "application/json")
 		if err := json.NewEncoder(w).Encode(resp); err != nil {
 			t.Fatalf("encode response: %v", err)
@@ -66,15 +69,21 @@ func TestAnalyzeKeywords(t *testing.T) {
 	defer srv.Close()
 
 	client := NewClient(srv.URL, "test-api-key")
-	results, err := client.AnalyzeKeywords(context.Background(), []string{"photo editor"}, "US", nil)
+	out, err := client.AnalyzeKeywords(context.Background(), []string{"photo editor"}, "US", nil)
 	if err != nil {
 		t.Fatalf("AnalyzeKeywords: %v", err)
 	}
 
-	if len(results) != 1 {
-		t.Fatalf("results len = %d, want 1", len(results))
+	if len(out.Data) != 1 {
+		t.Fatalf("results len = %d, want 1", len(out.Data))
 	}
-	got := results[0]
+	if out.Meta.ElapsedMs != 42 {
+		t.Errorf("Meta.ElapsedMs = %d, want 42", out.Meta.ElapsedMs)
+	}
+	if out.Meta.TimedOut {
+		t.Errorf("Meta.TimedOut = true, want false")
+	}
+	got := out.Data[0]
 	if got.Keyword != want.Keyword {
 		t.Errorf("Keyword = %q, want %q", got.Keyword, want.Keyword)
 	}
@@ -253,7 +262,8 @@ func TestNewClientFromConfigDefaults(t *testing.T) {
 	}
 }
 
-func TestBatchAnalyze(t *testing.T) {
+func TestSubmitBatchAnalyze(t *testing.T) {
+	var serverURL string
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			t.Errorf("method = %s, want POST", r.Method)
@@ -261,26 +271,86 @@ func TestBatchAnalyze(t *testing.T) {
 		if r.URL.Path != "/keywords/batch-analyze" {
 			t.Errorf("path = %q, want /keywords/batch-analyze", r.URL.Path)
 		}
-		if ct := r.Header.Get("Content-Type"); ct != "application/json" {
-			t.Errorf("Content-Type = %q, want application/json", ct)
-		}
-
 		var body BatchAnalyzeRequest
 		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-			t.Fatalf("decode request body: %v", err)
+			t.Fatalf("decode body: %v", err)
 		}
 		if len(body.Keywords) != 2 {
 			t.Errorf("keywords len = %d, want 2", len(body.Keywords))
 		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusAccepted)
+		_ = json.NewEncoder(w).Encode(APIResponse[JobSubmitResponse]{
+			Data: JobSubmitResponse{JobID: "abc123", StatusURL: serverURL + "/keywords/jobs/abc123", TotalCount: 2},
+		})
+	}))
+	defer srv.Close()
+	serverURL = srv.URL
 
-		resp := APIResponse[BatchResult]{
-			Data: BatchResult{
-				TotalKeywords:    2,
-				TotalStorefronts: 1,
-				Results: []BatchKeywordResult{
-					{Keyword: "vpn", Storefronts: map[string]KeywordAnalysis{}},
-					{Keyword: "proxy", Storefronts: map[string]KeywordAnalysis{}},
-				},
+	client := NewClient(srv.URL, "key")
+	got, err := client.SubmitBatchAnalyze(context.Background(), []string{"vpn", "proxy"}, []string{"US"})
+	if err != nil {
+		t.Fatalf("SubmitBatchAnalyze: %v", err)
+	}
+	if got.JobID != "abc123" {
+		t.Errorf("JobID = %q, want abc123", got.JobID)
+	}
+	if got.TotalCount != 2 {
+		t.Errorf("TotalCount = %d, want 2", got.TotalCount)
+	}
+}
+
+func TestGetJob(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/keywords/jobs/abc123" {
+			t.Errorf("path = %q", r.URL.Path)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(APIResponse[JobPollResponse]{
+			Data: JobPollResponse{
+				ID: "abc123", Status: "RUNNING", TotalCount: 2, ProcessedCount: 1,
+				Items: []JobItemSummary{{Term: "vpn", Storefront: "US", Status: "DONE"}},
+			},
+		})
+	}))
+	defer srv.Close()
+
+	client := NewClient(srv.URL, "key")
+	got, err := client.GetJob(context.Background(), "abc123")
+	if err != nil {
+		t.Fatalf("GetJob: %v", err)
+	}
+	if got.Status != "RUNNING" || got.ProcessedCount != 1 {
+		t.Errorf("got = %+v", got)
+	}
+}
+
+func TestCancelJob(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodDelete || r.URL.Path != "/keywords/jobs/abc123" {
+			t.Errorf("unexpected req: %s %s", r.Method, r.URL.Path)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		_ = json.NewEncoder(w).Encode(map[string]any{
+			"data": map[string]any{"id": "abc123", "status": "CANCELLED"},
+		})
+	}))
+	defer srv.Close()
+
+	client := NewClient(srv.URL, "key")
+	if err := client.CancelJob(context.Background(), "abc123"); err != nil {
+		t.Fatalf("CancelJob: %v", err)
+	}
+}
+
+func TestAnalyzeKeywordsMetaPending(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := AnalyzeResponse{
+			Data: []KeywordAnalysis{{Keyword: "alpha", Storefront: "US"}},
+			Meta: AnalyzeMeta{
+				Pending:   []string{"beta", "gamma"},
+				TimedOut:  true,
+				ElapsedMs: 50000,
 			},
 		}
 		w.Header().Set("Content-Type", "application/json")
@@ -291,15 +361,41 @@ func TestBatchAnalyze(t *testing.T) {
 	defer srv.Close()
 
 	client := NewClient(srv.URL, "key")
-	got, err := client.BatchAnalyze(context.Background(), []string{"vpn", "proxy"}, []string{"US"})
+	out, err := client.AnalyzeKeywords(context.Background(), []string{"alpha", "beta", "gamma"}, "US", nil)
 	if err != nil {
-		t.Fatalf("BatchAnalyze: %v", err)
+		t.Fatalf("AnalyzeKeywords: %v", err)
 	}
-	if got.TotalKeywords != 2 {
-		t.Errorf("TotalKeywords = %d, want 2", got.TotalKeywords)
+	if !out.Meta.TimedOut {
+		t.Errorf("Meta.TimedOut = false, want true")
 	}
-	if len(got.Results) != 2 {
-		t.Errorf("Results len = %d, want 2", len(got.Results))
+	if len(out.Meta.Pending) != 2 || out.Meta.Pending[0] != "beta" || out.Meta.Pending[1] != "gamma" {
+		t.Errorf("Meta.Pending = %v, want [beta gamma]", out.Meta.Pending)
+	}
+}
+
+func TestGetRecommendationsMeta(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := RecommendResponse{
+			Data: []KeywordRecommendation{{Keyword: "photo filter", Popularity: 60, Source: "ai"}},
+			Meta: RecommendMeta{ElapsedMs: 1234, TimedOut: false},
+		}
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(resp); err != nil {
+			t.Fatalf("encode response: %v", err)
+		}
+	}))
+	defer srv.Close()
+
+	client := NewClient(srv.URL, "key")
+	out, err := client.GetRecommendations(context.Background(), "photo", "US", 25)
+	if err != nil {
+		t.Fatalf("GetRecommendations: %v", err)
+	}
+	if len(out.Data) != 1 {
+		t.Fatalf("Data len = %d, want 1", len(out.Data))
+	}
+	if out.Meta.ElapsedMs != 1234 {
+		t.Errorf("Meta.ElapsedMs = %d, want 1234", out.Meta.ElapsedMs)
 	}
 }
 
