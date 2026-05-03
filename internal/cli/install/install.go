@@ -13,7 +13,7 @@ import (
 	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
-const defaultSkillsPackage = "rudrankriyam/asc-skills"
+const defaultSkillsPackage = "ASOManiac/aso-skills"
 
 var (
 	lookupNpx      = exec.LookPath
