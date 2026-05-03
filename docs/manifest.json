@@ -17,12 +17,6 @@
       { "name": "keywords analyze", "description": "Score keyword popularity, difficulty, and top apps" },
       { "name": "keywords recommend", "description": "AI-powered keyword suggestions from a seed" },
       { "name": "keywords batch", "description": "Analyze multiple keywords across storefronts" },
-      { "name": "competitors", "description": "Competitor keyword overlap analysis" },
-      { "name": "trends", "description": "Historical keyword popularity trends" },
-      { "name": "rank track", "description": "Start tracking keyword rankings for an app" },
-      { "name": "rank history", "description": "View historical rank positions" },
-      { "name": "dashboard", "description": "Open the web dashboard for your portfolio" },
-      { "name": "export", "description": "Export rankings and keyword data (CSV/JSON)" },
       { "name": "storefronts", "description": "List all 60+ supported storefront codes" }
     ],
     "asc": [
