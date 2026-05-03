@@ -41,7 +41,7 @@ After successful authentication, your API key is saved to ~/.asomaniac/config.js
 You can also set the ASO_MANIAC_API_KEY environment variable to override the
 saved key at runtime (e.g. in CI pipelines or Docker containers).
 
-Free plan includes 100 API calls per month. Upgrade at https://asomaniac.com/pricing.
+Free plan includes 100 API calls per day. Upgrade at https://asomaniac.com/pricing.
 
 Examples:
   aso auth maniac login                          # Browser OAuth flow
