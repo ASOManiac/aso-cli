@@ -9,7 +9,7 @@ The CLI has two distinct command families under one binary (`aso`):
 | Family | Prefix | Auth | Purpose |
 |--------|--------|------|---------|
 | **App Store Connect** | `aso builds`, `aso apps`, etc. | ASC API Key (.p8 JWT) | Full ASC API access (builds, TestFlight, metadata, submissions) |
-| **ASO Maniac** | `aso keywords`, `aso rank`, etc. | asomaniac.com API key | AI-powered keyword intelligence, rank tracking, competitor analysis |
+| **ASO Maniac** | `aso keywords`, etc. | asomaniac.com API key | AI-powered keyword intelligence (popularity, difficulty, recommendations) |
 
 Both families share the same binary, flags system, and output conventions.
 
@@ -95,23 +95,14 @@ export ASO_MANIAC_API_KEY=asm_k_abc123
 | `aso keywords analyze` | Score keyword popularity, difficulty, top apps | Yes |
 | `aso keywords recommend` | AI-powered keyword suggestions from a seed | Yes |
 | `aso keywords batch` | Analyze multiple keywords across storefronts | Yes |
-| `aso competitors <appId>` | Competitor keyword overlap analysis | Yes |
-| `aso trends <keyword>` | Historical keyword popularity trends | Yes |
-| `aso rank track` | Start tracking keyword rankings for an app | Yes |
-| `aso rank history` | View historical rank positions | Yes |
-| `aso dashboard` | Portfolio overview (apps, rank changes, alerts) | Yes |
-| `aso export` | Download data as CSV, JSON, or TSV | Yes |
 | `aso storefronts` | List all 60+ supported storefront codes | No |
 
 ### Common Flags
 
 | Flag | Used By | Purpose |
 |------|---------|---------|
-| `--storefront` | keywords, competitors, trends | App Store country code (default: US) |
+| `--storefront` | keywords | App Store country code (default: US) |
 | `--api-key` | login | Set API key directly |
-| `--from`, `--to` | trends | Date range (YYYY-MM-DD) |
-| `--format` | export | Output format: json or csv |
-| `--type` | export | Data type: rankings, keywords, or apps |
 
 ### Example Workflows
 
@@ -120,20 +111,6 @@ export ASO_MANIAC_API_KEY=asm_k_abc123
 aso keywords analyze camera --storefront US
 aso keywords recommend "security camera" --storefront US
 aso keywords batch camera,photo,security --storefront US,GB,DE
-
-# Competitor analysis
-aso competitors 123456789 --storefront US
-
-# Trend spotting
-aso trends camera photo --storefront US --from 2026-01-01
-
-# Rank tracking
-aso rank track --app 123456789 --keywords camera,security
-aso rank history --app 123456789 --keyword camera
-
-# Data export
-aso export --type rankings --format csv
-aso export --type keywords --format json
 
 # Account info
 aso auth maniac status

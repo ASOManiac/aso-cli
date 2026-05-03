@@ -6,7 +6,7 @@
 
 **App Store Optimization + App Store Connect in one CLI.**
 
-A fork of [App-Store-Connect-CLI](https://github.com/rudrankriyam/App-Store-Connect-CLI) with premium ASO intelligence powered by [asomaniac.com](https://asomaniac.com). All 70+ original App Store Connect commands work out of the box, plus AI-powered keyword research, competitor analysis, and rank tracking as top-level commands (`aso keywords`, `aso competitors`, `aso rank`, etc.).
+A fork of [App-Store-Connect-CLI](https://github.com/rudrankriyam/App-Store-Connect-CLI) with premium ASO intelligence powered by [asomaniac.com](https://asomaniac.com). All 70+ original App Store Connect commands work out of the box, plus AI-powered keyword research as top-level commands (`aso keywords`).
 
 ## Quick Start
 
@@ -53,7 +53,7 @@ go install github.com/ASOManiac/aso-cli@latest
 | Family | Prefix | Auth | What it does |
 |--------|--------|------|-------------|
 | App Store Connect | `aso <command>` | ASC API key (.p8) | Manage apps, builds, TestFlight, releases, metadata, analytics |
-| ASO Maniac | `aso <command>` | asomaniac.com API key | AI keyword analysis, competitor intel, rank tracking, trends |
+| ASO Maniac | `aso <command>` | asomaniac.com API key | AI keyword analysis (popularity, difficulty, recommendations) |
 
 Run `aso --help` for the full command tree.
 
@@ -99,36 +99,6 @@ aso keywords recommend "fitness tracker" --storefront us --limit 20
 
 # Batch analyze across multiple storefronts
 aso keywords batch "vpn,proxy,privacy" --storefronts us,gb,de
-```
-
-### Competitor Analysis
-
-```bash
-# Find competitor apps and compare keyword overlap
-aso competitors --app-id 1234567890 --storefront us
-```
-
-### Rank Tracking
-
-```bash
-# Start tracking an app's keywords
-aso rank track 1234567890 --storefront us --keywords "vpn,proxy"
-
-# View ranking history over time
-aso rank history 1234567890 --keyword "vpn" --storefront us
-```
-
-### Trends & Data
-
-```bash
-# Keyword popularity trends
-aso trends "vpn" --storefront us --from 2025-01-01
-
-# Portfolio dashboard
-aso dashboard
-
-# Export data for spreadsheets or pipelines
-aso export --format csv --type keywords
 
 # List all 60+ supported storefronts
 aso storefronts
@@ -143,11 +113,6 @@ aso storefronts
 | `aso auth maniac whoami` | Show account, plan, and API usage |
 | `aso auth maniac status` | Check connection, auth, and key source |
 | `aso keywords` | Analyze, recommend, and batch-process keywords |
-| `aso competitors` | Competitor keyword overlap analysis |
-| `aso trends` | Keyword popularity over time |
-| `aso rank` | Track and view keyword ranking history |
-| `aso dashboard` | Portfolio overview with alerts |
-| `aso export` | Download data as CSV, JSON, or TSV |
 | `aso storefronts` | List all supported App Store country codes |
 
 ---
@@ -196,9 +161,6 @@ Default output is JSON, designed for piping to `jq` and AI agents:
 ```bash
 # Pipe to jq
 aso keywords analyze "vpn" --storefront us | jq '.popularity'
-
-# Export to CSV
-aso export --format csv --type keywords > keywords.csv
 ```
 
 In interactive terminals, App Store Connect commands auto-detect TTY and default to `table`. Override with `--output json|table|markdown`.
