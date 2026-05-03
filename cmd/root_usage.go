@@ -18,11 +18,8 @@ type rootCommandGroup struct {
 
 var rootUsageGroups = []rootCommandGroup{
 	{
-		title: "KEYWORD INTELLIGENCE COMMANDS",
-		commands: []string{
-			"keywords", "competitors", "trends", "rank",
-			"dashboard", "export", "storefronts",
-		},
+		title:    "KEYWORD INTELLIGENCE COMMANDS",
+		commands: []string{"keywords", "storefronts"},
 	},
 	{
 		title:    "GETTING STARTED COMMANDS",

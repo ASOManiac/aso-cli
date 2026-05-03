@@ -135,79 +135,6 @@ type BatchKeywordResult struct {
 	Storefronts map[string]KeywordAnalysis `json:"storefronts"`
 }
 
-// CompetitorAnalysis holds the result of comparing two apps.
-type CompetitorAnalysis struct {
-	App                AppMetadata      `json:"app"`
-	Competitor         AppMetadata      `json:"competitor"`
-	SharedKeywords     int              `json:"sharedKeywords"`
-	UniqueToApp        int              `json:"uniqueToApp"`
-	UniqueToCompetitor int              `json:"uniqueToCompetitor"`
-	KeywordOverlap     []KeywordOverlap `json:"keywordOverlap"`
-}
-
-// AppMetadata describes an app in the store.
-type AppMetadata struct {
-	AppID       string   `json:"appId"`
-	BundleID    string   `json:"bundleId"`
-	Name        string   `json:"name"`
-	Developer   string   `json:"developer"`
-	Category    string   `json:"category"`
-	Price       string   `json:"price"`
-	Rating      float64  `json:"rating"`
-	ReviewCount int      `json:"reviewCount"`
-	Icon        string   `json:"icon"`
-	Screenshots []string `json:"screenshots"`
-	Description string   `json:"description"`
-	Version     string   `json:"version"`
-	LastUpdated string   `json:"lastUpdated"`
-}
-
-// KeywordOverlap describes a keyword shared between two apps.
-type KeywordOverlap struct {
-	Keyword        string `json:"keyword"`
-	Storefront     string `json:"storefront"`
-	AppRank        int    `json:"appRank"`
-	CompetitorRank int    `json:"competitorRank"`
-	Popularity     int    `json:"popularity"`
-}
-
-// PortfolioDashboard is the overview for all tracked apps.
-type PortfolioDashboard struct {
-	TotalApps        int                  `json:"totalApps"`
-	TotalKeywords    int                  `json:"totalKeywords"`
-	AverageRank      *float64             `json:"averageRank"`
-	RankImprovements int                  `json:"rankImprovements"`
-	RankDeclines     int                  `json:"rankDeclines"`
-	Alerts           []DashboardAlert     `json:"alerts"`
-	TopPerformers    []DashboardPerformer `json:"topPerformers"`
-	RecentChanges    []DashboardChange    `json:"recentChanges"`
-}
-
-// DashboardPerformer is a top-performing app on the dashboard.
-type DashboardPerformer struct {
-	AppName  string  `json:"appName"`
-	AppID    string  `json:"appId"`
-	AvgRank  float64 `json:"avgRank"`
-	Keywords int     `json:"keywords"`
-}
-
-// DashboardChange is a recent rank change on the dashboard.
-type DashboardChange struct {
-	AppName   string `json:"appName"`
-	Keyword   string `json:"keyword"`
-	Change    int    `json:"change"`
-	Direction string `json:"direction"`
-}
-
-// DashboardAlert is a notification on the dashboard.
-type DashboardAlert struct {
-	Type      string `json:"type"`
-	Message   string `json:"message"`
-	AppID     string `json:"appId"`
-	Timestamp string `json:"timestamp"`
-	Severity  string `json:"severity"`
-}
-
 // UsageStats describes the current API usage for the authenticated user.
 type UsageStats struct {
 	Plan     string `json:"plan"`
@@ -234,51 +161,6 @@ type UserProfile struct {
 	Avatar    *string `json:"avatar"`
 	Plan      string  `json:"plan"`
 	CreatedAt string  `json:"createdAt"`
-}
-
-// ExportResult holds the result of an export request.
-type ExportResult struct {
-	ExportID    string `json:"exportId"`
-	Format      string `json:"format"`
-	Status      string `json:"status"`
-	Data        string `json:"data,omitempty"`
-	RecordCount int    `json:"recordCount"`
-	GeneratedAt string `json:"generatedAt"`
-}
-
-// TrendResult holds popularity trend data for a keyword.
-type TrendResult struct {
-	Keyword    string           `json:"keyword"`
-	Storefront string           `json:"storefront"`
-	DataPoints []TrendDataPoint `json:"dataPoints"`
-}
-
-// TrendDataPoint is a single data point in a trend series.
-type TrendDataPoint struct {
-	Date       string `json:"date"`
-	Popularity int    `json:"popularity"`
-}
-
-// TrackedApp is an app being tracked in the user's portfolio.
-type TrackedApp struct {
-	AppID           string   `json:"appId"`
-	Name            string   `json:"name"`
-	Storefront      string   `json:"storefront"`
-	TrackedKeywords []string `json:"trackedKeywords"`
-	AddedAt         string   `json:"addedAt"`
-}
-
-// RankHistory holds historical rank data for a keyword.
-type RankHistory struct {
-	Keyword    string          `json:"keyword"`
-	Storefront string          `json:"storefront"`
-	DataPoints []RankDataPoint `json:"dataPoints"`
-}
-
-// RankDataPoint is a single data point in a rank history series.
-type RankDataPoint struct {
-	Date string `json:"date"`
-	Rank int    `json:"rank"`
 }
 
 // Storefronts lists all 58 supported App Store storefront codes.

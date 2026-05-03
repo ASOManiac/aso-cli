@@ -407,7 +407,7 @@ func TestNon400ErrorWithoutAPIErrorBody(t *testing.T) {
 	defer srv.Close()
 
 	client := NewClient(srv.URL, "key")
-	_, err := client.GetDashboard(context.Background())
+	_, err := client.GetUsage(context.Background())
 	if err == nil {
 		t.Fatal("expected error for 500 response")
 	}

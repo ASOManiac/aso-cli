@@ -194,11 +194,6 @@ func Subcommands(version string) []*ffcli.Command {
 	// Register ASO Maniac intelligence commands at root level.
 	subs = append(subs,
 		asocmd.KeywordsCommand(),
-		asocmd.CompetitorsCommand(),
-		asocmd.TrendsCommand(),
-		asocmd.RankCommand(),
-		asocmd.DashboardCommand(),
-		asocmd.ExportCommand(),
 		asocmd.StorefrontsCommand(),
 	)
 

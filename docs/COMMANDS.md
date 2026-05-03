@@ -37,11 +37,6 @@ aso <subcommand> [flags]
 ### Keyword Intelligence Commands
 
 - `keywords` - Analyze popularity, difficulty, and get AI-powered suggestions.
-- `competitors` - Find competitor apps and compare keyword overlap.
-- `trends` - View how keyword popularity changes over time.
-- `rank` - Track keyword rankings and view position history.
-- `dashboard` - Portfolio overview — tracked apps, rank changes, and alerts.
-- `export` - Download your keyword and ranking data as CSV or JSON.
 - `storefronts` - List all 60+ supported App Store country codes.
 
 ### Getting Started
