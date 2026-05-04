@@ -51,7 +51,7 @@ func keywordsAnalyzeCommand() *ffcli.Command {
 	fs := flag.NewFlagSet("aso keywords analyze", flag.ContinueOnError)
 	storefront := fs.String("storefront", "US", "App Store storefront code")
 	fields := fs.String("fields", "", "Comma-separated fields to request from server: popularity,difficulty,topApps,relatedSearches")
-	exclude := fs.String("exclude", "", "Comma-separated fields to hide from output (e.g. topApps,relatedSearches)")
+	exclude := fs.String("exclude", "", "Comma-separated fields to hide from output (e.g. topApps,relatedSearches,totalApps)")
 	retryPending := fs.Bool("retry-pending", false, "Auto-retry pending keywords once if the request times out")
 	full := fs.Bool("full", false, "Print the full response object including meta on stdout")
 
@@ -70,7 +70,7 @@ Examples:
   aso keywords analyze "photo editor"
   aso keywords analyze camera photo --storefront GB
   aso keywords analyze vpn --fields popularity,difficulty
-  aso keywords analyze camera --exclude topApps,relatedSearches
+  aso keywords analyze camera --exclude topApps,relatedSearches,totalApps
   aso keywords analyze camera photo --retry-pending`,
 		FlagSet:   fs,
 		UsageFunc: shared.DefaultUsageFunc,
