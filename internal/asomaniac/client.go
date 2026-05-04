@@ -259,4 +259,3 @@ func (c *Client) CancelJob(ctx context.Context, jobID string) error {
 	}
 	return nil
 }
-
