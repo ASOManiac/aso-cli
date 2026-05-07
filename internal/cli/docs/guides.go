@@ -2,8 +2,6 @@ package docs
 
 import (
 	"strings"
-
-	docsembed "github.com/ASOManiac/aso-cli/docs"
 )
 
 type guideEntry struct {
@@ -19,13 +17,8 @@ type guideSummary struct {
 
 var guideRegistry = []guideEntry{
 	{
-		Slug:        "api-notes",
-		Description: "API quirks: date formats, finance reports, sandbox testers",
-		Content:     docsembed.APINotesGuide,
-	},
-	{
 		Slug:        "reference",
-		Description: "ASC CLI command reference (also available via 'aso init')",
+		Description: "aso CLI command reference (also available via 'aso init')",
 		Content:     ascTemplate,
 	},
 }

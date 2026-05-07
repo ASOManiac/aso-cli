@@ -141,7 +141,7 @@ jobs:
           # frozen_string_literal: true
 
           class Aso < Formula
-            desc "ASO CLI - App Store Optimization + App Store Connect"
+            desc "ASO CLI - keyword intelligence for the App Store"
             homepage "https://github.com/ASOManiac/aso-cli"
             license "MIT"
             version "${VERSION}"

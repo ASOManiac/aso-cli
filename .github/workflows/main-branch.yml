@@ -36,9 +36,6 @@ jobs:
           export PATH="$(go env GOPATH)/bin:$PATH"
           make format-check
 
-      - name: Check Wall of Apps source
-        run: make check-wall-of-apps
-
       - name: Check command docs sync
         run: make check-command-docs
 
@@ -61,10 +58,6 @@ jobs:
 
       - name: Run all tests
         env:
-          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          ASC_PRIVATE_KEY_PATH: ${{ secrets.ASC_PRIVATE_KEY_PATH }}
-          ASC_APP_ID: ${{ secrets.ASC_APP_ID }}
           ASC_BYPASS_KEYCHAIN: 1
         run: go test ./...
 

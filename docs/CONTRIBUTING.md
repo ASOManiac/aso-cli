@@ -12,7 +12,7 @@ This file covers patterns for AI agents working on the codebase.
 - Rebase on `main` before merging; avoid merge commits
 - Commit small, coherent changes; no WIP commits on shared branches
 - Use concise, present-tense commit messages that match repo style
-- Never commit secrets or local config files (keys, `.env`, `.asc/config.json`)
+- Never commit secrets or local config files (keys, `.env`, `~/.asomaniac/config.json`)
 
 ## Before Committing
 
@@ -29,29 +29,28 @@ git diff        # Review changes before staging
 - Command implementations live in `internal/cli/<domain>` packages
 - Each domain exposes a top-level `XCommand() *ffcli.Command`
 - `cmd/` only contains the root entry point; do not add wrapper files
-- Register top-level commands in `internal/cli/registry/registry.go` (order matters)
-- Shared CLI helpers go in `internal/cli/shared` (use `shared_wrappers.go` as needed)
+- Register top-level commands in `cmd/root.go` (order matters)
+- Shared CLI helpers go in `internal/cli/shared`
 
 ## Adding a New Command
 
 1. Add or extend a domain package in `internal/cli/<domain>`
 2. Implement a command factory (e.g., `XCommand() *ffcli.Command`)
-3. Register it in `internal/cli/registry/registry.go`
-4. Write tests in the domain package (or `internal/cli/cmdtest` for root-level tests)
-5. Update README.md with usage examples
+3. Register it as a subcommand in `cmd/root.go`
+4. Write tests in the domain package
+5. Update README.md and `docs/COMMANDS.md` (run `make generate-command-docs`)
 
-## Adding a New API Endpoint
+## Adding a New API Call
 
-1. Add method to `internal/asc/client.go`
+1. Add a method to `internal/asomaniac/client.go`
 2. Add types for request/response structs
-3. Add helper functions for table/markdown output
-4. Create command in `internal/cli/<domain>` to expose the endpoint
-5. Write HTTP client tests with mocked responses
-6. If endpoint tests are repetitive, group the request-wiring cases, but keep at least one representative non-empty decode assertion and one representative output-structure assertion where formatting is user-facing
+3. Add table/markdown renderers in the matching `internal/cli/<domain>` package
+4. Write HTTP client tests with mocked responses
+5. Group repeated request-wiring tests, but keep at least one representative non-empty decode assertion and one representative output-structure assertion where formatting is user-facing
 
 ## Releases
 
-Tag releases with plain semver like `0.1.0` (no `v` prefix).
+Tag releases with plain semver like `2.0.0` (no `v` prefix).
 
 ### Pre-Release Checklist
 
@@ -61,10 +60,8 @@ Before tagging a release, verify:
 # 1. All tests pass
 ASC_BYPASS_KEYCHAIN=1 make test
 
-# 2. Audit help output for all parent commands
-for cmd in auth analytics finance apps app-tags testflight builds versions \
-           feedback crashes localizations \
-           build-localizations sandbox submit xcode-cloud reviews; do
+# 2. Audit help output for every command group
+for cmd in auth keywords storefronts docs completion; do
   echo "=== $cmd ===" && ./aso $cmd --help 2>&1
 done
 

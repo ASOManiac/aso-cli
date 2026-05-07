@@ -7,9 +7,6 @@ Please do not open a public GitHub issue for security vulnerabilities.
 Instead, report security issues privately using GitHub Security Advisories:
 https://github.com/ASOManiac/aso-cli/security/advisories/new
 
-If you can't use GitHub Security Advisories, contact the maintainer via:
-https://github.com/rudrankriyam
-
 When reporting, include:
 
 - A clear description of the vulnerability and potential impact

@@ -58,8 +58,8 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the project maintainer via their GitHub profile contact details:
-https://github.com/rudrankriyam
+reported privately via GitHub Security Advisories:
+https://github.com/ASOManiac/aso-cli/security/advisories/new
 
 All complaints will be reviewed and investigated promptly and fairly.
 
