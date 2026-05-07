@@ -7,8 +7,6 @@ import (
 	"flag"
 	"fmt"
 	"strings"
-
-	"github.com/ASOManiac/aso-cli/internal/cli/shared"
 )
 
 // FormatStderr returns a user-facing error message suitable for stderr.
@@ -26,8 +24,6 @@ func FormatStderr(err error) string {
 		msg = "operation canceled"
 	} else if errors.Is(err, context.DeadlineExceeded) {
 		msg = "operation timed out"
-	} else if errors.Is(err, shared.ErrMissingAuth) {
-		// Use the upstream message verbatim; it already has actionable hints.
 	}
 
 	msg = strings.TrimSpace(msg)
