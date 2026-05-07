@@ -42,14 +42,14 @@ aso <subcommand> [flags]
 
 - JSON is the default output format in non-interactive environments — pipe to `jq` or any JSON parser.
 - Use `--output table` for human-readable output in scripts that need it.
-- Authenticate once with `aso auth maniac login` (or `ASO_MANIAC_API_KEY`) and reuse the session in CI.
+- Authenticate once with `aso auth login` (or `ASO_MANIAC_API_KEY`) and reuse the session in CI.
 
 ## High-Signal Examples
 
 ```bash
 # Authenticate
-aso auth maniac login
-aso auth maniac whoami
+aso auth login
+aso auth whoami
 
 # Analyze a single keyword
 aso keywords analyze "vpn" --storefront us

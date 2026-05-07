@@ -19,7 +19,7 @@ Do not memorize flags. Always use `--help` for the current interface.
 
 - JSON output by default in non-TTY environments (pipe-friendly)
 - Use `--output table` or `--output markdown` for human-readable output
-- Authenticate once with `aso auth maniac login` and reuse the session
+- Authenticate once with `aso auth login` and reuse the session
 
 ## Common Patterns
 
@@ -32,11 +32,11 @@ Do not memorize flags. Always use `--help` for the current interface.
 
 | Task | Command |
 |------|---------|
-| Authenticate (browser OAuth) | `aso auth maniac login` |
-| Authenticate with API key | `aso auth maniac login --api-key asm_k_abc123` |
-| Check auth status | `aso auth maniac status` |
-| Show account, plan, usage | `aso auth maniac whoami` |
-| Log out | `aso auth maniac logout` |
+| Authenticate (browser OAuth) | `aso auth login` |
+| Authenticate with API key | `aso auth login --api-key asm_k_abc123` |
+| Check auth status | `aso auth status` |
+| Show account, plan, usage | `aso auth whoami` |
+| Log out | `aso auth logout` |
 | Analyze a single keyword | `aso keywords analyze "vpn" --storefront us` |
 | Get keyword recommendations | `aso keywords recommend "fitness tracker" --storefront us --limit 20` |
 | Batch analyze across storefronts | `aso keywords batch "vpn,proxy,privacy" --storefronts us,gb,de` |

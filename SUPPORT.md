@@ -33,6 +33,6 @@ Include as many of these as you can:
 
 ## Common Gotchas
 
-- Authentication resolves from `ASO_MANIAC_API_KEY` first, then `~/.asomaniac/config.json`. Use `aso auth maniac status` to see the resolved source.
+- Authentication resolves from `ASO_MANIAC_API_KEY` first, then `~/.asomaniac/config.json`. Use `aso auth status` to see the resolved source.
 - Output defaults are TTY-aware: interactive terminals default to `table`, pipes and CI default to `json`. Override with `--output` or `ASC_DEFAULT_OUTPUT`.
 - Storefronts are 2-letter country codes (e.g. `us`, `gb`, `de`). Run `aso storefronts` to list valid codes.

@@ -12,7 +12,7 @@ A lightweight CLI client for [asomaniac.com](https://asomaniac.com) — keyword 
 
 ```bash
 brew install asomaniac/tap/aso
-aso auth maniac login
+aso auth login
 aso keywords analyze "vpn" --storefront us
 ```
 
@@ -44,10 +44,10 @@ Authenticate with your asomaniac.com API key. Three methods:
 
 ```bash
 # 1. Browser OAuth (interactive)
-aso auth maniac login
+aso auth login
 
 # 2. Direct API key (from asomaniac.com/settings)
-aso auth maniac login --api-key asm_k_abc123
+aso auth login --api-key asm_k_abc123
 
 # 3. Environment variable (CI / scripts / automation)
 export ASO_MANIAC_API_KEY=asm_k_abc123
@@ -56,8 +56,8 @@ export ASO_MANIAC_API_KEY=asm_k_abc123
 Resolution order: env var > `~/.asomaniac/config.json`.
 
 ```bash
-aso auth maniac status
-aso auth maniac whoami
+aso auth status
+aso auth whoami
 ```
 
 ## Commands

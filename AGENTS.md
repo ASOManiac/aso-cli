@@ -10,18 +10,18 @@ Lightweight Go CLI for keyword intelligence and ASO. Built with [ffcli](https://
 | `aso keywords recommend` | yes | Seed-based keyword recommendations |
 | `aso keywords batch` | yes | Multi-keyword / multi-storefront analysis |
 | `aso storefronts` | no | List supported storefront codes |
-| `aso auth maniac login` | no | Authenticate (OAuth or `--api-key`) |
-| `aso auth maniac logout` | no | Clear stored credentials |
-| `aso auth maniac status` | yes | Show authenticated account state |
-| `aso auth maniac whoami` | yes | Account ID, plan, API usage |
+| `aso auth login` | no | Authenticate (OAuth or `--api-key`) |
+| `aso auth logout` | no | Clear stored credentials |
+| `aso auth status` | yes | Show authenticated account state |
+| `aso auth whoami` | yes | Account ID, plan, API usage |
 
 ## Authentication
 
 Three methods. Resolution order: env var > config file.
 
 ```bash
-aso auth maniac login                                  # browser OAuth
-aso auth maniac login --api-key asm_k_abc123           # direct API key
+aso auth login                                  # browser OAuth
+aso auth login --api-key asm_k_abc123           # direct API key
 export ASO_MANIAC_API_KEY=asm_k_abc123                 # env var
 ```
 
@@ -41,7 +41,7 @@ Default in non-TTY environments. Examples:
   "top_apps": [{"name": "ExpressVPN", "app_id": "...", "rating": 4.2}]
 }
 
-// aso auth maniac whoami
+// aso auth whoami
 {
   "account_id": "user_123",
   "plan": "pro",
@@ -54,9 +54,9 @@ Default in non-TTY environments. Examples:
 
 | Error | Cause | Fix |
 |---|---|---|
-| `auth: no credentials found` | API key not set | `aso auth maniac login` or set `ASO_MANIAC_API_KEY` |
+| `auth: no credentials found` | API key not set | `aso auth login` or set `ASO_MANIAC_API_KEY` |
 | `401 unauthorized` | Invalid or expired key | Verify at asomaniac.com/settings; regenerate |
-| `429 too many requests` | Rate limit | Check plan with `aso auth maniac whoami`; wait or upgrade |
+| `429 too many requests` | Rate limit | Check plan with `aso auth whoami`; wait or upgrade |
 | `invalid storefront code` | Typo | `aso storefronts` to list valid codes |
 
 ## Discovering commands at runtime
@@ -72,7 +72,7 @@ Always check `--help` for current flags.
 ## Agent integration tips
 
 1. JSON is default in non-TTY. Parse with `jq` or a JSON parser, never regex.
-2. Run `aso auth maniac status` before workflows to validate setup.
+2. Run `aso auth status` before workflows to validate setup.
 3. Respect 429 with exponential backoff.
 4. For full workflows, use [aso-skills](https://github.com/ASOManiac/aso-skills).
 
