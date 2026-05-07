@@ -1,0 +1,111 @@
+name: Main Branch (with integration tests)
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  format-and-lint:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.x'
+          cache: true
+
+      - name: Cache Go tools
+        id: go-tools-cache
+        uses: actions/cache@v5
+        with:
+          path: ~/go/bin
+          key: ${{ runner.os }}-go-tools-${{ hashFiles('Makefile') }}
+
+      - name: Install tooling
+        if: steps.go-tools-cache.outputs.cache-hit != 'true'
+        run: make tools
+
+      - name: Check formatting
+        run: |
+          export PATH="$(go env GOPATH)/bin:$PATH"
+          make format-check
+
+      - name: Check Wall of Apps source
+        run: make check-wall-of-apps
+
+      - name: Check command docs sync
+        run: make check-command-docs
+
+      - name: Run lint
+        run: |
+          export PATH="$(go env GOPATH)/bin:$PATH"
+          make lint
+
+  test:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.x'
+          cache: true
+
+      - name: Run all tests
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY_PATH: ${{ secrets.ASC_PRIVATE_KEY_PATH }}
+          ASC_APP_ID: ${{ secrets.ASC_APP_ID }}
+          ASC_BYPASS_KEYCHAIN: 1
+        run: go test ./...
+
+  build:
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.x'
+          cache: true
+
+      - name: Build for macOS
+        run: |
+          mkdir -p build
+          GOOS=darwin GOARCH=amd64 go build -o build/aso_dev_macOS_amd64 .
+          GOOS=darwin GOARCH=arm64 go build -o build/aso_dev_macOS_arm64 .
+
+      - name: Build for Linux
+        run: |
+          GOOS=linux GOARCH=amd64 go build -o build/aso_dev_linux_amd64 .
+          GOOS=linux GOARCH=arm64 go build -o build/aso_dev_linux_arm64 .
+
+      - name: Build for Windows
+        run: |
+          GOOS=windows GOARCH=amd64 go build -o build/aso_dev_windows_amd64.exe .
+
+      - name: Create checksums
+        run: |
+          cd build
+          shasum -a 256 * > aso_dev_checksums.txt
+          cat aso_dev_checksums.txt
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: main-builds
+          path: build/

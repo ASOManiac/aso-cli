@@ -1,0 +1,44 @@
+name: Feature request
+description: Suggest an idea or improvement for aso-cli
+title: "feat: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest an improvement.
+
+        If this is a question, install issue, auth setup problem, or workflow support request,
+        please use GitHub Discussions instead:
+        https://github.com/ASOManiac/aso-cli/discussions
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / use case
+      description: What are you trying to do?
+      placeholder: "I want to automate ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What would you like aso-cli to do? Include example commands/flags if possible.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any workarounds or alternative approaches?
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Links to docs, related issues, or prior art are helpful.

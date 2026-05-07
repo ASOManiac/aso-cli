@@ -1,0 +1,64 @@
+name: CodeQL
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    # Run weekly so long-lived code paths are rescanned even without new PRs.
+    - cron: "31 4 * * 3"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+jobs:
+  analyze:
+    name: Analyze ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Go code
+            language: go
+          - name: GitHub Actions
+            language: actions
+          - name: Python scripts
+            language: python
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Set up Go
+        if: ${{ matrix.language == 'go' }}
+        uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Initialize CodeQL for Go
+        if: ${{ matrix.language == 'go' }}
+        uses: github/codeql-action/init@dd677812177e0c29f9c970a6c58d8607ae1bfefd # v4
+        with:
+          languages: go
+          build-mode: manual
+
+      - name: Initialize CodeQL for non-Go languages
+        if: ${{ matrix.language != 'go' }}
+        uses: github/codeql-action/init@dd677812177e0c29f9c970a6c58d8607ae1bfefd # v4
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Build Go packages
+        if: ${{ matrix.language == 'go' }}
+        run: go build ./...
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@dd677812177e0c29f9c970a6c58d8607ae1bfefd # v4
+        with:
+          category: "/language:${{ matrix.language }}"

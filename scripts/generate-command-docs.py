@@ -1,0 +1,210 @@
+#!/usr/bin/env python3
+"""Generate docs/COMMANDS.md from live `aso --help` output."""
+
+from __future__ import annotations
+
+import argparse
+import re
+import subprocess
+from pathlib import Path
+
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+OUTPUT_PATH = REPO_ROOT / "docs" / "COMMANDS.md"
+
+GROUP_TITLE_MAP = {
+    "GETTING STARTED COMMANDS": "Getting Started",
+    "ANALYTICS & FINANCE COMMANDS": "Analytics and Finance",
+    "APP MANAGEMENT COMMANDS": "App Management",
+    "TESTFLIGHT & BUILD COMMANDS": "TestFlight and Builds",
+    "REVIEW & RELEASE COMMANDS": "Review and Release",
+    "MONETIZATION COMMANDS": "Monetization",
+    "SIGNING COMMANDS": "Signing",
+    "TEAM & ACCESS COMMANDS": "Team and Access",
+    "AUTOMATION COMMANDS": "Automation",
+    "UTILITY COMMANDS": "Utility",
+    "ADDITIONAL COMMANDS": "Additional",
+}
+
+
+def run_help_text() -> str:
+    proc = subprocess.run(
+        ["go", "run", ".", "--help"],
+        cwd=REPO_ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return proc.stderr or proc.stdout
+
+
+def parse_help(help_text: str) -> tuple[str, list[tuple[str, str]], list[tuple[str, list[tuple[str, str]]]]]:
+    usage = "aso <subcommand> [flags]"
+    flags: list[tuple[str, str]] = []
+    groups: list[tuple[str, list[tuple[str, str]]]] = []
+
+    in_flags = False
+    in_subcommands = False
+    current_group_index: int | None = None
+
+    for line in help_text.splitlines():
+        if line.startswith("  aso "):
+            usage = line.strip()
+
+        stripped = line.strip()
+        if stripped == "FLAGS":
+            in_flags = True
+            in_subcommands = False
+            current_group_index = None
+            continue
+
+        if stripped == "SUBCOMMANDS":
+            in_subcommands = True
+            in_flags = False
+            current_group_index = None
+            groups.append(("Subcommands", []))
+            current_group_index = len(groups) - 1
+            continue
+
+        group_match = re.match(r"^([A-Z0-9 &/-]+) COMMANDS$", stripped)
+        if group_match:
+            in_flags = False
+            in_subcommands = False
+            groups.append((group_match.group(0), []))
+            current_group_index = len(groups) - 1
+            continue
+
+        # SUBCOMMANDS lines look like: "  name        description"
+        sub_match = re.match(r"^\s{2}([a-z0-9-]+)\s{2,}(.*\S)\s*$", line)
+        if sub_match and in_subcommands and current_group_index is not None:
+            command, description = sub_match.group(1), sub_match.group(2)
+            groups[current_group_index][1].append((command, description))
+            continue
+
+        command_match = re.match(r"^\s{2}([a-z0-9-]+):\s+(.*\S)\s*$", line)
+        if command_match and current_group_index is not None and not in_subcommands:
+            command, description = command_match.group(1), command_match.group(2)
+            groups[current_group_index][1].append((command, description))
+            continue
+
+        flag_match = re.match(r"^\s{2}(--[a-z0-9-]+)\s+(.*\S)\s*$", line)
+        if flag_match and in_flags:
+            flag, description = flag_match.group(1), flag_match.group(2)
+            flags.append((flag, description))
+
+    return usage, flags, groups
+
+
+def normalize_group_title(raw_title: str) -> str:
+    return GROUP_TITLE_MAP.get(raw_title, raw_title.title())
+
+
+def render(usage: str, flags: list[tuple[str, str]], groups: list[tuple[str, list[tuple[str, str]]]]) -> str:
+    lines: list[str] = [
+        "# Command Reference Guide",
+        "",
+        "This file is generated from live CLI help output.",
+        "For authoritative command behavior, also use:",
+        "",
+        "```bash",
+        "aso --help",
+        "aso <command> --help",
+        "aso <command> <subcommand> --help",
+        "```",
+        "",
+        "To regenerate:",
+        "",
+        "```bash",
+        "make generate-command-docs",
+        "```",
+        "",
+        "## Usage Pattern",
+        "",
+        "```bash",
+        usage,
+        "```",
+        "",
+        "## Global Flags",
+        "",
+    ]
+
+    for flag, description in flags:
+        lines.append(f"- `{flag}` - {description}")
+
+    lines.extend(["", "## Command Families", ""])
+
+    for raw_title, commands in groups:
+        title = normalize_group_title(raw_title)
+        lines.append(f"### {title}")
+        lines.append("")
+        for command, description in commands:
+            lines.append(f"- `{command}` - {description}")
+        lines.append("")
+
+    lines.extend(
+        [
+            "## Scripting Tips",
+            "",
+            "- JSON is the default output format in non-interactive environments — pipe to `jq` or any JSON parser.",
+            "- Use `--output table` for human-readable output in scripts that need it.",
+            "- Authenticate once with `aso auth maniac login` (or `ASO_MANIAC_API_KEY`) and reuse the session in CI.",
+            "",
+            "## High-Signal Examples",
+            "",
+            "```bash",
+            "# Authenticate",
+            "aso auth maniac login",
+            "aso auth maniac whoami",
+            "",
+            "# Analyze a single keyword",
+            "aso keywords analyze \"vpn\" --storefront us",
+            "",
+            "# Get recommendations from a seed",
+            "aso keywords recommend \"fitness tracker\" --storefront us --limit 20",
+            "",
+            "# Batch analyze across storefronts",
+            "aso keywords batch \"vpn,proxy,privacy\" --storefronts us,gb,de",
+            "",
+            "# List supported storefronts",
+            "aso storefronts",
+            "```",
+            "",
+            "## Related Documentation",
+            "",
+            "- [../README.md](../README.md) - onboarding and common workflows",
+            "- [../CONTRIBUTING.md](../CONTRIBUTING.md) - contribution and dev workflow",
+            "",
+        ]
+    )
+
+    return "\n".join(lines)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Generate docs/COMMANDS.md from live CLI help")
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Fail if docs/COMMANDS.md differs from generated output",
+    )
+    args = parser.parse_args()
+
+    usage, flags, groups = parse_help(run_help_text())
+    generated = render(usage, flags, groups)
+
+    if args.check:
+        current = OUTPUT_PATH.read_text() if OUTPUT_PATH.exists() else ""
+        if current != generated:
+            print("docs/COMMANDS.md is out of date.")
+            print("Run: make generate-command-docs")
+            return 1
+        print("docs/COMMANDS.md is up to date.")
+        return 0
+
+    OUTPUT_PATH.write_text(generated)
+    print(f"Generated {OUTPUT_PATH.relative_to(REPO_ROOT)}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,51 @@
+# Updates docs/badges/installs-total.json for the README Shields endpoint badge.
+name: Refresh installs badge
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-installs-badge
+  cancel-in-progress: true
+
+jobs:
+  update:
+    if: github.repository == 'ASOManiac/aso-cli'
+    runs-on: ubuntu-latest
+    steps:
+      # release.* checks out the tag by default; we must commit on main.
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Self-test badge formatter
+        run: python3 scripts/test_download_stats_total.py
+
+      - name: Regenerate badge JSON
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/download_stats_total.py --write-badge docs/badges/installs-total.json
+
+      - name: Commit badge update to main
+        run: |
+          if git diff --quiet docs/badges/installs-total.json; then
+            echo "Badge unchanged; nothing to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/badges/installs-total.json
+          git commit -m "chore: refresh estimated downloads badge"
+          git push origin main

@@ -1,0 +1,107 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  format-and-lint:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.x'
+          cache: true
+
+      - name: Cache Go tools
+        id: go-tools-cache
+        uses: actions/cache@v5
+        with:
+          path: ~/go/bin
+          key: ${{ runner.os }}-go-tools-${{ hashFiles('Makefile') }}
+
+      - name: Install tooling
+        if: steps.go-tools-cache.outputs.cache-hit != 'true'
+        run: make tools
+
+      - name: Check formatting
+        run: |
+          export PATH="$(go env GOPATH)/bin:$PATH"
+          make format-check
+
+      - name: Check Wall of Apps source
+        run: make check-wall-of-apps
+
+      - name: Check command docs sync
+        run: make check-command-docs
+
+      - name: Run lint
+        run: |
+          export PATH="$(go env GOPATH)/bin:$PATH"
+          make lint
+
+  unit-tests:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.x'
+          cache: true
+
+      - name: Download stats badge script self-test
+        run: python3 scripts/test_download_stats_total.py
+
+      - name: Run unit tests
+        run: ASC_BYPASS_KEYCHAIN=1 go test -short ./...
+
+  build:
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.26.x'
+          cache: true
+
+      - name: Build for macOS
+        run: |
+          mkdir -p build
+          GOOS=darwin GOARCH=amd64 go build -o build/aso_dev_macOS_amd64 .
+          GOOS=darwin GOARCH=arm64 go build -o build/aso_dev_macOS_arm64 .
+
+      - name: Build for Linux
+        run: |
+          GOOS=linux GOARCH=amd64 go build -o build/aso_dev_linux_amd64 .
+          GOOS=linux GOARCH=arm64 go build -o build/aso_dev_linux_arm64 .
+
+      - name: Build for Windows
+        run: |
+          GOOS=windows GOARCH=amd64 go build -o build/aso_dev_windows_amd64.exe .
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: builds
+          path: build/

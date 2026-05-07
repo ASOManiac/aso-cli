@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Start here / troubleshooting
+    url: https://github.com/ASOManiac/aso-cli#quick-start
+    about: Install aso-cli, authenticate, and validate auth
+  - name: Questions and workflow help
+    url: https://github.com/ASOManiac/aso-cli/discussions
+    about: Ask "how do I...?" questions, get install help, and share workflows
+  - name: Support policy
+    url: https://github.com/ASOManiac/aso-cli/blob/main/SUPPORT.md
+    about: See when to use Discussions vs Issues and what to include in a bug report
+  - name: aso-skills
+    url: https://github.com/ASOManiac/aso-skills
+    about: Agent skills to automate ASO workflows

@@ -1,0 +1,50 @@
+run:
+  timeout: 5m
+  tests: true
+
+linters:
+  disable-all: true
+  enable:
+    # Baseline "industry standard" Go checks.
+    - govet
+    - staticcheck
+    - errcheck
+    - ineffassign
+    - unused
+    - misspell
+    - unparam
+    - errorlint
+linters-settings:
+  errcheck:
+    # These are intentionally ignored across the codebase:
+    # - Close/Flush failures are not actionable in most CLI flows/tests
+    # - fmt/os env writes are best-effort output/control-plane helpers
+    exclude-functions:
+      - (io.Closer).Close
+      - (io.ReadCloser).Close
+      - (*os.File).Close
+      - (*compress/gzip.Reader).Close
+      - (*archive/zip.ReadCloser).Close
+      - (*github.com/fsnotify/fsnotify.Watcher).Close
+      - (net.Listener).Close
+      - (*net.TCPListener).Close
+      - (*net.UnixListener).Close
+      - (*text/tabwriter.Writer).Flush
+      - fmt.Fprint
+      - fmt.Fprintf
+      - fmt.Fprintln
+      - os.Setenv
+      - os.Unsetenv
+  misspell:
+    # Words used intentionally in Apple/ASC API context.
+    ignore-words:
+      - cancelled
+      - cancelling
+
+issues:
+  # Keep defaults, but avoid noisy duplicates.
+  exclude-rules:
+    # Ignore naming warnings (e.g. `app_events` package) to avoid
+    # massive rename churn; keep other rules like ST1005.
+    - linters: [staticcheck]
+      text: "ST1003:"
